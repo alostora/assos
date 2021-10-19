@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Admin\Admin;
+use App\Models\Admin;
 use App\Models\User;
-use App\Models\Category;
 use Auth;
 use Hash;
 use \Carbon\Carbon;
@@ -40,7 +39,7 @@ class Admins extends Controller
     public function dashboard(){
         $data['admins']= count(Admin::get(['id']));
         $data['users']= count(User::where('name','!=','guest')->get(['id']));
-        $data['categories']= count(Category::get(['id']));
+        
         
         return view('Admin/dashboard',$data);
     }
