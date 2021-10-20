@@ -10,7 +10,7 @@
   @include('Admin/layouts/leftsidebar')
 
  <!-- admins table-->
-    @include('Admin/layouts/categories/viewCreateCategory') 
+    @include('Admin/layouts/Categories/viewCreateCategory') 
  <!--end admins table-->
 
 <!--footer-->
