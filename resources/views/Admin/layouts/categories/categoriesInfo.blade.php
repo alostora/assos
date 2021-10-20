@@ -27,18 +27,18 @@
 				                  	<th>#</th>
 				                  	<th>@lang('leftsidebar.categoryName')</th>
 				                  	<th>@lang('leftsidebar.categoryNameAr')</th>
-				                  	<th>@lang('leftsidebar.Created_at')</th>
-				                  	<th>@lang('leftsidebar.Updated_at')</th>
+				                  	<th>@lang('leftsidebar.categoryImage')</th>
 				                  	<th>@lang('leftsidebar.Operations')</th>
 				                </tr>
 							@if(!empty($categories))
 								@foreach($categories as $key=>$cat)
 									<tr>
 							          	<td>{{$key+1}}</td>
-							          	<td>{{$cat->name}}</td>
-							          	<td>{{$cat->name_ar}}</td>
-							          	<td>{{$cat->created_at}}</td>
-							          	<td>{{$cat->updated_at}}</td>
+							          	<td>{{$cat->categoryName}}</td>
+							          	<td>{{$cat->categoryNameAr}}</td>
+							          	<td>
+							          		<img src="{{url('Admin_uploads/categories/'.$cat->categoryImage)}}" style="height: 100px;width:100px">
+							          	</td>
 							          	<td>
 								          	<div class="btn-group">
 								          		<a class="btn btn-success" href="{{url('admin/viewCreateCategory/'.$cat->id)}}">

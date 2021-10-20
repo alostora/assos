@@ -35,6 +35,8 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 
 			//categories
 			Route::get('categoriesInfo','Categories@categoriesInfo');
+			Route::get('viewCreateCategory','Categories@viewCreateCategory');
+			Route::post('createcategory','Categories@createcategory');
 
 
 
