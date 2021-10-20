@@ -32,37 +32,11 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{url('admin/userInfo')}}">
-                            <i class="fa fa-circle-o"></i>@lang('leftsidebar.Users')
+                        <a href="{{url('admin/categoriesInfo')}}">
+                            <i class="fa fa-circle-o"></i>@lang('leftsidebar.categories')
                         </a>
                     </li>
-                    <li>
-                        <a href="{{url('admin/galleryInfo')}}">
-                            <i class="fa fa-circle-o"></i>@lang('leftsidebar.Gallery')
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{url('admin/contactUs')}}">
-                            <i class="fa fa-circle-o"></i>@lang('leftsidebar.contactUs')
-                        </a>
-                    </li>
-                    <!--
-                    <li>
-                        <a href="{{url('admin/roleInfo')}}">
-                            <i class="fa fa-circle-o"></i>@lang('leftsidebar.Roles')
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{url('admin/governoratesInfo')}}">
-                            <i class="fa fa-circle-o"></i>@lang('leftsidebar.cities')
-                        </a>
-                    </li> 
-                    -->
-                    <li>
-                        <a href="{{url('admin/notifis')}}">
-                            <i class="fa fa-circle-o"></i>@lang('leftsidebar.notifis')
-                        </a>
-                    </li> 
+                   
 
                 </ul>
             </li> 

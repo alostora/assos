@@ -33,6 +33,10 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::get('logOut','Admins@logOut');
 
 
+			//categories
+			Route::get('categoriesInfo','Categories@categoriesInfo');
+
+
 
 
 
