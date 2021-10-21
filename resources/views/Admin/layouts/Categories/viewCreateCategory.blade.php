@@ -28,7 +28,7 @@
 
                   <label for="categoryName" class="col-sm-2 control-label">@lang('leftsidebar.categoryName')</label>
                   <div class="col-sm-4">
-                      <input type="text" name="categoryName" class="form-control" id="categoryName" placeholder="@lang('leftsidebar.categoryName')" value="@if(!empty($admin)) {{$admin->categoryName}} @endif" required>
+                      <input type="text" name="categoryName" class="form-control" id="categoryName" placeholder="@lang('leftsidebar.categoryName')" value="@if(!empty($cat)) {{$cat->categoryName}} @endif" required>
                   </div>
                 
                   <label for="categoryNameAr" class="col-sm-2 control-label">@lang('leftsidebar.categoryNameAr')</label>
@@ -39,22 +39,12 @@
               </div>
 
               <div class="form-group">
-
-                  <label for="categoryDesc" class="col-sm-2 control-label">@lang('leftsidebar.categoryDesc')</label>
-                  <div class="col-sm-4">
-                      <textarea name="categoryDesc" class="form-control" id="categoryDesc" placeholder="@lang('leftsidebar.categoryDesc')" required>@if(!empty($admin)) {{$admin->categoryDesc}} @endif</textarea>
-                  </div>
-                
-                  <label for="categoryDescAr" class="col-sm-2 control-label">@lang('leftsidebar.categoryDescAr')</label>
-                  <div class="col-sm-4">
-                      <textarea name="categoryDescAr" class="form-control" placeholder="@lang('leftsidebar.categoryDescAr')" required id="categoryDescAr">@if(!empty($cat)) {{$cat->categoryDescAr}} @endif</textarea>
-                  </div>
-              </div>
-
-              <div class="form-group">
                   <label for="categoryImage" class="col-sm-2 control-label">@lang('leftsidebar.categoryImage')</label>
                   <div class="col-sm-4">
-                      <input type="file" name="categoryImage" class="form-control" placeholder="@lang('leftsidebar.categoryImage')" value="@if(!empty($cat)) {{$cat->categoryImage}} @endif" required id="categoryImage">
+                      <input type="file" name="categoryImage" class="form-control" placeholder="@lang('leftsidebar.categoryImage')" >
+                      @if(!empty($cat) && !empty($cat->categoryImage)) 
+                        <img src="{{url('Admin_uploads/categories/'.$cat->categoryImage)}}" style="height:200px;width:200px"> 
+                      @endif
                   </div>
               </div>
 

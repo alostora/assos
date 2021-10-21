@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Sub_category;
+use File;
 
 class Categories extends Controller
 {
@@ -15,8 +17,15 @@ class Categories extends Controller
     }
 
 
-    public function viewCreateCategory(){
-        return view('Admin/Categories/viewCreateCategory');
+    public function viewCreateCategory($id = false){
+        
+        if(!empty($id)) {
+            $data['cat'] = Category::where('id',$id)->first();
+        }else{
+            $data = [];
+        }
+
+        return view('Admin/Categories/viewCreateCategory',$data);
     }
 
 
@@ -31,21 +40,63 @@ class Categories extends Controller
         ]);
 
         $data = $request->except('_token');
-        $data['categoryImage'] = null;
 
-        if ($request->hasFile('categoryImage')) {
-            $categoryImage = $request->file('categoryImage');
-            $data['categoryImage'] = rand(11111, 99999).'.'.$categoryImage->getClientOriginalExtension();
-            $destinationPath = public_path('Admin_uploads/categories');
-            $categoryImage->move($destinationPath, $data['categoryImage']);
-          }
+        if (empty($data['id'])) {
+            //add
+            $data['categoryImage'] = null;
 
-         Category::create($data);
+            if ($request->hasFile('categoryImage')) {
+                $destinationPath = public_path('Admin_uploads/categories/');
+                $categoryImage = $request->file('categoryImage');
+                $data['categoryImage'] = rand(11111, 99999).'.'.$categoryImage->getClientOriginalExtension();
+                $categoryImage->move($destinationPath, $data['categoryImage']);
+            }
+
+            Category::create($data);
+        }else{
+            //edit
+            $category = Category::find($data['id']);
+            $data['categoryImage'] = $category->categoryImage;
+
+            if ($request->hasFile('categoryImage')) {
+                $destinationPath = public_path('Admin_uploads/categories/');
+                File::delete($destinationPath . $data['categoryImage']);
+                $categoryImage = $request->file('categoryImage');
+                $data['categoryImage'] = rand(11111, 99999).'.'.$categoryImage->getClientOriginalExtension();
+                $categoryImage->move($destinationPath, $data['categoryImage']);
+            }
+
+            Category::where('id',$data['id'])->update($data);
+        }
 
         $request->session()->flash('success','Done successfully');
         return redirect('admin/categoriesInfo');
 
     }
+
+    public function deleteCategory($id){
+        $category =Category::where('id',$id)->first();
+            $destinationPath = public_path('Admin_uploads/categories/');
+            File::delete($destinationPath . $category->categoryImage);
+        Category::where('id',$id)->delete();
+
+        session()->flash('success','Done successfully');
+        return back();
+    }
+
+
+    //sub categories
+    public function sub_categoriesInfo($cat_id){
+        $data['categories'] = Sub_category::where('cat_id',$cat_id)->get();
+
+        return view('Admin/Categories/sub_categoriesInfo',$data);
+    }
+
+
+
+
+
+
 
 
 

@@ -534,6 +534,7 @@ return [
     "currencyAr" => "currencyAr",
     
     "active_for_public" => "view in serch",
+    "categoryImage" => "Category image",
 
 
 

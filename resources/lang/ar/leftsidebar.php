@@ -523,6 +523,7 @@ return [
     "currency" => "العملة",
     "currencyAr" => "العملة عربي",
     "active_for_public" => "ظهور في البحث",
+    "categoryImage" => "صورة القسم",
 
 
 
