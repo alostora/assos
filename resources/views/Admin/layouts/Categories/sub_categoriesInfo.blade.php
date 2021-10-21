@@ -15,10 +15,12 @@
 					              	@lang('leftsidebar.subCategories')
 				              	</h3>
 			              	</div>
-					      	<a href="{{url('admin/sub_viewCreateCategory')}}" class="btn btn-primary col-xs-6">
+			              	@if(!empty(Request('cat_id')))
+					      	<a href="{{url('admin/sub_viewCreateCategory/'.Request('cat_id'))}}" class="btn btn-primary col-xs-6">
 					      		<i class="fa fa-plus"></i>
 					      		@lang('leftsidebar.Add')
 					      	</a>
+					      	@endif
 			            </div>
 
 			            <div class="box-body table-responsive no-padding">
@@ -30,18 +32,18 @@
 				                  	<th>@lang('leftsidebar.categoryImage')</th>
 				                  	<th>@lang('leftsidebar.Operations')</th>
 				                </tr>
-							@if(!empty($categories))
-								@foreach($categories as $key=>$cat)
+							@if(!empty($sub_categories))
+								@foreach($sub_categories as $key=>$cat)
 									<tr>
 							          	<td>{{$key+1}}</td>
 							          	<td>{{$cat->s_categoryName}}</td>
 							          	<td>{{$cat->s_categoryNameAr}}</td>
 							          	<td>
-							          		<img src="{{url('Admin_uploads/categories/'.$cat->s_categoryImage)}}" style="height: 100px;width:100px">
+							          		<img src="{{url('Admin_uploads/categories/subCategory/'.$cat->s_categoryImage)}}" style="height: 100px;width:100px">
 							          	</td>
 							          	<td>
 								          	<div class="btn-group">
-								          		<a class="btn btn-success" href="{{url('admin/sub_viewCreateCategory/'.$cat->id)}}">
+								          		<a class="btn btn-success" href="{{url('admin/sub_viewCreateCategory/'.$cat->cat_id.'/'.$cat->id)}}">
 								          			<i class="fa fa-edit"></i>
 								          		</a>
 								          	
