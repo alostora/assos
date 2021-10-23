@@ -33,17 +33,16 @@
                     </li>
 
                     <li>
-                        <a href="{{url('admin/vendorInfo')}}">
-                            <i class="fa fa-circle-o"></i>@lang('leftsidebar.vendor')
-                        </a>
-                    </li>
-
-                    <li>
                         <a href="{{url('admin/categoriesInfo')}}">
                             <i class="fa fa-circle-o"></i>@lang('leftsidebar.categories')
                         </a>
                     </li>
                    
+                    <li>
+                        <a href="{{url('admin/vendorsInfo')}}">
+                            <i class="fa fa-circle-o"></i>@lang('leftsidebar.vendors')
+                        </a>
+                    </li>
 
                 </ul>
             </li> 

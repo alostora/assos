@@ -309,6 +309,7 @@ return [
 	"mainInfo" => "المعلومات الاساسية",
 	"Addresses" => "العناوين",
 	"Address" => "العنوان",
+	"address" => "العنوان",
 	"Add address" => "أضف عنوان",
 	"image" => "الصورة",
 	"oldPass" => "كلمة المرور القديمة",
@@ -524,6 +525,10 @@ return [
     "currencyAr" => "العملة عربي",
     "active_for_public" => "ظهور في البحث",
     "categoryImage" => "صورة القسم",
+
+
+    "vendors" => "التجار",
+    "Vendors" => "التجار",
 
 
 

@@ -45,13 +45,10 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::post('sub_createCategory','Categories@sub_createCategory');
 
 			//vendors
-			Route::get('vendorInfo','Vendors@vendorInfo');
+			Route::get('vendorsInfo','Vendors@vendorsInfo');
 			Route::get('viewCreateVendor/{id?}','Vendors@viewCreateVendor');
 			Route::post('createVendor','Vendors@createVendor');
 			Route::get('deleteVendor/{id}','Vendors@deleteVendor');
-
-
-
 
 
 		});

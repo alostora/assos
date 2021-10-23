@@ -311,6 +311,7 @@ return [
 	"mainInfo" => "Main informations",
 	"Addresses" => "Addresses",
 	"Address" => "Address",
+	"address" => "address",
 	"Add address" => "Add address",
 	"image" => "Image",
 	"oldPass" => "Old password",
@@ -537,7 +538,8 @@ return [
     "categoryImage" => "Category image",
 
 
-
+    "vendors" => "vendors",
+    "Vendors" => "Vendors",
 
 
 

@@ -11,11 +11,17 @@ use File;
 
 class Vendors extends Controller
 {
-    public function vendorInfo(){
-       $vendors= Vendor::get();
-       return view('Admin/Vendors/vendorInfo',compact('vendors'));
+
+
+    public function vendorsInfo(){
+       $data['vendors'] = Vendor::get();
+       return view('Admin/Vendors/vendorsInfo',$data);
     }
 
+
+
+
+    
     public function viewCreateVendor($id=false){
         if(!empty($id)) {
             $data['vendor'] = Vendor::where('id',$id)->first();

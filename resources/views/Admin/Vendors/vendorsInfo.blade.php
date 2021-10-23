@@ -10,7 +10,7 @@
   @include('Admin/layouts/leftsidebar')
 
  <!-- admins table-->
-    @include('Admin/layouts/Vendors/vendorInfo') 
+    @include('Admin/layouts/Vendors/vendorsInfo') 
  <!--end admins table-->
 
 <!--footer-->
