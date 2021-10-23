@@ -42,13 +42,13 @@
 
                   <label for="password" class="col-sm-2 control-label">@lang('leftsidebar.password')</label>
                   <div class="col-sm-4">
-                      <input type="password" name="password" class="form-control" id="password" placeholder="@lang('leftsidebar.password')" value="@if(!empty($vendor)) {{$vendor->password}} @endif" required>
+                      <input type="password" name="password" class="form-control" id="password" placeholder="@lang('leftsidebar.password')" value="" required>
                   </div>
 
 
                   <label for="confirm_password" class="col-sm-2 control-label">@lang('leftsidebar.confirm_password')</label>
                   <div class="col-sm-4">
-                      <input type="password" name="confirm_password" class="form-control" id="confirm_password" placeholder="@lang('leftsidebar.confirm_password')" value="@if(!empty($vendor)) {{$vendor->confirm_password}} @endif" required>
+                      <input type="password" name="confirm_password" class="form-control" id="confirm_password" placeholder="@lang('leftsidebar.confirm_password')" value="" required>
                   </div>
               </div>
 
@@ -71,7 +71,7 @@
                   <div class="col-sm-4">
                       <input type="file" name="vendor_image" class="form-control" placeholder="@lang('leftsidebar.vendor_image')" >
                       @if(!empty($vendor) && !empty($vendor->vendor_image)) 
-                        <img src="{{url('Admin_uploads/vendoregories/'.$vendor->vendor_image)}}" style="height:200px;width:200px"> 
+                        <img src="{{url('Admin_uploads/vendors/'.$vendor->vendor_image)}}" style="height:200px;width:200px"> 
                       @endif
                   </div>
               </div>

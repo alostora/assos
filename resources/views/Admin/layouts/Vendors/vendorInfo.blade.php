@@ -51,7 +51,7 @@
 								          			<i class="fa fa-edit"></i>
 								          		</a>
 								          	
-							          	 		<a class="btn btn-danger" href="{{url('admin/deleteAdmin/'.$vendor->id)}}" onclick="return confirm('Are you sure?');" >
+							          	 		<a class="btn btn-danger" href="{{url('admin/deleteVendor/'.$vendor->id)}}" onclick="return confirm('Are you sure?');" >
 							          	 			<i class="fa fa-trash"></i>
 							          	 		</a>
 						          	 		</div>

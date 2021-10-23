@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Vendor;
 use Hash;
+use File;
 
 
 class Vendors extends Controller
@@ -27,15 +28,15 @@ class Vendors extends Controller
     public function createVendor(Request $request){
         $validated = $request->validate([
           'vendor_name' => 'required|max:100',
-          'phone' => 'required|unique:vendors,phone|max:100',
-          'email' => 'required|unique:vendors,email|email|max:100',
+          'phone' => 'required|unique:vendors,phone,'. $request->id .'|max:100',
+          'email' => 'required|unique:vendors,email,'. $request->id .'|email|max:100',
           'password' => 'required|max:100',
           'confirm_password' => 'same:password',
           'address' => 'required|max:100',
           'vendor_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $data = $request->except('_token');
+        $data = $request->except('_token','confirm_password');
 
         if (empty($data['id'])) {
             //add
@@ -52,7 +53,7 @@ class Vendors extends Controller
              }else{
             //edit
             $vendor = Vendor::find($data['id']);
-            $data['vendor_image'] = $category->vendor_image;
+            $data['vendor_image'] = $vendor->vendor_image;
 
             if ($request->hasFile('vendor_image')) {
                 $destinationPath = public_path('Admin_uploads/vendors/');
@@ -67,6 +68,17 @@ class Vendors extends Controller
 
         $request->session()->flash('success','Done successfully');
         return redirect('admin/vendorInfo');
+    }
+
+    public function deleteVendor($id){
+        $vendor =Vendor::where('id',$id)->first();
+        $destinationPath = public_path('Admin_uploads/Vendors/');                 
+        File::delete($destinationPath . $vendor->vendor_image );
+        
+        Vendor::where('id',$id)->delete();
+
+        session()->flash('success','Done successfully');
+        return back();
     }
 
 

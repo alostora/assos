@@ -48,7 +48,7 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::get('vendorInfo','Vendors@vendorInfo');
 			Route::get('viewCreateVendor/{id?}','Vendors@viewCreateVendor');
 			Route::post('createVendor','Vendors@createVendor');
-			Route::get('deleteCategory/{id}','Vendors@deleteCategory');
+			Route::get('deleteVendor/{id}','Vendors@deleteVendor');
 
 
 
