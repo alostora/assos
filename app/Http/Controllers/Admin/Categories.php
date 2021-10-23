@@ -76,7 +76,7 @@ class Categories extends Controller
 
     public function deleteCategory($id){
         $category =Category::where('id',$id)->first();
-        $destinationPath = public_path('Admin_uploads/categories/');
+        $destinationPath = public_path('Admin_uploads/categories/');                 
         File::delete($destinationPath . $category->categoryImage );
 
         $s_categories = Sub_category::where('cat_id',$id)->get();

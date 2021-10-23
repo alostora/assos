@@ -44,6 +44,12 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::get('sub_viewCreateCategory/{cat_id}/{sub_cat_id?}','Categories@sub_viewCreateCategory');
 			Route::post('sub_createCategory','Categories@sub_createCategory');
 
+			//vendors
+			Route::get('vendorInfo','Vendors@vendorInfo');
+			Route::get('viewCreateVendor/{id?}','Vendors@viewCreateVendor');
+			Route::post('createVendor','Vendors@createVendor');
+			Route::get('deleteCategory/{id}','Vendors@deleteCategory');
+
 
 
 
