@@ -1,18 +1,6 @@
 
-<!---header -->
-@include('Admin/layouts/header')
-<!--end header-->
-
-<!--mainHeader-->
-@include('Admin/layouts/mainheader')
-<!--mainheader--> 
-  <!-- Left side column. contains the logo and sidebar -->
-  @include('Admin/layouts/leftsidebar')
-
- <!-- admins create-->
+@include('MainLayouts/header')
+@include('MainLayouts/mainheader')
+    @include('MainLayouts/leftsidebar')
     @include('Admin/layouts/Admin/viewCreateAdmin') 
- <!--end admins create-->
-
-<!--footer-->
-@include('Admin/layouts/footer')
-<!--end footer -->
+@include('MainLayouts/footer')

@@ -16,7 +16,7 @@ class Admins extends Controller
     
 
     public function login(){
-        return view('Admin/login');
+        return view('MainLayouts/login');
     }
 
 
@@ -24,10 +24,17 @@ class Admins extends Controller
 
 
     public function doLogin(Request $request){
-        //return [phpinfo()];
-        if(Auth::guard('admin')->attempt(['email'=>$request->email,'password'=>$request->password])){
-            return redirect('admin/');
+        
+        $validated = $request->validate([
+          'email' => 'required|email|max:100',
+          'password' => 'required|max:100',
+        ]);
+
+
+        if(Auth::guard('admin')->attempt($validated)){
+            return redirect('admin');
         }else{
+            session()->flash('warning','error informations');
             return redirect('admin/login');
         }
 
@@ -41,7 +48,7 @@ class Admins extends Controller
         $data['users']= count(User::where('name','!=','guest')->get(['id']));
         
         
-        return view('Admin/dashboard',$data);
+        return view('MainLayouts/dashboard',$data);
     }
 
 

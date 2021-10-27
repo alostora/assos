@@ -14,4 +14,25 @@ class Category extends Model
         "categoryNameAr",
         "categoryImage",
     ];
+
+
+    
+    public function sub_categories(){
+        return $this->hasMany('App\Models\Sub_category','cat_id');
+    }
+
+
+
+
+
+    public function items(){
+        return $this->hasManyThrough(
+            'App\Models\Item',
+            'App\Models\Sub_category',
+            'cat_id',
+            'sub_cat_id',
+            'id',
+            'id'
+        );
+    }
 }

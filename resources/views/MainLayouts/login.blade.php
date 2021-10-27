@@ -51,7 +51,7 @@
   <div class="login-box-body">
     <p class="login-box-msg">@lang('leftsidebar.logIn')</p>
 
-    <form action="{{url('admin/doLogin')}}" method="post">
+    <form action="{{Request::segment(1) == 'admin' ? url('admin/doLogin') : url('vendor/doLogin')}}" method="post">
       {{ csrf_field() }}
       <div class="form-group has-feedback">
         <input name="email" type="email" class="form-control" placeholder="@lang('leftsidebar.Email')">

@@ -36,13 +36,16 @@ class Vendors extends Controller
           'vendor_name' => 'required|max:100',
           'phone' => 'required|unique:vendors,phone,'. $request->id .'|max:100',
           'email' => 'required|unique:vendors,email,'. $request->id .'|email|max:100',
-          'password' => 'required|max:100',
+          'password' => 'max:100',
           'confirm_password' => 'same:password',
           'address' => 'required|max:100',
           'vendor_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $data = $request->except('_token','confirm_password');
+        if($data['password']){
+            $data['password'] = Hash::make($data['password']);
+        }
 
         if (empty($data['id'])) {
             //add
@@ -54,7 +57,6 @@ class Vendors extends Controller
                 $data['vendor_image'] = rand(11111, 99999).'.'.$vendor_image->getClientOriginalExtension();
                 $vendor_image->move($destinationPath, $data['vendor_image']);
             }
-
             Vendor::create($data);
              }else{
             //edit
@@ -73,7 +75,7 @@ class Vendors extends Controller
         }
 
         $request->session()->flash('success','Done successfully');
-        return redirect('admin/vendorInfo');
+        return redirect('admin/vendorsInfo');
     }
 
     public function deleteVendor($id){

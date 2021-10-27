@@ -13,7 +13,7 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 	//lang
 	Route::get('lang/{locale}', function ($locale) {
 		Session::put('locale',$locale);
-	    return redirect('admin/');
+	    return back();
 	});
 
 

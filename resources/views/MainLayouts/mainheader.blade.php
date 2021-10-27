@@ -49,7 +49,15 @@
                 </div> -->
               
                 <div class="pull-right">
-                  <a href="{{url('admin/logOut')}}" class="btn btn-default btn-flat">@lang('leftsidebar.Log Out')</a>
+                  @if(Auth::guard('admin')->check())
+                    <a href="{{url('admin/logOut')}}" class="btn btn-default btn-flat">
+                      @lang('leftsidebar.Log Out')
+                    </a>
+                  @else
+                    <a href="{{url('vendor/logOut')}}" class="btn btn-default btn-flat">
+                      @lang('leftsidebar.Log Out')
+                    </a>
+                  @endif
                 </div>
               </li>
             </ul>
