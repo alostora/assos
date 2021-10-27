@@ -1,5 +1,5 @@
 @include('MainLayouts/header')
 @include('MainLayouts/mainheader')
     @include('MainLayouts/leftsidebar')
-    @include('layouts/Categories/viewCreateCategory') 
+    @include('Admin/layouts/Categories/viewCreateCategory') 
 @include('MainLayouts/footer')

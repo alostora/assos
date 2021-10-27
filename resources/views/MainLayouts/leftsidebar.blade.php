@@ -6,9 +6,9 @@
             </div>
             <div class="pull-left info">
                 @if(Auth::guard('admin')->check())
-                    <p>{{@Auth::guard('admin')->user()->name}}</p>
-                @else
-                    <p>{{@Auth::guard('vendor')->user()->vendor_name}}</p>
+                    <p>{{Auth::guard('admin')->user()->name}}</p>            
+                @elseif(Auth::guard('vendor')->check())
+                    <p>{{Auth::guard('vendor')->user()->vendor_name}}</p>
                 @endif
                 <i class="fa fa-circle text-success"></i> متصل
             </div>
@@ -48,7 +48,7 @@
                                 <i class="fa fa-circle-o"></i>@lang('leftsidebar.vendors')
                             </a>
                         </li>
-                    @else
+                    @elseif(Auth::guard('vendor')->check())
                         <li>
                             <a href="{{url('vendor/itemsInfo')}}">
                                 <i class="fa fa-plus"></i> @lang('leftsidebar.items')
