@@ -12,5 +12,6 @@ Route::group(['namespace'=>'Api\Users'],function(){
     Route::post('userCountery','Users_auth@userCountery');
     Route::get('vendors','Users@vendors');
     Route::get('categories/{vendor_id?}','Users@categories');
+    Route::get('items/{s_cat_id}/{vendor_id?}','Users@items');
 
 });
