@@ -70,7 +70,7 @@ class Users extends Controller
         $data['status'] = true;
 
         if ($vendor_id == false) {
-            $data['items'] = Item::where('sub_cat_id',$s_cat_id)->select(['itemName','itemImage','itemPrice','itemPriceAfterDis'])->paginate(20);
+            $data['items'] = Item::where('sub_cat_id',$s_cat_id)->select(['id','itemName','itemImage','itemPrice','itemPriceAfterDis'])->paginate(20);
         }else{
             $data['items'] = Item::where('sub_cat_id',$s_cat_id)->where('vendor_id',$vendor_id)->select(['itemName','itemImage','itemPrice','itemPriceAfterDis'])->paginate(20);
         }
