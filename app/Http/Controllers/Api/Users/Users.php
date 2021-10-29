@@ -29,24 +29,17 @@ class Users extends Controller
 
 
 
-    public function categories($vendor_id=false){
+    public function vendorCategories($vendor_id){
         $data['status'] = true;
-        $data['categories'] = [];
 
-        if($vendor_id == false){
-            $data['categories'] = Category::with('sub_categories')->get();
-        }else{
-            //"cat->sub_cat->item -> vendor_id"
-
-            $vendor_sub_cats_id = Item::where('vendor_id',$vendor_id)->pluck('sub_cat_id');
-            if(!empty($vendor_sub_cats_id)) {
-                $vendor_cats_id = Sub_category::whereIn('id',$vendor_sub_cats_id)->pluck('cat_id');
-                if(!empty($vendor_cats_id)) {
-                    $data['categories'] = Category::with('sub_categories')->whereIn('id',$vendor_cats_id)->get();
-                }
+        $data['categories'] = Category::with('sub_categories')->get();
+        $vendor_sub_cats_id = Item::where('vendor_id',$vendor_id)->pluck('sub_cat_id');
+        if(!empty($vendor_sub_cats_id)) {
+            $vendor_cats_id = Sub_category::whereIn('id',$vendor_sub_cats_id)->pluck('cat_id');
+            if(!empty($vendor_cats_id)) {
+                $data['categories'] = Category::with('sub_categories')->whereIn('id',$vendor_cats_id)->get();
             }
         }
-
 
         if (!empty($data['categories'])) {
             foreach($data['categories'] as $cat){
@@ -60,7 +53,23 @@ class Users extends Controller
         }
 
         return $data;
+    }
 
+    public function categories(){
+        $data['status'] = true;
+        $data['categories'] = Category::with('sub_categories')->get();
+        
+        if (!empty($data['categories'])) {
+            foreach($data['categories'] as $cat){
+                $cat->categoryImage = URL::to('Admin_uploads/categories/'.$cat->categoryImage);
+                if(count($cat->sub_categories)>0){
+                    foreach($cat->sub_categories as $sub_cat){
+                        $sub_cat->s_categoryImage = URL::to('Admin_uploads/categories/'.$sub_cat->s_categoryImage);
+                    }
+                }
+            }
+        }
+        return $data;
     }
 
 
