@@ -19,9 +19,17 @@ class Users extends Controller
         $data['vendors'] = Vendor::get(['id','vendor_name','vendor_image']);
 
         if(!empty($data['vendors'])){
-            foreach($data['vendors'] as $vend){
+            foreach($data['vendors'] as $key => $vend){
                 $vend->vendor_image = URL::to('Admin_uploads/vendors/'.$vend->vendor_image);
             }
+
+            /*
+                $countArray  = count($data['vendors']);
+                for($i=0;$i<$countArray;$i++){
+                   $data['vendors'][$i]->vendor_image = URL::to('Admin_uploads/vendors/'.$data['vendors'][$i]->vendor_image);
+                }
+            */
+
         }
         return $data;
     }
