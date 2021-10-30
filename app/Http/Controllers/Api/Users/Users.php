@@ -158,5 +158,39 @@ class Users extends Controller
 
 
 
+    public function userItemsFav(Request $request){
+
+        $device_id = $request->header('device_id');
+        $user = User::where('deviceId',$device_id)->first();
+
+        if (!empty($user)) {
+            $user_id = $user->id;
+            $fav_item_id = User_fav_item::where('user_id',$user_id)->pluck('item_id');
+            $data['status'] = true;
+
+            $data['items'] = Item::whereIn('id',$fav_item_id)->get();
+            if(!empty($data['items'])){
+                foreach($data['items'] as $itemImage){
+                    $itemImage->itemImage = URL::to('uploads/itemImages/'.$itemImage->itemImage);
+
+                    $itemImage->fav = false;
+                    $itemImage->cart = false;
+
+                }
+            }
+
+
+        }else{
+            $data['status'] = false;
+            $data['message'] = 'user not found';
+        }
+        return $data;
+
+    }
+
+
+
+
+
 
 }

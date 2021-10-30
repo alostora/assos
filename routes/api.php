@@ -21,5 +21,6 @@ Route::group(['namespace'=>'Api\Users'],function(){
     //fav items
     Route::get('addItemToFav/{item_id}','Users@addItemToFav');
     Route::get('removeItemFromFav/{item_id}','Users@removeItemFromFav');
+    Route::get('userItemsFav','Users@userItemsFav');
 
 });
