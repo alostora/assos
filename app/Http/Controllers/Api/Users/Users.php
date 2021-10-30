@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api\Users;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Vendor;
+use App\Models\Sub_category;
 use App\Models\Category;
 use App\Models\Item;
-use App\Models\Sub_category;
+use App\Models\User_fav_item;
+use App\Models\User;
 use URL;
 
 class Users extends Controller
@@ -101,6 +103,55 @@ class Users extends Controller
         }
 
         return $data;
+    }
+
+
+
+
+
+    public function addItemToFav(Request $request,$item_id){
+
+        $device_id = $request->header('device_id');
+        $user = User::where('deviceId',$device_id)->first();
+
+        if (!empty($user)) {
+            $user_id = $user->id;
+            User_fav_item::create([
+                'item_id'=>$item_id,
+                'user_id'=>$user_id
+            ]);
+
+            $data['status'] = true;
+            $data['message'] = 'item add to fav success';
+        }else{
+            $data['status'] = false;
+            $data['message'] = 'user not found';
+        }
+        return $data;
+
+    }
+
+
+
+
+
+    public function removeItemFromFav(Request $request,$item_id){
+
+        $device_id = $request->header('device_id');
+        $user = User::where('deviceId',$device_id)->first();
+
+        if (!empty($user)) {
+            $user_id = $user->id;
+            User_fav_item::where('user_id',$user_id)->where('item_id',$item_id)->delete();
+
+            $data['status'] = true;
+            $data['message'] = 'item deleted from fav success';
+        }else{
+            $data['status'] = false;
+            $data['message'] = 'user not found';
+        }
+        return $data;
+
     }
 
 

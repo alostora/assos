@@ -16,7 +16,7 @@ class Users_auth extends Controller
         $data = $request->all();
         $validator = Validator::make($data,[
             'country' => 'required|max:5',
-            'deviceId' => 'required|unique:users,deviceId|max:50',
+            'deviceId' => 'required|max:50',
         ]);
 
         if ($validator->fails()) {
