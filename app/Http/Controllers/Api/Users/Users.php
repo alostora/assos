@@ -119,7 +119,17 @@ class Users extends Controller
         if (!empty($user)) {
             
             $data['status'] = true;
-            $data['item'] = Item::where('id',$itemId)->first(['id','itemName','itemImage','itemPrice','itemPriceAfterDis']);
+            $data['item'] = Item::where('id',$itemId)
+            ->with('other_item_images')
+            ->with('item_prop_plus')
+            ->first(['id','itemName','itemImage','itemPrice','itemPriceAfterDis']);
+
+
+            foreach($data['item']->other_item_images as $otherImage){
+
+                $otherImage->itemImageName = URL::to('uploads/itemImages/'.$otherImage->itemImageName);
+            }
+
 
             $data['item']->itemImage = URL::to('uploads/itemImages/'.$data['item']->itemImage);
             
