@@ -25,7 +25,14 @@ class Users_auth extends Controller
             return $response;
         }
 
-        User::create($data);
+        $user = User::where('deviceId',$data['deviceId'])->first();
+        if (!empty($user)) {
+            $user->country = $data['country'];
+            $user->deviceId = $data['deviceId'];
+            $user->save();
+        }else{
+            User::create($data);
+        }
 
         $response['status'] = true;
         $response['msg'] = "success";
