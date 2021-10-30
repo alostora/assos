@@ -112,6 +112,35 @@ class Users extends Controller
 
 
 
+    public function itemInfo(Request $request,$itemId){
+
+        $deviceId = $request->header('device-id');
+        $user = User::where('deviceId',$deviceId)->first();
+        if (!empty($user)) {
+            
+            $data['status'] = true;
+            $data['item'] = Item::where('id',$itemId)->first(['id','itemName','itemImage','itemPrice','itemPriceAfterDis']);
+
+            $data['item']->itemImage = URL::to('uploads/itemImages/'.$data['item']->itemImage);
+            
+            $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$data['item']->id)->first();
+
+            $data['item']->fav = !empty($fav) ? true : false;
+            $data['item']->cart = false;
+
+        }else{
+            $data['status'] = false;
+            $data['message'] = 'user not found';
+        }
+
+        return $data;
+
+    }
+
+
+
+
+
     public function addItemToFav(Request $request,$item_id){
 
         $device_id = $request->header('device-id');
@@ -173,13 +202,12 @@ class Users extends Controller
             $user_id = $user->id;
             $data['status'] = true;
 
-            $fav_item_id = User_fav_item::where('user_id',$user_id)->pluck('item_id');
+            $fav_item_id = User_fav_item::where('user_id',$user_id)->get();
             $data['items'] = Item::whereIn('id',$fav_item_id)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis']);
 
             if(!empty($data['items'])){
                 foreach($data['items'] as $item){
                     $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
-
                     $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
                     $item->fav = !empty($fav) ? true : false;
                     $item->cart = false;
