@@ -56,7 +56,7 @@ class Users extends Controller
                 $cat->categoryImage = URL::to('Admin_uploads/categories/'.$cat->categoryImage);
                 if(count($cat->sub_categories)>0){
                     foreach($cat->sub_categories as $sub_cat){
-                        $sub_cat->s_categoryImage = URL::to('Admin_uploads/categories/'.$sub_cat->s_categoryImage);
+                        $sub_cat->s_categoryImage = URL::to('Admin_uploads/categories/subCategory/'.$sub_cat->s_categoryImage);
                     }
                 }
             }
@@ -74,7 +74,7 @@ class Users extends Controller
                 $cat->categoryImage = URL::to('Admin_uploads/categories/'.$cat->categoryImage);
                 if(count($cat->sub_categories)>0){
                     foreach($cat->sub_categories as $sub_cat){
-                        $sub_cat->s_categoryImage = URL::to('Admin_uploads/categories/'.$sub_cat->s_categoryImage);
+                        $sub_cat->s_categoryImage = URL::to('Admin_uploads/categories/subCategory/'.$sub_cat->s_categoryImage);
                     }
                 }
             }
