@@ -35,7 +35,7 @@ class Users_auth extends Controller
         }
 
         $response['status'] = true;
-        $response['msg'] = "success";
+        $response['message'] = "success";
 
         return $response;
 
