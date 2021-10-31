@@ -24,14 +24,6 @@ class Users extends Controller
             foreach($data['vendors'] as $key => $vend){
                 $vend->vendor_image = URL::to('Admin_uploads/vendors/'.$vend->vendor_image);
             }
-
-            /*
-                $countArray  = count($data['vendors']);
-                for($i=0;$i<$countArray;$i++){
-                   $data['vendors'][$i]->vendor_image = URL::to('Admin_uploads/vendors/'.$data['vendors'][$i]->vendor_image);
-                }
-            */
-
         }
         return $data;
     }
@@ -51,19 +43,22 @@ class Users extends Controller
             }
         }
 
-        if (!empty($data['categories'])) {
+        if(!empty($data['categories'])) {
             foreach($data['categories'] as $cat){
                 $cat->categoryImage = URL::to('Admin_uploads/categories/'.$cat->categoryImage);
                 if(count($cat->sub_categories)>0){
                     foreach($cat->sub_categories as $sub_cat){
-                        $sub_cat->s_categoryImage = URL::to('Admin_uploads/categories/'.$sub_cat->s_categoryImage);
+                        $sub_cat->s_categoryImage = URL::to('Admin_uploads/categories/subCategory/'.$sub_cat->s_categoryImage);
                     }
                 }
             }
         }
-
         return $data;
     }
+
+
+
+
 
     public function categories(){
         $data['status'] = true;
@@ -74,7 +69,7 @@ class Users extends Controller
                 $cat->categoryImage = URL::to('Admin_uploads/categories/'.$cat->categoryImage);
                 if(count($cat->sub_categories)>0){
                     foreach($cat->sub_categories as $sub_cat){
-                        $sub_cat->s_categoryImage = URL::to('Admin_uploads/categories/'.$sub_cat->s_categoryImage);
+                        $sub_cat->s_categoryImage = URL::to('Admin_uploads/categories/subCategory/'.$sub_cat->s_categoryImage);
                     }
                 }
             }
@@ -85,21 +80,77 @@ class Users extends Controller
 
 
 
-    public function items($s_cat_id,$vendor_id=false){
-        $data['status'] = true;
+    public function items(Request $request,$s_cat_id,$vendor_id=false){
 
-        if ($vendor_id == false) {
-            $data['items'] = Item::where('sub_cat_id',$s_cat_id)->select(['id','itemName','itemImage','itemPrice','itemPriceAfterDis'])->paginate(20);
+        $deviceId = $request->header('device-id');
+        $user = User::where('deviceId',$deviceId)->first();
+        if (!empty($user)) {
+            
+            $data['status'] = true;
+            if($vendor_id == false) {
+                $data['items'] = Item::where('sub_cat_id',$s_cat_id)->select(['id','itemName','itemImage','itemPrice','itemPriceAfterDis'])->paginate(20);
+            }else{
+                $data['items'] = Item::where('sub_cat_id',$s_cat_id)->where('vendor_id',$vendor_id)->select(['id','itemName','itemImage','itemPrice','itemPriceAfterDis'])->paginate(20);
+            }
+
+            foreach($data['items'] as $item){
+                $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
+                $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
+                $item->fav = !empty($fav) ? true : false;
+                $item->cart = false;
+            }
+
         }else{
-            $data['items'] = Item::where('sub_cat_id',$s_cat_id)->where('vendor_id',$vendor_id)->select(['id','itemName','itemImage','itemPrice','itemPriceAfterDis'])->paginate(20);
+            $data['status'] = false;
+            $data['message'] = 'user not found';
         }
 
+<<<<<<< HEAD
         foreach($data['items'] as $itemImage){
             $itemImage->itemImage = URL::to('uploads/itemImages/'.$itemImage->itemImage);
             $itemImage->fav = false;
             $itemImage->cart = false;
+=======
+        return $data;
+    }
+
+
+
+
+
+    public function itemInfo(Request $request,$itemId){
+
+        $deviceId = $request->header('device-id');
+        $user = User::where('deviceId',$deviceId)->first();
+        if (!empty($user)) {
+            
+            $data['status'] = true;
+            $data['item'] = Item::where('id',$itemId)
+            ->with('other_item_images')
+            ->with('item_prop_plus')
+            ->first(['id','itemName','itemImage','itemPrice','itemPriceAfterDis']);
+
+
+            foreach($data['item']->other_item_images as $otherImage){
+
+                $otherImage->itemImageName = URL::to('uploads/itemImages/'.$otherImage->itemImageName);
+            }
+
+
+            $data['item']->itemImage = URL::to('uploads/itemImages/'.$data['item']->itemImage);
+            
+            $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$data['item']->id)->first();
+
+            $data['item']->fav = !empty($fav) ? true : false;
+            $data['item']->cart = false;
+
+        }else{
+            $data['status'] = false;
+            $data['message'] = 'user not found';
+>>>>>>> 09f2e116217007343bf0ed02bf6b92381021855d
         }
         return $data;
+
     }
 
 
@@ -108,15 +159,18 @@ class Users extends Controller
 
     public function addItemToFav(Request $request,$item_id){
 
-        $device_id = $request->header('device_id');
+        $device_id = $request->header('device-id');
         $user = User::where('deviceId',$device_id)->first();
 
         if (!empty($user)) {
             $user_id = $user->id;
-            User_fav_item::create([
-                'item_id'=>$item_id,
-                'user_id'=>$user_id
-            ]);
+            $user_fav = User_fav_item::where(['item_id'=>$item_id,'user_id'=>$user_id])->first();
+            if (empty($user_fav)) {
+                User_fav_item::create([
+                    'item_id'=>$item_id,
+                    'user_id'=>$user_id
+                ]);
+            }
 
             $data['status'] = true;
             $data['message'] = 'item add to fav success';
@@ -134,7 +188,7 @@ class Users extends Controller
 
     public function removeItemFromFav(Request $request,$item_id){
 
-        $device_id = $request->header('device_id');
+        $device_id = $request->header('device-id');
         $user = User::where('deviceId',$device_id)->first();
 
         if (!empty($user)) {
@@ -143,6 +197,39 @@ class Users extends Controller
 
             $data['status'] = true;
             $data['message'] = 'item deleted from fav success';
+        }else{
+            $data['status'] = false;
+            $data['message'] = 'user not found';
+        }
+        return $data;
+
+    }
+
+
+
+
+
+    public function userItemsFav(Request $request){
+
+        $device_id = $request->header('device-id');
+        $user = User::where('deviceId',$device_id)->first();
+            
+        if(!empty($user)) {
+            $user_id = $user->id;
+            $data['status'] = true;
+
+            $fav_item_id = User_fav_item::where('user_id',$user_id)->get();
+            $data['items'] = Item::whereIn('id',$fav_item_id)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis']);
+
+            if(!empty($data['items'])){
+                foreach($data['items'] as $item){
+                    $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
+                    $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
+                    $item->fav = !empty($fav) ? true : false;
+                    $item->cart = false;
+                }
+            }
+
         }else{
             $data['status'] = false;
             $data['message'] = 'user not found';

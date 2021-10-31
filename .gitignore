@@ -2,6 +2,7 @@
 /public/hot
 /public/storage
 /public/Admin_uploads
+/public/uploads
 /storage/*.key
 /vendor
 .env
