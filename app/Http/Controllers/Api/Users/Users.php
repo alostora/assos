@@ -105,12 +105,10 @@ class Users extends Controller
             $data['message'] = 'user not found';
         }
 
-<<<<<<< HEAD
         foreach($data['items'] as $itemImage){
             $itemImage->itemImage = URL::to('uploads/itemImages/'.$itemImage->itemImage);
             $itemImage->fav = false;
             $itemImage->cart = false;
-=======
         return $data;
     }
 
@@ -147,7 +145,6 @@ class Users extends Controller
         }else{
             $data['status'] = false;
             $data['message'] = 'user not found';
->>>>>>> 09f2e116217007343bf0ed02bf6b92381021855d
         }
         return $data;
 
