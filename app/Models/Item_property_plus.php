@@ -17,5 +17,9 @@ class Item_property_plus extends Model
 		'properity_id',
 	];
 
-
+	
+    
+    protected $hidden = [
+        "propertyDetails",
+    ];
 }

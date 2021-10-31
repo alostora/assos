@@ -22,6 +22,11 @@ class Vendor extends Authenticatable
         'api_token',
         'firebase_token',
     ];
-    protected $hidden = ['password'];
+
+    protected $hidden = [
+        'firebase_token',
+        'api_token',
+        'password'
+    ];
 
 }

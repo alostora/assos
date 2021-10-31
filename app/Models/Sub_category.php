@@ -15,4 +15,9 @@ class Sub_category extends Model
         "s_categoryImage",
         "cat_id",
     ];
+        
+    
+    protected $hidden = [
+        "s_categoryNameAr",
+    ];
 }

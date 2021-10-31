@@ -14,6 +14,11 @@ class Category extends Model
         "categoryNameAr",
         "categoryImage",
     ];
+    
+
+    protected $hidden = [
+        "categoryNameAr",
+    ];
 
 
     

@@ -13,9 +13,10 @@ class Item extends Model
 
         "facePage",
         "videoLink",
-        
         "itemName",
+        "itemNameAr",
         "itemDescribe",
+        "itemDescribeAr",
         "itemImage",
         "itemPrice",
         "itemPriceAfterDis",
@@ -23,7 +24,6 @@ class Item extends Model
         "discountType",//[percent,without]
         "discountValue",
         "itemCount",
-
         "sallesAppear",//[yes,no]
         "publicAppear",//[yes,no]
         "viewInBanner",//[yes,no]
@@ -34,6 +34,24 @@ class Item extends Model
         "sub_cat_id",
         "vendor_id",
     ];
+
+    protected $hidden = [
+        'facePage',
+        'discountType',
+        'sallesAppear',
+        'publicAppear',
+        'viewInBanner',
+        'bannerType',
+        'withProp',
+    ];
+
+
+    
+    protected $hidden = [
+        "itemNameAr",
+    ];
+
+
 
 
 
