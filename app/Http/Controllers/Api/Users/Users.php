@@ -174,11 +174,13 @@ class Users extends Controller
         if (!empty($user)) {
             $user_id = $user->id;
             $user_fav = User_fav_item::where(['item_id'=>$item_id,'user_id'=>$user_id])->first();
-            if (empty($user_fav)) {
-                User_fav_item::create([
-                    'item_id'=>$item_id,
-                    'user_id'=>$user_id
-                ]);
+            if(!empty(Item::find($item_id))){
+                if (empty($user_fav)) {
+                    User_fav_item::create([
+                        'item_id'=>$item_id,
+                        'user_id'=>$user_id
+                    ]);
+                }
             }
 
             $data['status'] = true;

@@ -43,11 +43,6 @@ class Item extends Model
         'viewInBanner',
         'bannerType',
         'withProp',
-    ];
-
-
-    
-    protected $hidden = [
         "itemNameAr",
     ];
 
