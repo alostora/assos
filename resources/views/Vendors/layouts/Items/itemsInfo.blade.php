@@ -35,7 +35,7 @@
                                 </span>
                             </div>
                             <div class="box-tools">
-                                <a href="{{url('viewCreateItem/'.Crypt::encryptString($item->id))}}" class="btn btn-box-tool" title="تعديل">
+                                <a href="{{url('vendor/viewCreateItem/'.Crypt::encryptString($item->id))}}" class="btn btn-box-tool">
                                     <i class="fa fa-circle-o"></i>
                                 </a>
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse">
@@ -104,7 +104,7 @@
 <script type="text/javascript">
 
     function removeItem(itemId,id){
-        /*console.log("{{url('ajaxRemoveItem')}}/"+itemId);
+        /*console.log("{{url('vendor/ajaxRemoveItem')}}/"+itemId);
         return false;*/
         if(!confirm('@lang("leftsidebar.Are you sure")')){
           return false;
@@ -112,9 +112,10 @@
 
         $.ajax({
             type : "get",
-            url  : "{{url('ajaxRemoveItem')}}/"+itemId,
+            url  : "{{url('vendor/ajaxRemoveItem')}}/"+itemId,
             success: function(result){
               if(result == "true"){
+                console.log(result);
               }
             }
         });

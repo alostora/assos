@@ -31,7 +31,8 @@ return [
 	"fixedAmount" => "مبلغ ثابت",
 	"percent" => "نسبة مئوىة",
 	"itemsCount" => "عدد المنتجات",
-	"itemDescribe" => "وصف المنتج",
+	"itemDescribe" => "وصف المنتج عربي",
+	"itemDescribeAr" => "وصف المنتج",
 	"Created_at" => "وقت الإنشاء",
 	"Operations" => "عمليات",
 	"All price" => "الأسعار",
@@ -57,6 +58,7 @@ return [
 	"No" => "لا",
 
 	"itemName" => "اسم المنتج",
+	"itemNameAr" => "اسم المنتج عربي",
 	"itemImage" => "صورة المنتح",
 	"itemPrice" => "سعر المنتج",
 	"itemMainPrice" => "سعر الجملة",

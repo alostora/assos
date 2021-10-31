@@ -31,6 +31,7 @@ return [
 	"percent" => "Percent",
 	"itemsCount" => "Items Count",
 	"itemDescribe" => "Items describe",
+	"itemDescribeAr" => "Items describe Ar",
 	"withProp" => "With property ?",
 	"Created_at" => "Created_at",
 	"Operations" => "Operations",
@@ -59,6 +60,7 @@ return [
 	"No" => "No",
 
 	"itemName" => "Item Name",
+	"itemNameAr" => "Item Name Ar",
 	"itemImage" => "Item Image",
 	"itemPrice" => "Item price",
 	"itemMainPrice" => "Item main price",

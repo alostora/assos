@@ -116,7 +116,9 @@ class Vendors extends Controller
         $data['facePage'] = $request->facePage;
         $data['videoLink'] = $request->videoLink;
 
+        $data['itemNameAr'] = $request->itemNameAr;
         $data['itemName'] = $request->itemName;
+        $data['itemDescribeAr'] = $request->itemDescribeAr;
         $data['itemDescribe'] = $request->itemDescribe;
         $data['itemPrice'] = $request->itemPrice;
         $data['discountType'] = $request->discountType;
@@ -248,6 +250,74 @@ class Vendors extends Controller
         $request->session()->flash('success',Lang::get('leftsidebar.Done item add'));
         return back();
     }
+
+
+
+
+
+
+
+
+
+
+    /////////////////////// stop here //////////////////////////
+    function ajaxRemoveItem($itemId){
+
+        $itemId = Crypt::decryptString($itemId);
+        if($itemId != false){
+            $destinationPath = public_path('/uploads/itemImages/');
+            $item = Item::where('id',$itemId)->where('vendor_id',Auth::guard('vendor')->id())->first();
+            if (!empty($item)) {
+        
+                File::delete($destinationPath.$item->itemImage);
+                //File::delete($destinationPath.$item->bannerImage);
+                $otherImages = Item_image::where('item_id',$item->id)->get();
+                if(!empty($otherImages)){
+                    foreach($otherImages as $key => $oImage) {
+                        File::delete($destinationPath.$oImage->itemImageName);
+                    }
+                }
+                Item::where('id',$itemId)->delete();
+            }else{
+                return "false";
+            }
+        }else{
+            return "false";
+        }
+
+        return "true";
+    }
+
+
+
+
+
+
+
+    function ajaxDeleteItemImage($imageId){
+
+        $imageId = Crypt::decryptString($imageId);
+        $destinationPath = public_path('/uploads/itemImages/');
+
+        if($imageId != false){
+            $otherImages = Item_image::find($imageId);
+            if (!empty($otherImages)) {
+                File::delete($destinationPath.$otherImages->itemImageName);
+                Item_image::where('id',$imageId)->delete();
+            }else{
+                return "false";
+            }
+        }else{
+            return "false";
+        }
+        return "true";
+    }
+
+
+
+
+
+
 
 
 

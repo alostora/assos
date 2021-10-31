@@ -96,12 +96,9 @@ class Users extends Controller
 
         foreach($data['items'] as $itemImage){
             $itemImage->itemImage = URL::to('uploads/itemImages/'.$itemImage->itemImage);
-
             $itemImage->fav = false;
             $itemImage->cart = false;
-
         }
-
         return $data;
     }
 

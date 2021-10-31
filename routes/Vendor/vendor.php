@@ -23,9 +23,13 @@ Route::group(['prefix'=>'vendor'],function(){
 
                 //auth routes
                 Route::get('/','Vendors@dashBoard');
-                Route::get('viewCreateItem','Vendors@viewCreateItem');
                 Route::get('itemsInfo','Vendors@itemsInfo');
+                Route::get('viewCreateItem/{itemId?}','Vendors@viewCreateItem');
                 Route::post('createItem','Vendors@createItem');
+
+                
+                Route::get('ajaxRemoveItem/{itemId?}','Vendors@ajaxRemoveItem');
+                Route::get('ajaxDeleteItemImage/{imageId?}','Vendors@ajaxDeleteItemImage');
 
 
                 Route::any('logOut','Vendors@logOut');

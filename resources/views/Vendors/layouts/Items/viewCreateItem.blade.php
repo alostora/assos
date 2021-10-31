@@ -129,18 +129,18 @@
                                   <div class="col-sm-4">
                                     <input id="itemName" type="text" name="itemName" class="form-control" placeholder="@lang('leftsidebar.itemName')" value="@if(!empty($item)) {{$item->itemName}} @endif" required>
                                   </div>
-
-                                  <label for="itemDescribe" class="control-label col-sm-2">@lang('leftsidebar.itemDescribe')</label>
+                                  <label for="itemNameAr" class="control-label col-sm-2">@lang('leftsidebar.itemNameAr')</label>
                                   <div class="col-sm-4">
-                                    <textarea id="itemDescribe" type="text" name="itemDescribe" class="form-control" placeholder="@lang('leftsidebar.itemDescribe')">@if(!empty($item)){{$item->itemDescribe}}@endif</textarea>
-                                  </div>   
+                                    <input id="itemNameAr" type="text" name="itemNameAr" class="form-control" placeholder="@lang('leftsidebar.itemNameAr')" value="@if(!empty($item)) {{$item->itemNameAr}} @endif" required>
+                                  </div>
                               </div>
 
 
                               <div class="form-group">
-                                  <label for="itemNameAr" class="control-label col-sm-2">@lang('leftsidebar.itemNameAr')</label>
+
+                                  <label for="itemDescribe" class="control-label col-sm-2">@lang('leftsidebar.itemDescribe')</label>
                                   <div class="col-sm-4">
-                                    <input id="itemNameAr" type="text" name="itemNameAr" class="form-control" placeholder="@lang('leftsidebar.itemNameAr')" value="@if(!empty($item)) {{$item->itemNameAr}} @endif" required>
+                                    <textarea id="itemDescribe" type="text" name="itemDescribe" class="form-control" placeholder="@lang('leftsidebar.itemDescribe')">@if(!empty($item)){{$item->itemDescribe}}@endif</textarea>
                                   </div>
 
                                   <label for="itemDescribeAr" class="control-label col-sm-2">@lang('leftsidebar.itemDescribeAr')</label>
