@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Item;
 use App\Models\User_fav_item;
 use App\Models\User;
+use App\Models\Review;
 use URL;
 
 class Users extends Controller
@@ -245,6 +246,43 @@ class Users extends Controller
             $data['message'] = 'user not found';
         }
         return $data;
+
+    }
+
+
+
+
+
+    public function userItemReview(Request $request){
+
+        $device_id = $request->header('device-id');
+        $user = User::where('deviceId',$device_id)->first();
+            $item = Item::find($request->item_id);
+            
+        if(!empty($user)) {
+            $user_id = $user->id;
+            $item = Item::find($request->item_id);
+            if(!empty($item)) {
+                $data['status'] = true;
+                $data['message'] = 'review add';
+                Review::create([
+                    'rate'=>$request->rate,
+                    'comment'=>$request->comment,
+                    'user_id'=>$user->id,
+                    'item_id'=>$item->id,
+                ]);
+            }else{
+                $data['status'] = false;
+                $data['message'] = 'item not found';
+            }
+
+        }else{
+            $data['status'] = false;
+            $data['message'] = 'user not found';
+        }
+        return $data;
+
+
 
     }
 
