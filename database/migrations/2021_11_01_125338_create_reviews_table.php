@@ -17,7 +17,7 @@ class CreateReviewsTable extends Migration
             $table->id();
 
             $table->integer('rate')->default(0);
-            $table->text('comment')->default(0);
+            $table->text('comment')->nullable();
 
             $table->bigInteger("user_id")->unsigned()->nullable();
             $table->foreign('user_id')
