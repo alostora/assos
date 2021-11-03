@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\Review;
 use URL;
 
+
 class Users extends Controller
 {
     
@@ -47,11 +48,11 @@ class Users extends Controller
         if(!empty($data['categories'])) {
             foreach($data['categories'] as $cat){
                 $cat->categoryImage = URL::to('Admin_uploads/categories/'.$cat->categoryImage);
-                $cat->categoryName = $request->header('Accept-Language') == 'en' ? $cat->categoryName : $cat->categoryNameAr;
+                $cat->categoryName = $request->header('accept-language') == 'en' ? $cat->categoryName : $cat->categoryNameAr;
                 if(count($cat->sub_categories)>0){
                     foreach($cat->sub_categories as $sub_cat){
                         $sub_cat->s_categoryImage = URL::to('Admin_uploads/categories/subCategory/'.$sub_cat->s_categoryImage);
-                        $sub_cat->categoryName = $request->header('Accept-Language') == 'en' ? $sub_cat->categoryName : $sub_cat->categoryNameAr;
+                        $sub_cat->categoryName = $request->header('accept-language') == 'en' ? $sub_cat->categoryName : $sub_cat->categoryNameAr;
                     }
                 }
             }
@@ -70,11 +71,11 @@ class Users extends Controller
         if (!empty($data['categories'])) {
             foreach($data['categories'] as $cat){
                 $cat->categoryImage = URL::to('Admin_uploads/categories/'.$cat->categoryImage);
-                $cat->categoryName = $request->header('Accept-Language') == 'en' ? $cat->categoryName : $cat->categoryNameAr;
+                $cat->categoryName = $request->header('accept-language') == 'en' ? $cat->categoryName : $cat->categoryNameAr;
                 if(count($cat->sub_categories)>0){
                     foreach($cat->sub_categories as $sub_cat){
                         $sub_cat->s_categoryImage = URL::to('Admin_uploads/categories/subCategory/'.$sub_cat->s_categoryImage);
-                        $sub_cat->categoryName = $request->header('Accept-Language') == 'en' ? $sub_cat->categoryName : $sub_cat->categoryNameAr;
+                        $sub_cat->categoryName = $request->header('accept-language') == 'en' ? $sub_cat->categoryName : $sub_cat->categoryNameAr;
                     }
                 }
             }
@@ -101,7 +102,8 @@ class Users extends Controller
             if(!empty($data['items'])){
                 foreach($data['items'] as $item){
 
-                    $item->itemName = $request->header('Accept-Language') == 'en' ? $item->itemName : $item->itemNameAr;
+                    $item->itemName = $request->header('accept-language') == 'en' ? $item->itemName : $item->itemNameAr;
+                    $item->itemDescribe = $request->header('accept-language') == 'en' ? $item->itemDescribe : $item->itemDescribeAr;
 
                     $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
                     $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
@@ -136,13 +138,13 @@ class Users extends Controller
                 $query->with('item_prop_plus');
             }])->first();
 
-            $data['item']->itemName = $request->header('Accept-Language') == 'en' ? $data['item']->itemName : $data['item']->itemNameAr;
+            $data['item']->itemName = $request->header('accept-language') == 'en' ? $data['item']->itemName : $data['item']->itemNameAr;
+
+            $data['item']->itemDescribe = $request->header('accept-language') == 'en' ? $data['item']->itemDescribe : $data['item']->itemDescribeAr;
 
             if (!empty($data['item'])) {
                 $data['item']->vendor_info = Vendor::find($data['item']->vendor_id);
                 $data['item']->vendor_info->vendor_image = URL::to('Admin_uploads/vendors/'.$data['item']->vendor_info->vendor_image);
-
-
 
                 foreach($data['item']->other_item_images as $otherImage){
                     $otherImage->itemImageName = URL::to('uploads/itemImages/'.$otherImage->itemImageName);
@@ -233,7 +235,9 @@ class Users extends Controller
 
             if(!empty($data['items'])){
                 foreach($data['items'] as $item){
-                    $item->itemName = $request->header('Accept-Language') == 'en' ? $item->itemName : $item->itemNameAr;
+                    $item->itemName = $request->header('accept-language') == 'en' ? $item->itemName : $item->itemNameAr;
+
+                    $item->itemDescribe = $request->header('accept-language') == 'en' ? $item->itemDescribe : $item->itemDescribe;
                     $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
                     $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
                     $item->fav = !empty($fav) ? true : false;
@@ -325,7 +329,9 @@ class Users extends Controller
 
         if(!empty($data['items'])){
             foreach($data['items'] as $item){
-                $item->itemName = $request->header('Accept-Language') == 'en' ? $item->itemName : $item->itemNameAr;
+                $item->itemName = $request->header('accept-language') == 'en' ? $item->itemName : $item->itemNameAr;
+
+                $item->itemDescribe = $request->header('accept-language') == 'en' ? $item->itemDescribe : $item->itemDescribeAr;
                 $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
                 $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
                 $item->fav = !empty($fav) ? true : false;
@@ -346,18 +352,16 @@ class Users extends Controller
 
     public function itemFit(Request $request,$item_id){
 
-
         $device_id = $request->header('device-id');
         $user = User::where('deviceId',$device_id)->first();
 
-        
         $data['status'] = true;
         $data['items'] = Item::/*where('id',$item_id)->*/get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
 
-
         if(!empty($data['items'])){
             foreach($data['items'] as $item){
-                $item->itemName = $request->header('Accept-Language') == 'en' ? $item->itemName : $item->itemNameAr;
+                $item->itemName = $request->header('accept-language') == 'en' ? $item->itemName : $item->itemNameAr;
+                $item->itemDescribe = $request->header('accept-language') == 'en' ? $item->itemDescribe : $item->itemDescribeAr;
                 $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
                 $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
                 $item->fav = !empty($fav) ? true : false;
@@ -369,7 +373,6 @@ class Users extends Controller
         }
 
         return $data;
-
     }
 
 

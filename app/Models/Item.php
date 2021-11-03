@@ -44,6 +44,7 @@ class Item extends Model
         'bannerType',
         'withProp',
         "itemNameAr",
+        "itemDescribeAr",
     ];
 
 
@@ -71,11 +72,11 @@ class Item extends Model
     }
 
     public function fav_items(){
-         return $this->hasMany('App\Models\User_fav_item','item_id');
+        return $this->hasMany('App\Models\User_fav_item','item_id');
     }
 
     public function item_rate_comment(){
-         return $this->hasMany('App\Models\User_item_rate_comment','item_id');
+        return $this->hasMany('App\Models\User_item_rate_comment','item_id');
     }
 
 
