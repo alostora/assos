@@ -418,6 +418,46 @@ class Users extends Controller
 
 
 
+    public function itemSearch(Request $request){
+
+
+        $device_id = $request->header('device-id');
+        $user = User::where('deviceId',$device_id)->first();
+
+        if (!empty($user)) {
+            // code...
+            $data['status'] = true;
+            if (!empty($request->itemNameSearch)) {
+                $data['items'] = Item::where('itemNAme','like',"%".$request->itemNameSearch."%")
+                ->orWhere('itemNAmeAr','like',"%".$request->itemNameSearch."%")
+                ->paginate(20);
+            }else{
+                $data['items'] = Item::paginate(20);
+            }
+
+            if(!empty($data['items'])){
+                foreach($data['items'] as $item){
+
+                    $item->itemName = $request->header('accept-language') == 'en' ? $item->itemName : $item->itemNameAr;
+                    $item->itemDescribe = $request->header('accept-language') == 'en' ? $item->itemDescribe : $item->itemDescribeAr;
+
+                    $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
+                    $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
+                    $item->fav = !empty($fav) ? true : false;
+                    $item->cart = false;
+                }
+            }
+        }else{
+            $data['status'] = false;
+            $data['message'] = 'user not found';
+        }
+
+        return $data;
+    }
+
+
+
+
 
 
 }

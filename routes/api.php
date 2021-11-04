@@ -31,4 +31,9 @@ Route::group(['namespace'=>'Api\Users'],function(){
     Route::get('itemMayLike/{item_id}','Users@itemMayLike');
     Route::get('itemFit/{item_id}','Users@itemFit');
 
+
+
+    //items search
+    Route::post('itemSearch','Users@itemSearch');
+
 });
