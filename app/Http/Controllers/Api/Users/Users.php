@@ -134,6 +134,9 @@ class Users extends Controller
 
             $data['item'] = Item::where('id',$itemId)
             ->with('other_item_images')
+            ->with(['reviews'=>function($query){
+                $query->limit(3);
+            }])
             ->with(['item_properities'=>function($query){
                 $query->with('item_prop_plus');
             }])->first();
@@ -146,12 +149,49 @@ class Users extends Controller
                 $data['item']->vendor_info = Vendor::find($data['item']->vendor_id);
                 $data['item']->vendor_info->vendor_image = URL::to('Admin_uploads/vendors/'.$data['item']->vendor_info->vendor_image);
 
-                foreach($data['item']->other_item_images as $otherImage){
-                    $otherImage->itemImageName = URL::to('uploads/itemImages/'.$otherImage->itemImageName);
+                if (count($data['item']->other_item_images)) {
+                    foreach($data['item']->other_item_images as $otherImage){
+                        $otherImage->itemImageName = URL::to('uploads/itemImages/'.$otherImage->itemImageName);
+                            // code...
+                    }
+                }
+
+                if (count($data['item']->reviews)) {
+                    foreach($data['item']->reviews as $review){
+                        $review->user_info = User::where('id',$review->user_id)->first(['id','name','image']);
+                        $review->user_info->image = URL::to('Admin_uploads/vendors/'.$review->user_info->image);
+                    }
                 }
 
                 $data['item']->itemImage = URL::to('uploads/itemImages/'.$data['item']->itemImage);
                 $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$data['item']->id)->first();
+
+                $data['item']->itemMayLike = Item::limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
+
+                if (!empty($data['item']->itemMayLike)) {
+                    foreach($data['item']->itemMayLike as $itemMayLike){
+                        $itemMayLike->itemName = $request->header('accept-language') == 'en' ? $itemMayLike->itemName : $itemMayLike->itemNameAr;
+
+                        $itemMayLike->itemImage = URL::to('uploads/itemImages/'.$itemMayLike->itemImage);
+                        $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$itemMayLike->id)->first();
+                        $itemMayLike->fav = !empty($fav) ? true : false;
+                        $itemMayLike->cart = false;
+                    }
+                }
+
+                $data['item']->itemFit = Item::limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
+
+                if (!empty($data['item']->itemFit)) {
+                    foreach($data['item']->itemFit as $itemFit){
+                        $itemFit->itemName = $request->header('accept-language') == 'en' ? $itemFit->itemName : $itemFit->itemNameAr;
+
+                        $itemFit->itemImage = URL::to('uploads/itemImages/'.$itemFit->itemImage);
+                        $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$itemFit->id)->first();
+                        $itemFit->fav = !empty($fav) ? true : false;
+                        $itemFit->cart = false;
+                    }
+                }
+
 
                 $data['item']->fav = !empty($fav) ? true : false;
                 $data['item']->cart = false;

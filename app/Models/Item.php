@@ -75,8 +75,8 @@ class Item extends Model
         return $this->hasMany('App\Models\User_fav_item','item_id');
     }
 
-    public function item_rate_comment(){
-        return $this->hasMany('App\Models\User_item_rate_comment','item_id');
+    public function reviews(){
+        return $this->hasMany('App\Models\Review','item_id');
     }
 
 
