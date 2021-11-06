@@ -29,4 +29,27 @@ class Properties extends Controller
 
 
 
+    public function createProperty(Request $request){
+        $data = $request->except('_token');
+
+        if ($data['id'] == null) {
+            Property::create($data);
+        }else{
+            Property::where('id',$data['id'])->update($data);
+        }
+        session()->flash('success','Done');
+        return back();
+    }
+
+
+
+
+    public function sub_propertiesInfo($propId){
+
+       return $propId;
+    }
+
+
+
+
 }

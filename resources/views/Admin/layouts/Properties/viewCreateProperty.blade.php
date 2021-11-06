@@ -26,7 +26,8 @@
 
               <div class="form-group">
 
-                  <label for="propertyName" class="col-sm-2 control-label">@lang('leftsidebar.propertyName')</label>
+                  <label for="propertyName" class="col-sm-2 control-label">
+                  @lang('leftsidebar.propertyName')</label>
                   <div class="col-sm-4">
                       <input type="text" name="propertyName" class="form-control" id="propertyName" placeholder="@lang('leftsidebar.propertyName')" value="@if(!empty($property)) {{$property->propertyName}} @endif" required>
                   </div>

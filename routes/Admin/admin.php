@@ -53,6 +53,11 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			//properties
 			Route::get('propertiesInfo','Properties@propertiesInfo');
 			Route::get('viewCreateProperty/{id?}','Properties@viewCreateProperty');
+			Route::post('createProperty','Properties@createProperty');
+			//sub_properties
+			Route::get('sub_propertiesInfo/{propId?}','Properties@sub_propertiesInfo');
+
+
 
 		});
 	});

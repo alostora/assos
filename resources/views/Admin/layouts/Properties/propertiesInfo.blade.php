@@ -38,7 +38,8 @@
 							          	<td>{{$property->propertyNameAr}}</td>
 							          	<td>
 								          	<div class="btn-group">
-								          		<a class="btn btn-success" href="{{url('admin/sub_propertiesInfo/'.$property->id)}}">
+								          		<a class="btn btn-success" href="
+								          		{{url('admin/sub_propertiesInfo/'.$property->id)}}">
 								          			<span class="text">
 									          			@lang('leftsidebar.subProperties')
 									          		</span>
