@@ -542,6 +542,7 @@ return [
 
     "vendors" => "vendors",
     "Vendors" => "Vendors",
+    "propertiesInfo" => "propertiesInfo",
 
 
 

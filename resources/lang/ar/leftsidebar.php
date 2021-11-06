@@ -531,6 +531,7 @@ return [
 
     "vendors" => "التجار",
     "Vendors" => "التجار",
+    "propertiesInfo" => "الخصائص",
 
 
 

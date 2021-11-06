@@ -36,16 +36,19 @@
                                 <i class="fa fa-circle-o"></i>@lang('leftsidebar.Admins')
                             </a>
                         </li>
-
+                        <li>
+                            <a href="{{url('admin/vendorsInfo')}}">
+                                <i class="fa fa-circle-o"></i>@lang('leftsidebar.vendors')
+                            </a>
+                        </li>
                         <li>
                             <a href="{{url('admin/categoriesInfo')}}">
                                 <i class="fa fa-circle-o"></i>@lang('leftsidebar.categories')
                             </a>
                         </li>
-                       
                         <li>
-                            <a href="{{url('admin/vendorsInfo')}}">
-                                <i class="fa fa-circle-o"></i>@lang('leftsidebar.vendors')
+                            <a href="{{url('admin/propertiesInfo')}}">
+                                <i class="fa fa-circle-o"></i>@lang('leftsidebar.propertiesInfo')
                             </a>
                         </li>
                     @elseif(Auth::guard('vendor')->check())
@@ -60,7 +63,6 @@
                             </a>
                         </li>
                     @endif
-
                 </ul>
             </li> 
         </ul>

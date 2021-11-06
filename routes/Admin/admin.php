@@ -50,6 +50,8 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::post('createVendor','Vendors@createVendor');
 			Route::get('deleteVendor/{id}','Vendors@deleteVendor');
 
+			//properties
+			Route::get('propertiesInfo','Properties@propertiesInfo');
 
 		});
 	});
