@@ -531,7 +531,11 @@ return [
 
     "vendors" => "التجار",
     "Vendors" => "التجار",
+
     "propertiesInfo" => "الخصائص",
+    "propertyName" => "اسم الخاصية ",
+    "propertyNameAr" => "اسم الخاصية عربي",
+    "subProperties" => "الخصائص الفرعية",
 
 
 

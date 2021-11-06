@@ -52,6 +52,7 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 
 			//properties
 			Route::get('propertiesInfo','Properties@propertiesInfo');
+			Route::get('viewCreateProperty/{id?}','Properties@viewCreateProperty');
 
 		});
 	});

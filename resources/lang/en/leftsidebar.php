@@ -545,5 +545,10 @@ return [
     "propertiesInfo" => "propertiesInfo",
 
 
+    "propertyName" => "property name",
+    "propertyNameAr" => "property name ar",
+    "subProperties" => "sub properties",
+
+
 
 ];
