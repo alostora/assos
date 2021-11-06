@@ -44,6 +44,15 @@ class Properties extends Controller
 
 
 
+
+    public function deleteProperty($id){
+        Property::where('id',$id)->delete();
+        session()->flash('success','Done');
+        return back();
+    }
+
+
+
     ////sub property
     public function sub_propertiesInfo($propId){
        $data['properties'] = Sub_property::where('prop_id',$propId)->get();
@@ -53,7 +62,7 @@ class Properties extends Controller
 
 
 
-    public function sub_viewCreateProperty($id=false){
+    public function sub_viewCreateProperty($propId,$id=false){
         $data['property'] = false;
         if ($id != false){
             $data['property'] = Sub_property::find($id);
@@ -64,9 +73,8 @@ class Properties extends Controller
 
 
 
-
-
-    public function sub_createProperty($id){
+    public function sub_createProperty(Request $request){
+        $data = $request->all();
         if ($data['id'] == null) {
             Sub_property::create($data);
         }else{
@@ -79,6 +87,12 @@ class Properties extends Controller
 
 
 
+
+    public function sub_deleteProperty($id){
+        Sub_property::where('id',$id)->delete();
+        session()->flash('success','Done');
+        return back();
+    }
 
 
 

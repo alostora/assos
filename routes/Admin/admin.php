@@ -54,10 +54,12 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::get('propertiesInfo','Properties@propertiesInfo');
 			Route::get('viewCreateProperty/{id?}','Properties@viewCreateProperty');
 			Route::post('createProperty','Properties@createProperty');
+			Route::get('deleteProperty/{id}','Properties@deleteProperty');
 			//sub_properties
 			Route::get('sub_propertiesInfo/{propId?}','Properties@sub_propertiesInfo');
-
-
+			Route::get('sub_viewCreateProperty/{propId}/{id?}','Properties@sub_viewCreateProperty');
+			Route::post('sub_createProperty','Properties@sub_createProperty');
+			Route::get('sub_deleteProperty/{id}','Properties@sub_deleteProperty');
 
 		});
 	});

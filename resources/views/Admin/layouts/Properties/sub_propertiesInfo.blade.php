@@ -15,7 +15,7 @@
 				              	@lang('leftsidebar.propertiesInfo')
 			              	</h3>
 		              	</div>
-				      	<a href="{{url('admin/viewCreateProperty')}}" class="btn btn-primary col-xs-6">
+				      	<a href="{{url('admin/sub_viewCreateProperty/'.Request('propId'))}}" class="btn btn-primary col-xs-6">
 				      		<i class="fa fa-plus"></i>
 				      		@lang('leftsidebar.Add')
 				      	</a>
@@ -36,11 +36,11 @@
 							          	<td>{{$property->propertyNameAr}}</td>
 							          	<td>
 								          	<div class="btn-group">
-								          		<a class="btn btn-success" href="{{url('admin/viewCreateProperty/'.$property->id)}}">
+								          		<a class="btn btn-success" href="{{url('admin/sub_viewCreateProperty/'.Request('propId').'/'.$property->id)}}">
 								          			<i class="fa fa-edit"></i>
 								          		</a>
 								          	
-							          	 		<a class="btn btn-danger" href="{{url('admin/deleteProperty/'.$property->id)}}" onclick="return confirm('Are you sure?');" >
+							          	 		<a class="btn btn-danger" href="{{url('admin/sub_deleteProperty/'.$property->id)}}" onclick="return confirm('Are you sure?');" >
 							          	 			<i class="fa fa-trash"></i>
 							          	 		</a>
 						          	 		</div>

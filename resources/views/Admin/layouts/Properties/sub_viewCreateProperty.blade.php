@@ -23,6 +23,7 @@
             <div class="box-body">
               @csrf
               <input type="hidden" name="id" value="@if(!empty($property)) {{$property->id}} @endif">
+              <input type="hidden" name="prop_id" value="@if(!empty($property)) {{$property->id}} @else {{Request('propId')}} @endif">
 
               <div class="form-group">
 
