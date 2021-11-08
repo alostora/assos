@@ -103,7 +103,7 @@ class Vendors extends Controller
             $itemMainPro = Item_properity::where('item_id',$data['item']->id)->pluck('id');
             if (!empty($itemMainPro)) {
                 // code...
-                $data['selectedItemSubPro'] = Item_property_plus::whereIn('properity_id',$itemMainPro)->get();
+                $data['selectedItemSubPro'] = Item_property_plus::whereIn('properity_id',$itemMainPro)->pluck('sub_prop_id');
             }
         }
         return view('Vendors/Items/viewCreateItem',$data);
@@ -122,7 +122,7 @@ class Vendors extends Controller
 
         $data['id'] = $request->id!= null ? Crypt::decryptString($request->id) : null;
         $data['sub_cat_id'] = $request->sub_cat_id;
-        $data['withProp'] = $request->withProp;
+        //$data['withProp'] = $request->withProp;
         $data['facePage'] = $request->facePage;
         $data['videoLink'] = $request->videoLink;
 
@@ -144,7 +144,7 @@ class Vendors extends Controller
 
         $validated = $request->validate([
             'sub_cat_id'=>'required',
-            'withProp'=>'required|in:hasProperty,dontHasProperty',
+            //'withProp'=>'required|in:hasProperty,dontHasProperty',
             'itemName'=>'required|max:100',
             'itemDescribe'=>'required|max:3000',
             'itemPrice'=>'required|numeric|min:1|max:100000',
@@ -227,7 +227,7 @@ class Vendors extends Controller
             }
         }
 
-        if($request->withProp === "hasProperty"){
+        //if($request->withProp === "hasProperty"){
             
             if(is_array($request->sub_prop_id) && count($request->sub_prop_id)){
 
@@ -247,7 +247,7 @@ class Vendors extends Controller
                     ]);
                 }
             }
-        }
+        //}
 
         $request->session()->flash('success',Lang::get('leftsidebar.Done item add'));
         return back();

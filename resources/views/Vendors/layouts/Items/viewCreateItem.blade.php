@@ -48,7 +48,7 @@
                                   <div class="col-sm-4">
                                     <textarea id="itemDescribeAr" type="text" name="itemDescribeAr" class="form-control" placeholder="@lang('leftsidebar.itemDescribeAr')">@if(!empty($item)){{$item->itemDescribeAr}}@endif</textarea>
                                   </div>
-                                  
+
                                   <label for="itemDescribe" class="control-label col-sm-2">@lang('leftsidebar.itemDescribe')</label>
                                   <div class="col-sm-4">
                                     <textarea id="itemDescribe" type="text" name="itemDescribe" class="form-control" placeholder="@lang('leftsidebar.itemDescribe')">@if(!empty($item)){{$item->itemDescribe}}@endif</textarea>
@@ -175,125 +175,112 @@
                               </div>
 
                               <div class="form-group">
-                                  <label for="withProp" class="col-sm-2 control-label">
-                                      @lang('leftsidebar.withProp')
-                                  </label>
-                                  <div class="col-sm-4">
-                                      <input type="hidden" name="propCount" id="propCount" value="@if(!empty($item) && count($item->item_properities)) {{count($item->item_properities)}} @endif" >
-                                      <select name="withProp" class="form-control" required onchange="return itemPriceStatuss(this.value);" id="withProp" required>
-                                        @if(!empty($item))
-                                              @if($item->withProp == 'dontHasProperty' or count($item->item_properities) == 0)
-                                                  <option value="dontHasProperty" selected>@lang('leftsidebar.dontHasProperty')</option>
-                                                  <option value="hasProperty">@lang('leftsidebar.hasProperty')</option>
-                                              @elseif($item->withProp == 'hasProperty' or count($item->item_properities) > 0)
-                                                  <option value="dontHasProperty">@lang('leftsidebar.dontHasProperty')</option>
-                                                  <option value="hasProperty" selected>@lang('leftsidebar.hasProperty')</option>
-                                              @endif
-                                          @else
-                                              <option value="dontHasProperty">@lang('leftsidebar.dontHasProperty')</option>
-                                              <option value="hasProperty">@lang('leftsidebar.hasProperty')</option>
-                                          @endif
-                                      </select>
-                                  </div>
-
-                                  <label for="sub_cat_id" class="col-sm-2 control-label">
-                                      @lang('leftsidebar.Category')
-                                  </label>
-                                  <div class="col-sm-4">
-                                    <select name="sub_cat_id" id="sub_cat_id" class="form-control" required>
-                                      <option value="">@lang('leftsidebar.Choose')</option>
-                                      @if(App::getLocale() == "en")
-                                        @foreach($categories as $cat)
-                                          <optgroup label="{{$cat->categoryName}}">
-                                            @if(count($cat->sub_categories))
-                                                @foreach($cat->sub_categories as $subCat)
-                                                    @if(!empty($item))
-                                                        @if($item->sub_cat_id == $subCat->id)
-                                                          <option value="{{$subCat->id}}" selected>{{$subCat->s_categoryName}}</option>
-                                                        @else
-                                                          <option value="{{$subCat->id}}">{{$subCat->s_categoryName}}</option>
-                                                        @endif
-                                                    @else  
+                                <label for="sub_cat_id" class="col-sm-2 control-label">
+                                    @lang('leftsidebar.Category')
+                                </label>
+                                <div class="col-sm-4">
+                                  <select name="sub_cat_id" id="sub_cat_id" class="form-control" required>
+                                    <option value="">@lang('leftsidebar.Choose')</option>
+                                    @if(App::getLocale() == "en")
+                                      @foreach($categories as $cat)
+                                        <optgroup label="{{$cat->categoryName}}">
+                                          @if(count($cat->sub_categories))
+                                              @foreach($cat->sub_categories as $subCat)
+                                                  @if(!empty($item))
+                                                      @if($item->sub_cat_id == $subCat->id)
+                                                        <option value="{{$subCat->id}}" selected>{{$subCat->s_categoryName}}</option>
+                                                      @else
                                                         <option value="{{$subCat->id}}">{{$subCat->s_categoryName}}</option>
-                                                    @endif
-                                                @endforeach
-                                            @endif
-                                          </optgroup>
-                                        @endforeach
-                                      @else
-                                        @foreach($categories as $cat)
-                                          <optgroup label="{{$cat->categoryNameAr}}">
-                                            @if(count($cat->sub_categories))
-                                                @foreach($cat->sub_categories as $subCat)
-                                                    @if(!empty($item))
-                                                        @if($item->sub_cat_id == $subCat->id)
-                                                          <option value="{{$subCat->id}}" selected>{{$subCat->s_categoryNameAr}}</option>
-                                                        @else
-                                                          <option value="{{$subCat->id}}">{{$subCat->s_categoryNameAr}}</option>
-                                                        @endif
-                                                    @else  
+                                                      @endif
+                                                  @else  
+                                                      <option value="{{$subCat->id}}">{{$subCat->s_categoryName}}</option>
+                                                  @endif
+                                              @endforeach
+                                          @endif
+                                        </optgroup>
+                                      @endforeach
+                                    @else
+                                      @foreach($categories as $cat)
+                                        <optgroup label="{{$cat->categoryNameAr}}">
+                                          @if(count($cat->sub_categories))
+                                              @foreach($cat->sub_categories as $subCat)
+                                                  @if(!empty($item))
+                                                      @if($item->sub_cat_id == $subCat->id)
+                                                        <option value="{{$subCat->id}}" selected>{{$subCat->s_categoryNameAr}}</option>
+                                                      @else
                                                         <option value="{{$subCat->id}}">{{$subCat->s_categoryNameAr}}</option>
-                                                    @endif
-                                                @endforeach
-                                            @endif
-                                          </optgroup>
-                                        @endforeach
-                                      @endif  
+                                                      @endif
+                                                  @else  
+                                                      <option value="{{$subCat->id}}">{{$subCat->s_categoryNameAr}}</option>
+                                                  @endif
+                                              @endforeach
+                                          @endif
+                                        </optgroup>
+                                      @endforeach
+                                    @endif  
 
-                                    </select>   
-                                  </div>
+                                  </select>   
+                                </div>
                               </div>
                               
 
-                              <!-- HM -->
-                              <div class="box-body" id="itemProperitiesParent" style="display:{{!empty($item) && count($item->item_properities) ? 'block' : 'none'}};">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">@lang('leftsidebar.itemProperities')</h3>
-                                </div>
-                                  <div class="form-group alert alert-default" id="item_properities">
+<!-- HM -->
+<div class="box-body">
+    <div class="box-header with-border">
+        <h3 class="box-title">@lang('leftsidebar.itemProperities')</h3>
+    </div>
+    <div class="form-group alert alert-default" id="item_properities">
+      <!-- here ya merna -->
+      <div class="col-sm-12 alert alert-default" style="background-color:#605ca8;padding:15px 0px 15px 0px;">
+          <label for="itemProperityName" class="col-sm-2 control-label" style="color:black">
+            @lang('leftsidebar.itemProperityName')
+          </label>
+          <div class="col-sm-6">
+            <select type="text" name="sub_prop_id[]" class="form-control" multiple>
+                @foreach($properties as $mainKey=>$prop)
+                  <optgroup label="{{$prop->propertyName}}">
+                    @if(count($prop->sub_properties) > 0)
+                      @if(!empty($item))
+                          @if(!empty($selectedItemSubPro))
 
-                                    <!-- here ya merna -->
-                                    <div class="col-sm-12 alert alert-default" style="background-color:#605ca8;padding:15px 0px 15px 0px;">
-                                      
-                                        <label for="itemProperityName" class="col-sm-2 control-label" style="color:black">
-                                          @lang('leftsidebar.itemProperityName')
-                                        </label>
-                                        <div class="col-sm-6">
-                                          <select type="text" name="sub_prop_id[]" class="form-control" required multiple>
-                                              @foreach($properties as $mainKey=>$prop)
-                                                <optgroup label="{{$prop->propertyName}}">
-                                                  @if(count($prop->sub_properties) > 0)
-                                                    @foreach($prop->sub_properties as $s_prop)
-                                                        @if(empty($item))
-                                                          <option value="{{$s_prop->id}}">
-                                                            {{$s_prop->propertyName}}
-                                                          </option>
-                                                        @else
-                                                          @if(!empty($selectedItemSubPro))
-                                                            @foreach($selectedItemSubPro as $selectedSub)
-                                                              @if($selectedSub->sub_prop_id == $s_prop->id)
-                                                              <option value="{{$s_prop->id}}" selected>
-                                                                {{$s_prop->propertyName}}
-                                                              </option>
-                                                              @else
-                                                                <option value="{{$s_prop->id}}">
-                                                                  {{$s_prop->propertyName}}
-                                                                </option>
-                                                              @endif
-                                                            @endforeach
-                                                          @endif
-                                                        @endif
-                                                    @endforeach
-                                                  @endif
-                                                </optgroup>
-                                              @endforeach
-                                          </select>
-                                        </div>
-                                    </div>
-                                    <!-- here ya merna -->
-                                  </div>
-                              </div>
-                              <!-- HM -->
+                            
+                            @foreach($prop->sub_properties as $s_key => $s_prop)
+                                @if(in_array($s_prop->id, $selectedItemSubPro->toArray()))
+                                  <option value="{{$s_prop->id}}" selected>
+                                    {{$s_prop->propertyName}}
+                                  </option>
+                                @else
+                                  <option value="{{$s_prop->id}}">
+                                    {{$s_prop->propertyName}}
+                                  </option>
+                                @endif  
+                            @endforeach
+
+                          @else
+                            @foreach($prop->sub_properties as $s_key => $s_prop)
+                              <option value="{{$s_prop->id}}">
+                                {{$s_prop->propertyName}}
+                              </option>
+                            @endforeach
+                          @endif
+
+                      @else
+                        @foreach($prop->sub_properties as $s_key => $s_prop)
+                            <option value="{{$s_prop->id}}">
+                              {{$s_prop->propertyName}}
+                            </option>
+                        @endforeach
+                      @endif
+                    @endif
+                  </optgroup>
+                @endforeach
+            </select>
+          </div>
+      </div>
+      <!-- here ya merna -->
+    </div>
+</div>
+<!-- HM -->
 
                           </div>
                           <div class="box-footer">
