@@ -10,7 +10,7 @@ class Item_properity extends Model
     use HasFactory;
  	protected $table = "item_properities";
     protected $fillable = [
-    	'itemProperityName',
+    	'main_prop_id',//one to one
     	'item_id',
     ];
 

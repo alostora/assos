@@ -74,7 +74,8 @@ class Properties extends Controller
 
 
     public function sub_createProperty(Request $request){
-        $data = $request->all();
+        $data = $request->except('_token');
+
         if ($data['id'] == null) {
             Sub_property::create($data);
         }else{

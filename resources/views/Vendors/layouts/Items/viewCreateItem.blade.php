@@ -32,8 +32,135 @@
                               @csrf
                               <input type="hidden" name="id" value="@if(!empty($item)) {{Crypt::encryptString($item->id)}} @endif">
 
+                              <div class="form-group">
+                                  <label for="itemName" class="control-label col-sm-2">@lang('leftsidebar.itemName')</label>
+                                  <div class="col-sm-4">
+                                    <input id="itemName" type="text" name="itemName" class="form-control" placeholder="@lang('leftsidebar.itemName')" value="@if(!empty($item)) {{$item->itemName}} @endif" required>
+                                  </div>
+                                  <label for="itemNameAr" class="control-label col-sm-2">@lang('leftsidebar.itemNameAr')</label>
+                                  <div class="col-sm-4">
+                                    <input id="itemNameAr" type="text" name="itemNameAr" class="form-control" placeholder="@lang('leftsidebar.itemNameAr')" value="@if(!empty($item)) {{$item->itemNameAr}} @endif" required>
+                                  </div>
+                              </div>
 
+                              <div class="form-group">
+                                  <label for="itemDescribeAr" class="control-label col-sm-2">@lang('leftsidebar.itemDescribeAr')</label>
+                                  <div class="col-sm-4">
+                                    <textarea id="itemDescribeAr" type="text" name="itemDescribeAr" class="form-control" placeholder="@lang('leftsidebar.itemDescribeAr')">@if(!empty($item)){{$item->itemDescribeAr}}@endif</textarea>
+                                  </div>
+                                  
+                                  <label for="itemDescribe" class="control-label col-sm-2">@lang('leftsidebar.itemDescribe')</label>
+                                  <div class="col-sm-4">
+                                    <textarea id="itemDescribe" type="text" name="itemDescribe" class="form-control" placeholder="@lang('leftsidebar.itemDescribe')">@if(!empty($item)){{$item->itemDescribe}}@endif</textarea>
+                                  </div>
+                              </div>
 
+                              <div class="form-group">
+                                  <label for="itemPrice" class="control-label col-sm-2" >@lang('leftsidebar.itemPrice')</label>
+                                  <div class="col-sm-4">
+                                    @if(!empty($item))
+                                        <input id="itemPrice" type="number" step="any" name="itemPrice" class="form-control" placeholder="@lang('leftsidebar.itemPrice')" value="{{$item->itemPrice}}" onkeyup="checkDicount(this.value)" required>
+                                    @else
+                                        <input id="itemPrice" type="number" step="any" name="itemPrice" class="form-control" placeholder="@lang('leftsidebar.itemPrice')" onkeyup="checkDicount(this.value)" required>
+                                    @endif
+                                  </div>
+
+                                    @if(!empty($item))
+                                        @if($item->discountType != 'without')
+                                            <div id="discountValueAfterDiv">
+                                        @else
+                                            <div id="discountValueAfterDiv">
+                                        @endif 
+                                            <label for="itemPriceAfterDis" class="control-label col-sm-2" >@lang('leftsidebar.itemPriceAfterDis')</label>
+                                            <div class="col-sm-4">
+                                                <input id="itemPriceAfterDis" name="itemPriceAfterDis" type="number" step="any" class="form-control" value="{{$item->itemPriceAfterDis}}" readonly>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div id="discountValueAfterDiv">
+                                            <label for="itemPriceAfterDis" class="control-label col-sm-2" >@lang('leftsidebar.itemPriceAfterDis')</label>
+                                            <div class="col-sm-4">
+                                                <input id="itemPriceAfterDis" name="itemPriceAfterDis" type="number" step="any" name="itemPriceAfterDis" class="form-control" placeholder="@lang('leftsidebar.itemPriceAfterDis')" readonly>
+                                            </div>
+                                        </div>
+                                    @endif
+                              </div>
+
+                              <div class="form-group">
+                                  @if(!empty($item))
+                                    <div id="discountValueDiv">
+                                      <label for="discountValue" class="control-label col-sm-2">@lang('leftsidebar.discountValue')</label>
+                                      <div class="col-sm-4">
+                                          <input id="discountValue" type="number" step="any" name="discountValue" class="form-control" value="{{$item->discountValue}}" onkeyup="publishDiscountValue(this.value)">
+                                      </div>
+                                    </div>
+                                  @else
+                                    <div id="discountValueDiv">
+                                      <label for="discountValue" class="control-label col-sm-2">@lang('leftsidebar.discountValue')</label>
+                                      <div class="col-sm-4">
+                                           <input id="discountValue" value="0" type="number" step="any" name="discountValue" class="form-control" placeholder="@lang('leftsidebar.discountValue')" onkeyup="publishDiscountValue(this.value)">
+                                      </div>
+                                    </div>
+                                  @endif
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="itemCount" class="control-label col-sm-2">@lang('leftsidebar.itemCount')</label>
+                                  <div class="col-sm-4">
+                                    @if(!empty($item)) 
+                                      <input id="itemCount" type="number" step="any" name="itemCount" class="form-control" placeholder="@lang('leftsidebar.itemCount')" value="{{$item->itemCount}}" required>
+                                      @else
+                                        <input id="itemCount" type="number" step="any" name="itemCount" class="form-control" placeholder="@lang('leftsidebar.itemCount')" required>
+                                     @endif
+                                  </div>
+                              </div>
+
+                              <div class="form-group">
+                                  <label for="itemImage" class="control-label col-sm-2">@lang('leftsidebar.itemImage')</label>
+                                  <div class="col-sm-4">
+                                      @if(!empty($item))
+                                          <input id="itemImage" type="file" name="itemImage" class="form-control" accept=".png, .jpeg, .jpg" >
+                                          @if(!empty($item->itemImage))
+                                              <img src="{{url('uploads/itemImages/'.$item->itemImage)}}" style="height: 100px;width: 100px;">
+                                          @else
+                                              <label class="label label-success">@lang('leftsidebar.noImage')</label>
+                                          @endif
+                                      @else  
+                                          <input id="itemImage" type="file" name="itemImage" class="form-control" accept=".png, .jpeg, .jpg" required >
+                                      @endif
+                                  </div>
+                              
+                                  <div id="otherItemImagesss">
+                                      <label for="otherItemImages" class="control-label col-sm-2">@lang('leftsidebar.otherItemImages')</label>
+                                      <div class="col-sm-4">
+                                        
+
+                                        @if(!empty($item))
+                                        <input id="otherItemImages" type="file" name="otherItemImages[]" class="form-control" accept=".png, .jpeg, .jpg" multiple onchange="return onlyThreeImages();">
+                                          @if(!empty($item->other_item_images))
+                                            <div class="row">
+                                              @foreach($item->other_item_images as $key=>$itemImage)
+                                                    <div class="col-md-4" id="img{{$key}}">
+                                                      <div class="thumbnail">
+
+                                                          <a href="#" class="btn btn-danger btn-xs" onclick='return deleteImage("{{Crypt::encryptString($itemImage->id)}}","img{{$key}}");'>
+                                                              <i class="fa fa-trash"></i>
+                                                          </a>
+
+                                                          <img class="img-thumbnail" src="{{url('uploads/itemImages/'.$itemImage->itemImageName)}}" style="width:100%;max-height: 100px;">
+                                                      </div>
+                                                    </div>
+                                              @endforeach
+                                            </div>
+                                          @else
+                                            <label class="label label-success">@lang('leftsidebar.noImage')</label>
+                                          @endif
+                                        @else
+                                        <input id="otherItemImages" type="file" name="otherItemImages[]" class="form-control" accept=".png, .jpeg, .jpg" multiple onchange="return onlyThreeImages();" required>  
+                                        @endif
+                                      </div>
+                                  </div>
+                              </div>
 
                               <div class="form-group">
                                   <label for="facePage" class="control-label col-sm-2">@lang('leftsidebar.facePage')</label>
@@ -46,12 +173,6 @@
                                     <input id="videoLink" type="text" name="videoLink" class="form-control" placeholder="@lang('leftsidebar.videoLink')" value="@if(!empty($item)) {{$item->videoLink}} @endif">
                                   </div>
                               </div>
-
-
-
-
-
-
 
                               <div class="form-group">
                                   <label for="withProp" class="col-sm-2 control-label">
@@ -119,248 +240,60 @@
                                         @endforeach
                                       @endif  
 
-                                    </select>
-                                      
+                                    </select>   
                                   </div>
                               </div>
                               
-                              <div class="form-group">
-                                  <label for="itemName" class="control-label col-sm-2">@lang('leftsidebar.itemName')</label>
-                                  <div class="col-sm-4">
-                                    <input id="itemName" type="text" name="itemName" class="form-control" placeholder="@lang('leftsidebar.itemName')" value="@if(!empty($item)) {{$item->itemName}} @endif" required>
-                                  </div>
-                                  <label for="itemNameAr" class="control-label col-sm-2">@lang('leftsidebar.itemNameAr')</label>
-                                  <div class="col-sm-4">
-                                    <input id="itemNameAr" type="text" name="itemNameAr" class="form-control" placeholder="@lang('leftsidebar.itemNameAr')" value="@if(!empty($item)) {{$item->itemNameAr}} @endif" required>
-                                  </div>
-                              </div>
 
-
-                              <div class="form-group">
-
-                                  <label for="itemDescribe" class="control-label col-sm-2">@lang('leftsidebar.itemDescribe')</label>
-                                  <div class="col-sm-4">
-                                    <textarea id="itemDescribe" type="text" name="itemDescribe" class="form-control" placeholder="@lang('leftsidebar.itemDescribe')">@if(!empty($item)){{$item->itemDescribe}}@endif</textarea>
-                                  </div>
-
-                                  <label for="itemDescribeAr" class="control-label col-sm-2">@lang('leftsidebar.itemDescribeAr')</label>
-                                  <div class="col-sm-4">
-                                    <textarea id="itemDescribeAr" type="text" name="itemDescribeAr" class="form-control" placeholder="@lang('leftsidebar.itemDescribeAr')">@if(!empty($item)){{$item->itemDescribeAr}}@endif</textarea>
-                                  </div>   
-                              </div>
-
-                              <div class="form-group">
-                                  <label for="itemPrice" class="control-label col-sm-2" >@lang('leftsidebar.itemPrice')</label>
-                                  <div class="col-sm-4">
-                                    @if(!empty($item))
-                                        <input id="itemPrice" type="number" step="any" name="itemPrice" class="form-control" placeholder="@lang('leftsidebar.itemPrice')" value="{{$item->itemPrice}}" onkeyup="checkDicount(this.value)" required>
-                                    @else
-                                        <input id="itemPrice" type="number" step="any" name="itemPrice" class="form-control" placeholder="@lang('leftsidebar.itemPrice')" onkeyup="checkDicount(this.value)" required>
-                                    @endif
-                                  </div>
-
-                                    @if(!empty($item))
-                                        @if($item->discountType != 'without')
-                                            <div id="discountValueAfterDiv">
-                                        @else
-                                            <div id="discountValueAfterDiv" style="display: none">
-                                        @endif 
-                                            <label for="itemPriceAfterDis" class="control-label col-sm-2" >@lang('leftsidebar.itemPriceAfterDis')</label>
-                                            <div class="col-sm-4">
-                                                <input id="itemPriceAfterDis" name="itemPriceAfterDis" type="number" step="any" class="form-control" value="{{$item->itemPriceAfterDis}}" readonly>
-                                            </div>
-                                        </div>
-                                    @else
-                                        <div id="discountValueAfterDiv" style="display: none">
-                                            <label for="itemPriceAfterDis" class="control-label col-sm-2" >@lang('leftsidebar.itemPriceAfterDis')</label>
-                                            <div class="col-sm-4">
-                                                <input id="itemPriceAfterDis" name="itemPriceAfterDis" type="number" step="any" name="itemPriceAfterDis" class="form-control" placeholder="@lang('leftsidebar.itemPriceAfterDis')" readonly>
-                                            </div>
-                                        </div>
-                                    @endif
-                              </div>
-
-
-                              <div class="form-group">
-                                  <label for="discountType" class="control-label col-sm-2">@lang('leftsidebar.discountType')</label>
-                                  <div class="col-sm-4">
-                                    <select name="discountType" class="form-control" required onchange="return changeDiscountType(this.value)" required id="discountType">
-
-                                          @if(!empty($item))
-                                              @if($item->discountType == 'percent')
-                                                  <option value="percent" selected>@lang('leftsidebar.percent')</option>
-                                                  <option value="without">@lang('leftsidebar.without')</option>
-                                              @elseif($item->discountType == 'without')
-                                                  <option value="percent">@lang('leftsidebar.percent')</option>
-                                                  <option value="without" selected>@lang('leftsidebar.without')</option>
-                                              @endif
-                                          @else
-                                              <option value="without">@lang('leftsidebar.without')</option>
-                                              <option value="percent">@lang('leftsidebar.percent')</option>
-                                          @endif
-                                    </select>
-                                  </div>
-
-                                  @if(!empty($item))
-                                      @if($item->discountType != 'without')
-                                          <div id="discountValueDiv">
-                                      @else
-                                          <div id="discountValueDiv" style="display: none">
-                                      @endif 
-                                          <label for="discountValue" class="control-label col-sm-2">@lang('leftsidebar.discountValue')</label>
-                                          <div class="col-sm-4">
-                                              <input id="discountValue" type="number" step="any" name="discountValue" class="form-control" value="{{$item->discountValue}}" onkeyup="publishDiscountValue(this.value)">
-                                          </div>
-                                      </div>
-                                  @else
-                                      <div id="discountValueDiv" style="display:none">
-                                          <label for="discountValue" class="control-label col-sm-2">@lang('leftsidebar.discountValue')</label>
-                                          <div class="col-sm-4">
-                                               <input id="discountValue" value="0" type="number" step="any" name="discountValue" class="form-control" placeholder="@lang('leftsidebar.discountValue')" onkeyup="publishDiscountValue(this.value)">
-                                          </div>
-                                      </div>
-                                  @endif
-                              </div>
-
-                              <div class="form-group">
-                                  <label for="itemCount" class="control-label col-sm-2">@lang('leftsidebar.itemCount')</label>
-                                  <div class="col-sm-4">
-                                    @if(!empty($item)) 
-                                      <input id="itemCount" type="number" step="any" name="itemCount" class="form-control" placeholder="@lang('leftsidebar.itemCount')" value="{{$item->itemCount}}" required>
-                                      @else
-                                        <input id="itemCount" type="number" step="any" name="itemCount" class="form-control" placeholder="@lang('leftsidebar.itemCount')" required>
-                                     @endif
-                                  </div>
-                              </div>
-
-                              <div class="form-group">
-                                  <label for="itemImage" class="control-label col-sm-2">@lang('leftsidebar.itemImage')</label>
-                                  <div class="col-sm-4">
-                                      @if(!empty($item))
-                                          <input id="itemImage" type="file" name="itemImage" class="form-control" accept=".png, .jpeg, .jpg" >
-                                          @if(!empty($item->itemImage))
-                                              <img src="{{url('uploads/itemImages/'.$item->itemImage)}}" style="height: 100px;width: 100px;">
-                                          @else
-                                              <label class="label label-success">@lang('leftsidebar.noImage')</label>
-                                          @endif
-                                      @else  
-                                          <input id="itemImage" type="file" name="itemImage" class="form-control" accept=".png, .jpeg, .jpg" required >
-                                      @endif
-                                  </div>
-                              
-                                  <div id="otherItemImagesss">
-                                      <label for="otherItemImages" class="control-label col-sm-2">@lang('leftsidebar.otherItemImages')</label>
-                                      <div class="col-sm-4">
-                                        
-
-                                        @if(!empty($item))
-                                        <input id="otherItemImages" type="file" name="otherItemImages[]" class="form-control" accept=".png, .jpeg, .jpg" multiple onchange="return onlyThreeImages();">
-                                          @if(!empty($item->other_item_images))
-                                            <div class="row">
-                                              @foreach($item->other_item_images as $key=>$itemImage)
-                                                    <div class="col-md-4" id="img{{$key}}">
-                                                      <div class="thumbnail">
-
-                                                          <a href="#" class="btn btn-danger btn-xs" onclick='return deleteImage("{{Crypt::encryptString($itemImage->id)}}","img{{$key}}");'>
-                                                              <i class="fa fa-trash"></i>
-                                                          </a>
-
-                                                          <img class="img-thumbnail" src="{{url('uploads/itemImages/'.$itemImage->itemImageName)}}" style="width:100%;max-height: 100px;">
-                                                      </div>
-                                                    </div>
-                                              @endforeach
-                                            </div>
-                                          @else
-                                            <label class="label label-success">@lang('leftsidebar.noImage')</label>
-                                          @endif
-                                        @else
-                                        <input id="otherItemImages" type="file" name="otherItemImages[]" class="form-control" accept=".png, .jpeg, .jpg" multiple onchange="return onlyThreeImages();" required>  
-                                        @endif
-                                      </div>
-                                  </div>
-                              </div>
-
-                              <div class="box-body" id="itemProperitiesParent" style="display:@if(!empty($item) && count($item->item_properities)) block; @else none; @endif">
+                              <!-- HM -->
+                              <div class="box-body" id="itemProperitiesParent" style="display:{{!empty($item) && count($item->item_properities) ? 'block' : 'none'}};">
                                 <div class="box-header with-border">
                                     <h3 class="box-title">@lang('leftsidebar.itemProperities')</h3>
                                 </div>
                                   <div class="form-group alert alert-default" id="item_properities">
 
-                                    @if(!empty($item))
-                                        @if(count($item->item_properities))
-                                          @foreach($item->item_properities as $key=>$property)
-                                              <div id="{{$key}}">
-
-                                                    <div class="col-sm-12 alert alert-default" style="background-color:#605ca8;padding:15px 0px 15px 0px;">
-
-                                                    <div class="btn-group col-sm-12">
-                                                        <button type="button" class="btn btn-info" onclick="return appendProperty();">
-                                                          <i class="fa fa-plus"></i>
-                                                        </button>
-                                                        @if($key != 0)
-                                                          <button type="button" class="btn btn-danger" onclick="return removeProperty('{{$key}}');">
-                                                            <i class="fa fa-trash"></i>
-                                                          </button>
+                                    <!-- here ya merna -->
+                                    <div class="col-sm-12 alert alert-default" style="background-color:#605ca8;padding:15px 0px 15px 0px;">
+                                      
+                                        <label for="itemProperityName" class="col-sm-2 control-label" style="color:black">
+                                          @lang('leftsidebar.itemProperityName')
+                                        </label>
+                                        <div class="col-sm-6">
+                                          <select type="text" name="sub_prop_id[]" class="form-control" required multiple>
+                                              @foreach($properties as $mainKey=>$prop)
+                                                <optgroup label="{{$prop->propertyName}}">
+                                                  @if(count($prop->sub_properties) > 0)
+                                                    @foreach($prop->sub_properties as $s_prop)
+                                                        @if(empty($item))
+                                                          <option value="{{$s_prop->id}}">
+                                                            {{$s_prop->propertyName}}
+                                                          </option>
+                                                        @else
+                                                          @if(!empty($selectedItemSubPro))
+                                                            @foreach($selectedItemSubPro as $selectedSub)
+                                                              @if($selectedSub->sub_prop_id == $s_prop->id)
+                                                              <option value="{{$s_prop->id}}" selected>
+                                                                {{$s_prop->propertyName}}
+                                                              </option>
+                                                              @else
+                                                                <option value="{{$s_prop->id}}">
+                                                                  {{$s_prop->propertyName}}
+                                                                </option>
+                                                              @endif
+                                                            @endforeach
+                                                          @endif
                                                         @endif
-                                                    </div>
-
-                                                    <label for="itemProperityName" class="col-sm-2 control-label" style="color:black">
-                                                      @lang('leftsidebar.itemProperityName')
-                                                    </label>
-                                                    <div class="col-sm-6">
-                                                        <input type="text" name="itemProperityName{{$key}}[]" class="form-control" placeholder="@lang('leftsidebar.itemProperityName')" value="{{$property->itemProperityName}}" required  id="itemProperityName{{$key}}">
-                                                    </div>
-
-
-                                                    <div class="btn-group col-sm-4">
-                                                        <button type="button" class="btn btn-success propertyPlus{{$key}}" onclick="return appendPropertyPlusTwo(this.className);">
-                                                          <i class="fa fa-plus"></i>
-                                                        </button>
-                                                    </div>
-
-                                                    <div class="col-sm-12" id="propertyPlus{{$key}}" style="margin:15px 0px 15px 0px;">
-
-                                                        @if(!empty(\App\Models\Item_property_plus::where('properity_id',$property->id)->get()))
-                                                            @foreach(\App\Models\Item_property_plus::where('properity_id',$property->id)->get() as $keyP=>$propertyPlus)
-                                                                <div class="col-sm-12" id="rm{{$propertyPlus->id}}">
-
-                                                                    @if($keyP != 0)
-                                                                      <div class="btn-group col-sm-12">
-                                                                          <button type="button" class="btn btn-warning rm{{$propertyPlus->id}}" onclick="return removePropertyPlus(this.className);">
-                                                                            <i class="fa fa-trash"></i>
-                                                                          </button>
-                                                                      </div>
-                                                                    @endif  
-
-                                                                      <label for="propertyValue" class="col-sm-2 control-label" style="color:black">
-                                                                          @lang("leftsidebar.propertyValue")
-                                                                      </label>
-
-                                                                      <div class="col-sm-2">
-                                                                          <input type="text" name="propertyValue{{$key}}[]" class="form-control" value="{{$propertyPlus->propertyValue}}" required  id="propertyValue">
-                                                                      </div>
-
-                                                                      <label for="propertyPrice" class="col-sm-2 control-label" style="color:black">
-                                                                          @lang("leftsidebar.propertyPrice")
-                                                                      </label>
-
-                                                                      <div class="col-sm-2">
-                                                                          <input type="number" name="propertyPrice{{$key}}[]" class="form-control" value="{{$propertyPlus->propertyPrice}}" required  id="propertyPrice">
-                                                                      </div>
-
-                                                                </div>
-                                                            @endforeach   
-                                                        @endif
-                                                    </div>
-
-                                                  </div>
-                                              </div>
-                                          @endforeach
-                                        @endif
-                                    @endif
-
+                                                    @endforeach
+                                                  @endif
+                                                </optgroup>
+                                              @endforeach
+                                          </select>
+                                        </div>
+                                    </div>
+                                    <!-- here ya merna -->
                                   </div>
                               </div>
+                              <!-- HM -->
 
                           </div>
                           <div class="box-footer">
@@ -377,48 +310,32 @@
 </div>
 
 <script type="text/javascript">
+  
 
+    function checkDicount(itemPrice){
 
+        var discountType = $("#discountType");
+            discountValue = $("#discountValue");
+            itemPriceAfterDis = $("#itemPriceAfterDis");
 
-
-
-  function checkDicount(itemPrice){
-
-      var discountType = $("#discountType");
-          discountValue = $("#discountValue");
-          itemPriceAfterDis = $("#itemPriceAfterDis");
-
-      if(discountType.val() == "without") {
-        return false;
-      }else if(discountType.val() == "percent"){
-        itemPriceAfterDis.val(itemPrice - ( itemPrice*discountValue.val()/100 ));
-      }
-
-  }
-
-
-
-
-
-
-
-
-  function publishDiscountValue(discountValue){
-
-    var discountType = $("#discountType").val();
-        itemPrice = $("#itemPrice").val();
-        itemPriceAfterDis = $("#itemPriceAfterDis");
-
-
-        if(discountType == "percent"){
-          itemPriceAfterDis.val(itemPrice - (itemPrice*discountValue/100 ) );
-        }else if(discountType == "without"){
+        if(discountType.val() == "without") {
           return false;
+        }else if(discountType.val() == "percent"){
+          itemPriceAfterDis.val(itemPrice - ( itemPrice*discountValue.val()/100 ));
         }
 
-  }
+    }
 
 
+    function publishDiscountValue(discountValue){
+
+      var discountType = $("#discountType").val();
+          itemPrice = $("#itemPrice").val();
+          itemPriceAfterDis = $("#itemPriceAfterDis");
+
+          itemPriceAfterDis.val(itemPrice - (itemPrice*discountValue/100 ) );
+
+    }
 
 
     function changeDiscountType(discountType){
@@ -444,72 +361,22 @@
             }
     }
 
-
-
-
     
     function itemPriceStatuss(statusVal){
 
         if(statusVal == "hasProperty"){
-
             $("#itemProperitiesParent").attr('style','display:block');
             $("#propCount").val(1);
-
-            $("#item_properities").html(
-
-
-                  '<div class="col-sm-12 alert alert-default" style="background-color:#605ca8;padding:15px 0px 15px 0px;">'+
-                    
-                     '<div class="btn-group col-sm-12">'+
-                          '<button type="button" class="btn btn-info" onclick="return appendProperty();">'+
-                            '<i class="fa fa-plus"></i>'+
-                          '</button>'+
-                      '</div>'+
-
-                      '<label for="itemProperityName" class="col-sm-2 control-label" style="color:black">'+
-                        '@lang('leftsidebar.itemProperityName')'+
-                      '</label>'+
-                      '<div class="col-sm-6">'+
-                          '<input type="text" name="itemProperityName0[]" class="form-control" placeholder="@lang("leftsidebar.itemProperityNameDesc")" required  id="itemProperityName">'+
-                      '</div>'+
-                      '<div class="btn-group col-sm-4">'+
-                          '<button type="button" class="btn btn-success" onclick="return appendPropertyPlus();">'+
-                            '<i class="fa fa-plus"></i>'+
-                          '</button>'+
-                      '</div>'+
-
-                      //property plus
-                      
-                      '<div class="col-sm-12" id="propertyPlus" style="margin:15px 0px 15px 0px;">'+
-                          '<div class="col-sm-12" id="rm">'+
-
-                                '<label for="propertyValue" class="col-sm-2 control-label" style="color:black">'+
-                                  ' @lang("leftsidebar.propertyValue")'+
-                                '</label>'+
-                                '<div class="col-sm-2">'+
-                                    '<input type="text" name="propertyValue0[]" class="form-control" placeholder="@lang("leftsidebar.propertyValue")" required  id="propertyValue">'+
-                                '</div>'+
-
-                                '<label for="propertyPrice" class="col-sm-2 control-label" style="color:black">'+
-                                  ' @lang("leftsidebar.propertyPrice")'+
-                                '</label>'+
-                                '<div class="col-sm-2">'+
-                                    '<input type="text" name="propertyPrice0[]" class="form-control" placeholder="@lang("leftsidebar.propertyPrice")" value="0" required  id="propertyPrice">'+
-                                '</div>'+
-
-                          '</div>'+
-                      '</div>'+
-                      //property plus
-                  '</div>'
-            );
-
-
         }else{
             $("#itemProperitiesParent").attr('style','display:none');
             $("#item_properities").html("");
             $("#propCount").val("");
         }
     }
+
+
+
+
 
 
 
@@ -524,7 +391,7 @@
 
 
 
-    function appendProperty(){
+    /*function appendProperty(){
       counter++;
       
       $("#propCount").val(parseInt($("#propCount").val()) + 1);
@@ -532,62 +399,58 @@
                      
              '<div class="col-sm-12 alert alert-default" style="background-color:#605ca8;padding:15px 0px 15px 0px;"  id="'+counter+'">'+
                 
-                     '<div class="btn-group col-sm-12">'+
-                          '<button type="button" class="btn btn-info" onclick="return appendProperty();">'+
-                            '<i class="fa fa-plus"></i>'+
-                          '</button>'+
-                          '<button type="button" class="btn btn-danger" onclick="return removeProperty('+counter+');">'+
-                            '<i class="fa fa-trash"></i>'+
-                          '</button>'+
-                      '</div>'+
+                 '<div class="btn-group col-sm-12">'+
+                      '<button type="button" class="btn btn-info" onclick="return appendProperty();">'+
+                        '<i class="fa fa-plus"></i>'+
+                      '</button>'+
+                      '<button type="button" class="btn btn-danger" onclick="return removeProperty('+counter+');">'+
+                        '<i class="fa fa-trash"></i>'+
+                      '</button>'+
+                  '</div>'+
 
-                      '<label for="itemProperityName'+counter+'" class="col-sm-2 control-label" style="color:black">'+
-                        '@lang('leftsidebar.itemProperityName')'+
-                      '</label>'+
-                      '<div class="col-sm-6">'+
-                          '<input type="text" name="itemProperityName'+counter+'[]" class="form-control" placeholder="@lang("leftsidebar.itemProperityName")" required id="itemProperityName'+counter+'">'+
-                      '</div>'+
+                  '<label for="itemProperityName'+counter+'" class="col-sm-2 control-label" style="color:black">'+
+                    '@lang('leftsidebar.itemProperityName')'+
+                  '</label>'+
+                  '<div class="col-sm-6">'+
+                      '<input type="text" name="itemProperityName'+counter+'[]" class="form-control" placeholder="@lang("leftsidebar.itemProperityName")" required id="itemProperityName'+counter+'">'+
+                  '</div>'+
 
 
-                      '<div class="btn-group col-sm-4">'+
-                          '<button type="button" class="btn btn-success propertyPlus'+counter+'" onclick="return appendPropertyPlusTwo(this.className);">'+
-                            '<i class="fa fa-plus"></i>'+
-                          '</button>'+
-                      '</div>'+
+                  '<div class="btn-group col-sm-4">'+
+                      '<button type="button" class="btn btn-success propertyPlus'+counter+'" onclick="return appendPropertyPlusTwo(this.className);">'+
+                        '<i class="fa fa-plus"></i>'+
+                      '</button>'+
+                  '</div>'+
 
-                      //property plus
-                      
-                      '<div class="col-sm-12" id="propertyPlus'+counter+'" style="margin:15px 0px 15px 0px;">'+
+                  //property plus
+                  
+                  '<div class="col-sm-12" id="propertyPlus'+counter+'" style="margin:15px 0px 15px 0px;">'+
 
-                            '<label for="propertyValue" class="col-sm-2 control-label" style="color:black">'+
-                               ' @lang("leftsidebar.propertyValue")'+
-                              '</label>'+
-                              '<div class="col-sm-2">'+
-                                  '<input type="text" name="propertyValue'+counter+'[]" class="form-control" placeholder="@lang("leftsidebar.propertyValue")" required  id="propertyValue">'+
-                              '</div>'+
+                        '<label for="propertyValue" class="col-sm-2 control-label" style="color:black">'+
+                           ' @lang("leftsidebar.propertyValue")'+
+                          '</label>'+
+                          '<div class="col-sm-2">'+
+                              '<input type="text" name="propertyValue'+counter+'[]" class="form-control" placeholder="@lang("leftsidebar.propertyValue")" required  id="propertyValue">'+
+                          '</div>'+
 
-                              '<label for="propertyPrice" class="col-sm-2 control-label" style="color:black">'+
-                                  ' @lang("leftsidebar.propertyPrice")'+
-                                '</label>'+
-                                '<div class="col-sm-2">'+
-                                    '<input type="text" name="propertyPrice'+counter+'[]" class="form-control" placeholder="@lang("leftsidebar.propertyPrice")" value="0" required  id="propertyPrice">'+
-                                '</div>'+
+                          '<label for="propertyPrice" class="col-sm-2 control-label" style="color:black">'+
+                              ' @lang("leftsidebar.propertyPrice")'+
+                            '</label>'+
+                            '<div class="col-sm-2">'+
+                                '<input type="text" name="propertyPrice'+counter+'[]" class="form-control" placeholder="@lang("leftsidebar.propertyPrice")" value="0" required  id="propertyPrice">'+
+                            '</div>'+
 
-                      '</div>'+
-                      //property plus
+                  '</div>'+
+                  //property plus
             '</div>'
             );
-    }
-
-
+    }*/
 
 
     function removeProperty(divId){
       $("#propCount").val($("#propCount").val()-1);
       $("#"+divId).remove();
     }
-
-
 
 
     //protertyPlus
@@ -598,7 +461,7 @@
         @endif
     @endif
 
-    function appendPropertyPlus(){
+ /*   function appendPropertyPlus(){
       counterPlus++;
       $("#propertyPlus").append(
 
@@ -629,7 +492,7 @@
 
         );
     }
-
+*/
 
     function appendPropertyPlusTwo(appendOn){
       counterPlus++;
@@ -667,13 +530,9 @@
     }
 
 
-
-
     function removePropertyPlus(classsName){
       $("#"+classsName.split(" ")[2]).remove();
     }
-
-
 
 
     function deleteImage(imageId,imgKey){
@@ -695,15 +554,11 @@
     }
 
 
-
-
     function onlyThreeImages() {
         if ($("#otherItemImages")[0].files.length > 3) {
             alert("You can select only 3 images");
             $("#otherItemImages").parent().html($("#otherItemImages").parent().html())
         }
-    };
-
-
+    }
 </script>
 

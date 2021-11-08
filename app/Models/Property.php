@@ -12,5 +12,11 @@ class Property extends Model
     protected $fillable = [
         'propertyName',
         'propertyNameAr',
+        'type',
     ];
+
+
+    public function sub_properties(){
+        return $this->hasMany('App\Models\Sub_property','prop_id');
+    }
 }

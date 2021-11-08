@@ -26,6 +26,31 @@
 
               <div class="form-group">
 
+                  <label for="type" class="col-sm-2 control-label">
+                  @lang('leftsidebar.type')</label>
+                  <div class="col-sm-4">
+                      <select name="type" class="form-control" id="type" required>
+                        @if(!empty($property))
+                          @if($property == 'color')
+                            <option value="color" selected>color</option>
+                            <option value="size">size</option>
+                          @else
+                            <option value="color">color</option>
+                            <option value="size" selected>size</option>
+                          @endif
+                        @else
+                          <option value="color">color</option>
+                          <option value="size">size</option>
+                        @endif
+                    </select>
+                  </div>
+
+                
+                  
+              </div>
+
+              <div class="form-group">
+
                   <label for="propertyName" class="col-sm-2 control-label">
                   @lang('leftsidebar.propertyName')</label>
                   <div class="col-sm-4">

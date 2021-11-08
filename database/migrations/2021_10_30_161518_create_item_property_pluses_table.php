@@ -16,9 +16,14 @@ class CreateItemPropertyPlusesTable extends Migration
         Schema::create('item_property_pluses', function (Blueprint $table) {
             $table->id();
 
-            $table->string('propertyValue')->nullable();
-            $table->text('propertyDetails')->nullable();
-            $table->string('propertyPrice')->nullable();
+
+            $table->bigInteger("sub_prop_id")->unsigned()->nullable();
+            $table->foreign('sub_prop_id')
+            ->references('id')
+            ->on('sub_properties')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
+
 
             $table->bigInteger("properity_id")->unsigned()->nullable();
             $table->foreign('properity_id')

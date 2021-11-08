@@ -9,6 +9,8 @@ use App\Models\Category;
 use App\Models\Item_property_plus;
 use App\Models\Item_properity;
 use App\Models\Item_image;
+use App\Models\Property;
+use App\Models\Sub_property;
 use \Carbon\Carbon;
 
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -92,10 +94,17 @@ class Vendors extends Controller
 
     public function viewCreateItem($itemId=false){
         $data['categories'] = Category::with('sub_categories')->get();
+        $data['properties'] = Property::with('sub_properties')->get();
         
-        $itemId = $itemId!= false ? Crypt::decryptString($itemId) : false;
+        $itemId = $itemId != false ? Crypt::decryptString($itemId) : false;
         if($itemId != false){
             $data['item'] = Item::where('id',$itemId)->with('item_properities')->first();
+
+            $itemMainPro = Item_properity::where('item_id',$data['item']->id)->pluck('id');
+            if (!empty($itemMainPro)) {
+                // code...
+                $data['selectedItemSubPro'] = Item_property_plus::whereIn('properity_id',$itemMainPro)->get();
+            }
         }
         return view('Vendors/Items/viewCreateItem',$data);
     }
@@ -110,6 +119,7 @@ class Vendors extends Controller
 
     public function createItem(Request $request){
 
+
         $data['id'] = $request->id!= null ? Crypt::decryptString($request->id) : null;
         $data['sub_cat_id'] = $request->sub_cat_id;
         $data['withProp'] = $request->withProp;
@@ -121,7 +131,7 @@ class Vendors extends Controller
         $data['itemDescribeAr'] = $request->itemDescribeAr;
         $data['itemDescribe'] = $request->itemDescribe;
         $data['itemPrice'] = $request->itemPrice;
-        $data['discountType'] = $request->discountType;
+        //$data['discountType'] = $request->discountType;
         $data['discountValue'] = $request->discountValue;
         $data['itemCount'] = $request->itemCount;
         $data['vendor_id'] = Auth::guard('vendor')->id();
@@ -138,14 +148,13 @@ class Vendors extends Controller
             'itemName'=>'required|max:100',
             'itemDescribe'=>'required|max:3000',
             'itemPrice'=>'required|numeric|min:1|max:100000',
-            'discountType'=>'required|in:without,percent',
+            //'discountType'=>'required|in:without,percent',
             'discountValue'=>'numeric|min:0|max:100',
             'itemCount'=>'required|numeric|min:1|max:100000',
             'otherItemImages.*' => 'mimes:jpeg,png,jpg|max:1024',
             'otherItemImages.*' => Rule::requiredIf($request->id == null),
             'itemImage' => 'mimes:jpeg,jpg,png|min:20,max:1024',
             'itemImage' => Rule::requiredIf($request->id == null),
-
         ]);
 
 
@@ -164,7 +173,6 @@ class Vendors extends Controller
             $itemId = Item::insertGetId($data);
 
         }else{
-
             $itemId = $data['id'];
                 $itemInfo = Item::find($itemId);
                 $data['itemImage'] = $itemInfo->itemImage;
@@ -182,7 +190,6 @@ class Vendors extends Controller
 
             Item::where('id',$itemId)->update($data);
             Item_properity::where('item_id',$itemId)->delete();
-            
         }
 
 
@@ -221,28 +228,23 @@ class Vendors extends Controller
         }
 
         if($request->withProp === "hasProperty"){
-            $countPro = $request->propCount;
-            for($i=0; $i< $countPro;$i++){
-                
-                $propertyName = "itemProperityName".$i;
-                $propertyValue = "propertyValue".$i;
-                $propertyPrice = "propertyPrice".$i;
+            
+            if(is_array($request->sub_prop_id) && count($request->sub_prop_id)){
 
-                if(is_array($request->$propertyName)){
-                    foreach ($request->$propertyName as $key => $pName) {
-                        $propertyId = Item_properity::insertGetId([
-                            'itemProperityName' =>  $pName,
-                            'item_id'   =>  $itemId
-                        ]);
+                foreach($request->sub_prop_id as $sub_prop_id){
 
-                        foreach ($request->$propertyValue as $keyy => $pValue) {
-                            Item_property_plus::create([
-                                'propertyValue' => $pValue,
-                                'propertyPrice' => (int)round((int)$request->$propertyPrice[$keyy]),
-                                'properity_id'  => $propertyId,
-                            ]);
-                        }
-                    }
+                    $sub_prop = Sub_property::find($sub_prop_id);
+                    $main_prop = Property::find($sub_prop->prop_id);
+
+                    $item_prop_main = Item_properity::create([
+                        "main_prop_id" => $main_prop->id,
+                        "item_id" => $itemId ,
+                    ]);
+
+                    Item_property_plus::create([
+                        "sub_prop_id" => $sub_prop_id,
+                        "properity_id" => $item_prop_main->id,
+                    ]);
                 }
             }
         }

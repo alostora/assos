@@ -17,6 +17,7 @@ class CreatePropertiesTable extends Migration
             $table->id();
             $table->string('propertyName')->nullable();
             $table->string('propertyNameAr')->nullable();
+            $table->string('type')->nullable();//[color,size,]
             $table->timestamps();
         });
     }

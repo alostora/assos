@@ -11,9 +11,7 @@ class Item_property_plus extends Model
     use HasFactory;
 	protected $table = "item_property_pluses";
 	protected $fillable = [
-		'propertyValue',
-		'propertyDetails',
-		'propertyPrice',
+		'sub_prop_id',
 		'properity_id',
 	];
 

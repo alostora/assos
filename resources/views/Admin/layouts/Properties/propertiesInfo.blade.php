@@ -15,10 +15,10 @@
 				              	@lang('leftsidebar.propertiesInfo')
 			              	</h3>
 		              	</div>
-				      	<a href="{{url('admin/viewCreateProperty')}}" class="btn btn-primary col-xs-6">
+				      	<!-- <a href="{{url('admin/viewCreateProperty')}}" class="btn btn-primary col-xs-6">
 				      		<i class="fa fa-plus"></i>
 				      		@lang('leftsidebar.Add')
-				      	</a>
+				      	</a> -->
 		            </div>
 
 		            <div class="box-body table-responsive no-padding">
@@ -27,6 +27,7 @@
 			                  	<th>#</th>
 			                  	<th>@lang('leftsidebar.propertyName')</th>
 			                  	<th>@lang('leftsidebar.propertyNameAr')</th>
+			                  	<th>@lang('leftsidebar.type')</th>
 			                  	<th>@lang('leftsidebar.subProperties')</th>
 			                  	<th>@lang('leftsidebar.Operations')</th>
 			                </tr>
@@ -36,6 +37,7 @@
 							          	<td>{{$key+1}}</td>
 							          	<td>{{$property->propertyName}}</td>
 							          	<td>{{$property->propertyNameAr}}</td>
+							          	<td>{{$property->type}}</td>
 							          	<td>
 								          	<div class="btn-group">
 								          		<a class="btn btn-success" href="
@@ -53,8 +55,8 @@
 								          			<i class="fa fa-edit"></i>
 								          		</a>
 								          	
-							          	 		<a class="btn btn-danger" href="{{url('admin/deleteProperty/'.$property->id)}}" onclick="return confirm('Are you sure?');" >
-							          	 			<i class="fa fa-trash"></i>
+							          	 		<!-- <a class="btn btn-danger" href="{{url('admin/deleteProperty/'.$property->id)}}" onclick="return confirm('Are you sure?');" >
+							          	 			<i class="fa fa-trash"></i> -->
 							          	 		</a>
 						          	 		</div>
 							          	</td>

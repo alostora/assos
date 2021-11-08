@@ -15,14 +15,23 @@ class CreateItemProperitiesTable extends Migration
     {
         Schema::create('item_properities', function (Blueprint $table) {
             $table->id();
-            $table->string('itemProperityName');
+            
 
+            $table->bigInteger('main_prop_id')->unsigned()->nullable();
+            $table->foreign('main_prop_id')
+            ->references('id')
+            ->on('properties')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
+
+            
             $table->bigInteger('item_id')->unsigned()->nullable();
             $table->foreign('item_id')
             ->references('id')
             ->on('items')
             ->onDelete('cascade')
             ->onUpdate('cascade');
+
             $table->timestamps();
         });
     }
