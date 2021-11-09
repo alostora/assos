@@ -421,7 +421,6 @@ class Users extends Controller
 
 
 
-
     public function properties(){
         $data['status'] = true;
         $data['properties'] = Property::with('sub_properties')->get();
@@ -467,19 +466,14 @@ class Users extends Controller
                 }
             }
 
-
             if(!empty($request->vendor_id)){
                 if (is_array($request->vendor_id)) {
                     $items->whereIn('vendor_id',$request->vendor_id);
                 }
             }
 
-
-
-
             if(!empty($request->sub_prop_ids)){
                 if (is_array($request->sub_prop_ids)) {
-
                     $sub_prop_ids = Item_property_plus::whereIn('sub_prop_id',$request->sub_prop_ids)->pluck('properity_id');
                     if (!empty($sub_prop_ids)) {
                         $main_prop_ids = Item_properity::whereIn('id',$sub_prop_ids)->pluck('item_id');
@@ -488,36 +482,10 @@ class Users extends Controller
                         }
 
                     }
-
                 }
             }
 
-
-
-
-
-
-            $data['items'] = $items->get();
-            return $data;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            $data['items'] = $items->paginate(25);
             if(!empty($data['items'])){
                 foreach($data['items'] as $item){
 
@@ -534,7 +502,6 @@ class Users extends Controller
             $data['status'] = false;
             $data['message'] = 'user not found';
         }
-
         return $data;
     }
 
