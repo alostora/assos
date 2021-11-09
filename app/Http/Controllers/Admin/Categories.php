@@ -82,7 +82,7 @@ class Categories extends Controller
         $s_categories = Sub_category::where('cat_id',$id)->get();
         if (!empty($s_categories)) {
             $destinationPath = public_path('Admin_uploads/categories/subCategory/');
-            foreach($Sub_categories as $s_cat){
+            foreach($s_categories as $s_cat){
                 File::delete($destinationPath . $s_cat->s_categoryImage );
             }
         }

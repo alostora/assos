@@ -32,7 +32,8 @@ Route::group(['namespace'=>'Api\Users'],function(){
     Route::get('itemFit/{item_id}','Users@itemFit');
 
 
-
+    //properties
+    Route::get('properties','Users@properties');
     //items search
     Route::post('itemSearch','Users@itemSearch');
 

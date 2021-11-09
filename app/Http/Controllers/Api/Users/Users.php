@@ -11,6 +11,9 @@ use App\Models\Item;
 use App\Models\User_fav_item;
 use App\Models\User;
 use App\Models\Review;
+use App\Models\Item_property_plus;
+use App\Models\Item_properity;
+use App\Models\Property;
 use URL;
 
 
@@ -418,22 +421,102 @@ class Users extends Controller
 
 
 
-    public function itemSearch(Request $request){
 
+    public function properties(){
+        $data['status'] = true;
+        $data['properties'] = Property::with('sub_properties')->get();
+        return $data;
+    }
+
+
+
+
+
+    public function itemSearch(Request $request){
 
         $device_id = $request->header('device-id');
         $user = User::where('deviceId',$device_id)->first();
 
         if (!empty($user)) {
-            // code...
             $data['status'] = true;
+
+            $items = Item::query();
+           
             if (!empty($request->itemNameSearch)) {
-                $data['items'] = Item::where('itemNAme','like',"%".$request->itemNameSearch."%")
-                ->orWhere('itemNAmeAr','like',"%".$request->itemNameSearch."%")
-                ->paginate(20);
-            }else{
-                $data['items'] = Item::paginate(20);
+                $items->where('itemNAme','like',"%".$request->itemNameSearch."%")
+                ->orWhere('itemNAmeAr','like',"%".$request->itemNameSearch."%");
             }
+
+            if(!empty($request->cats_ids)) {
+                if (is_array($request->cats_ids)) {
+
+                    $cats =  Category::whereIn('id',$request->cats_ids)->pluck('id');
+                    if(!empty($cats)) {
+                        $sub_cats = Sub_category::whereIn('cat_id',$cats)->pluck('id');
+
+                        if($sub_cats) {
+                            $items->whereIn('sub_cat_id',$sub_cats);
+                        }
+                    }
+                }
+            }
+
+            if(!empty($request->sub_cat_ids)){
+                if (is_array($request->sub_cat_ids)) {
+                    $items->whereIn('sub_cat_id',$request->sub_cat_ids);
+                }
+            }
+
+
+            if(!empty($request->vendor_id)){
+                if (is_array($request->vendor_id)) {
+                    $items->whereIn('vendor_id',$request->vendor_id);
+                }
+            }
+
+
+
+
+            if(!empty($request->sub_prop_ids)){
+                if (is_array($request->sub_prop_ids)) {
+
+                    $sub_prop_ids = Item_property_plus::whereIn('sub_prop_id',$request->sub_prop_ids)->pluck('properity_id');
+                    if (!empty($sub_prop_ids)) {
+                        $main_prop_ids = Item_properity::whereIn('id',$sub_prop_ids)->pluck('item_id');
+                        if (!empty($main_prop_ids)) {
+                            $items->whereIn('id',$main_prop_ids);
+                        }
+
+                    }
+
+                }
+            }
+
+
+
+
+
+
+            $data['items'] = $items->get();
+            return $data;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             if(!empty($data['items'])){
                 foreach($data['items'] as $item){
