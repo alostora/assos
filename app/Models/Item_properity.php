@@ -13,6 +13,14 @@ class Item_properity extends Model
     	'main_prop_id',//one to one
     	'item_id',
     ];
+    
+
+    protected $hidden = [
+        /*'main_prop_id',//one to one
+        'item_id',*/
+        'created_at',
+        'updated_at',
+    ];
 
 
 

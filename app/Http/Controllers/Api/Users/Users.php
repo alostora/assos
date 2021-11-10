@@ -14,6 +14,7 @@ use App\Models\Review;
 use App\Models\Item_property_plus;
 use App\Models\Item_properity;
 use App\Models\Property;
+use App\Models\Sub_property;
 use URL;
 
 
@@ -139,9 +140,6 @@ class Users extends Controller
             ->with('other_item_images')
             ->with(['reviews'=>function($query){
                 $query->limit(3);
-            }])
-            ->with(['item_properities'=>function($query){
-                $query->with('item_prop_plus');
             }])->first();
 
             $data['item']->itemName = $request->header('accept-language') == 'en' ? $data['item']->itemName : $data['item']->itemNameAr;
@@ -165,6 +163,31 @@ class Users extends Controller
                         $review->user_info->image = URL::to('Admin_uploads/vendors/'.$review->user_info->image);
                     }
                 }
+
+
+
+                $color = [];
+                $size = [];
+
+                //item property belongs to items
+                $item_properties = Item_properity::where('item_id',$data['item']->id)->pluck('id');
+                //item property belongs to item properties
+                $item_properties_plus = Item_property_plus::whereIn('properity_id',$item_properties)->pluck('sub_prop_id');
+                //item property belongs to admin properties
+                $sub_prop = Sub_property::whereIn('id',$item_properties_plus)->get();
+                if(!empty($sub_prop)) {
+                    foreach($sub_prop as $pro){
+                        $main_admin_prop = Property::find($pro->prop_id);
+                        if (!empty($main_admin_prop) && $main_admin_prop->type == 'color') {
+                            array_push($color, $pro);
+                        }elseif(!empty($main_admin_prop) && $main_admin_prop->type == 'size'){
+                            array_push($size, $pro);
+                        }
+                    }
+                }
+
+                $data['item']->color = $color;
+                $data['item']->size = $size;
 
                 $data['item']->itemImage = URL::to('uploads/itemImages/'.$data['item']->itemImage);
                 $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$data['item']->id)->first();
@@ -293,7 +316,6 @@ class Users extends Controller
             $data['message'] = 'user not found';
         }
         return $data;
-
     }
 
 
@@ -353,7 +375,6 @@ class Users extends Controller
         }
 
         return $data;
-
     }
 
 
@@ -386,9 +407,7 @@ class Users extends Controller
         }
 
         return $data;
-
     }
-
 
 
 
@@ -423,7 +442,25 @@ class Users extends Controller
 
     public function properties(){
         $data['status'] = true;
-        $data['properties'] = Property::with('sub_properties')->get();
+        $prop_ids = Property::pluck('id');
+        $sub_props = Sub_property::whereIn('prop_id',$prop_ids)->get();
+
+        $data['color'] = [];
+        $data['size'] = [];
+        if (!empty($sub_props)) {
+            foreach($sub_props as $sub_prop){
+
+                $prop = Property::find($sub_prop->prop_id);
+                if(!empty($prop) && $prop->type == 'color'){
+                    array_push($data['color'],$sub_prop);
+                }elseif(!empty($prop) && $prop->type == 'size'){
+                    array_push($data['size'],$sub_prop);
+                }
+            }
+        }
+
+
+
         return $data;
     }
 
@@ -480,12 +517,12 @@ class Users extends Controller
                         if (!empty($main_prop_ids)) {
                             $items->whereIn('id',$main_prop_ids);
                         }
-
                     }
                 }
             }
 
-            $data['items'] = $items->paginate(25);
+            $data['items'] = $items->select(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->paginate(25);
+
             if(!empty($data['items'])){
                 foreach($data['items'] as $item){
 
@@ -498,6 +535,7 @@ class Users extends Controller
                     $item->cart = false;
                 }
             }
+            
         }else{
             $data['status'] = false;
             $data['message'] = 'user not found';
