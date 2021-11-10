@@ -319,7 +319,6 @@ class Users extends Controller
 
 
 
-
     public function userItemReview(Request $request){
 
         $device_id = $request->header('device-id');
@@ -356,9 +355,6 @@ class Users extends Controller
         }
         return $data;
     }
-
-
-
 
 
 
@@ -441,6 +437,7 @@ class Users extends Controller
 
         return $data;
     }
+
 
 
 
@@ -556,9 +553,6 @@ class Users extends Controller
 
 
 
-
-
-
     public function itemsOrderBy(Request $request){
 
         $device_id = $request->header('device-id');
@@ -591,8 +585,6 @@ class Users extends Controller
         }
 
         return $data;
-
-
     }
 
 
