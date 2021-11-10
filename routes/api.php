@@ -35,6 +35,7 @@ Route::group(['namespace'=>'Api\Users'],function(){
     //properties
     Route::get('properties','Users@properties');
     //items search
-    Route::post('itemSearch','Users@itemSearch');
+    Route::any('itemSearch','Users@itemSearch');
+    Route::any('itemsOrderBy','Users@itemsOrderBy');
 
 });

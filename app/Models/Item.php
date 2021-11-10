@@ -30,7 +30,7 @@ class Item extends Model
         "bannerType",//[1,2,3,4]
         //"bannerImage",
         "withProp",//[hasProperty,dontHasProperty]
-        "rate",
+        "rate",//average rate
         "sub_cat_id",
         "vendor_id",
     ];
@@ -45,6 +45,10 @@ class Item extends Model
         'withProp',
         "itemNameAr",
         "itemDescribeAr",
+    ];
+
+    protected $cast = [
+        'itemPrice' => 'integer',
     ];
 
 

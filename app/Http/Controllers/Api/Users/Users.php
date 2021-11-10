@@ -146,25 +146,23 @@ class Users extends Controller
 
             $data['item']->itemDescribe = $request->header('accept-language') == 'en' ? $data['item']->itemDescribe : $data['item']->itemDescribeAr;
 
-            if (!empty($data['item'])) {
+            if(!empty($data['item'])) {
                 $data['item']->vendor_info = Vendor::find($data['item']->vendor_id);
                 $data['item']->vendor_info->vendor_image = URL::to('Admin_uploads/vendors/'.$data['item']->vendor_info->vendor_image);
 
-                if (count($data['item']->other_item_images)) {
+                if(count($data['item']->other_item_images)) {
                     foreach($data['item']->other_item_images as $otherImage){
                         $otherImage->itemImageName = URL::to('uploads/itemImages/'.$otherImage->itemImageName);
                             // code...
                     }
                 }
 
-                if (count($data['item']->reviews)) {
+                if(count($data['item']->reviews)) {
                     foreach($data['item']->reviews as $review){
                         $review->user_info = User::where('id',$review->user_id)->first(['id','name','image']);
                         $review->user_info->image = URL::to('Admin_uploads/vendors/'.$review->user_info->image);
                     }
                 }
-
-
 
                 $color = [];
                 $size = [];
@@ -207,7 +205,7 @@ class Users extends Controller
 
                 $data['item']->itemFit = Item::limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
 
-                if (!empty($data['item']->itemFit)) {
+                if(!empty($data['item']->itemFit)) {
                     foreach($data['item']->itemFit as $itemFit){
                         $itemFit->itemName = $request->header('accept-language') == 'en' ? $itemFit->itemName : $itemFit->itemNameAr;
 
@@ -340,6 +338,13 @@ class Users extends Controller
                     'user_id'=>$user->id,
                     'item_id'=>$item->id,
                 ]);
+
+            $itemSumRate = Review::where('item_id',$item->id)->sum('rate');    
+            $itemRateCount = Review::where('item_id',$item->id)->count();
+            $itemAverageRate = $itemSumRate / $itemRateCount;
+            $item->rate = $itemAverageRate;
+            $item->save();
+
             }else{
                 $data['status'] = false;
                 $data['message'] = 'item not found';
@@ -459,8 +464,6 @@ class Users extends Controller
             }
         }
 
-
-
         return $data;
     }
 
@@ -473,17 +476,17 @@ class Users extends Controller
         $device_id = $request->header('device-id');
         $user = User::where('deviceId',$device_id)->first();
 
-        if (!empty($user)) {
+        if(!empty($user)) {
             $data['status'] = true;
 
             $items = Item::query();
            
-            if (!empty($request->itemNameSearch)) {
+            if(!empty($request->itemNameSearch)) {
                 $items->where('itemNAme','like',"%".$request->itemNameSearch."%")
                 ->orWhere('itemNAmeAr','like',"%".$request->itemNameSearch."%");
             }
 
-            if(!empty($request->cats_ids)) {
+            if(!empty($request->cats_ids)){
                 if (is_array($request->cats_ids)) {
 
                     $cats =  Category::whereIn('id',$request->cats_ids)->pluck('id');
@@ -521,6 +524,11 @@ class Users extends Controller
                 }
             }
 
+            if( !empty($request->minPrice) && !empty($request->maxPrice) ){
+                $items->whereBetween('itemPrice',[$request->minPrice,$request->maxPrice]);
+            }
+           
+
             $data['items'] = $items->select(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->paginate(25);
 
             if(!empty($data['items'])){
@@ -535,12 +543,56 @@ class Users extends Controller
                     $item->cart = false;
                 }
             }
-            
+
+
+
         }else{
             $data['status'] = false;
             $data['message'] = 'user not found';
         }
         return $data;
+    }
+
+
+
+
+
+
+
+    public function itemsOrderBy(Request $request){
+
+        $device_id = $request->header('device-id');
+        $user = User::where('deviceId',$device_id)->first();
+
+        if(!empty($user)) {
+            if( !empty($request->sortType == 'price') ){
+                $data['items'] = Item::orderBy('itemPrice',$request->sort)->get();
+            }
+
+            if( !empty($request->sortType == 'rate') ){
+                $data['items'] = Item::orderBy('rate',$request->sort)->get();
+            }
+
+            if(!empty($data['items'])){
+                foreach($data['items'] as $item){
+
+                    $item->itemName = $request->header('accept-language') == 'en' ? $item->itemName : $item->itemNameAr;
+                    $item->itemDescribe = $request->header('accept-language') == 'en' ? $item->itemDescribe : $item->itemDescribeAr;
+
+                    $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
+                    $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
+                    $item->fav = !empty($fav) ? true : false;
+                    $item->cart = false;
+                }
+            }
+        }else{
+            $data['status'] = false;
+            $data['message'] = 'user not found';
+        }
+
+        return $data;
+
+
     }
 
 

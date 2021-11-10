@@ -35,7 +35,7 @@ class CreateItemsTable extends Migration
             $table->enum("viewInBanner",["yes","no"])->default("no");//will be change to ["no"] befor project start
             //$table->enum("bannerType",[1,2,3,4])->default(1)->nullable();
             $table->enum("withProp",["hasProperty","dontHasProperty"])->default('dontHasProperty')->nullable();
-            $table->integer("rate")->default(0);
+            $table->integer("rate")->default(0);//average rate
 
 
             $table->unsignedBigInteger('sub_cat_id')->nullable();
