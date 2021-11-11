@@ -550,5 +550,16 @@ return [
     "subProperties" => "sub properties",
 
 
+    //her ya merna
+    "department" => "department",
+    "men" => "men",
+    "women" => "women",
+    "kids" => "kids",
+    "main_prop_type" => "main prop type",
+    "clothes_size"=> "clothes size",
+    "shoes_size"=> "shoes size",
+    "color"=> "color",
+
+
 
 ];

@@ -538,5 +538,13 @@ return [
     "subProperties" => "الخصائص الفرعية",
 
 
-
+    //her ya merna
+    "department" => "القسم الرئيسي",
+    "men" => "رجالي",
+    "women" => "حريمي",
+    "kids" => "أطفال",
+    "main_prop_type" => "الخاصية الرئيسية",
+    "clothes_size"=> "مقاس الملابس",
+    "shoes_size"=> "مقاس الاحزية",
+    "color"=> "اللون",
 ];

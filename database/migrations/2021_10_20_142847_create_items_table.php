@@ -38,6 +38,7 @@ class CreateItemsTable extends Migration
             $table->integer("rate")->default(0);//average rate
 
             $table->string("department")->nullable();
+            $table->string("main_prop_type")->nullable();
 
             $table->unsignedBigInteger('sub_cat_id')->nullable();
             $table->unsignedBigInteger('vendor_id')->nullable();

@@ -74,6 +74,10 @@
 
 <script>
   $(function () {
+     $('.js-example-basic-multiple').select2();
+  });
+  
+  $(function () {
     $('#example1').DataTable()
     $('#example2').DataTable()
     /*$('#example2').DataTable({
@@ -85,9 +89,6 @@
       'autoWidth'   : false
     })*/
   });
-
-
-
 </script>
 
 

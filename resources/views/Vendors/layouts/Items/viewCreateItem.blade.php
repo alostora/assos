@@ -41,26 +41,26 @@
 
   <div class="form-group">
     <label for="itemDescribeAr" class="control-label col-sm-2">
-      @lang('leftsidebar.itemDescribeAr')
+      @lang('leftsidebar.department')
     </label>
     <div class="col-sm-4">
       <select name="department" class="form-control">
         @if(!empty($item) && $item->department == 'men')
-          <option value="men" selected>men</option>
-          <option value="women">women</option>
-          <option value="kids">kids</option>
+          <option value="men" selected>@lang('leftsidebar.men')</option>
+          <option value="women">@lang('leftsidebar.women')</option>
+          <option value="kids">@lang('leftsidebar.kids')</option>
         @elseif(!empty($item) && $item->department == 'women')
-          <option value="men">men</option>
-          <option value="women"selected>women</option>
-          <option value="kids">kids</option>
+          <option value="men">@lang('leftsidebar.men')</option>
+          <option value="women" selected>@lang('leftsidebar.women')</option>
+          <option value="kids">@lang('leftsidebar.kids')</option>
         @elseif(!empty($item) && $item->department == 'kids')
-          <option value="men">men</option>
-          <option value="women">women</option>
-          <option value="kids"selected>kids</option>
+          <option value="men">@lang('leftsidebar.men')</option>
+          <option value="women">@lang('leftsidebar.women')</option>
+          <option value="kids" selected>@lang('leftsidebar.kids')</option>
         @else
-          <option value="men">men</option>
-          <option value="women">women</option>
-          <option value="kids">kids</option>
+          <option value="men">@lang('leftsidebar.men')</option>
+          <option value="women">@lang('leftsidebar.women')</option>
+          <option value="kids">@lang('leftsidebar.kids')</option>
         @endif
       </select>
     </div>
@@ -270,16 +270,17 @@
         @lang('leftsidebar.main_prop_type')
       </label>
       <div class="col-sm-6">
-        <select name="main_prop_type" class="form-control" id="main_prop_type" onchange="return propType(this.value);" value="{{!empty($prop->type) ? $prop->type : ''}}">
-            @if(!empty($prop->type) && $prop->type == 'clothes_size')
-              <option value="clothes_size" selected>clothes_size</option>
-              <option value="shoes_size">shoes_size</option>
-            @elseif(!empty($prop->type) && $prop->type == 'shoes_size')
-              <option value="clothes_size">clothes_size</option>
-              <option value="shoes_size" selected>shoes_size</option>
+        <select name="main_prop_type" class="form-control" id="main_prop_type" onchange="return propType(this.value);" value="{{!empty($item) ? $item->main_prop_type : ''}}">
+          <option value="">@lang('leftsidebar.choose')</option>
+            @if(!empty($item) && $item->main_prop_type == 'clothes_size')
+              <option value="clothes_size" selected>@lang('leftsidebar.clothes_size')</option>
+              <option value="shoes_size">@lang('leftsidebar.shoes_size')</option>
+            @elseif(!empty($item) && $item->main_prop_type == 'shoes_size')
+              <option value="clothes_size">@lang('leftsidebar.clothes_size')</option>
+              <option value="shoes_size" selected>@lang('leftsidebar.shoes_size')</option>
             @else
-              <option value="clothes_size">clothes_size</option>
-              <option value="shoes_size">shoes_size</option>
+              <option value="clothes_size">@lang('leftsidebar.clothes_size')</option>
+              <option value="shoes_size">@lang('leftsidebar.shoes_size')</option>
             @endif
         </select>
       </div>
@@ -293,9 +294,9 @@
             @lang('leftsidebar.itemProperityName')
           </label>
           <div class="col-sm-6">
-            <select name="sub_prop_id[]" class="form-control" multiple>
+            <select name="sub_prop_id[]" class="form-control js-example-basic-multiple" multiple>
                 @foreach($properties as $mainKey=>$prop)
-                  <optgroup label="{{$prop->propertyName}}" class="{{$prop->type}}" style="display:{{$prop->type != 'color' ? 'none' : ''}}">
+                  <optgroup label="@lang('leftsidebar.'.$prop->type)" class="{{$prop->type}}" style="display:{{$prop->type != 'color' ? 'none' : ''}}">
 
                     @if(count($prop->sub_properties) > 0)
                       @if(!empty($item))
@@ -361,7 +362,7 @@
 </div>
 
 <script type="text/javascript">
-      
+  
     function propType(valuee){
       if(valuee == 'clothes_size'){
         $("."+valuee).show();
@@ -369,6 +370,9 @@
       }else if(valuee == 'shoes_size'){
         $("."+valuee).show();
         $(".clothes_size").hide();
+      }else{
+        $(".clothes_size").hide();
+        $(".shoes_size").hide();
       }
     }  
 

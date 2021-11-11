@@ -33,6 +33,7 @@ class Item extends Model
         "rate",//average rate
         "sub_cat_id",
         "department",
+        "main_prop_type",
         "vendor_id",
     ];
 
