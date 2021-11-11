@@ -25,12 +25,46 @@
                       @endif
 
                       <div class="box-header with-border">
-                          <h3 class="box-title">@if(!empty($item)) @lang('leftsidebar.Edit') @else @lang('leftsidebar.Add') @endif @lang('leftsidebar.Item')</h3>
+                          <h3 class="box-title">
+                            @if(!empty($item))
+                              @lang('leftsidebar.Edit') 
+                            @else
+                              @lang('leftsidebar.Add') 
+                            @endif 
+                            @lang('leftsidebar.Item')
+                          </h3>
                       </div>
                       <form role="form" class="form-horizontal" action="{{url('vendor/createItem')}}" method="post" enctype="multipart/form-data">
                           <div class="box-body">
                               @csrf
                               <input type="hidden" name="id" value="@if(!empty($item)) {{Crypt::encryptString($item->id)}} @endif">
+
+  <div class="form-group">
+    <label for="itemDescribeAr" class="control-label col-sm-2">
+      @lang('leftsidebar.itemDescribeAr')
+    </label>
+    <div class="col-sm-4">
+      <select name="department" class="form-control">
+        @if(!empty($item) && $item->department == 'men')
+          <option value="men" selected>men</option>
+          <option value="women">women</option>
+          <option value="kids">kids</option>
+        @elseif(!empty($item) && $item->department == 'women')
+          <option value="men">men</option>
+          <option value="women"selected>women</option>
+          <option value="kids">kids</option>
+        @elseif(!empty($item) && $item->department == 'kids')
+          <option value="men">men</option>
+          <option value="women">women</option>
+          <option value="kids"selected>kids</option>
+        @else
+          <option value="men">men</option>
+          <option value="women">women</option>
+          <option value="kids">kids</option>
+        @endif
+      </select>
+    </div>
+  </div>
 
                               <div class="form-group">
                                   <label for="itemName" class="control-label col-sm-2">@lang('leftsidebar.itemName')</label>

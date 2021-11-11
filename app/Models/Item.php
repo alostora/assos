@@ -32,6 +32,7 @@ class Item extends Model
         "withProp",//[hasProperty,dontHasProperty]
         "rate",//average rate
         "sub_cat_id",
+        "department",
         "vendor_id",
     ];
 

@@ -121,6 +121,7 @@ class Vendors extends Controller
 
 
         $data['id'] = $request->id!= null ? Crypt::decryptString($request->id) : null;
+        $data['department'] = $request->department;
         $data['sub_cat_id'] = $request->sub_cat_id;
         //$data['withProp'] = $request->withProp;
         $data['facePage'] = $request->facePage;
@@ -144,6 +145,7 @@ class Vendors extends Controller
 
         $validated = $request->validate([
             'sub_cat_id'=>'required',
+            'department'=>'required',
             //'withProp'=>'required|in:hasProperty,dontHasProperty',
             'itemName'=>'required|max:100',
             'itemDescribe'=>'required|max:3000',

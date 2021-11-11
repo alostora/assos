@@ -37,6 +37,7 @@ class CreateItemsTable extends Migration
             $table->enum("withProp",["hasProperty","dontHasProperty"])->default('dontHasProperty')->nullable();
             $table->integer("rate")->default(0);//average rate
 
+            $table->string("department")->nullable();
 
             $table->unsignedBigInteger('sub_cat_id')->nullable();
             $table->unsignedBigInteger('vendor_id')->nullable();
