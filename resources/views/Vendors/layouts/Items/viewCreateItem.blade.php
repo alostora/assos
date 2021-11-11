@@ -222,13 +222,36 @@
                                   </select>   
                                 </div>
                               </div>
-                              
+
+
 
 <!-- HM -->
 <div class="box-body">
     <div class="box-header with-border">
         <h3 class="box-title">@lang('leftsidebar.itemProperities')</h3>
     </div>
+
+    <div class="form-group">
+      <label for="main_prop_type" class="col-sm-2 control-label">
+        @lang('leftsidebar.main_prop_type')
+      </label>
+      <div class="col-sm-6">
+        <select name="main_prop_type" class="form-control" id="main_prop_type" onchange="return propType(this.value);" value="{{!empty($prop->type) ? $prop->type : ''}}">
+            @if(!empty($prop->type) && $prop->type == 'clothes_size')
+              <option value="clothes_size" selected>clothes_size</option>
+              <option value="shoes_size">shoes_size</option>
+            @elseif(!empty($prop->type) && $prop->type == 'shoes_size')
+              <option value="clothes_size">clothes_size</option>
+              <option value="shoes_size" selected>shoes_size</option>
+            @else
+              <option value="clothes_size">clothes_size</option>
+              <option value="shoes_size">shoes_size</option>
+            @endif
+        </select>
+      </div>
+    </div>
+
+
     <div class="form-group alert alert-default" id="item_properities">
       <!-- here ya merna -->
       <div class="col-sm-12 alert alert-default" style="background-color:#605ca8;padding:15px 0px 15px 0px;">
@@ -236,32 +259,39 @@
             @lang('leftsidebar.itemProperityName')
           </label>
           <div class="col-sm-6">
-            <select type="text" name="sub_prop_id[]" class="form-control" multiple>
+            <select name="sub_prop_id[]" class="form-control" multiple>
                 @foreach($properties as $mainKey=>$prop)
-                  <optgroup label="{{$prop->propertyName}}">
+                  <optgroup label="{{$prop->propertyName}}" class="{{$prop->type}}" style="display:{{$prop->type != 'color' ? 'none' : ''}}">
+
                     @if(count($prop->sub_properties) > 0)
                       @if(!empty($item))
                           @if(!empty($selectedItemSubPro))
-
                             
                             @foreach($prop->sub_properties as $s_key => $s_prop)
                                 @if(in_array($s_prop->id, $selectedItemSubPro->toArray()))
                                   <option value="{{$s_prop->id}}" selected>
                                     {{$s_prop->propertyName}}
                                   </option>
+                                  <script type="text/javascript">
+                                    (function() {
+                                      $("."+$('#main_prop_type').val()).show();
+                                    })();
+                                  </script>
                                 @else
                                   <option value="{{$s_prop->id}}">
                                     {{$s_prop->propertyName}}
                                   </option>
-                                @endif  
+                                @endif
                             @endforeach
 
                           @else
+
                             @foreach($prop->sub_properties as $s_key => $s_prop)
                               <option value="{{$s_prop->id}}">
                                 {{$s_prop->propertyName}}
                               </option>
                             @endforeach
+
                           @endif
 
                       @else
@@ -297,7 +327,19 @@
 </div>
 
 <script type="text/javascript">
-  
+      
+    function propType(valuee){
+      if(valuee == 'clothes_size'){
+        $("."+valuee).show();
+        $(".shoes_size").hide();
+      }else if(valuee == 'shoes_size'){
+        $("."+valuee).show();
+        $(".clothes_size").hide();
+      }
+    }  
+
+
+
 
     function checkDicount(itemPrice){
 

@@ -448,15 +448,18 @@ class Users extends Controller
         $sub_props = Sub_property::whereIn('prop_id',$prop_ids)->get();
 
         $data['color'] = [];
-        $data['size'] = [];
+        $data['clothes_size'] = [];
+        $data['shoes_size'] = [];
         if (!empty($sub_props)) {
             foreach($sub_props as $sub_prop){
 
                 $prop = Property::find($sub_prop->prop_id);
                 if(!empty($prop) && $prop->type == 'color'){
                     array_push($data['color'],$sub_prop);
-                }elseif(!empty($prop) && $prop->type == 'size'){
-                    array_push($data['size'],$sub_prop);
+                }elseif(!empty($prop) && $prop->type == 'clothes_size'){
+                    array_push($data['clothes_size'],$sub_prop);
+                }elseif(!empty($prop) && $prop->type == 'shoes_size'){
+                    array_push($data['shoes_size'],$sub_prop);
                 }
             }
         }

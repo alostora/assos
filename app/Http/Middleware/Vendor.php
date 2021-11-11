@@ -20,7 +20,7 @@ class Vendor
         if(Auth::guard($guard)->check()){
             return $next($request);
         }else{
-            return redirect('admin/login');
+            return redirect('vendor/login');
         }
     }
 }

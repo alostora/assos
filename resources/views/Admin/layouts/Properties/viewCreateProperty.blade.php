@@ -25,32 +25,38 @@
               <input type="hidden" name="id" value="@if(!empty($property)) {{$property->id}} @endif">
 
               <div class="form-group">
-
                   <label for="type" class="col-sm-2 control-label">
                   @lang('leftsidebar.type')</label>
                   <div class="col-sm-4">
                       <select name="type" class="form-control" id="type" required>
                         @if(!empty($property))
-                          @if($property == 'color')
+                          @if($property->type == 'color')
                             <option value="color" selected>color</option>
-                            <option value="size">size</option>
+                            <option value="clothes_size">clothes_size</option>
+                            <option value="shoes_size">shoes_size</option>
+                          @elseif($property->type == 'clothes_size')
+                            <option value="color">color</option>
+                            <option value="clothes_size" selected>clothes_size</option>
+                            <option value="shoes_size">shoes_size</option>
+                          @elseif($property->type == 'shoes_size')
+                            <option value="color">color</option>
+                            <option value="clothes_size">clothes_size</option>
+                            <option value="shoes_size"selected>shoes_size</option>
                           @else
                             <option value="color">color</option>
-                            <option value="size" selected>size</option>
+                            <option value="clothes_size">clothes_size</option>
+                            <option value="shoes_size">shoes_size</option>
                           @endif
                         @else
                           <option value="color">color</option>
-                          <option value="size">size</option>
+                          <option value="clothes_size">clothes_size</option>
+                          <option value="shoes_size">shoes_size</option>
                         @endif
                     </select>
                   </div>
-
-                
-                  
               </div>
 
               <div class="form-group">
-
                   <label for="propertyName" class="col-sm-2 control-label">
                   @lang('leftsidebar.propertyName')</label>
                   <div class="col-sm-4">
