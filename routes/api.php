@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Route;
 Route::group(['namespace'=>'Api\Users'],function(){
 
     Route::post('userCountery','Users_auth@userCountery');
+    Route::post('register','Users_auth@register');
+    Route::post('login','Users_auth@login');
+
     Route::get('vendors','Users@vendors');
 
     Route::get('vendorCategories/{vendor_id}','Users@vendorCategories');
@@ -37,5 +40,10 @@ Route::group(['namespace'=>'Api\Users'],function(){
     //items search
     Route::any('itemSearch','Users@itemSearch');
     Route::any('itemsOrderBy','Users@itemsOrderBy');
+
+
+    Route::group(['middleware'=>'auth_user_api'],function(){
+        Route::get('test','Users_auth_actions@test');
+    });
 
 });
