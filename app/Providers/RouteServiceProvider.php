@@ -36,6 +36,8 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->configureRateLimiting();
+        
+        ////\URL::forceScheme('https');
 
         $this->routes(function () {
             Route::prefix('api')

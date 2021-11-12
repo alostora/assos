@@ -296,12 +296,10 @@
           <div class="col-sm-6">
             <select name="sub_prop_id[]" class="form-control js-example-basic-multiple" multiple>
                 @foreach($properties as $mainKey=>$prop)
-                  <optgroup label="@lang('leftsidebar.'.$prop->type)" class="{{$prop->type}}" style="display:{{$prop->type != 'color' ? 'none' : ''}}">
-
+                  <optgroup label="@lang('leftsidebar.'.$prop->type)" class="{{$prop->type}}" {{$prop->type != 'color' ? 'disabled' : ''}}>
                     @if(count($prop->sub_properties) > 0)
                       @if(!empty($item))
                           @if(!empty($selectedItemSubPro))
-                            
                             @foreach($prop->sub_properties as $s_key => $s_prop)
                                 @if(in_array($s_prop->id, $selectedItemSubPro->toArray()))
                                   <option value="{{$s_prop->id}}" selected>
@@ -318,17 +316,13 @@
                                   </option>
                                 @endif
                             @endforeach
-
                           @else
-
                             @foreach($prop->sub_properties as $s_key => $s_prop)
                               <option value="{{$s_prop->id}}">
                                 {{$s_prop->propertyName}}
                               </option>
                             @endforeach
-
                           @endif
-
                       @else
                         @foreach($prop->sub_properties as $s_key => $s_prop)
                             <option value="{{$s_prop->id}}">
@@ -365,14 +359,14 @@
   
     function propType(valuee){
       if(valuee == 'clothes_size'){
-        $("."+valuee).show();
-        $(".shoes_size").hide();
+        $("."+valuee).prop('disabled', false);
+        $(".shoes_size").prop('disabled', true);
       }else if(valuee == 'shoes_size'){
-        $("."+valuee).show();
-        $(".clothes_size").hide();
+        $("."+valuee).prop('disabled', false);
+        $(".clothes_size").prop('disabled', true);
       }else{
-        $(".clothes_size").hide();
-        $(".shoes_size").hide();
+        $(".clothes_size").prop('disabled', true);
+        $(".shoes_size").prop('disabled', true);
       }
     }  
 

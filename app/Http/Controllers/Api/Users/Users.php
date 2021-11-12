@@ -486,6 +486,13 @@ class Users extends Controller
                 ->orWhere('itemNAmeAr','like',"%".$request->itemNameSearch."%");
             }
 
+
+            if(!empty($request->vendor_id)){
+                if (is_array($request->vendor_id)) {
+                    $items->whereIn('vendor_id',$request->vendor_id);
+                }
+            }
+
             if(!empty($request->cats_ids)){
                 if (is_array($request->cats_ids)) {
 
@@ -499,6 +506,7 @@ class Users extends Controller
                     }
                 }
             }
+            
 
             if(!empty($request->sub_cat_ids)){
                 if (is_array($request->sub_cat_ids)) {
@@ -506,11 +514,6 @@ class Users extends Controller
                 }
             }
 
-            if(!empty($request->vendor_id)){
-                if (is_array($request->vendor_id)) {
-                    $items->whereIn('vendor_id',$request->vendor_id);
-                }
-            }
 
             if(!empty($request->sub_prop_ids)){
                 if (is_array($request->sub_prop_ids)) {
