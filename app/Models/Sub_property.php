@@ -14,4 +14,8 @@ class Sub_property extends Model
         'propertyNameAr',
         'prop_id',
     ];
+
+      protected $hidden = [
+        'propertyNameAr',
+    ];
 }

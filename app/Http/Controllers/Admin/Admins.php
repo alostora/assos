@@ -75,6 +75,15 @@ class Admins extends Controller
 
 
     public function createAdmin(Request $request){
+
+
+        $validated = $request->validate([
+            'name' => 'required|max:100',
+            'email' => 'required|unique:admins,email,'.$request->id.'|max:100',
+            'password' => 'required|max:100',
+            'confirmPassword' => 'same:password',
+        ]);
+
             
         if($request->password != $request->confirmPassword){
             $request->session()->flash('warning','password does not matched');//error message

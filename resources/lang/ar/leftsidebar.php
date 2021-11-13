@@ -547,4 +547,6 @@ return [
     "clothes_size"=> "مقاس الملابس",
     "shoes_size"=> "مقاس الاحزية",
     "color"=> "اللون",
+
+    "Molak"=> "مولك",
 ];

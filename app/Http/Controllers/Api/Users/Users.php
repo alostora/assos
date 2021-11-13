@@ -16,6 +16,7 @@ use App\Models\Item_properity;
 use App\Models\Property;
 use App\Models\Sub_property;
 use URL;
+use Lang;
 
 
 class Users extends Controller
@@ -63,7 +64,6 @@ class Users extends Controller
         }
         return $data;
     }
-
 
 
 
@@ -132,6 +132,7 @@ class Users extends Controller
 
         $deviceId = $request->header('device-id');
         $user = User::where('deviceId',$deviceId)->first();
+        $lang = $request->header('accept-language');
         if(!empty($user)){
             
             $data['status'] = true;
@@ -142,86 +143,92 @@ class Users extends Controller
                 $query->limit(3);
             }])->first();
 
-            $data['item']->itemName = $request->header('accept-language') == 'en' ? $data['item']->itemName : $data['item']->itemNameAr;
 
-            $data['item']->itemDescribe = $request->header('accept-language') == 'en' ? $data['item']->itemDescribe : $data['item']->itemDescribeAr;
+            if(!empty($data['item'])){
+                $data['item']->itemName = $lang == 'en' ? $data['item']->itemName : $data['item']->itemNameAr;
 
-            if(!empty($data['item'])) {
-                $data['item']->vendor_info = Vendor::find($data['item']->vendor_id);
-                $data['item']->vendor_info->vendor_image = URL::to('Admin_uploads/vendors/'.$data['item']->vendor_info->vendor_image);
+                $data['item']->itemDescribe = $lang == 'en' ? $data['item']->itemDescribe : $data['item']->itemDescribeAr;
 
-                if(count($data['item']->other_item_images)) {
-                    foreach($data['item']->other_item_images as $otherImage){
-                        $otherImage->itemImageName = URL::to('uploads/itemImages/'.$otherImage->itemImageName);
-                            // code...
-                    }
-                }
+                if(!empty($data['item'])) {
+                    $data['item']->vendor_info = Vendor::find($data['item']->vendor_id);
+                    $data['item']->vendor_info->vendor_image = URL::to('Admin_uploads/vendors/'.$data['item']->vendor_info->vendor_image);
 
-                if(count($data['item']->reviews)) {
-                    foreach($data['item']->reviews as $review){
-                        $review->user_info = User::where('id',$review->user_id)->first(['id','name','image']);
-                        $review->user_info->image = URL::to('Admin_uploads/vendors/'.$review->user_info->image);
-                    }
-                }
-
-                $color = [];
-                $size = [];
-
-                //item property belongs to items
-                $item_properties = Item_properity::where('item_id',$data['item']->id)->pluck('id');
-                //item property belongs to item properties
-                $item_properties_plus = Item_property_plus::whereIn('properity_id',$item_properties)->pluck('sub_prop_id');
-                //item property belongs to admin properties
-                $sub_prop = Sub_property::whereIn('id',$item_properties_plus)->get();
-                if(!empty($sub_prop)) {
-                    foreach($sub_prop as $pro){
-                        $main_admin_prop = Property::find($pro->prop_id);
-                        if (!empty($main_admin_prop) && $main_admin_prop->type == 'color') {
-                            array_push($color, $pro);
-                        }elseif(!empty($main_admin_prop) && $main_admin_prop->type == 'size'){
-                            array_push($size, $pro);
+                    if(count($data['item']->other_item_images)) {
+                        foreach($data['item']->other_item_images as $otherImage){
+                            $otherImage->itemImageName = URL::to('uploads/itemImages/'.$otherImage->itemImageName);
                         }
                     }
-                }
 
-                $data['item']->color = $color;
-                $data['item']->size = $size;
-
-                $data['item']->itemImage = URL::to('uploads/itemImages/'.$data['item']->itemImage);
-                $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$data['item']->id)->first();
-
-                $data['item']->itemMayLike = Item::limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
-
-                if (!empty($data['item']->itemMayLike)) {
-                    foreach($data['item']->itemMayLike as $itemMayLike){
-                        $itemMayLike->itemName = $request->header('accept-language') == 'en' ? $itemMayLike->itemName : $itemMayLike->itemNameAr;
-
-                        $itemMayLike->itemImage = URL::to('uploads/itemImages/'.$itemMayLike->itemImage);
-                        $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$itemMayLike->id)->first();
-                        $itemMayLike->fav = !empty($fav) ? true : false;
-                        $itemMayLike->cart = false;
+                    if(count($data['item']->reviews)) {
+                        foreach($data['item']->reviews as $review){
+                            $review->user_info = User::where('id',$review->user_id)->first(['id','name','image']);
+                            $review->user_info->image = URL::to('Admin_uploads/vendors/'.$review->user_info->image);
+                        }
                     }
-                }
 
-                $data['item']->itemFit = Item::limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
+                    
 
-                if(!empty($data['item']->itemFit)) {
-                    foreach($data['item']->itemFit as $itemFit){
-                        $itemFit->itemName = $request->header('accept-language') == 'en' ? $itemFit->itemName : $itemFit->itemNameAr;
-
-                        $itemFit->itemImage = URL::to('uploads/itemImages/'.$itemFit->itemImage);
-                        $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$itemFit->id)->first();
-                        $itemFit->fav = !empty($fav) ? true : false;
-                        $itemFit->cart = false;
+                    //item property belongs to items
+                    $item_properties = Item_properity::where('item_id',$data['item']->id)->pluck('id');
+                    //item property belongs to item properties
+                    $item_properties_plus = Item_property_plus::whereIn('properity_id',$item_properties)->pluck('sub_prop_id');
+                    //item property belongs to admin properties
+                    $sub_prop = Sub_property::whereIn('id',$item_properties_plus)->get();
+                    if(!empty($sub_prop)) {
+                        $color = [];
+                        $size = [];
+                        foreach($sub_prop as $pro){
+                            $pro->propertyName = $lang == 'en' ? $pro->propertyName : $pro->propertyNameAr;
+                            $main_admin_prop = Property::find($pro->prop_id);
+                            if (!empty($main_admin_prop) && $main_admin_prop->type == 'color') {
+                                array_push($color, $pro);
+                            }elseif(!empty($main_admin_prop) && $main_admin_prop->type == 'size'){
+                                array_push($size, $pro);
+                            }
+                        }
                     }
+
+
+
+                    $data['item']->color = $color;
+                    $data['item']->size = $size;
+
+                    $data['item']->itemImage = URL::to('uploads/itemImages/'.$data['item']->itemImage);
+                    $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$data['item']->id)->first();
+
+                    $data['item']->itemMayLike = Item::limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
+
+                    if (!empty($data['item']->itemMayLike)) {
+                        foreach($data['item']->itemMayLike as $itemMayLike){
+                            $itemMayLike->itemName = $request->header('accept-language') == 'en' ? $itemMayLike->itemName : $itemMayLike->itemNameAr;
+
+                            $itemMayLike->itemImage = URL::to('uploads/itemImages/'.$itemMayLike->itemImage);
+                            $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$itemMayLike->id)->first();
+                            $itemMayLike->fav = !empty($fav) ? true : false;
+                            $itemMayLike->cart = false;
+                        }
+                    }
+
+                    $data['item']->itemFit = Item::limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
+
+                    if(!empty($data['item']->itemFit)) {
+                        foreach($data['item']->itemFit as $itemFit){
+                            $itemFit->itemName = $request->header('accept-language') == 'en' ? $itemFit->itemName : $itemFit->itemNameAr;
+
+                            $itemFit->itemImage = URL::to('uploads/itemImages/'.$itemFit->itemImage);
+                            $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$itemFit->id)->first();
+                            $itemFit->fav = !empty($fav) ? true : false;
+                            $itemFit->cart = false;
+                        }
+                    }
+
+
+                    $data['item']->fav = !empty($fav) ? true : false;
+                    $data['item']->cart = false;
                 }
-
-
-                $data['item']->fav = !empty($fav) ? true : false;
-                $data['item']->cart = false;
+            }else{
+                $data['status'] = false;
             }
-
-
         }else{
             $data['status'] = false;
             $data['message'] = 'user not found';
@@ -441,19 +448,22 @@ class Users extends Controller
 
 
 
-
-    public function properties(){
+    public function properties(Request $request){
         $data['status'] = true;
         $prop_ids = Property::pluck('id');
         $sub_props = Sub_property::whereIn('prop_id',$prop_ids)->get();
+        $lang = $request->header('accept-language');
 
-        $data['color'] = [];
-        $data['clothes_size'] = [];
-        $data['shoes_size'] = [];
         if (!empty($sub_props)) {
-            foreach($sub_props as $sub_prop){
 
+            $data['color'] = [];
+            $data['clothes_size'] = [];
+            $data['shoes_size'] = [];
+
+            foreach($sub_props as $sub_prop){
+                $sub_prop->propertyName = $lang == 'en' ? $sub_prop->propertyName : $sub_prop->propertyNameAr;
                 $prop = Property::find($sub_prop->prop_id);
+
                 if(!empty($prop) && $prop->type == 'color'){
                     array_push($data['color'],$sub_prop);
                 }elseif(!empty($prop) && $prop->type == 'clothes_size'){
@@ -466,7 +476,6 @@ class Users extends Controller
 
         return $data;
     }
-
 
 
 

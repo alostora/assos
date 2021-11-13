@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>@lang('leftsidebar.Admins') | @lang('leftsidebar.logIn')</title>
+  <title>@lang('leftsidebar.Molak') | @lang('leftsidebar.logIn')</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -44,7 +44,7 @@
       <div class="alert alert-danger">{{session('fails')}}</div>  
     @endif
   <div class="login-logo">
-    <b>@lang('leftsidebar.menuqr')</b> @lang('leftsidebar.logIn')
+    <b>@lang('leftsidebar.Molak')</b> @lang('leftsidebar.logIn')
     
   </div>
   <!-- /.login-logo -->

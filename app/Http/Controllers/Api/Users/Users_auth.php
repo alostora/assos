@@ -49,14 +49,14 @@ class Users_auth extends Controller
         $device_id = $request->header('device-id');
         if(!empty($device_id)) {
             $validator = Validator::make($request->all(),[
-            'name' => 'required|max:100',
-            'email' => 'required|unique:users,email|max:100',
-            'phone' => 'required|unique:users,phone|max:100',
-            'password' => 'required|max:100',
-            'confirmPassword' => 'same:password',
+                'name' => 'required|max:100',
+                'email' => 'required|unique:users,email|max:100',
+                'phone' => 'required|unique:users,phone|max:100',
+                'password' => 'required|max:100',
+                'confirmPassword' => 'same:password',
             ]);
 
-            if ($validator->fails()) {
+            if($validator->fails()) {
                 $data['status'] = false;
                 $data['errors'] = $validator->errors();
                 return $data;

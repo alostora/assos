@@ -3,9 +3,9 @@
     <!-- Logo -->
     <a href="{{url('/admin')}}" class="logo" style="color:#fefefe">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>@lang('leftsidebar.menuqr')</b></span>
+      <span class="logo-mini"><b>@lang('leftsidebar.Molak')</b></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>@lang('leftsidebar.menuqr')</b></span>
+      <span class="logo-lg"><b>@lang('leftsidebar.Molak')</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">

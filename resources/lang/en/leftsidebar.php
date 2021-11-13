@@ -559,6 +559,8 @@ return [
     "clothes_size"=> "clothes size",
     "shoes_size"=> "shoes size",
     "color"=> "color",
+    
+    "Molak"=> "Molak",
 
 
 

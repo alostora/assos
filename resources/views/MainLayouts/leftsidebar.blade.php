@@ -10,7 +10,7 @@
                 @elseif(Auth::guard('vendor')->check())
                     <p>{{Auth::guard('vendor')->user()->vendor_name}}</p>
                 @endif
-                <i class="fa fa-circle text-success"></i> متصل
+                <i class="fa fa-circle text-success"></i> @lang('leftsidebar.online')
             </div>
         </div>
         <ul class="sidebar-menu" data-widget="tree">

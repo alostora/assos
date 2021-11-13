@@ -1,7 +1,7 @@
 <div class="content-wrapper">
     <section class="content-header">
         <h1>
-          @lang('leftsidebar.menuqr')
+          @lang('leftsidebar.Molak')
           <small>@lang('leftsidebar.Control Panel')</small>  
         </h1>
     </section>
