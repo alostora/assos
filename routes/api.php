@@ -12,7 +12,21 @@ Route::group(['namespace'=>'Api\Users'],function(){
     Route::post('userCountery','Users_auth@userCountery');
     Route::post('register','Users_auth@register');
     Route::post('login','Users_auth@login');
+    
+    //Auth Routes
+    Route::group(['middleware'=>'auth_user_api'],function(){
+        Route::get('profile','Users_auth@profile');
+        Route::post('changePassword','Users_auth@changePassword');
+        Route::post('updateProfile','Users_auth@updateProfile');
+        Route::get('logOut','Users_auth@logOut');
 
+
+        //Users_auth_actions
+        Route::get('test','Users_auth_actions@test');
+    });
+
+
+    //un auth routes
     Route::get('vendors','Users@vendors');
 
     Route::get('vendorCategories/{vendor_id}','Users@vendorCategories');
@@ -39,11 +53,7 @@ Route::group(['namespace'=>'Api\Users'],function(){
     Route::get('properties','Users@properties');
     //items search
     Route::any('itemSearch','Users@itemSearch');
-    Route::any('itemsOrderBy','Users@itemsOrderBy');
+    Route::get('sortType','Users@sortType');
 
-
-    Route::group(['middleware'=>'auth_user_api'],function(){
-        Route::get('test','Users_auth_actions@test');
-    });
 
 });

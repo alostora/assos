@@ -8,6 +8,9 @@ use App\Models\User;
 use Validator;
 use Hash;
 use Str;
+use Auth;
+use URL;
+use File;
 
 class Users_auth extends Controller
 {
@@ -40,8 +43,8 @@ class Users_auth extends Controller
         $response['message'] = "success";
 
         return $response;
-
     }
+
 
 
 
@@ -58,7 +61,8 @@ class Users_auth extends Controller
 
             if($validator->fails()) {
                 $data['status'] = false;
-                $data['errors'] = $validator->errors();
+                $err = $validator->errors()->toArray();
+                $data['message'] = array_values($err)[0][0];
                 return $data;
             }
 
@@ -74,7 +78,9 @@ class Users_auth extends Controller
                 'password' => $password ,
                 'api_token' => Str::random(50),
             ]);
+
             $user = User::where('deviceId',$device_id)->first();
+            $user->image = !empty($user->image) ? URL::to('uploads/users/'.$user->image) : URL::to('uploads/users/defaultLogo.jpeg');
             $data['status'] = true;
             $data['user'] = $user ;
         }else{
@@ -85,15 +91,18 @@ class Users_auth extends Controller
     }
 
 
+
+
     public function login(Request $request){
         $user = User::where('email',$request->email)->first();
 
-        if (!empty($user)) {
+        if(!empty($user)) {
             if(Hash::check($request->password,$user->password)){
                 $data['status'] = true;
                 $data['user'] = $user;
                 $data['user']->api_token = Str::random(50);
                 $data['user']->save();
+                $data['user']->image = !empty($data['user']->image) ? URL::to('uploads/users/'.$data['user']->image) : URL::to('uploads/users/defaultLogo.jpeg');
             }else{
                 $data['status'] = false;
                 $data['message'] = 'error password';
@@ -104,6 +113,109 @@ class Users_auth extends Controller
         }
         return $data;
     }
+
+
+
+
+    public function profile(Request $request){
+        $data['status'] = true;
+        $data['user'] = Auth::guard('api')->user();
+        $data['user']->image = !empty($data['user']->image) ? URL::to('uploads/users/'.$data['user']->image) : URL::to('uploads/users/defaultLogo.jpeg');
+        
+        return $data;
+    }
+
+
+
+
+    public function changePassword(Request $request){
+        $validator = Validator::make($request->all(),[
+            'password' => 'required|max:100',
+            'confirmPassword' => 'same:password',
+        ]);
+
+        if($validator->fails()) {
+            $data['status'] = false;
+            $err = $validator->errors()->toArray();
+            $data['message'] = array_values($err)[0][0];
+            return $data;
+        }
+
+
+        $password = Hash::make($request->password);
+        $user = User::find(Auth::guard('api')->id());
+        $user->password = $password;
+        $user->save();
+
+        $data['status'] = true;
+        $data['message'] = 'password changed';
+
+        return $data;
+
+    }
+
+
+
+
+
+    public function updateProfile(Request $request){
+
+        $user = Auth::guard("api")->user();
+        
+        $data = $request->except(['api_token']);
+        $destinationPath = public_path('uploads/users/');
+        $data['image'] = $user->image;
+
+        $validator = Validator::make($request->all(),[
+          'name' => 'required|max:100',
+          'email' => 'required|unique:users,email,'.$user->id.'|max:100',
+          'phone' => 'required|unique:users,phone,'.$user->id.'|max:100',
+        ]);
+
+        
+        if($validator->fails()) {
+            $data['status'] = false;
+            $err = $validator->errors()->toArray();
+            $data['message'] = array_values($err)[0][0];
+            return $data;
+        }
+
+
+        if ($request->hasFile('image')) {
+            File::delete($destinationPath.$data['image']);
+            $image = $request->file('image');
+            $data['image'] = Str::random(30).'.'.$image->getClientOriginalExtension();
+            $image->move($destinationPath, $data['image']);
+        }
+
+        User::where('id',$user->id)->update($data);
+
+        $user = User::find($user->id);
+        $user->image = !empty($user->image) ? URL::to('uploads/users/'.$user->image) : URL::to('uploads/users/defaultLogo.jpeg');
+
+        $info['status'] = true;
+        $info['user'] = $user;
+
+        return $info;
+    }
+
+
+
+
+
+
+
+
+
+    public function logOut(Request $request){
+        User::where('id',Auth::guard('api')->id())->update(['api_token' => null]);
+        $data['status'] = true;
+        $data['message'] = "loged out";
+        return $data;
+    }
+
+
+
 
 
 }

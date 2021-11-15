@@ -15,6 +15,7 @@ use App\Models\Item_property_plus;
 use App\Models\Item_properity;
 use App\Models\Property;
 use App\Models\Sub_property;
+use App\Models\Sort_type;
 use URL;
 use Lang;
 
@@ -39,6 +40,7 @@ class Users extends Controller
 
 
     public function vendorCategories(Request $request,$vendor_id){
+        
         $data['status'] = true;
 
         $data['categories'] = Category::with('sub_categories')->get();
@@ -69,6 +71,7 @@ class Users extends Controller
 
 
     public function categories(Request $request){
+
         $data['status'] = true;
         $data['categories'] = Category::with('sub_categories')->get();
         
@@ -127,22 +130,19 @@ class Users extends Controller
 
 
 
-
     public function itemInfo(Request $request,$itemId){
 
         $deviceId = $request->header('device-id');
         $user = User::where('deviceId',$deviceId)->first();
         $lang = $request->header('accept-language');
         if(!empty($user)){
-            
-            $data['status'] = true;
 
+            $data['status'] = true;
             $data['item'] = Item::where('id',$itemId)
             ->with('other_item_images')
             ->with(['reviews'=>function($query){
                 $query->limit(3);
             }])->first();
-
 
             if(!empty($data['item'])){
                 $data['item']->itemName = $lang == 'en' ? $data['item']->itemName : $data['item']->itemNameAr;
@@ -166,8 +166,6 @@ class Users extends Controller
                         }
                     }
 
-                    
-
                     //item property belongs to items
                     $item_properties = Item_properity::where('item_id',$data['item']->id)->pluck('id');
                     //item property belongs to item properties
@@ -187,8 +185,6 @@ class Users extends Controller
                             }
                         }
                     }
-
-
 
                     $data['item']->color = $color;
                     $data['item']->size = $size;
@@ -239,7 +235,6 @@ class Users extends Controller
 
 
 
-
     public function addItemToFav(Request $request,$item_id){
 
         $device_id = $request->header('device-id');
@@ -269,7 +264,6 @@ class Users extends Controller
 
 
 
-
     public function removeItemFromFav(Request $request,$item_id){
 
         $device_id = $request->header('device-id');
@@ -287,7 +281,6 @@ class Users extends Controller
         }
         return $data;
     }
-
 
 
 
@@ -536,11 +529,28 @@ class Users extends Controller
                 }
             }
 
+        
             if( !empty($request->minPrice) && !empty($request->maxPrice) ){
                 $items->whereBetween('itemPrice',[$request->minPrice,$request->maxPrice]);
             }
-           
 
+
+            if($request->sortType == 'priceASC'){
+                $items->orderBy('itemPrice','ASC');
+            }
+
+            if($request->sortType == 'priceDESC') {
+                $items->orderBy('itemPrice','DESC');
+            }
+
+            if($request->sortType == 'rateASC') {
+                $items->orderBy('rate','ASC');
+            }
+
+            if($request->sortType == 'rateDESC') {
+                $items->orderBy('rate','ASC');
+            }
+        
             $data['items'] = $items->select(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->paginate(25);
 
             if(!empty($data['items'])){
@@ -555,9 +565,6 @@ class Users extends Controller
                     $item->cart = false;
                 }
             }
-
-
-
         }else{
             $data['status'] = false;
             $data['message'] = 'user not found';
@@ -568,32 +575,13 @@ class Users extends Controller
 
 
 
-    public function itemsOrderBy(Request $request){
-
+    public function sortType(Request $request){
         $device_id = $request->header('device-id');
         $user = User::where('deviceId',$device_id)->first();
 
         if(!empty($user)) {
-            if( !empty($request->sortType == 'price') ){
-                $data['items'] = Item::orderBy('itemPrice',$request->sort)->get();
-            }
-
-            if( !empty($request->sortType == 'rate') ){
-                $data['items'] = Item::orderBy('rate',$request->sort)->get();
-            }
-
-            if(!empty($data['items'])){
-                foreach($data['items'] as $item){
-
-                    $item->itemName = $request->header('accept-language') == 'en' ? $item->itemName : $item->itemNameAr;
-                    $item->itemDescribe = $request->header('accept-language') == 'en' ? $item->itemDescribe : $item->itemDescribeAr;
-
-                    $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
-                    $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
-                    $item->fav = !empty($fav) ? true : false;
-                    $item->cart = false;
-                }
-            }
+            $data['status'] = true;
+            $data['sortType'] = Sort_type::get();
         }else{
             $data['status'] = false;
             $data['message'] = 'user not found';
