@@ -16,6 +16,8 @@ class CreateSortTypesTable extends Migration
         Schema::create('sort_types', function (Blueprint $table) {
             $table->id();
             $table->string('sortTypeName');
+            $table->string('sortTypeNameAr');
+            $table->string('sortKeyName');
             $table->timestamps();
         });
     }

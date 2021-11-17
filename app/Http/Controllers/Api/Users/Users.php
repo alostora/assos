@@ -218,7 +218,6 @@ class Users extends Controller
                         }
                     }
 
-
                     $data['item']->fav = !empty($fav) ? true : false;
                     $data['item']->cart = false;
                 }
@@ -361,7 +360,6 @@ class Users extends Controller
 
     public function itemReviews(Request $request,$item_id){
 
-
         $device_id = $request->header('device-id');
         $user = User::where('deviceId',$device_id)->first();
 
@@ -479,15 +477,14 @@ class Users extends Controller
         $user = User::where('deviceId',$device_id)->first();
 
         if(!empty($user)) {
-            $data['status'] = true;
 
+            $data['status'] = true;
             $items = Item::query();
            
             if(!empty($request->itemNameSearch)) {
                 $items->where('itemNAme','like',"%".$request->itemNameSearch."%")
                 ->orWhere('itemNAmeAr','like',"%".$request->itemNameSearch."%");
             }
-
 
             if(!empty($request->vendor_id)){
                 if (is_array($request->vendor_id)) {
@@ -509,13 +506,11 @@ class Users extends Controller
                 }
             }
             
-
             if(!empty($request->sub_cat_ids)){
                 if (is_array($request->sub_cat_ids)) {
                     $items->whereIn('sub_cat_id',$request->sub_cat_ids);
                 }
             }
-
 
             if(!empty($request->sub_prop_ids)){
                 if (is_array($request->sub_prop_ids)) {
@@ -529,7 +524,6 @@ class Users extends Controller
                 }
             }
 
-        
             if( !empty($request->minPrice) && !empty($request->maxPrice) ){
                 $items->whereBetween('itemPrice',[$request->minPrice,$request->maxPrice]);
             }
@@ -582,6 +576,12 @@ class Users extends Controller
         if(!empty($user)) {
             $data['status'] = true;
             $data['sortType'] = Sort_type::get();
+
+            if(!empty($data['sortType'])) {
+                foreach($data['sortType'] as $sType){
+                    $sType->sortTypeName = $request->header('accept-language') == 'en' ? $sType->sortTypeName : $sType->sortTypeNameAr;
+                }  
+            }
         }else{
             $data['status'] = false;
             $data['message'] = 'user not found';

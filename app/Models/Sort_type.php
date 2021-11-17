@@ -11,5 +11,11 @@ class Sort_type extends Model
     protected $table = 'sort_types';
     protected $fillable = [
         'sortTypeName',
+        'sortTypeNameAr',
+        'sortKeyName',
+    ];
+
+    protected $hidden = [
+        'sortTypeNameAr'
     ];
 }
