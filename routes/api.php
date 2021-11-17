@@ -18,6 +18,8 @@ Route::group(['namespace'=>'Api\Users'],function(){
         Route::get('profile','Users_auth@profile');
         Route::post('changePassword','Users_auth@changePassword');
         Route::post('updateProfile','Users_auth@updateProfile');
+        Route::post('addNewAddress/{id?}','Users_auth@addNewAddress');
+        Route::get('deleteAddress/{id}','Users_auth@deleteAddress');
         Route::get('logOut','Users_auth@logOut');
 
 

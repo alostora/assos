@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Users;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\User_address;
 use Validator;
 use Hash;
 use Str;
@@ -26,7 +27,8 @@ class Users_auth extends Controller
 
         if ($validator->fails()) {
             $response['status'] = false;
-            $response['errors'] = $validator->errors();
+            $err = $validator->errors()->toArray();
+            $data['message'] = array_values($err)[0][0];
             return $response;
         }
 
@@ -66,16 +68,11 @@ class Users_auth extends Controller
                 return $data;
             }
 
-            $name = $request->name;
-            $email = $request->email;
-            $phone = $request->phone;
-            $password = Hash::make($request->password);
-
             User::where('deviceId',$device_id)->update([
-                'name' =>  $name,
-                'email' =>  $email,
-                'phone' =>  $phone,
-                'password' => $password ,
+                'name' =>  $request->name,
+                'email' =>  $request->email,
+                'phone' =>  $request->phone,
+                'password' => Hash::make($request->password),
                 'api_token' => Str::random(50),
             ]);
 
@@ -152,6 +149,53 @@ class Users_auth extends Controller
 
         return $data;
 
+    }
+
+
+
+
+
+    public function addNewAddress(Request $request,$id=false){
+        $validator = Validator::make($request->all(),[
+            'title' => 'required|max:100',
+            'address' => 'required|max:150',
+            'isMain' => 'required|boolean',
+        ]);
+
+        if($validator->fails()) {
+            $data['status'] = false;
+            $err = $validator->errors()->toArray();
+            $data['message'] = array_values($err)[0][0];
+            return $data;
+        }
+
+        $addressData = $request->all();
+
+        $userAddress = User_address::where('user_id',Auth::guard('api')->id())->first();
+        $addressData['isMain'] = !empty($userAddress) ? true : $request->isMain;
+        
+        if ($id != false) {
+            User_address::create($addressData);
+            $data['message'] = 'address added';
+        }else{
+            User_address::where('id',$id)->update($addressData);
+            $data['message'] = 'address updated';
+        }
+
+        $data['status'] = true;
+
+        return $data;
+    }
+
+
+
+
+    public function deleteAddress(Request $request,$id){
+        User_address::where(['id' => $id ,'user_id' => Auth::guard('api')->id()])->delete();
+        $data['status'] = true;
+        $data['message'] = 'address deleted';
+
+        return $data;
     }
 
 
