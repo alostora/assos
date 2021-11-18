@@ -10,8 +10,16 @@ class User_address extends Model
     use HasFactory;
     protected $table = "user_addresses";
     protected $fillable = [
-        'title',
+        
+        'name',
+        'phone',
+        'street',
         'address',
+        'addressDESC',
+        'homeNumber',
+        'postalCode',
+        'lng',
+        'lat',
         'isMain',//[true,false]
         'user_id'
     ];

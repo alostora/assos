@@ -148,17 +148,23 @@ class Users_auth extends Controller
         $data['message'] = 'password changed';
 
         return $data;
-
     }
 
 
 
 
 
-    public function addNewAddress(Request $request,$id=false){
+    public function addNewAddress(Request $request){
         $validator = Validator::make($request->all(),[
-            'title' => 'required|max:100',
-            'address' => 'required|max:150',
+            'name' => 'required|max:100',
+            'phone' => 'required|max:15',
+            'street' => 'required|max:100',
+            'address' => 'required|max:100',
+            'addressDESC' => 'required|max:100',
+            'homeNumber' => 'required|max:100',
+            'postalCode' => 'required|max:100',
+            'lng' => 'required|max:100',
+            'lat' => 'required|max:100',
             'isMain' => 'required|boolean',
         ]);
 
@@ -168,22 +174,39 @@ class Users_auth extends Controller
             $data['message'] = array_values($err)[0][0];
             return $data;
         }
-
+        $data['status'] = true;
         $addressData = $request->all();
+        $addressData['user_id'] = Auth::guard('api')->id();
 
-        $userAddress = User_address::where('user_id',Auth::guard('api')->id())->first();
-        $addressData['isMain'] = !empty($userAddress) ? true : $request->isMain;
+        $userAddress = User_address::where([
+            'user_id' => Auth::guard('api')->id(),'isMain'=>true
+        ])->first();
+
+        if(!empty($userAddress)){
+            $userAddress->isMain = false;
+            $userAddress->save();
+        }
         
-        if ($id != false) {
+        
+        if ($request->id == false) {
             User_address::create($addressData);
             $data['message'] = 'address added';
         }else{
-            User_address::where('id',$id)->update($addressData);
+            User_address::where('id',$request->id)->update($addressData);
             $data['message'] = 'address updated';
         }
 
-        $data['status'] = true;
 
+        return $data;
+    }
+
+
+
+
+
+    public function getAddress(){
+        $data['status'] = true;
+        $data['address'] = User_address::where('id',Auth::guard('api')->id())->get();
         return $data;
     }
 
@@ -242,11 +265,6 @@ class Users_auth extends Controller
 
         return $info;
     }
-
-
-
-
-
 
 
 
