@@ -479,7 +479,7 @@ class Users extends Controller
         if(!empty($user)) {
 
             $data['status'] = true;
-            $items = Item::query();
+            $items = Item::query()->where('department',$request->header('main-filter'));
            
             if(!empty($request->itemNameSearch)) {
                 $items->where('itemNAme','like',"%".$request->itemNameSearch."%")
