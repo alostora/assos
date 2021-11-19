@@ -59,4 +59,8 @@ Route::group(['namespace'=>'Api\Users'],function(){
     Route::get('sortType','Users@sortType');
 
 
+    //sliders
+    Route::get('homeSliders','Users@homeSliders');
+
+
 });

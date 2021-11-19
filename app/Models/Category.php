@@ -13,6 +13,9 @@ class Category extends Model
         "categoryName",
         "categoryNameAr",
         "categoryImage",
+        "categorySliderImage",
+        "sliderHomeStatus",
+        "sliderCategoryStatus",
     ];
     
 

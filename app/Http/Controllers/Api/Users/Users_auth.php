@@ -159,8 +159,8 @@ class Users_auth extends Controller
             'name' => 'required|max:100',
             'phone' => 'required|max:15',
             'street' => 'required|max:100',
-            'address' => 'required|max:100',
-            'addressDESC' => 'required|max:100',
+            'address' => 'required|max:200',
+            'addressDESC' => 'required|max:200',
             'homeNumber' => 'required|max:100',
             'postalCode' => 'required|max:100',
             'lng' => 'required|max:100',
@@ -206,7 +206,7 @@ class Users_auth extends Controller
 
     public function getAddress(){
         $data['status'] = true;
-        $data['address'] = User_address::where('id',Auth::guard('api')->id())->get();
+        $data['address'] = User_address::where('user_id',Auth::guard('api')->id())->get();
         return $data;
     }
 

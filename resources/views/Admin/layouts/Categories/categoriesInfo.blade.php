@@ -26,6 +26,7 @@
 			                  	<th>@lang('leftsidebar.categoryName')</th>
 			                  	<th>@lang('leftsidebar.categoryNameAr')</th>
 			                  	<th>@lang('leftsidebar.categoryImage')</th>
+			                  	<th>@lang('leftsidebar.categorySliderImage')</th>
 			                  	<th>@lang('leftsidebar.subCategories')</th>
 			                  	<th>@lang('leftsidebar.Operations')</th>
 			                </tr>
@@ -37,6 +38,9 @@
 						          	<td>{{$cat->categoryNameAr}}</td>
 						          	<td>
 						          		<img src="{{url('Admin_uploads/categories/'.$cat->categoryImage)}}" style="height: 100px;width:100px">
+						          	</td>
+						          	<td>
+						          		<img src="{{url('Admin_uploads/categories/'.$cat->categorySliderImage)}}" style="height: 100px;width:100px">
 						          	</td>
 						          	<td>
 							          	<div class="btn-group">

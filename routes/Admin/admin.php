@@ -61,6 +61,12 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::post('sub_createProperty','Properties@sub_createProperty');
 			Route::get('sub_deleteProperty/{id}','Properties@sub_deleteProperty');
 
+
+			//sliders
+			Route::get('sliderInfo/{type}','Sliders@sliderInfo');
+			Route::get('changeCatSliderStatus/{cat_id}/{type}','Sliders@changeCatSliderStatus');
+			Route::get('changeItemSliderStatus/{item_id}/{type}','Sliders@changeItemSliderStatus');
+
 		});
 	});
 });

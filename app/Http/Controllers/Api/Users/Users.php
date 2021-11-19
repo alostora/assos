@@ -595,4 +595,43 @@ class Users extends Controller
 
 
 
+    //sliders
+    public function homeSliders(Request $request){
+        $catSliders = Category::where('sliderHomeStatus',true)->get();
+        $itemSliders = Item::where('sliderHomeStatus',true)->get();
+
+        $data['status'] = true;
+        $sliders = [];
+
+        if (!empty($catSliders)) {
+            foreach($catSliders as $cat){
+                $slider['id'] = $cat->id;
+                $slider['name'] = $request->header('accept-language') == 'en' ? $cat->categoryName : $cat->categoryNameAr;
+                $slider['image'] = URL::to('Admin_uploads/categories/'.$cat->categorySliderImage);
+                $slider['type'] = 'category';
+                array_push($sliders, $slider);
+            }
+        }
+
+        if (!empty($itemSliders)) {
+            foreach($itemSliders as $item){
+                $slider['id'] = $item->id;
+                $slider['name'] = $request->header('accept-language') == 'en' ? $item->itemName : $item->itemNameAr;
+                $slider['image'] = URL::to('uploads/itemImages/'.$item->itemSliderImage);
+                $slider['type'] = 'item';
+                array_push($sliders, $slider);
+            }
+        }
+
+        $data['sliders'] = $sliders;
+        return $data;
+
+
+    }
+
+
+
+
+
+
 }

@@ -1,7 +1,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="{{url('/admin')}}" class="logo" style="color:#fefefe">
+    <a href="{{Auth::guard('admin')->check() ? url('/admin') : url('/vendor')}}" class="logo" style="color:#fefefe">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>@lang('leftsidebar.Molak')</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -10,11 +10,7 @@
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
       <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button"
-
-        onmouseover="$(this).css('background-color', '#333');"
-        onmouseleave="$(this).css('background-color', '#0DA0B4');">
-
+      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
 

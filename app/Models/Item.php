@@ -18,30 +18,28 @@ class Item extends Model
         "itemDescribe",
         "itemDescribeAr",
         "itemImage",
+
+        "itemSliderImage",
+        "sliderHomeStatus",//[true,false]
+        "sliderCategoryStatus",//[true,false]
+
         "itemPrice",
         "itemPriceAfterDis",
-        //"itemMainPrice",
         "discountType",//[percent,without]
         "discountValue",
         "itemCount",
-        "sallesAppear",//[yes,no]
-        "publicAppear",//[yes,no]
-        "viewInBanner",//[yes,no]
-        "bannerType",//[1,2,3,4]
-        //"bannerImage",
         "withProp",//[hasProperty,dontHasProperty]
         "rate",//average rate
         "sub_cat_id",
         "department",
         "main_prop_type",
         "vendor_id",
+       
     ];
 
     protected $hidden = [
         'facePage',
         'discountType',
-        'sallesAppear',
-        'publicAppear',
         'viewInBanner',
         'bannerType',
         'withProp',

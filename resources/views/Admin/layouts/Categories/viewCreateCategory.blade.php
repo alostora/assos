@@ -46,6 +46,14 @@
                         <img src="{{url('Admin_uploads/categories/'.$cat->categoryImage)}}" style="height:200px;width:200px"> 
                       @endif
                   </div>
+
+                  <label for="categorySliderImage" class="col-sm-2 control-label">@lang('leftsidebar.categorySliderImage')</label>
+                  <div class="col-sm-4">
+                      <input type="file" name="categorySliderImage" class="form-control" placeholder="@lang('leftsidebar.categorySliderImage')" >
+                      @if(!empty($cat) && !empty($cat->categorySliderImage)) 
+                        <img src="{{url('Admin_uploads/categories/'.$cat->categorySliderImage)}}" style="height:200px;width:200px"> 
+                      @endif
+                  </div>
               </div>
 
             </div>

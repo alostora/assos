@@ -138,6 +138,7 @@ class Vendors extends Controller
         $data['itemCount'] = $request->itemCount;
         $data['vendor_id'] = Auth::guard('vendor')->id();
         $data['itemImage'] = $request->itemImage;
+        $data['itemSliderImage'] = $request->itemSliderImage;
         $data['itemPriceAfterDis'] = empty($request->itemPriceAfterDis)? $request->itemPrice - ($request->itemPrice*$request->discountValue/100):$request->itemPriceAfterDis;
 
         $data['created_at'] = Carbon::now();
@@ -159,6 +160,9 @@ class Vendors extends Controller
             'otherItemImages.*' => Rule::requiredIf($request->id == null),
             'itemImage' => 'mimes:jpeg,jpg,png|min:20,max:1024',
             'itemImage' => Rule::requiredIf($request->id == null),
+
+            'itemSliderImage' => 'mimes:jpeg,jpg,png|min:20,max:1024',
+            'itemSliderImage' => Rule::requiredIf($request->id == null),
         ]);
 
 
@@ -173,6 +177,15 @@ class Vendors extends Controller
                 $data['itemImage'] = $itemImageName;
             }
 
+            if ($request->hasFile('itemSliderImage')) {
+
+                $itemSliderImage = $request->file('itemSliderImage');
+                $itemImageName = '-'.Str::random(40).".".$itemSliderImage->getClientOriginalExtension();
+                $destinationPath = public_path('/uploads/itemImages/');
+                $itemSliderImage->move($destinationPath, $itemImageName);
+                $data['itemSliderImage'] = $itemImageName;
+            }
+
 
             $itemId = Item::insertGetId($data);
 
@@ -180,6 +193,7 @@ class Vendors extends Controller
             $itemId = $data['id'];
                 $itemInfo = Item::find($itemId);
                 $data['itemImage'] = $itemInfo->itemImage;
+                $data['itemSliderImage'] = $itemInfo->itemSliderImage;
 
             if ($request->hasFile('itemImage')) {
 
@@ -190,6 +204,17 @@ class Vendors extends Controller
                 File::delete($destinationPath.$itemInfo->itemImage);
                 $itemImage->move($destinationPath, $itemImageName);
                 $data['itemImage'] = $itemImageName;
+            }
+
+            if ($request->hasFile('itemSliderImage')) {
+
+                $itemSliderImage = $request->file('itemSliderImage');
+                $itemImageName = '-'.Str::random(40).".".$itemSliderImage->getClientOriginalExtension();
+                $destinationPath = public_path('/uploads/itemImages/');
+                //delete old image
+                File::delete($destinationPath.$itemInfo->itemSliderImage);
+                $itemSliderImage->move($destinationPath, $itemImageName);
+                $data['itemSliderImage'] = $itemImageName;
             }
 
             Item::where('id',$itemId)->update($data);

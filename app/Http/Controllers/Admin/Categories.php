@@ -36,7 +36,8 @@ class Categories extends Controller
         $validated = $request->validate([
           'categoryName' => 'required|max:100',
           'categoryNameAr' => 'required|max:100',
-          'categoryImage' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+          'categoryImage' => 'image|mimes:jpeg,png,jpg,gif,svg|max:4048',
+          'categorySliderImage' => 'image|mimes:jpeg,png,jpg,gif,svg|max:4048',
         ]);
 
         $data = $request->except('_token');
@@ -52,6 +53,13 @@ class Categories extends Controller
                 $categoryImage->move($destinationPath, $data['categoryImage']);
             }
 
+            if ($request->hasFile('categorySliderImage')) {
+                $destinationPath = public_path('Admin_uploads/categories/');
+                $categorySliderImage = $request->file('categorySliderImage');
+                $data['categorySliderImage'] = rand(11111, 99999).'.'.$categorySliderImage->getClientOriginalExtension();
+                $categorySliderImage->move($destinationPath, $data['categorySliderImage']);
+            }
+
             Category::create($data);
         }else{
             //edit
@@ -64,6 +72,14 @@ class Categories extends Controller
                 $categoryImage = $request->file('categoryImage');
                 $data['categoryImage'] = rand(11111, 99999).'.'.$categoryImage->getClientOriginalExtension();
                 $categoryImage->move($destinationPath, $data['categoryImage']);
+            }
+
+            if ($request->hasFile('categorySliderImage')) {
+                $destinationPath = public_path('Admin_uploads/categories/');
+                File::delete($destinationPath . $data['categorySliderImage']);
+                $categorySliderImage = $request->file('categorySliderImage');
+                $data['categorySliderImage'] = rand(11111, 99999).'.'.$categorySliderImage->getClientOriginalExtension();
+                $categorySliderImage->move($destinationPath, $data['categorySliderImage']);
             }
 
             Category::where('id',$data['id'])->update($data);

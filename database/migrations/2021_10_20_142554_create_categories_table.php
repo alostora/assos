@@ -18,6 +18,9 @@ class CreateCategoriesTable extends Migration
             $table->string('categoryName')->nullable();
             $table->string('categoryNameAr')->nullable();
             $table->string('categoryImage')->nullable();
+            $table->string('categorySliderImage')->nullable();
+            $table->boolean('sliderHomeStatus')->default(false);
+            $table->boolean('sliderCategoryStatus')->default(false);
             $table->timestamps();
         });
     }

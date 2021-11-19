@@ -51,6 +51,18 @@
                                 <i class="fa fa-circle-o"></i>@lang('leftsidebar.propertiesInfo')
                             </a>
                         </li>
+
+                        <li>
+                            <a href="{{url('admin/sliderInfo/home')}}">
+                                <i class="fa fa-circle-o"></i>@lang('leftsidebar.sliderInfohome')
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('admin/sliderInfo/category')}}">
+                                <i class="fa fa-circle-o"></i>@lang('leftsidebar.sliderInfocategory')
+                            </a>
+                        </li>
+
                     @elseif(Auth::guard('vendor')->check())
                         <li>
                             <a href="{{url('vendor/itemsInfo')}}">
