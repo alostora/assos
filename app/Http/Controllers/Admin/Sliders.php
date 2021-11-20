@@ -14,7 +14,11 @@ class Sliders extends Controller
     public function sliderInfo($type){
         $data['categories'] = Category::get();
         $data['items'] = Item::get();
-        return view('Admin/Sliders/sliderInfo',$data);
+        if($type == 'home'){
+            return view('Admin/Sliders/sliderHomeInfo',$data);
+        }else{
+            return view('Admin/Sliders/sliderCategoryInfo',$data);
+        }
     }
 
 
@@ -24,10 +28,11 @@ class Sliders extends Controller
         $category = Category::find($cat_id);
         if (!empty($category)) {
             if($type == 'home'){
-                $category->update(['sliderHomeStatus' => !$category->sliderHomeStatus]);
+                $category->sliderHomeStatus = !$category->sliderHomeStatus;
             }elseif($type == 'category') {
-                $category->update(['sliderCategoryStatus'=> !$category->sliderCategoryStatus]);
+                $category->sliderCategoryStatus = !$category->sliderCategoryStatus;
             }
+            $category->save();
         }
 
         session()->flash('success','done');

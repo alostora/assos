@@ -1,0 +1,5 @@
+@include('MainLayouts/header')
+@include('MainLayouts/mainheader')
+    @include('MainLayouts/leftsidebar')
+    @include('Admin/layouts/Sliders/sliderCategoryInfo') 
+@include('MainLayouts/footer')

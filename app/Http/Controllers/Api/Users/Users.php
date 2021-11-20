@@ -66,14 +66,30 @@ class Users extends Controller
     public function categories(Request $request){
 
         $data['status'] = true;
-        $data['categories'] = Category::get(['id','categoryName','categoryImage']);
+        $categories = Category::get(['id','categoryName','categoryImage','sliderCategoryStatus','categorySliderImage']);
         
-        if (!empty($data['categories'])) {
-            foreach($data['categories'] as $cat){
+        $sliders = [];
+
+        if (!empty($categories)) {
+            foreach($categories as $cat){
                 $cat->categoryImage = URL::to('Admin_uploads/categories/'.$cat->categoryImage);
                 $cat->categoryName = $request->header('accept-language') == 'en' ? $cat->categoryName : $cat->categoryNameAr;
+                
+                if($cat->sliderCategoryStatus) {
+                    
+                    $slider['id'] = $cat->id;
+                    $slider['name'] = $cat->categoryName;
+                    $slider['image'] = URL::to('Admin_uploads/categories/'.$cat->categorySliderImage);
+                    $slider['type'] = 'category';
+                    array_push($sliders, $slider);
+                    unset($cat->sliderCategoryStatus);
+                    unset($cat->categorySliderImage);
+                }
             }
         }
+
+        $data['data']['categories'] = $categories;
+        $data['data']['sliders'] = $sliders;
         return $data;
     }
 

@@ -1,5 +1,5 @@
 @include('MainLayouts/header')
 @include('MainLayouts/mainheader')
     @include('MainLayouts/leftsidebar')
-    @include('Admin/layouts/Sliders/sliderInfo') 
+    @include('Admin/layouts/Sliders/sliderHomeInfo') 
 @include('MainLayouts/footer')
