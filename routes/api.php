@@ -34,6 +34,8 @@ Route::group(['namespace'=>'Api\Users'],function(){
 
     Route::get('vendorCategories/{vendor_id}','Users@vendorCategories');
     Route::get('categories','Users@categories');
+    Route::get('subCats/{cat_id}','Users@subCats');
+    Route::get('vendorSubCats/{cat_id}/{vendor_id}','Users@vendorSubCats');
 
 
     Route::get('items/{s_cat_id}/{vendor_id?}','Users@items');
@@ -60,7 +62,7 @@ Route::group(['namespace'=>'Api\Users'],function(){
 
 
     //sliders
-    Route::get('homeSliders','Users@homeSliders');
+    Route::get('home','Users@home');
 
 
 });
