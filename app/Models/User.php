@@ -26,6 +26,9 @@ class User extends Authenticatable
         'password',
         'api_token',
         'deviceId',
+        'socialType',
+        'socialToken',
+        'verify_token',
     ];
 
     /**
@@ -36,6 +39,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'verify_token',
     ];
 
     /**

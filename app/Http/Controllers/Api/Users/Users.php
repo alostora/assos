@@ -24,9 +24,14 @@ class Users extends Controller
 {
     
 
-    public function vendors(){
+    public function vendors(Request $request){
         $data['status'] = true;
-        $data['vendors'] = Vendor::get(['id','vendor_name','vendor_image']);
+
+        $main_filter = $request->header('main-filter');
+        $vendorMainFIlter = Item::where('department',$main_filter)->pluck('vendor_id');
+        $data['vendors'] = Vendor::whereIn('id',$vendorMainFIlter)->get(['id','vendor_name','vendor_image']);
+
+        return $data;
 
         if(!empty($data['vendors'])){
             foreach($data['vendors'] as $key => $vend){
@@ -42,8 +47,13 @@ class Users extends Controller
     public function vendorCategories(Request $request,$vendor_id){
         
         $data['status'] = true;
+        $main_filter = $request->header('main-filter');
 
-        $vendor_sub_cats_id = Item::where('vendor_id',$vendor_id)->pluck('sub_cat_id');
+        $vendor_sub_cats_id = Item::where([
+            'vendor_id' => $vendor_id,
+            'department' => $main_filter
+        ])->pluck('sub_cat_id');
+
         if(!empty($vendor_sub_cats_id)) {
             $vendor_cats_id = Sub_category::whereIn('id',$vendor_sub_cats_id)->pluck('cat_id');
             if(!empty($vendor_cats_id)) {
@@ -146,14 +156,22 @@ class Users extends Controller
     public function items(Request $request,$s_cat_id,$vendor_id=false){
 
         $deviceId = $request->header('device-id');
+        $main_filter = $request->header('main-filter');
         $user = User::where('deviceId',$deviceId)->first();
         if (!empty($user)){
             
             $data['status'] = true;
             if($vendor_id == false) {
-                $data['items'] = Item::where('sub_cat_id',$s_cat_id)->select(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->paginate(20);
+                $data['items'] = Item::where([
+                            'sub_cat_id'=>$s_cat_id,
+                            'department'=>$main_filter,
+                    ])->select(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->paginate(20);
             }else{
-                $data['items'] = Item::where('sub_cat_id',$s_cat_id)->where('vendor_id',$vendor_id)->select(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->paginate(20);
+                $data['items'] = Item::where([
+                            'sub_cat_id'=>$s_cat_id,
+                            'vendor_id'=>$vendor_id,
+                            'department'=>$main_filter,
+                    ])->select(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->paginate(20);
             }
 
             if(!empty($data['items'])){
@@ -164,6 +182,8 @@ class Users extends Controller
 
                     $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
                     $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
+                    $review = Review::where('user_id',$user->id)->where('item_id',$item->id)->first();
+                    $item->review = !empty($review) ? true : false;
                     $item->fav = !empty($fav) ? true : false;
                     $item->cart = false;
                 }
@@ -183,6 +203,8 @@ class Users extends Controller
     public function itemInfo(Request $request,$itemId){
 
         $deviceId = $request->header('device-id');
+        $main_filter = $request->header('main-filter');
+
         $user = User::where('deviceId',$deviceId)->first();
         $lang = $request->header('accept-language');
         if(!empty($user)){
@@ -241,8 +263,21 @@ class Users extends Controller
 
                     $data['item']->itemImage = URL::to('uploads/itemImages/'.$data['item']->itemImage);
                     $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$data['item']->id)->first();
+                    $review = Review::where('user_id',$user->id)
+                                ->where('item_id',$data['item']->id)
+                                ->first();
+                            
 
-                    $data['item']->itemMayLike = Item::limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
+                    $data['item']->itemMayLike = Item::where('department',$main_filter)
+                        ->limit(10)
+                        ->get([
+                            'id',
+                            'itemName',
+                            'itemImage',
+                            'itemPrice',
+                            'itemPriceAfterDis',
+                            'discountValue'
+                        ]);
 
                     if (!empty($data['item']->itemMayLike)) {
                         foreach($data['item']->itemMayLike as $itemMayLike){
@@ -250,12 +285,24 @@ class Users extends Controller
 
                             $itemMayLike->itemImage = URL::to('uploads/itemImages/'.$itemMayLike->itemImage);
                             $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$itemMayLike->id)->first();
+                            $review = Review::where('user_id',$user->id)->where('item_id',$itemMayLike->id)->first();
+                            
+                            $itemMayLike->review = !empty($review) ? true : false;
                             $itemMayLike->fav = !empty($fav) ? true : false;
                             $itemMayLike->cart = false;
                         }
                     }
 
-                    $data['item']->itemFit = Item::limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
+                    $data['item']->itemFit = Item::where('department',$main_filter)
+                    ->limit(10)
+                    ->get([
+                        'id',
+                        'itemName',
+                        'itemImage',
+                        'itemPrice',
+                        'itemPriceAfterDis',
+                        'discountValue'
+                    ]);
 
                     if(!empty($data['item']->itemFit)) {
                         foreach($data['item']->itemFit as $itemFit){
@@ -263,11 +310,15 @@ class Users extends Controller
 
                             $itemFit->itemImage = URL::to('uploads/itemImages/'.$itemFit->itemImage);
                             $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$itemFit->id)->first();
+                            $review = Review::where('user_id',$user->id)->where('item_id',$itemFit->id)->first();
+                            
+                            $itemFit->review = !empty($review) ? true : false;
                             $itemFit->fav = !empty($fav) ? true : false;
                             $itemFit->cart = false;
                         }
                     }
 
+                    $data['item']->review = !empty($review) ? true : false;
                     $data['item']->fav = !empty($fav) ? true : false;
                     $data['item']->cart = false;
                 }
@@ -337,6 +388,8 @@ class Users extends Controller
     public function userItemsFav(Request $request){
 
         $device_id = $request->header('device-id');
+        $main_filter = $request->header('main-filter');
+
         $user = User::where('deviceId',$device_id)->first();
             
         if(!empty($user)) {
@@ -344,7 +397,15 @@ class Users extends Controller
             $data['status'] = true;
 
             $fav_item_id = User_fav_item::where('user_id',$user_id)->get();
-            $data['items'] = Item::whereIn('id',$fav_item_id)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis']);
+            $data['items'] = Item::whereIn('id',$fav_item_id)
+                            ->where('department',$main_filter)
+                            ->get([
+                                'id',
+                                'itemName',
+                                'itemImage',
+                                'itemPrice',
+                                'itemPriceAfterDis'
+                            ]);
 
             if(!empty($data['items'])){
                 foreach($data['items'] as $item){
@@ -353,6 +414,9 @@ class Users extends Controller
                     $item->itemDescribe = $request->header('accept-language') == 'en' ? $item->itemDescribe : $item->itemDescribe;
                     $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
                     $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
+                    $review = Review::where('user_id',$user->id)->where('item_id',$item->id)->first();
+                    
+                    $item->review = !empty($review) ? true : false;
                     $item->fav = !empty($fav) ? true : false;
                     $item->cart = false;
                 }
@@ -433,11 +497,19 @@ class Users extends Controller
     public function itemMayLike(Request $request,$item_id){
 
         $device_id = $request->header('device-id');
+        $main_filter = $request->header('main-filter');
         $user = User::where('deviceId',$device_id)->first();
 
         
         $data['status'] = true;
-        $data['items'] = Item::/*where('id',$item_id)->*/get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
+        $data['items'] = Item::/*where('id',$item_id)->where('department',$main_filter)->*/get([
+            'id',
+            'itemName',
+            'itemImage',
+            'itemPrice',
+            'itemPriceAfterDis',
+            'discountValue'
+        ]);
 
 
         if(!empty($data['items'])){
@@ -447,6 +519,9 @@ class Users extends Controller
                 $item->itemDescribe = $request->header('accept-language') == 'en' ? $item->itemDescribe : $item->itemDescribeAr;
                 $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
                 $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
+                $review = Review::where('user_id',$user->id)->where('item_id',$item->id)->first();
+                
+                $item->review = !empty($review) ? true : false;
                 $item->fav = !empty($fav) ? true : false;
                 $item->cart = false;
             }
@@ -464,10 +539,11 @@ class Users extends Controller
     public function itemFit(Request $request,$item_id){
 
         $device_id = $request->header('device-id');
+        $main_filter = $request->header('main-filter');
         $user = User::where('deviceId',$device_id)->first();
 
         $data['status'] = true;
-        $data['items'] = Item::/*where('id',$item_id)->*/get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
+        $data['items'] = Item::/*where('id',$item_id)->where('department',$main_filter)->*/get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
 
         if(!empty($data['items'])){
             foreach($data['items'] as $item){
@@ -475,6 +551,9 @@ class Users extends Controller
                 $item->itemDescribe = $request->header('accept-language') == 'en' ? $item->itemDescribe : $item->itemDescribeAr;
                 $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
                 $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
+                $review = Review::where('user_id',$user->id)->where('item_id',$item->id)->first();
+                
+                $item->review = !empty($review) ? true : false;
                 $item->fav = !empty($fav) ? true : false;
                 $item->cart = false;
             }
@@ -605,6 +684,9 @@ class Users extends Controller
 
                     $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
                     $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
+                    $review = Review::where('user_id',$user->id)->where('item_id',$item->id)->first();
+                
+                    $item->review = !empty($review) ? true : false;
                     $item->fav = !empty($fav) ? true : false;
                     $item->cart = false;
                 }

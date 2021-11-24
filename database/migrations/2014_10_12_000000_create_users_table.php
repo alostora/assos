@@ -21,10 +21,13 @@ class CreateUsersTable extends Migration
             $table->string('image')->unique()->nullable();
             $table->string('password')->nullable();
             $table->string('api_token')->nullable();
+            $table->string('socialType')->nullable();//['google,face',.....]
+            $table->string('socialToken')->unique()->nullable();
 
             $table->string('country')->default('sa');//[sa,kw]
             $table->string('deviceId')->nullable();
 
+            $table->string('verify_token')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

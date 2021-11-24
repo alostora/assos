@@ -12,6 +12,7 @@ use Str;
 use Auth;
 use URL;
 use File;
+use App\Mail\Forget_pass;
 
 class Users_auth extends Controller
 {
@@ -86,6 +87,81 @@ class Users_auth extends Controller
         }
         return $data;
     }
+
+
+
+
+
+
+
+
+
+
+
+    public function socialSignUp(Request $request){
+
+        $device_id = $request->header('device-id');
+        $country = $request->header('country');
+        $requestData = $request->all();
+        $requestData['api_token'] = Str::random(100);
+        $data['status'] = true;
+
+        $user = User::where('email',$request->email)->first();
+
+        if(!empty($user)){
+            if(!empty($user->image)){
+                if(substr($user->image, 0, 4) === "user"){
+                    $user->image = URL::to('uploads/users/'.$user->image);
+                }
+            }else{
+                $user->image = URL::to('uploads/users/defaultLogo.jpg');
+            }
+
+            if(empty($user->api_token)){
+                $user->api_token = $requestData['api_token'];
+                $user->save();
+            }
+
+            $data['user'] = $user;
+            return $data;
+        }
+
+        $validator = Validator::make($requestData,[
+            'name'=>'required|max:100',
+            'email'=>'required|unique:users,email|email|max:100',
+            'image'=>'required|unique:users,image|max:500',
+            'socialType'=>'required|in:face,google',
+            'socialToken'=>'required|unique:users,socialToken|max:250',
+        ]);
+            
+
+        if($validator->fails()) {
+            $data['status'] = false;
+            $err = $validator->errors()->toArray();
+            $data['message'] = array_values($err)[0][0];
+            return $data;
+        }
+
+
+        $requestData['password'] = Str::random(50);
+
+        $user = User::where('deviceId',$device_id)->first();
+        if (!empty($user)) {
+            User::where('deviceId',$device_id)->update($requestData);
+        }else{
+            $requestData['deviceId'] = $device_id;
+            $requestData['country'] = $country;
+            $user = User::create($requestData);
+        }
+        $user->image = URL::to('uploads/users/defaultLogo.jpg');
+
+        $data['user'] = $user;
+        return $data;
+    }
+
+
+
+
 
 
 
@@ -251,7 +327,7 @@ class Users_auth extends Controller
         if ($request->hasFile('image')) {
             File::delete($destinationPath.$data['image']);
             $image = $request->file('image');
-            $data['image'] = Str::random(30).'.'.$image->getClientOriginalExtension();
+            $data['image'] = "user".Str::random(30).'.'.$image->getClientOriginalExtension();
             $image->move($destinationPath, $data['image']);
         }
 
@@ -275,6 +351,48 @@ class Users_auth extends Controller
         $data['message'] = "loged out";
         return $data;
     }
+
+
+
+
+
+
+
+
+
+    public function postForgetPass(Request $request){
+
+        $validator = Validator::make($request->all(),[
+                    'email'=>'required|email|max:100',
+                ]);
+        
+        if($validator->fails()) {
+            $data['status'] = false;
+            $err = $validator->errors()->toArray();
+            $data['message'] = array_values($err)[0][0];
+            return $data;
+        }
+
+        $user = User::where('email',$request->email)->first();
+        if (!empty($user)) {
+            $user->verify_token = Str::random(50);
+            $user->save();
+
+            \Mail::to($user->email)->send(new Forget_pass($user));
+            $data['status'] = true;
+            $data['message'] = "mailSent";
+        }else{
+            $data['status'] = false;
+            $data['message'] = "Not found";
+        }
+
+        return $data;
+
+    }
+
+
+
+
 
 
 
