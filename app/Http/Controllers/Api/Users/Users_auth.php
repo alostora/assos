@@ -175,7 +175,15 @@ class Users_auth extends Controller
                 $data['user'] = $user;
                 $data['user']->api_token = Str::random(50);
                 $data['user']->save();
-                $data['user']->image = !empty($data['user']->image) ? URL::to('uploads/users/'.$data['user']->image) : URL::to('uploads/users/defaultLogo.jpeg');
+
+                if(!empty($data['user']->image)){
+                    if(substr($data['user']->image, 0, 4) === "user"){
+                        $data['user']->image = URL::to('uploads/users/'.$data['user']->image);
+                    }
+                }else{
+                    $data['user']->image = URL::to('uploads/users/defaultLogo.jpg');
+                }
+
             }else{
                 $data['status'] = false;
                 $data['message'] = 'error password';
@@ -193,8 +201,15 @@ class Users_auth extends Controller
     public function profile(Request $request){
         $data['status'] = true;
         $data['user'] = Auth::guard('api')->user();
-        $data['user']->image = !empty($data['user']->image) ? URL::to('uploads/users/'.$data['user']->image) : URL::to('uploads/users/defaultLogo.jpeg');
-        
+
+        if(!empty($data['user']->image)){
+            if(substr($data['user']->image, 0, 4) === "user"){
+                $data['user']->image = URL::to('uploads/users/'.$data['user']->image);
+            }
+        }else{
+            $data['user']->image = URL::to('uploads/users/defaultLogo.jpg');
+        }
+
         return $data;
     }
 
@@ -334,7 +349,14 @@ class Users_auth extends Controller
         User::where('id',$user->id)->update($data);
 
         $user = User::find($user->id);
-        $user->image = !empty($user->image) ? URL::to('uploads/users/'.$user->image) : URL::to('uploads/users/defaultLogo.jpeg');
+        
+        if(!empty($user->image)){
+            if(substr($user->image, 0, 4) === "user"){
+                $user->image = URL::to('uploads/users/'.$user->image);
+            }
+        }else{
+            $user->image = URL::to('uploads/users/defaultLogo.jpg');
+        }
 
         $info['status'] = true;
         $info['user'] = $user;
