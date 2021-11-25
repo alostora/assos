@@ -67,6 +67,11 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::get('changeCatSliderStatus/{cat_id}/{type}','Sliders@changeCatSliderStatus');
 			Route::get('changeItemSliderStatus/{item_id}/{type}','Sliders@changeItemSliderStatus');
 
+			//offers
+			Route::get('offersInfo','Offers@offersInfo');
+			Route::get('viewCreateOffer/{id?}','Offers@viewCreateOffer');
+			Route::post('createOffer','Offers@createOffer');
+
 		});
 	});
 });
