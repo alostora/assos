@@ -9,14 +9,28 @@ use File;
 
 class Offers extends Controller
 {
+
+
+
     public function offersInfo(){
         $offers = Offer::get();
         return view('Admin/Offers/offersInfo',compact('offers'));
     }
 
-    public function viewCreateOffer(){
-        return view('Admin/offers/viewCreateOffer');
+
+
+
+    public function viewCreateOffer($id=false){
+        $data['offer'] = false;
+        if($id != false){
+            $data['offer'] = Offer::find($id);
+        }
+        return view('Admin/Offers/viewCreateOffer',$data);
     }
+
+
+
+
 
     public function createOffer(Request $request){
 
@@ -29,23 +43,52 @@ class Offers extends Controller
         $data = $request->except('_token');
 
         if(!empty($data)){
-            $data['offerImage'] = null;
+            
+            $destinationPath = public_path('Admin_uploads/offers/');
+            
+            if ($data['id'] == null) {
+                $data['offerImage'] = null;
 
-            if ($request->hasFile('offerImage')) {
-                $destinationPath = public_path('Admin_uploads/offers/');
-                $offerImage = $request->file('offerImage');
-                $data['offerImage'] = rand(11111, 99999).'.'.$offerImage->getClientOriginalExtension();
-                $offerImage->move($destinationPath, $data['offerImage']);
+                if ($request->hasFile('offerImage')) {
+                    
+                    $offerImage = $request->file('offerImage');
+                    $data['offerImage'] = rand(11111, 99999).'.'.$offerImage->getClientOriginalExtension();
+                    $offerImage->move($destinationPath, $data['offerImage']);
+                }
+                Offer::create($data);
+            }else{
+                $offer = Offer::find($data['id']);
+                $data['offerImage'] = $offer->offerImage;
+
+                if ($request->hasFile('offerImage')) {
+                    
+                    File::delete($destinationPath . $data['offerImage']);
+                    $offerImage = $request->file('offerImage');
+                    $data['offerImage'] = rand(11111, 99999).'.'.$offerImage->getClientOriginalExtension();
+                    $offerImage->move($destinationPath, $data['offerImage']);
+                }
+                Offer::where('id',$data['id'])->update($data);
             }
-            Offer::create($data);
         }
 
         $request->session()->flash('success','Done successfully');
         return redirect('admin/offersInfo');
+    }
 
 
 
-       
+
+
+    public function deleteOffer($id){
+        $offer = Offer::find($id);
+        if(!empty($offer)){
+            $destinationPath = public_path('Admin_uploads/offers/');
+            File::delete($destinationPath . $offer->offerImage);
+            $offer->delete();
+        }
+
+        session()->flash('warning','deleted');
+        return back();
     }
 
 

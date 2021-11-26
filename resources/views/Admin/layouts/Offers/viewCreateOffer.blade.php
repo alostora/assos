@@ -43,7 +43,7 @@
                   <div class="col-sm-4">
                       <input type="file" name="offerImage" class="form-control" placeholder="@lang('leftsidebar.offerImage')" >
                       @if(!empty($offer) && !empty($offer->offerImage)) 
-                        <img src="{{url('Admin_uploads/Offers/'.$offer->offerImage)}}" style="height:200px;width:200px"> 
+                        <img src="{{url('Admin_uploads/offers/'.$offer->offerImage)}}" style="height:200px;width:200px"> 
                       @endif
                   </div>
 

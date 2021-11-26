@@ -71,6 +71,7 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::get('offersInfo','Offers@offersInfo');
 			Route::get('viewCreateOffer/{id?}','Offers@viewCreateOffer');
 			Route::post('createOffer','Offers@createOffer');
+			Route::get('deleteOffer/{id?}','Offers@deleteOffer');
 
 		});
 	});

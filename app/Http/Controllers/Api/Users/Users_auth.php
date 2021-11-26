@@ -91,13 +91,6 @@ class Users_auth extends Controller
 
 
 
-
-
-
-
-
-
-
     public function socialSignUp(Request $request){
 
         $device_id = $request->header('device-id');
@@ -158,10 +151,6 @@ class Users_auth extends Controller
         $data['user'] = $user;
         return $data;
     }
-
-
-
-
 
 
 
@@ -315,7 +304,6 @@ class Users_auth extends Controller
 
 
 
-
     public function updateProfile(Request $request){
 
         $user = Auth::guard("api")->user();
@@ -377,11 +365,6 @@ class Users_auth extends Controller
 
 
 
-
-
-
-
-
     public function postForgetPass(Request $request){
 
         $validator = Validator::make($request->all(),[
@@ -409,7 +392,6 @@ class Users_auth extends Controller
         }
 
         return $data;
-
     }
 
 

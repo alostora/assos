@@ -17,6 +17,8 @@ class Categories extends Controller
     }
 
 
+
+
     public function viewCreateCategory($id = false){
         
         if(!empty($id)) {
@@ -81,14 +83,14 @@ class Categories extends Controller
                 $data['categorySliderImage'] = rand(11111, 99999).'.'.$categorySliderImage->getClientOriginalExtension();
                 $categorySliderImage->move($destinationPath, $data['categorySliderImage']);
             }
-
             Category::where('id',$data['id'])->update($data);
         }
-
         $request->session()->flash('success','Done successfully');
         return redirect('admin/categoriesInfo');
-
     }
+
+
+
 
     public function deleteCategory($id){
         $category =Category::where('id',$id)->first();
@@ -110,12 +112,15 @@ class Categories extends Controller
     }
 
 
+
+
     //sub categories
     public function sub_categoriesInfo($cat_id){
         $data['sub_categories'] = Sub_category::where('cat_id',$cat_id)->get();
 
         return view('Admin/Categories/sub_categoriesInfo',$data);
     }
+
 
 
 
@@ -128,6 +133,9 @@ class Categories extends Controller
         return view('Admin/Categories/sub_viewCreateCategory',$data);
     }
 
+
+
+    
     public function sub_createCategory(Request $request){
         $validated = $request->validate([
           's_categoryName' => 'required|max:100',

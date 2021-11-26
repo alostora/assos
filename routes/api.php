@@ -50,12 +50,8 @@ Route::group(['namespace'=>'Api\Users'],function(){
     Route::get('categories','Users@categories');
     Route::get('subCats/{cat_id}','Users@subCats');
     Route::get('vendorSubCats/{cat_id}/{vendor_id}','Users@vendorSubCats');
-
-
     Route::get('items/{s_cat_id}/{vendor_id?}','Users@items');
     Route::get('itemInfo/{itemId}','Users@itemInfo');
-
-
 
 
     //properties
