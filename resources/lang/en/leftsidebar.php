@@ -563,11 +563,12 @@ return [
     "Molak"=> "Molak",
 
 
-    "sliderInfohome"=> "Home page slider",
+    "sliderInfoHome"=> "Home page slider",
     "sliderInfocategory"=> "Category slider",
     "sliderStatus"=> "Slider status",
     "categorySliderImage"=> "Slider image",
     "itemSliderImage"=> "Slider image",
+    "sliders"=> "Sliders",
 
 
 

@@ -549,9 +549,10 @@ return [
     "color"=> "اللون",
 
     "Molak"=> "مولك",
-    "sliderInfohome"=> "سلايدر الصفحة الرئيسية",
+    "sliderInfoHome"=> "سلايدر الصفحة الرئيسية",
     "sliderInfocategory"=> "سلايدر الاقسام",
     "sliderStatus"=> "حالة السلايدر",
     "categorySliderImage"=> "صورة السلايدر",
     "itemSliderImage"=> "صورة السلايدر",
+    "sliders"=> "سلايدرات",
 ];

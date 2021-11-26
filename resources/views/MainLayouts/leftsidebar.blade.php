@@ -53,7 +53,7 @@
                         </li>
                         <li>
                             <a href="{{url('admin/sliderInfo/home')}}">
-                                <i class="fa fa-circle-o"></i>@lang('leftsidebar.sliderInfohome')
+                                <i class="fa fa-circle-o"></i>@lang('leftsidebar.sliderInfoHome')
                             </a>
                         </li>
                         <li>
@@ -76,6 +76,11 @@
                         <li>
                             <a href="{{url('vendor/viewCreateItem')}}">
                                 <i class="fa fa-plus"></i> @lang('leftsidebar.viewCreateItem')
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('vendor/sliderVendorInfo')}}">
+                                <i class="fa fa-plus"></i> @lang('leftsidebar.sliders')
                             </a>
                         </li>
                     @endif

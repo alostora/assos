@@ -54,8 +54,6 @@ class Vendors extends Controller
 
 
 
-
-
     public function logOut(){
         Auth::guard('vendor')->logout();
         return redirect('vendor');
@@ -63,15 +61,15 @@ class Vendors extends Controller
     /*END AUTH ROUTES*/
 
 
+
 /////////////////////////////////////////////////////////////////
+
 
 
     public function dashboard(){
         $data['items'] = count(Item::where('vendor_id',Auth::guard('vendor')->id())->get());
         return view('MainLayouts/dashboard',$data);
     }
-
-
 
 
 
@@ -85,10 +83,6 @@ class Vendors extends Controller
 
         return view('Vendors/Items/itemsInfo',$data);
     }
-
-
-
-
 
 
 
@@ -108,12 +102,6 @@ class Vendors extends Controller
         }
         return view('Vendors/Items/viewCreateItem',$data);
     }
-
-
-
-
-
-
 
 
 
@@ -284,15 +272,26 @@ class Vendors extends Controller
 
 
 
+    public function sliderVendorInfo(){
+        $data['items'] = Item::where('vendor_id',Auth::guard('vendor')->id())->get();
+        return view('Vendors/Items/sliderVendorInfo',$data);
+    }
 
 
 
-
+    public function changeItemSliderStatus($item_id){
+        $item = Item::where(['id' => $item_id,'vendor_id'=>Auth::guard('vendor')->id()])->first();
+        if(!empty($item)){
+            $item->update(['sliderVendorStatus' => !$item->sliderVendorStatus]);
+        }
+        session()->flash('success','done');
+        return back();
+    }
 
 
 
     /////////////////////// stop here //////////////////////////
-    function ajaxRemoveItem($itemId){
+    public function ajaxRemoveItem($itemId){
 
         $itemId = Crypt::decryptString($itemId);
         if($itemId != false){
@@ -321,11 +320,7 @@ class Vendors extends Controller
 
 
 
-
-
-
-
-    function ajaxDeleteItemImage($imageId){
+    public function ajaxDeleteItemImage($imageId){
 
         $imageId = Crypt::decryptString($imageId);
         $destinationPath = public_path('/uploads/itemImages/');
@@ -343,15 +338,6 @@ class Vendors extends Controller
         }
         return "true";
     }
-
-
-
-
-
-
-
-
-
 
 
 

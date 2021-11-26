@@ -26,6 +26,9 @@ Route::group(['prefix'=>'vendor'],function(){
                 Route::get('itemsInfo','Vendors@itemsInfo');
                 Route::get('viewCreateItem/{itemId?}','Vendors@viewCreateItem');
                 Route::post('createItem','Vendors@createItem');
+                //sliders
+                Route::get('sliderVendorInfo','Vendors@sliderVendorInfo');
+                Route::get('changeItemSliderStatus/{item_id}','Vendors@changeItemSliderStatus');
 
                 
                 Route::get('ajaxRemoveItem/{itemId?}','Vendors@ajaxRemoveItem');

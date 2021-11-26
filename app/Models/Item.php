@@ -22,6 +22,7 @@ class Item extends Model
         "itemSliderImage",
         "sliderHomeStatus",//[true,false]
         "sliderCategoryStatus",//[true,false]
+        "sliderVendorStatus",//[true,false]
 
         "itemPrice",
         "itemPriceAfterDis",

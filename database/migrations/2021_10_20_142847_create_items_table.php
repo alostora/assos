@@ -26,6 +26,7 @@ class CreateItemsTable extends Migration
             $table->string("itemSliderImage")->nullable();
             $table->boolean("sliderHomeStatus")->default(false);
             $table->boolean("sliderCategoryStatus")->default(false);
+            $table->boolean("sliderVendorStatus")->default(false);
             $table->string("itemPrice")->nullable();
             $table->string("itemPriceAfterDis")->nullable();
             $table->enum("discountType",["percent","without"])->nullable();
