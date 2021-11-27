@@ -66,6 +66,11 @@
                                 <i class="fa fa-circle-o"></i>@lang('leftsidebar.offersInfo')
                             </a>
                         </li>
+                        <li>
+                            <a href="{{url('admin/adsInfo')}}">
+                                <i class="fa fa-circle-o"></i>@lang('leftsidebar.adsInfo')
+                            </a>
+                        </li>
 
                     @elseif(Auth::guard('vendor')->check())
                         <li>

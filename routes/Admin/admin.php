@@ -81,6 +81,11 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			
 			Route::get('deleteItemOffer/{item_id}/{offer_id}','Offers@deleteItemOffer');
 
+		//Ads
+			Route::get('adsInfo','Ads@adsInfo');
+			Route::get('viewCreateAd/{id?}','Ads@viewCreateAd');
+			Route::post('createAd','Ads@createAd');
+
 		});
 	});
 });
