@@ -62,16 +62,30 @@ class Users extends Controller
         if(!empty($vendor_sub_cats_id)) {
             $vendor_cats_id = Sub_category::whereIn('id',$vendor_sub_cats_id)->pluck('cat_id');
             if(!empty($vendor_cats_id)) {
-                $data['categories'] = Category::whereIn('id',$vendor_cats_id)->get(['id','categoryName','categoryImage']);
+                $categories = Category::whereIn('id',$vendor_cats_id)->get(['id','categoryName','categoryImage','sliderCategoryStatus']);
             }
         }
 
-        if(!empty($data['categories'])) {
-            foreach($data['categories'] as $cat){
+        if(!empty($categories)) {
+            $sliders = [];
+            foreach($categories as $cat){
                 $cat->categoryImage = URL::to('Admin_uploads/categories/'.$cat->categoryImage);
                 $cat->categoryName = $request->header('accept-language') == 'en' ? $cat->categoryName : $cat->categoryNameAr;
+
+                if($cat->sliderCategoryStatus) {
+                    
+                    $slider['id'] = $cat->id;
+                    $slider['name'] = $cat->categoryName;
+                    $slider['image'] = URL::to('Admin_uploads/categories/'.$cat->categorySliderImage);
+                    $slider['type'] = 'category';
+                    array_push($sliders, $slider);
+                    unset($cat->sliderCategoryStatus);
+                }
             }
         }
+        
+        $data['data']['categories'] = $categories;
+        $data['data']['sliders'] = $sliders;
         return $data;
     }
 
@@ -83,9 +97,9 @@ class Users extends Controller
         $data['status'] = true;
         $categories = Category::get(['id','categoryName','categoryImage','sliderCategoryStatus','categorySliderImage']);
         
-        $sliders = [];
 
         if (!empty($categories)) {
+            $sliders = [];
             foreach($categories as $cat){
                 $cat->categoryImage = URL::to('Admin_uploads/categories/'.$cat->categoryImage);
                 $cat->categoryName = $request->header('accept-language') == 'en' ? $cat->categoryName : $cat->categoryNameAr;
