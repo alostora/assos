@@ -13,4 +13,9 @@ class Ad extends Model
         'adLink',
         'adImage'
     ];
+
+    protected $hidden = [
+        "updated_at",
+        "created_at",
+    ];
 }

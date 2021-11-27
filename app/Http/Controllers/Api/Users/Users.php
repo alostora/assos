@@ -17,6 +17,7 @@ use App\Models\Property;
 use App\Models\Sub_property;
 use App\Models\Sort_type;
 use App\Models\Offer;
+use App\Models\Ad;
 use URL;
 use Auth;
 use Lang;
@@ -728,7 +729,14 @@ class Users extends Controller
     public function home(Request $request){
         $catSliders = Category::where('sliderHomeStatus',true)->get();
         $itemSliders = Item::where('sliderHomeStatus',true)->get();
-        $$main_filter = $request->header('main_filter');
+        $main_filter = $request->header('main_filter');
+        $device_id = $request->header('device-id');
+
+        if(Auth::guard('api')->check()) {
+            $user= User::find(Auth::guard('api')->id());
+        }else{
+            $user= User::where('deviceId',$device_id)->first();
+        }
 
         $data['status'] = true;
         $sliders = [];
@@ -757,11 +765,11 @@ class Users extends Controller
 
 
 
-        $data['itemMayLike'] = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'
+        $itemMayLike = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'
             ]);
 
-        if (!empty($data['itemMayLike'])) {
-            foreach($data['itemMayLike'] as $itemMayLike){
+        if (!empty($itemMayLike)) {
+            foreach($itemMayLike as $itemMayLike){
                 $itemMayLike->itemName = $request->header('accept-language') == 'en' ? $itemMayLike->itemName : $itemMayLike->itemNameAr;
 
                 $itemMayLike->itemImage = URL::to('uploads/itemImages/'.$itemMayLike->itemImage);
@@ -774,11 +782,11 @@ class Users extends Controller
             }
         }
 
-        $data['itemFit'] = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'
+        $itemFit = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'
         ]);
 
-        if(!empty($data['itemFit'])) {
-            foreach($data['itemFit'] as $itemFit){
+        if(!empty($itemFit)) {
+            foreach($itemFit as $itemFit){
                 $itemFit->itemName = $request->header('accept-language') == 'en' ? $itemFit->itemName : $itemFit->itemNameAr;
 
                 $itemFit->itemImage = URL::to('uploads/itemImages/'.$itemFit->itemImage);
@@ -792,11 +800,11 @@ class Users extends Controller
         }
 
 
-        $data['recentItems'] = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'
+        $recentItems = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'
         ]);
 
-        if(!empty($data['recentItems'])) {
-            foreach($data['recentItems'] as $recentItems){
+        if(!empty($recentItems)) {
+            foreach($recentItems as $recentItems){
                 $recentItems->itemName = $request->header('accept-language') == 'en' ? $recentItems->itemName : $recentItems->itemNameAr;
 
                 $recentItems->itemImage = URL::to('uploads/itemImages/'.$recentItems->itemImage);
@@ -809,32 +817,35 @@ class Users extends Controller
             }
         }
 
+        $offers = Offer::get();
 
-
-
-        $data['data']['sliders'] = $sliders;
-        $data['data']['itemMayLike'] = $data['itemMayLike'];
-        $data['data']['itemFit'] = $data['itemFit'];
-        $data['data']['recentItems'] = $data['recentItems'];
-        return $data;
-
-
-    }
-
-    //offers
-    public function offers(){
-
-        $data['status'] = true;
-        $data['offers'] = Offer::get();
-
-        if ($data['offers']) {
-            foreach ($data['offers'] as $offer) {
+        if ($offers) {
+            foreach ($offers as $offer) {
                $offer->offerImage = URL::to('Admin_uploads/offers/'.$offer->offerImage);
             }
         }
+
+
+        $ads = Ad::get();
+
+        if ($ads) {
+            foreach ($ads as $ad) {
+               $ad->offerImage = URL::to('Admin_uploads/ads/'.$ad->offerImage);
+            }
+        }
+
+
+        $data['data']['sliders'] = $sliders;
+        $data['data']['itemMayLike'] = $itemMayLike;
+        $data['data']['itemFit'] = $itemFit;
+        $data['data']['recentItems'] = $recentItems;
+        $data['data']['offers'] = $offers;
+        $data['data']['ads'] = $ads;
         return $data;
 
+
     }
+
 
 
 
