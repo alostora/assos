@@ -31,9 +31,11 @@ class Users extends Controller
 
         $main_filter = $request->header('main-filter');
         $vendorMainFIlter = Item::where('department',$main_filter)->pluck('vendor_id');
+
+    //return $vendorMainFIlter;
+
         $data['vendors'] = Vendor::whereIn('id',$vendorMainFIlter)->get(['id','vendor_name','vendor_image']);
 
-        return $data;
 
         if(!empty($data['vendors'])){
             foreach($data['vendors'] as $key => $vend){
@@ -113,7 +115,7 @@ class Users extends Controller
         $s_categories = Sub_category::where('cat_id',$cat_id)->get(['id','s_categoryName','s_categoryImage']);
         if(!empty($s_categories)) {
             foreach($s_categories as $cat){
-                $cat->s_categoryImage = URL::to('Admin_uploads/categories/'.$cat->s_categoryImage);
+                $cat->s_categoryImage = URL::to('Admin_uploads/categories/subCategory/'.$cat->s_categoryImage);
 
                 $cat->s_categoryName = $request->header('accept-language') == 'en' ? $cat->s_categoryName : $cat->s_categoryNameAr;
             }    
@@ -135,7 +137,7 @@ class Users extends Controller
 
         if(!empty($s_categories)) {
             foreach($s_categories as $cat){
-                $cat->s_categoryImage = URL::to('Admin_uploads/categories/'.$cat->s_categoryImage);
+                $cat->s_categoryImage = URL::to('Admin_uploads/categories/subCategory/'.$cat->s_categoryImage);
 
                 $cat->s_categoryName = $request->header('accept-language') == 'en' ? $cat->s_categoryName : $cat->s_categoryNameAr;
             }    
@@ -649,7 +651,7 @@ class Users extends Controller
             }
 
             if( !empty($request->minPrice) && !empty($request->maxPrice) ){
-                $items->whereBetween('itemPrice',[$request->minPrice,$request->maxPrice]);
+                $items->whereBetween('itemPrice',[(Int)$request->minPrice,(Int)$request->maxPrice]);
             }
 
 
@@ -726,6 +728,7 @@ class Users extends Controller
     public function home(Request $request){
         $catSliders = Category::where('sliderHomeStatus',true)->get();
         $itemSliders = Item::where('sliderHomeStatus',true)->get();
+        $$main_filter = $request->header('main_filter');
 
         $data['status'] = true;
         $sliders = [];
@@ -750,7 +753,69 @@ class Users extends Controller
             }
         }
 
+
+
+
+
+        $data['itemMayLike'] = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'
+            ]);
+
+        if (!empty($data['itemMayLike'])) {
+            foreach($data['itemMayLike'] as $itemMayLike){
+                $itemMayLike->itemName = $request->header('accept-language') == 'en' ? $itemMayLike->itemName : $itemMayLike->itemNameAr;
+
+                $itemMayLike->itemImage = URL::to('uploads/itemImages/'.$itemMayLike->itemImage);
+                $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$itemMayLike->id)->first();
+                $reviewLike = Review::where('user_id',$user->id)->where('item_id',$itemMayLike->id)->first();
+                
+                $itemMayLike->review = !empty($reviewLike) ? true : false;
+                $itemMayLike->fav = !empty($fav) ? true : false;
+                $itemMayLike->cart = false;
+            }
+        }
+
+        $data['itemFit'] = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'
+        ]);
+
+        if(!empty($data['itemFit'])) {
+            foreach($data['itemFit'] as $itemFit){
+                $itemFit->itemName = $request->header('accept-language') == 'en' ? $itemFit->itemName : $itemFit->itemNameAr;
+
+                $itemFit->itemImage = URL::to('uploads/itemImages/'.$itemFit->itemImage);
+                $favFit = User_fav_item::where('user_id',$user->id)->where('item_id',$itemFit->id)->first();
+                $reviewFit = Review::where('user_id',$user->id)->where('item_id',$itemFit->id)->first();
+                
+                $itemFit->review = !empty($reviewFit) ? true : false;
+                $itemFit->fav = !empty($favFit) ? true : false;
+                $itemFit->cart = false;
+            }
+        }
+
+
+        $data['recentItems'] = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'
+        ]);
+
+        if(!empty($data['recentItems'])) {
+            foreach($data['recentItems'] as $recentItems){
+                $recentItems->itemName = $request->header('accept-language') == 'en' ? $recentItems->itemName : $recentItems->itemNameAr;
+
+                $recentItems->itemImage = URL::to('uploads/itemImages/'.$recentItems->itemImage);
+                $favFit = User_fav_item::where('user_id',$user->id)->where('item_id',$recentItems->id)->first();
+                $reviewFit = Review::where('user_id',$user->id)->where('item_id',$recentItems->id)->first();
+                
+                $recentItems->review = !empty($reviewFit) ? true : false;
+                $recentItems->fav = !empty($favFit) ? true : false;
+                $recentItems->cart = false;
+            }
+        }
+
+
+
+
         $data['data']['sliders'] = $sliders;
+        $data['data']['itemMayLike'] = $data['itemMayLike'];
+        $data['data']['itemFit'] = $data['itemFit'];
+        $data['data']['recentItems'] = $data['recentItems'];
         return $data;
 
 
