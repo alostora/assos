@@ -42,7 +42,7 @@
                                         </td>
                                         <td>
                                             <div class="btn-group">
-                                                <a class="btn btn-danger" href="{{url('deleteItemOffer/'.$item->id.'/'.Request('offer_id'))}}">
+                                                <a class="btn btn-danger" href="{{url('admin/deleteItemOffer/'.$item->id.'/'.Request('offer_id'))}}">
                                                     <i class="fa fa-info"></i>
                                                 </a>
                                             </div>

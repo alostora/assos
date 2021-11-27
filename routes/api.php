@@ -65,5 +65,7 @@ Route::group(['namespace'=>'Api\Users'],function(){
     //sliders
     Route::get('home','Users@home');
 
+    //offers
+    Route::get('offers','Users@offers');
 
 });

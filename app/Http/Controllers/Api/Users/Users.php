@@ -16,6 +16,7 @@ use App\Models\Item_properity;
 use App\Models\Property;
 use App\Models\Sub_property;
 use App\Models\Sort_type;
+use App\Models\Offer;
 use URL;
 use Auth;
 use Lang;
@@ -754,6 +755,23 @@ class Users extends Controller
 
 
     }
+
+    //offers
+    public function offers(){
+
+        $data['status'] = true;
+        $data['offers'] = Offer::get();
+
+        if ($data['offers']) {
+            foreach ($data['offers'] as $offer) {
+               $offer->offerImage = URL::to('Admin_uploads/offers/'.$offer->offerImage);
+            }
+        }
+        return $data;
+
+    }
+
+
 
 
 
