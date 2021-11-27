@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Ad;
+use File;
 
 class Ads extends Controller
 {
@@ -14,8 +15,12 @@ class Ads extends Controller
     }
 
     public function viewCreateAd($id=null){
+        $data['id'] = null;
+        if($id != null){
+            $data['ad'] = Ad::find($id);
+        }
     
-        return view('Admin/Ads/viewCreateAd');
+        return view('Admin/Ads/viewCreateAd',$data);
     }
 
     public function createAd(Request $request){
@@ -26,19 +31,49 @@ class Ads extends Controller
 
         $data = $request->except('_token');
 
-        $data['adImage'] = null;
-
-        if ($request->hasFile('adImage')) {
+         if(!empty($data)){
+            
             $destinationPath = public_path('Admin_uploads/ads/');
-            $adImage = $request->file('adImage');
-            $data['adImage'] = rand(11111, 99999).'.'.$adImage->getClientOriginalExtension();
-            $adImage->move($destinationPath, $data['adImage']);
+            
+            if ($data['id'] == null) {
+                $data['adImage'] = null;
+
+                if ($request->hasFile('adImage')) {
+                    
+                    $adImage = $request->file('adImage');
+                    $data['adImage'] = rand(11111, 99999).'.'.$adImage->getClientOriginalExtension();
+                    $adImage->move($destinationPath, $data['adImage']);
+                }
+                Ad::create($data);
+            }else{
+                $ad = Ad::find($data['id']);
+                $data['adImage'] = $ad->adImage;
+
+                if ($request->hasFile('adImage')) {
+                    
+                    File::delete($destinationPath . $data['adImage']);
+                    $adImage = $request->file('adImage');
+                    $data['adImage'] = rand(11111, 99999).'.'.$adImage->getClientOriginalExtension();
+                    $adImage->move($destinationPath, $data['adImage']);
+                }
+                Ad::where('id',$data['id'])->update($data);
+            }
         }
-        Ad::create($data);
 
         session()->flash("success","done");
-        return back();
+        return back(); 
+    }
 
+     public function deleteAd($id){
+        $ad = Ad::find($id);
+        if(!empty($ad)){
+            $destinationPath = public_path('Admin_uploads/ads/');
+            File::delete($destinationPath . $ad->adImage);
+            $ad->delete();
+        }
+
+        session()->flash('warning','deleted');
+        return back();
     }
 
 
