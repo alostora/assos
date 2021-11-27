@@ -73,6 +73,14 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::post('createOffer','Offers@createOffer');
 			Route::get('deleteOffer/{id?}','Offers@deleteOffer');
 
+			//offerItems
+			Route::get('offerItems/{offer_id}','Offers@offerItems');
+			Route::get('viewCreateOfferItem/{offer_id}','Offers@viewCreateOfferItem');
+			
+			Route::post('createOfferItems','Offers@createOfferItems');
+			
+			Route::get('deleteItemOffer/{item_id}/{offer_id}','Offers@deleteItemOffer');
+
 		});
 	});
 });

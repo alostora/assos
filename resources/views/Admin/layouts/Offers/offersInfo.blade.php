@@ -25,6 +25,7 @@
 			                  	<th>@lang('leftsidebar.offerName')</th>
 			                  	<th>@lang('leftsidebar.offerNameAr')</th>
 			                  	<th>@lang('leftsidebar.offerImage')</th>
+			                  	<th>@lang('leftsidebar.offerItems')</th>
 			                  	<th>@lang('leftsidebar.Operations')</th>
 			                </tr>
 						@if(!empty($offers))
@@ -35,6 +36,17 @@
 						          	<td>{{$offer->offerNameAr}}</td>
 						          	<td>
 						          		<img src="{{url('Admin_uploads/offers/'.$offer->offerImage)}}" style="height: 100px;width:100px">
+						          	</td>
+
+						          	<td>
+							          	<div class="btn-group">
+							          		<a class="btn btn-success" href="{{url('admin/offerItems/'.$offer->id)}}">
+							          			<span class="text">
+								          			@lang('leftsidebar.offerItems')
+								          		</span>
+							          			<i class="fa fa-info"></i>
+							          		</a>
+					          	 		</div>
 						          	</td>
 						        
 						          	<td>

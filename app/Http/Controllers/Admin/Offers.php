@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Offer;
+use App\Models\Offer_item;
+use App\Models\Item;
 use File;
 
 class Offers extends Controller
@@ -88,6 +90,49 @@ class Offers extends Controller
         }
 
         session()->flash('warning','deleted');
+        return back();
+    }
+
+
+    public function offerItems($offer_id){
+        $itemsId = Offer_item::where('offer_id',$offer_id)->pluck('item_id');
+        $items = Item::whereIn('id',$itemsId)->get();
+
+        //return $items;
+        return view('Admin/Offers/offerItems',compact('items'));
+    }
+
+
+
+    public function viewCreateOfferItem($offer_id){
+        $items = Item::get();
+        return view('Admin/Offers/viewCreateOfferItem',compact('items'));
+    }
+
+
+
+
+    public function createOfferItems(Request $request){
+        $validated = $request->validate([
+          'offer_id' => 'required',
+          'items' => 'required|array',
+        ]);
+
+        foreach($request->items as $item){
+            Offer_item::create([
+                'offer_id' => $request->offer_id,
+                'item_id' => $item,
+            ]);
+        }
+
+        session()->flash('success','Done');
+        return back();
+
+    }
+
+    public function deleteItemOffer($item_id ,$offer_id){
+        Offer_item::where('item_id',$item_id)->where('offer_id',$offer_id)->delete();
+        session()->flash('success','Done');
         return back();
     }
 
