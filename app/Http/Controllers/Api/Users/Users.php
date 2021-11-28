@@ -62,7 +62,7 @@ class Users extends Controller
         if(!empty($vendor_sub_cats_id)) {
             $vendor_cats_id = Sub_category::whereIn('id',$vendor_sub_cats_id)->pluck('cat_id');
             if(!empty($vendor_cats_id)) {
-                $categories = Category::whereIn('id',$vendor_cats_id)->get(['id','categoryName','categoryImage','sliderCategoryStatus']);
+                $categories = Category::whereIn('id',$vendor_cats_id)->get(['id','categoryName','categoryImage','sliderCategoryStatus','categorySliderImage']);
             }
         }
 
@@ -73,7 +73,6 @@ class Users extends Controller
                 $cat->categoryName = $request->header('accept-language') == 'en' ? $cat->categoryName : $cat->categoryNameAr;
 
                 if($cat->sliderCategoryStatus) {
-                    
                     $slider['id'] = $cat->id;
                     $slider['name'] = $cat->categoryName;
                     $slider['image'] = URL::to('Admin_uploads/categories/'.$cat->categorySliderImage);
@@ -741,15 +740,16 @@ class Users extends Controller
 
     //sliders
     public function home(Request $request){
+
         $catSliders = Category::where('sliderHomeStatus',true)->get();
         $itemSliders = Item::where('sliderHomeStatus',true)->get();
         $main_filter = $request->header('main_filter');
         $device_id = $request->header('device-id');
 
         if(Auth::guard('api')->check()) {
-            $user= User::find(Auth::guard('api')->id());
+            $user = User::find(Auth::guard('api')->id());
         }else{
-            $user= User::where('deviceId',$device_id)->first();
+            $user = User::where('deviceId',$device_id)->first();
         }
 
         $data['status'] = true;
@@ -765,7 +765,7 @@ class Users extends Controller
             }
         }
 
-        if (!empty($itemSliders)) {
+        if(!empty($itemSliders)) {
             foreach($itemSliders as $item){
                 $slider['id'] = $item->id;
                 $slider['name'] = $request->header('accept-language') == 'en' ? $item->itemName : $item->itemNameAr;
@@ -775,12 +775,7 @@ class Users extends Controller
             }
         }
 
-
-
-
-
-        $itemMayLike = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'
-            ]);
+        $itemMayLike = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
 
         if (!empty($itemMayLike)) {
             foreach($itemMayLike as $itemMayLike){
@@ -844,7 +839,7 @@ class Users extends Controller
 
         if ($ads) {
             foreach ($ads as $ad) {
-               $ad->offerImage = URL::to('Admin_uploads/ads/'.$ad->offerImage);
+               $ad->adImage = URL::to('Admin_uploads/ads/'.$ad->adImage);
             }
         }
 
