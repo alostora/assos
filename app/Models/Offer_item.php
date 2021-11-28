@@ -13,4 +13,11 @@ class Offer_item extends Model
         "offer_id",
         "item_id",
     ];
+
+
+    
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
 }

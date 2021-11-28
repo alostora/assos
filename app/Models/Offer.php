@@ -18,7 +18,9 @@ class Offer extends Model
 
 
     protected $hidden = [
-        "offerNameAr"
+        "offerNameAr",
+        'created_at',
+        'updated_at',
     ];
 
   

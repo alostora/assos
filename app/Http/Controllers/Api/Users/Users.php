@@ -70,12 +70,13 @@ class Users extends Controller
             $sliders = [];
             foreach($categories as $cat){
                 $cat->categoryImage = URL::to('Admin_uploads/categories/'.$cat->categoryImage);
+                $cat->categorySliderImage = URL::to('Admin_uploads/categories/'.$cat->categorySliderImage);
                 $cat->categoryName = $request->header('accept-language') == 'en' ? $cat->categoryName : $cat->categoryNameAr;
 
                 if($cat->sliderCategoryStatus) {
                     $slider['id'] = $cat->id;
                     $slider['name'] = $cat->categoryName;
-                    $slider['image'] = URL::to('Admin_uploads/categories/'.$cat->categorySliderImage);
+                    $slider['image'] = $cat->categorySliderImage;
                     $slider['type'] = 'category';
                     array_push($sliders, $slider);
                     unset($cat->sliderCategoryStatus);
@@ -766,10 +767,10 @@ class Users extends Controller
         }
 
         if(!empty($itemSliders)) {
-            foreach($itemSliders as $item){
-                $slider['id'] = $item->id;
-                $slider['name'] = $request->header('accept-language') == 'en' ? $item->itemName : $item->itemNameAr;
-                $slider['image'] = URL::to('uploads/itemImages/'.$item->itemSliderImage);
+            foreach($itemSliders as $itemSlide){
+                $slider['id'] = $itemSlide->id;
+                $slider['name'] = $request->header('accept-language') == 'en' ? $itemSlide->itemName : $itemSlide->itemNameAr;
+                $slider['image'] = URL::to('uploads/itemImages/'.$itemSlide->itemSliderImage);
                 $slider['type'] = 'item';
                 array_push($sliders, $slider);
             }
@@ -778,16 +779,16 @@ class Users extends Controller
         $itemMayLike = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
 
         if (!empty($itemMayLike)) {
-            foreach($itemMayLike as $itemMayLike){
-                $itemMayLike->itemName = $request->header('accept-language') == 'en' ? $itemMayLike->itemName : $itemMayLike->itemNameAr;
+            foreach($itemMayLike as $itemLike){
+                $itemLike->itemName = $request->header('accept-language') == 'en' ? $itemLike->itemName : $itemLike->itemNameAr;
 
-                $itemMayLike->itemImage = URL::to('uploads/itemImages/'.$itemMayLike->itemImage);
-                $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$itemMayLike->id)->first();
-                $reviewLike = Review::where('user_id',$user->id)->where('item_id',$itemMayLike->id)->first();
+                $itemLike->itemImage = URL::to('uploads/itemImages/'.$itemLike->itemImage);
+                $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$itemLike->id)->first();
+                $reviewLike = Review::where('user_id',$user->id)->where('item_id',$itemLike->id)->first();
                 
-                $itemMayLike->review = !empty($reviewLike) ? true : false;
-                $itemMayLike->fav = !empty($fav) ? true : false;
-                $itemMayLike->cart = false;
+                $itemLike->review = !empty($reviewLike) ? true : false;
+                $itemLike->fav = !empty($fav) ? true : false;
+                $itemLike->cart = false;
             }
         }
 
@@ -795,16 +796,16 @@ class Users extends Controller
         ]);
 
         if(!empty($itemFit)) {
-            foreach($itemFit as $itemFit){
-                $itemFit->itemName = $request->header('accept-language') == 'en' ? $itemFit->itemName : $itemFit->itemNameAr;
+            foreach($itemFit as $fit){
+                $fit->itemName = $request->header('accept-language') == 'en' ? $fit->itemName : $fit->itemNameAr;
 
-                $itemFit->itemImage = URL::to('uploads/itemImages/'.$itemFit->itemImage);
-                $favFit = User_fav_item::where('user_id',$user->id)->where('item_id',$itemFit->id)->first();
-                $reviewFit = Review::where('user_id',$user->id)->where('item_id',$itemFit->id)->first();
+                $fit->itemImage = URL::to('uploads/itemImages/'.$fit->itemImage);
+                $favFit = User_fav_item::where('user_id',$user->id)->where('item_id',$fit->id)->first();
+                $reviewFit = Review::where('user_id',$user->id)->where('item_id',$fit->id)->first();
                 
-                $itemFit->review = !empty($reviewFit) ? true : false;
-                $itemFit->fav = !empty($favFit) ? true : false;
-                $itemFit->cart = false;
+                $fit->review = !empty($reviewFit) ? true : false;
+                $fit->fav = !empty($favFit) ? true : false;
+                $fit->cart = false;
             }
         }
 
@@ -813,16 +814,16 @@ class Users extends Controller
         ]);
 
         if(!empty($recentItems)) {
-            foreach($recentItems as $recentItems){
-                $recentItems->itemName = $request->header('accept-language') == 'en' ? $recentItems->itemName : $recentItems->itemNameAr;
+            foreach($recentItems as $recentItem){
+                $recentItem->itemName = $request->header('accept-language') == 'en' ? $recentItem->itemName : $recentItem->itemNameAr;
 
-                $recentItems->itemImage = URL::to('uploads/itemImages/'.$recentItems->itemImage);
-                $favFit = User_fav_item::where('user_id',$user->id)->where('item_id',$recentItems->id)->first();
-                $reviewFit = Review::where('user_id',$user->id)->where('item_id',$recentItems->id)->first();
+                $recentItem->itemImage = URL::to('uploads/itemImages/'.$recentItem->itemImage);
+                $favFit = User_fav_item::where('user_id',$user->id)->where('item_id',$recentItem->id)->first();
+                $reviewFit = Review::where('user_id',$user->id)->where('item_id',$recentItem->id)->first();
                 
-                $recentItems->review = !empty($reviewFit) ? true : false;
-                $recentItems->fav = !empty($favFit) ? true : false;
-                $recentItems->cart = false;
+                $recentItem->review = !empty($reviewFit) ? true : false;
+                $recentItem->fav = !empty($favFit) ? true : false;
+                $recentItem->cart = false;
             }
         }
 
@@ -830,7 +831,7 @@ class Users extends Controller
 
         if ($offers) {
             foreach ($offers as $offer) {
-                $offer->offerName = \App::getLocale() != 'ar' ? $offer->offerName : $offer->offerNameAr;
+                $offer->offerName = $request->header('accept-language') != 'ar' ? $offer->offerName : $offer->offerNameAr;
                $offer->offerImage = URL::to('Admin_uploads/offers/'.$offer->offerImage);
             }
         }
