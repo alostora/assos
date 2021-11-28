@@ -830,6 +830,7 @@ class Users extends Controller
 
         if ($offers) {
             foreach ($offers as $offer) {
+                $offer->offerName = \App::getLocale() != 'ar' ? $offer->offerName : $offer->offerNameAr;
                $offer->offerImage = URL::to('Admin_uploads/offers/'.$offer->offerImage);
             }
         }

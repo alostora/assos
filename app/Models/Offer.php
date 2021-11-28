@@ -16,5 +16,10 @@ class Offer extends Model
         "offerImage",
     ];
 
+
+    protected $hidden = [
+        "offerNameAr"
+    ];
+
   
 }
