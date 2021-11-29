@@ -63,6 +63,10 @@ Route::group(['namespace'=>'Api\Users'],function(){
     //sliders
     Route::get('home','Users@home');
 
+
+    //user orders
+    Route::post('makeOrder','Users@makeOrder');
+
     
 
 });

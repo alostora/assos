@@ -18,6 +18,9 @@ use App\Models\Sub_property;
 use App\Models\Sort_type;
 use App\Models\Offer;
 use App\Models\Ad;
+use App\Models\Order;
+use App\Models\Order_item;
+use App\Models\Order_item_prop;
 use URL;
 use Auth;
 use Lang;
@@ -859,7 +862,51 @@ class Users extends Controller
 
 
 
+    /////////orders
+    public function makeOrder(Request $request){
+        //return $request->items;
+        if(Auth::guard('api')->check()) {
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = User::where('deviceId',$request->header('device-id'))->first();
+        }
 
+        if (!empty($user)) {
+            $user_id = $user->id;
+            $status = "new";
+            //$total_price = ;
+
+            $order = Order::create([
+                'user_id' => $user_id,
+                'status' => $status,
+            ]);
+
+            if(!empty($request->items) && is_array($request->items)){
+                foreach($request->items as $item){
+                    
+                    $order_item = Order_item::create([
+                        "item_id" => $item->item_id,
+                        "item_count" => $item->count,
+                        "order_id" => $order->id,
+                    ]);
+
+                    if(!empty($item->props) && is_array($item->props)) {
+                        foreach($item->props as $item_prop){
+                            Order_item_prop::create([
+                                'order_item_id' => $order_item,
+                                'item_prop_id' => $item_prop,
+                            ]);
+                        }
+                    }
+                }
+            }
+
+
+        }
+
+        $data['status'] = true;
+        return $data;
+    }
 
 
 
