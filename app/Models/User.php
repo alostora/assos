@@ -22,6 +22,8 @@ class User extends Authenticatable
         'email',
         'phone',
         'country',//[sa,kw]
+        'mobile_lang',//[ar,en]
+        'web_lang',//[ar,en]
         'image',
         'password',
         'api_token',

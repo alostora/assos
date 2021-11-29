@@ -37,6 +37,8 @@ class Users_auth extends Controller
         if (!empty($user)) {
             $user->country = $data['country'];
             $user->deviceId = $data['deviceId'];
+            $user->mobile_lang = !empty($data['mobile_lang']) ? $data['mobile_lang'] : $user->mobile_lang;
+            $user->web_lang = !empty($data['web_lang']) ? $data['web_lang'] : $user->web_lang;
             $user->save();
         }else{
             User::create($data);
@@ -162,7 +164,7 @@ class Users_auth extends Controller
             if(Hash::check($request->password,$user->password)){
                 $data['status'] = true;
                 $data['user'] = $user;
-                $data['user']->api_token = Str::random(50);
+                $data['user']->api_token = empty($user->api_token) ? Str::random(50) : $user->api_token;
                 $data['user']->save();
 
                 if(!empty($data['user']->image)){
