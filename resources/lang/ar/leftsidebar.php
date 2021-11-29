@@ -555,4 +555,12 @@ return [
     "categorySliderImage"=> "صورة السلايدر",
     "itemSliderImage"=> "صورة السلايدر",
     "sliders"=> "سلايدرات",
+    "offersInfo"=> "معلومات العروض",
+    "offerName"=> "اسم العرض",
+    "offerNameAr"=> "اسم العرض عربي",
+    "offerImage"=> "صورة العرض",
+    "offerItems"=> "منتجات العرض",
+    "ads Info"=> "معلومات الاعلانات",
+    "adLink"=> "رابط الاعلان",
+    "adImage"=> "صورة الاعلان",
 ];

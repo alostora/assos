@@ -32,7 +32,7 @@
 
                 <p style="color: #f0f0f0">
                   @lang('leftsidebar.Control Panel')
-                  <small>@lang('leftsidebar.menuqr') </small>
+                  <small>@lang('leftsidebar.Molak') </small>
                 </p>
               </li>
               <!-- Menu Body -->

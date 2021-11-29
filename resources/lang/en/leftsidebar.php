@@ -570,6 +570,16 @@ return [
     "itemSliderImage"=> "Slider image",
     "sliders"=> "Sliders",
 
+    //merna translate
+    "offersInfo"=> "Offers info",
+    "offerName"=> "Offer name",
+    "offerNameAr"=> "Offer name Ar",
+    "offerImage"=> "Offer image",
+    "offerItems"=> "Offer items",
+    "ads Info"=> "Ads Info",
+    "adLink"=> "Ad Link",
+    "adImage"=> "Ad image",
+
 
 
 ];

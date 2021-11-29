@@ -68,7 +68,7 @@
                         </li>
                         <li>
                             <a href="{{url('admin/adsInfo')}}">
-                                <i class="fa fa-circle-o"></i>@lang('leftsidebar.adsInfo')
+                                <i class="fa fa-circle-o"></i>@lang('leftsidebar.ads Info')
                             </a>
                         </li>
 
