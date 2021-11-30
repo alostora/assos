@@ -880,21 +880,19 @@ class Users extends Controller
                 'status' => $status,
             ]);
 
-            if(!empty($request->items)){
                     
-                $order_item = Order_item::create([
-                    "item_id" => $request->item_id,
-                    "item_count" => $request->count,
-                    "order_id" => $order->id,
-                ]);
+            $order_item = Order_item::create([
+                "item_id" => $request->item_id,
+                "item_count" => $request->count,
+                "order_id" => $order->id,
+            ]);
 
-                if(!empty($request->props) && is_array($request->props)) {
-                    foreach($item['props'] as $item_prop){
-                        Order_item_prop::create([
-                            'order_item_id' => $order_item->id,
-                            'item_prop_id' => $item_prop,
-                        ]);
-                    }
+            if(!empty($request->props) && is_array($request->props)) {
+                foreach($item['props'] as $item_prop){
+                    Order_item_prop::create([
+                        'order_item_id' => $order_item->id,
+                        'item_prop_id' => $item_prop,
+                    ]);
                 }
             }
         }
