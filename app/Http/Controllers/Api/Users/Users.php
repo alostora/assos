@@ -880,7 +880,7 @@ class Users extends Controller
                 'status' => $status,
             ]);
 
-            if(!empty($request->items) && is_array($request->items)){
+            if(!empty($request->items)){
                     
                 $order_item = Order_item::create([
                     "item_id" => $request->item_id,
