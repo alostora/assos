@@ -888,16 +888,17 @@ class Users extends Controller
             ]);
 
             if(!empty($request->props) && is_array($request->props)) {
-                foreach($item['props'] as $item_prop){
+                foreach($request->props as $requestProp){
                     Order_item_prop::create([
                         'order_item_id' => $order_item->id,
-                        'item_prop_id' => $item_prop,
+                        'item_prop_id' => $requestProp,
                     ]);
                 }
             }
         }
 
         $data['status'] = true;
+        $data['message'] = "order created";
         return $data;
     }
 
