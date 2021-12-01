@@ -861,48 +861,6 @@ class Users extends Controller
     }
 
 
-    /////////orders
-    public function makeOrder(Request $request){
-        //return $request->items;
-        if(Auth::guard('api')->check()) {
-            $user = Auth::guard('api')->user();
-        }else{
-            $user = User::where('deviceId',$request->header('device-id'))->first();
-        }
-
-        if (!empty($user)) {
-            $user_id = $user->id;
-            $status = "new";
-            //$total_price = ;
-
-            $order = Order::create([
-                'user_id' => $user_id,
-                'status' => $status,
-            ]);
-
-                    
-            $order_item = Order_item::create([
-                "item_id" => $request->item_id,
-                "item_count" => $request->count,
-                "order_id" => $order->id,
-            ]);
-
-            if(!empty($request->props) && is_array($request->props)) {
-                foreach($request->props as $requestProp){
-                    Order_item_prop::create([
-                        'order_item_id' => $order_item->id,
-                        'item_prop_id' => $requestProp,
-                    ]);
-                }
-            }
-        }
-
-        $data['status'] = true;
-        $data['message'] = "order created";
-        return $data;
-    }
-
-
 
 
 

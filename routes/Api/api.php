@@ -59,11 +59,6 @@ Route::group(['namespace'=>'Api\Users'],function(){
     //items search
     Route::any('itemSearch','Users@itemSearch');
     Route::get('sortType','Users@sortType');
-
-
-
-    
-
     
 
 });
