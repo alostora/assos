@@ -42,7 +42,7 @@ class Orders extends Controller
                         "total_price" => $itemPrice
                     ]);
                 }else{
-                    $order->total_price = $order->total_price + $itemPrice;
+                    $order->total_price = (int)$order->total_price + (int)$itemPrice;
                     $order->save();
                 }
                         
@@ -121,14 +121,15 @@ class Orders extends Controller
                                     }
                                 }
                             }
-
                         }
                     }
                 }
             }
-
-            return $order;
         }
+        $data['status'] = true;
+        $data['order'] = $order;
+
+        return $data;
 
 
     }
