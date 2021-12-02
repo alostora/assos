@@ -141,6 +141,34 @@ class Orders extends Controller
         return $type;
     }
 
+    public function deleteOrder($itemId){
+        $orderItem = Order_item::where('id',$itemId)->first();
+        if (!empty($orderItem)){
+            $order =Order::where('id',$orderItem->order_id)->first();
+            $count_order_items =Order_item::where('order_id',$orderItem->order_id)->count();
+
+            if($count_order_items > 1) {
+
+                $mainItem = Item::where('id', $orderItem->item_id)->first();
+                if (!empty($mainItem)) {
+                    $itemPrice = $mainItem->itemPriceAfterDis * $orderItem->item_count;
+                    $order->total_price = $order->total_price- $itemPrice;
+                    $order->save();
+                }
+                Order_item::where('id',$itemId)->delete();
+            }else{
+                Order::where('id',$orderItem->order_id)->delete();
+            }
+
+            $data['status'] = true;
+            $data['message'] = 'item deleted';
+            return $data;
+
+        }
+
+
+    }
+
 
 
 

@@ -14,6 +14,7 @@ Route::group(['namespace'=>'Api\Users'],function(){
     Route::post('makeOrder','Orders@makeOrder');
     
     Route::get('getOrder','Orders@getOrder');
+    Route::get('deleteOrder/{itemId}','Orders@deleteOrder');
 
 
 
