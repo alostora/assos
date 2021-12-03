@@ -20,7 +20,7 @@ class Orders extends Controller
     
 
     public function makeOrder(Request $request){
-        //return $request->items;
+        
         if(Auth::guard('api')->check()) {
             $user = Auth::guard('api')->user();
         }else{
@@ -73,8 +73,6 @@ class Orders extends Controller
             $data['status'] = false;
             $data['message'] = "user not found";
         }
-
-        
         return $data;
     }
 
@@ -82,7 +80,7 @@ class Orders extends Controller
 
 
     public function getOrder(Request $request){
-        if(Auth::guard('api')->check()) {
+        if(Auth::guard('api')->check()){
             $user = Auth::guard('api')->user();
         }else{
             $user = User::where('deviceId',$request->header('device-id'))->first();
@@ -130,18 +128,15 @@ class Orders extends Controller
         $data['order'] = $order;
 
         return $data;
-
-
     }
 
 
 
 
-    public function changeItemCount($orderItemId,$type){
-        return $type;
-    }
+
 
     public function deleteOrder($itemId){
+        
         $orderItem = Order_item::where('id',$itemId)->first();
         if (!empty($orderItem)){
             $order =Order::where('id',$orderItem->order_id)->first();
@@ -163,9 +158,7 @@ class Orders extends Controller
             $data['status'] = true;
             $data['message'] = 'item deleted';
             return $data;
-
         }
-
 
     }
 
@@ -174,7 +167,49 @@ class Orders extends Controller
 
 
 
+    public function itemCountPlus($orderItemId){
+        
+        $orderItem = Order_item::find($orderItemId);
+        if(!empty($orderItem)) {
+            $mainItem = Item::find($orderItem->item_id);
+            
+            if (!empty($mainItem)) {
+                $itemPrice = $mainItem->itemPriceAfterDis;
+                $orderItem->item_count = $orderItem->item_count + 1;
+                $order = Order::find($orderItem->order_id);
 
+                if (!empty($order)) {
+                    $order->total_price = $itemPrice + $order->total_price;
+                    $order->save();
+                    $orderItem->save();
+                }
+            }
+        }
+    }
+
+
+
+
+
+    public function itemCountMinus($orderItemId){
+        
+        $orderItem = Order_item::find($orderItemId);
+        if(!empty($orderItem)) {
+            $mainItem = Item::find($orderItem->item_id);
+            
+            if (!empty($mainItem)) {
+                $itemPrice = $mainItem->itemPriceAfterDis;
+                $orderItem->item_count = $orderItem->item_count - 1;
+                $order = Order::find($orderItem->order_id);
+
+                if (!empty($order)) {
+                    $order->total_price = $itemPrice - $order->total_price;
+                    $order->save();
+                    $orderItem->save();
+                }
+            }
+        }
+    }
 
 
 

@@ -280,13 +280,15 @@ class Users extends Controller
                 //item property belongs to items
                 $item_properties = Item_properity::where('item_id',$data['item']->id)->pluck('id');
                 //item property belongs to item properties
-                $item_properties_plus = Item_property_plus::whereIn('properity_id',$item_properties)->pluck('sub_prop_id');
+                $item_properties_plus = Item_property_plus::whereIn('properity_id',$item_properties);
                 //item property belongs to admin properties
-                $sub_prop = Sub_property::whereIn('id',$item_properties_plus)->get();
+                $sub_prop = Sub_property::whereIn('id',$item_properties_plus->pluck('sub_prop_id'))->get();
                 if(!empty($sub_prop)) {
                     $color = [];
                     $size = [];
-                    foreach($sub_prop as $pro){
+                    $itemPropPlus = $item_properties_plus->pluck('id');
+                    foreach($sub_prop as $key=>$pro){
+                        $pro->sub_prop_id = $itemPropPlus[$key];
                         $pro->propertyName = $lang == 'en' ? $pro->propertyName : $pro->propertyNameAr;
                         $main_admin_prop = Property::find($pro->prop_id);
                         if (!empty($main_admin_prop) && $main_admin_prop->type == 'color') {
