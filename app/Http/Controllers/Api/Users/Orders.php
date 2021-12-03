@@ -182,9 +182,23 @@ class Orders extends Controller
                     $order->total_price = $itemPrice + $order->total_price;
                     $order->save();
                     $orderItem->save();
+
+                    $data['status'] = true;
+                    $data['message'] = "item count plus 1";
+                }else{
+                    $data['status'] = false;
+                    $data['message'] = "order not found";
                 }
+            }else{
+                $data['status'] = false;
+                $data['message'] = "main item not found";
             }
+        }else{
+            $data['status'] = false;
+            $data['message'] = "order item not found";
         }
+
+        return $data;
     }
 
 
@@ -206,10 +220,26 @@ class Orders extends Controller
                     $order->total_price = $itemPrice - $order->total_price;
                     $order->save();
                     $orderItem->save();
+
+                    $data['status'] = true;
+                    $data['message'] = "item count minus 1";
+                }else{
+                    $data['status'] = false;
+                    $data['message'] = "order not found";
                 }
+            }else{
+                $data['status'] = false;
+                $data['message'] = "main item not found";
             }
+        }else{
+            $data['status'] = false;
+            $data['message'] = "order item not found";
         }
+
+        return $data;
     }
+
+
 
 
 
