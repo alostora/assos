@@ -42,10 +42,12 @@ class Orders extends Controller
                         "total_price" => $itemPrice
                     ]);
                 }else{
+                    $this->deleteOrderItem($item->id);
                     $order->total_price = (int)$order->total_price + (int)$itemPrice;
                     $order->save();
                 }
                         
+
                 $order_item = Order_item::create([
                     "item_id" => $request->item_id,
                     "item_count" => $count,
@@ -62,7 +64,7 @@ class Orders extends Controller
                 }
 
                 $data['status'] = true;
-                $data['message'] = "order created";
+                $data['message'] = "item add to cart";
 
             }else{
                 $data['status'] = false;
@@ -135,7 +137,7 @@ class Orders extends Controller
 
 
 
-    public function deleteOrder($itemId){
+    public function deleteOrderItem($itemId){
         
         $orderItem = Order_item::where('id',$itemId)->first();
         if (!empty($orderItem)){
@@ -157,8 +159,12 @@ class Orders extends Controller
 
             $data['status'] = true;
             $data['message'] = 'item deleted';
-            return $data;
+
+        }else{
+            $data['status'] = false;
+            $data['message'] = 'item not found';
         }
+        return $data;
 
     }
 
@@ -213,19 +219,25 @@ class Orders extends Controller
             
             if (!empty($mainItem)) {
                 $itemPrice = $mainItem->itemPriceAfterDis;
-                $orderItem->item_count = $orderItem->item_count - 1;
-                $order = Order::find($orderItem->order_id);
+                if(($orderItem->item_count - 1) > 0) {
+                    
+                    $orderItem->item_count = $orderItem->item_count - 1;
+                    $order = Order::find($orderItem->order_id);
 
-                if (!empty($order)) {
-                    $order->total_price = $itemPrice - $order->total_price;
-                    $order->save();
-                    $orderItem->save();
+                    if (!empty($order)) {
+                        $order->total_price = $itemPrice - $order->total_price;
+                        $order->save();
+                        $orderItem->save();
 
-                    $data['status'] = true;
-                    $data['message'] = "item count minus 1";
+                        $data['status'] = true;
+                        $data['message'] = "item count minus 1";
+                    }else{
+                        $data['status'] = false;
+                        $data['message'] = "order not found";
+                    }
                 }else{
                     $data['status'] = false;
-                    $data['message'] = "order not found";
+                    $data['message'] = "item cant be 0";
                 }
             }else{
                 $data['status'] = false;

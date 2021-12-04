@@ -36,7 +36,6 @@ class Users extends Controller
         $main_filter = $request->header('main-filter');
         $vendorMainFIlter = Item::where('department',$main_filter)->pluck('vendor_id');
 
-    //return $vendorMainFIlter;
 
         $data['vendors'] = Vendor::whereIn('id',$vendorMainFIlter)->get(['id','vendor_name','vendor_image']);
 
@@ -205,10 +204,19 @@ class Users extends Controller
 
                     $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
                     $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
+
                     $review = Review::where('user_id',$user->id)->where('item_id',$item->id)->first();
                     $item->review = !empty($review) ? true : false;
                     $item->fav = !empty($fav) ? true : false;
                     $item->cart = false;
+
+                    $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
+                    if(!empty($order)){
+                        $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$item->id])->first();
+                        if(!empty($order_item)) {
+                            $item->cart = true;
+                        }
+                    }
                 }
             }
 
@@ -259,6 +267,18 @@ class Users extends Controller
                 $data['item']->fav = !empty($fav) ? true : false;
                 $data['item']->cart = false;
 
+
+                //item in cart?    
+                $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
+                if(!empty($order)){
+                    $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$data['item']->id])->first();
+                    if(!empty($order_item)) {
+                        $data['item']->cart = true;
+                    }
+                }
+
+
+
                 
 
                 $data['item']->vendor_info = Vendor::find($data['item']->vendor_id);
@@ -308,7 +328,7 @@ class Users extends Controller
                 $data['item']->itemMayLike = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'
                     ]);
 
-                if (!empty($data['item']->itemMayLike)) {
+                if(!empty($data['item']->itemMayLike)) {
                     foreach($data['item']->itemMayLike as $itemMayLike){
                         $itemMayLike->itemName = $request->header('accept-language') == 'en' ? $itemMayLike->itemName : $itemMayLike->itemNameAr;
 
@@ -319,6 +339,19 @@ class Users extends Controller
                         $itemMayLike->review = !empty($reviewLike) ? true : false;
                         $itemMayLike->fav = !empty($fav) ? true : false;
                         $itemMayLike->cart = false;
+
+
+                        //item in cart?    
+                        $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
+                        if(!empty($order)){
+                            $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$itemMayLike->id])->first();
+                            if(!empty($order_item)) {
+                                $itemMayLike->cart = true;
+                            }
+                        }
+
+
+
                     }
                 }
 
@@ -336,6 +369,16 @@ class Users extends Controller
                         $itemFit->review = !empty($reviewFit) ? true : false;
                         $itemFit->fav = !empty($favFit) ? true : false;
                         $itemFit->cart = false;
+
+
+                        //item in cart?    
+                        $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
+                        if(!empty($order)){
+                            $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$itemFit->id])->first();
+                            if(!empty($order_item)) {
+                                $itemFit->cart = true;
+                            }
+                        }
                     }
                 }
                 
@@ -354,8 +397,14 @@ class Users extends Controller
 
     public function addItemToFav(Request $request,$item_id){
 
-        $device_id = $request->header('device-id');
-        $user = Auth::guard('api')->user();
+        
+        $deviceId = $request->header('device-id');
+
+        if (Auth::guard('api')->check()) {
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = User::where('deviceId',$deviceId)->first();
+        }
 
         if (!empty($user)) {
             $user_id = $user->id;
@@ -436,6 +485,16 @@ class Users extends Controller
                     $item->review = !empty($review) ? true : false;
                     $item->fav = !empty($fav) ? true : false;
                     $item->cart = false;
+
+
+                    //item in cart?    
+                    $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
+                    if(!empty($order)){
+                        $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$item->id])->first();
+                        if(!empty($order_item)) {
+                            $item->cart = true;
+                        }
+                    }
                 }
             }
 
@@ -541,6 +600,16 @@ class Users extends Controller
                 $item->review = !empty($review) ? true : false;
                 $item->fav = !empty($fav) ? true : false;
                 $item->cart = false;
+
+
+                //item in cart?    
+                $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
+                if(!empty($order)){
+                    $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$item->id])->first();
+                    if(!empty($order_item)) {
+                        $item->cart = true;
+                    }
+                }
             }
         }else{
             $data['status'] = false;
@@ -573,6 +642,16 @@ class Users extends Controller
                 $item->review = !empty($review) ? true : false;
                 $item->fav = !empty($fav) ? true : false;
                 $item->cart = false;
+
+
+                //item in cart?    
+                $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
+                if(!empty($order)){
+                    $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$item->id])->first();
+                    if(!empty($order_item)) {
+                        $item->cart = true;
+                    }
+                }
             }
         }else{
             $data['status'] = false;
@@ -706,6 +785,16 @@ class Users extends Controller
                     $item->review = !empty($review) ? true : false;
                     $item->fav = !empty($fav) ? true : false;
                     $item->cart = false;
+
+
+                    //item in cart?    
+                    $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
+                    if(!empty($order)){
+                        $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$item->id])->first();
+                        if(!empty($order_item)) {
+                            $item->cart = true;
+                        }
+                    }
                 }
             }
         }else{
@@ -794,6 +883,16 @@ class Users extends Controller
                 $itemLike->review = !empty($reviewLike) ? true : false;
                 $itemLike->fav = !empty($fav) ? true : false;
                 $itemLike->cart = false;
+
+
+                //item in cart?    
+                $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
+                if(!empty($order)){
+                    $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$itemLike->id])->first();
+                    if(!empty($order_item)) {
+                        $itemLike->cart = true;
+                    }
+                }
             }
         }
 
@@ -811,6 +910,16 @@ class Users extends Controller
                 $fit->review = !empty($reviewFit) ? true : false;
                 $fit->fav = !empty($favFit) ? true : false;
                 $fit->cart = false;
+
+
+                //item in cart?    
+                $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
+                if(!empty($order)){
+                    $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$fit->id])->first();
+                    if(!empty($order_item)) {
+                        $fit->cart = true;
+                    }
+                }
             }
         }
 
@@ -829,6 +938,16 @@ class Users extends Controller
                 $recentItem->review = !empty($reviewFit) ? true : false;
                 $recentItem->fav = !empty($favFit) ? true : false;
                 $recentItem->cart = false;
+
+                        
+                //item in cart?    
+                $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
+                if(!empty($order)){
+                    $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$recentItem->id])->first();
+                    if(!empty($order_item)) {
+                        $recentItem->cart = true;
+                    }
+                }
             }
         }
 

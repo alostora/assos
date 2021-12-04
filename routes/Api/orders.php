@@ -14,13 +14,13 @@ Route::group(['namespace'=>'Api\Users'],function(){
     Route::post('makeOrder','Orders@makeOrder');
     
     Route::get('getOrder','Orders@getOrder');
-    Route::get('deleteOrder/{itemId}','Orders@deleteOrder');
+    Route::get('deleteOrderItem/{itemId}','Orders@deleteOrderItem');
     Route::get('itemCountPlus/{itemId}','Orders@itemCountPlus');
     Route::get('itemCountMinus/{itemId}','Orders@itemCountMinus');
 
 
 
-    Route::get('changeItemCount/{orderId}/{type}','Orders@changeItemCount');
+
 
     
 

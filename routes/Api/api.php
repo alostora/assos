@@ -24,10 +24,7 @@ Route::group(['namespace'=>'Api\Users'],function(){
         Route::get('getAddress','Users_auth@getAddress');
         Route::get('deleteAddress/{id}','Users_auth@deleteAddress');
         
-        //fav items
-        Route::get('addItemToFav/{item_id}','Users@addItemToFav');
-        Route::get('removeItemFromFav/{item_id}','Users@removeItemFromFav');
-        Route::get('userItemsFav','Users@userItemsFav');
+        
         Route::get('logOut','Users_auth@logOut');
 
         //review
@@ -43,6 +40,7 @@ Route::group(['namespace'=>'Api\Users'],function(){
 
     //un auth routes
 
+
     Route::get('home','Users@home');
     Route::get('vendors','Users@vendors');
 
@@ -53,6 +51,10 @@ Route::group(['namespace'=>'Api\Users'],function(){
     Route::get('items/{s_cat_id}/{vendor_id?}','Users@items');
     Route::get('itemInfo/{itemId}','Users@itemInfo');
 
+    //fav items
+    Route::get('addItemToFav/{item_id}','Users@addItemToFav');
+    Route::get('removeItemFromFav/{item_id}','Users@removeItemFromFav');
+    Route::get('userItemsFav','Users@userItemsFav');
 
     //properties
     Route::get('properties','Users@properties');
