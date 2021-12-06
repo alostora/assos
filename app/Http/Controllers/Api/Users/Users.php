@@ -17,6 +17,7 @@ use App\Models\Property;
 use App\Models\Sub_property;
 use App\Models\Sort_type;
 use App\Models\Offer;
+use App\Models\Offer_item;
 use App\Models\Ad;
 use App\Models\Order;
 use App\Models\Order_item;
@@ -939,7 +940,7 @@ class Users extends Controller
                 $recentItem->fav = !empty($favFit) ? true : false;
                 $recentItem->cart = false;
 
-                        
+
                 //item in cart?    
                 $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
                 if(!empty($order)){
@@ -978,6 +979,66 @@ class Users extends Controller
         $data['data']['ads'] = $ads;
         return $data;
 
+
+    }
+
+
+
+
+
+
+
+    public function offerItems(Request $request,$offerId){
+
+        $device_id = $request->header('device-id');
+
+        if(Auth::guard('api')->check()) {
+            $user = User::find(Auth::guard('api')->id());
+        }else{
+            $user = User::where('deviceId',$device_id)->first();
+        }
+
+
+        $offer_item_ids = Offer_item::where('offer_id',$offerId)->pluck('item_id');
+        if (!empty($offer_item_ids)){
+            $items = Item::whereIn('id',$offer_item_ids)->get();
+
+            if(!empty($items)){
+                foreach($items as $item){
+
+                    $item->itemName = $request->header('accept-language') == 'en' ? $item->itemName : $item->itemNameAr;
+                    $item->itemDescribe = $request->header('accept-language') == 'en' ? $item->itemDescribe : $item->itemDescribeAr;
+
+                    $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
+                    $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
+
+                    $review = Review::where('user_id',$user->id)->where('item_id',$item->id)->first();
+                    $item->review = !empty($review) ? true : false;
+                    $item->fav = !empty($fav) ? true : false;
+                    $item->cart = false;
+
+                    $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
+                    if(!empty($order)){
+                        $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$item->id])->first();
+                        if(!empty($order_item)) {
+                            $item->cart = true;
+                        }
+                    }
+                }
+
+                $data['status'] = true;
+                $data['data'] = $items;
+            }else{
+                $data['status'] = false;
+                $data['message'] = "no item found";
+            }
+
+        }else{
+            $data['status'] = false;
+            $data['message'] = "no offer found";
+        }
+
+        return $data;
 
     }
 
