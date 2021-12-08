@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Ad;
+use App\Models\Vendor;
+use App\Models\Category;
 use File;
 
 class Ads extends Controller
@@ -14,8 +16,15 @@ class Ads extends Controller
         return view('Admin/Ads/adsInfo',compact('ads'));
     }
 
+
+
+
+
     public function viewCreateAd($id=null){
-        $data['id'] = null;
+
+        $data['vendors'] = Vendor::get();
+        $data['categories'] = Category::get();
+
         if($id != null){
             $data['ad'] = Ad::find($id);
         }
@@ -23,9 +32,12 @@ class Ads extends Controller
         return view('Admin/Ads/viewCreateAd',$data);
     }
 
+
+
+
+
     public function createAd(Request $request){
         $validated = $request->validate([
-          'adLink' => 'required|max:255',
           'adImage' => 'image|mimes:jpeg,png,jpg,gif,svg|max:4048',
         ]);
 
@@ -64,7 +76,11 @@ class Ads extends Controller
         return back(); 
     }
 
-     public function deleteAd($id){
+
+
+
+
+    public function deleteAd($id){
         $ad = Ad::find($id);
         if(!empty($ad)){
             $destinationPath = public_path('Admin_uploads/ads/');

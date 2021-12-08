@@ -24,14 +24,42 @@
               @csrf
               <input type="hidden" name="id" value="@if(!empty($ad)) {{$ad->id}} @endif">
 
+
+
               <div class="form-group">
 
-                  <label for="adLink" class="col-sm-2 control-label">@lang('leftsidebar.adLink')</label>
+                  <label for="vendor_id" class="col-sm-2 control-label">@lang('leftsidebar.vendors')</label>
                   <div class="col-sm-4">
-                      <input type="text" name="adLink" class="form-control" id="adLink" placeholder="@lang('leftsidebar.adLink')" value="@if(!empty($ad)) {{$ad->adLink}} @endif" required>
+                      <select name="vendor_id" class="form-control" id="vendor_id"required>
+                        @if(!empty($vendors))
+                          @foreach($vendors as $vendor)
+                            @if(!empty($ad) && $vendor->id == $ad->vendor_id)
+                              <option value="{{$vendor->id}}" selected>{{$vendor->vendor_name}}</option>
+                            @else
+                              <option value="{{$vendor->id}}">{{$vendor->vendor_name}}</option>
+                            @endif
+                          @endforeach
+                        @endif
+                      </select>
                   </div>
-                
+
+
+                  <label for="cat_id" class="col-sm-2 control-label">@lang('leftsidebar.categories')</label>
+                  <div class="col-sm-4">
+                      <select name="cat_id" class="form-control" id="cat_id"required>
+                        @if(!empty($categories))
+                          @foreach($categories as $cat)
+                            @if(!empty($ad) && $cat->id == $ad->cat_id)
+                              <option value="{{$cat->id}}" selected>{{$cat->categoryName}}</option>
+                            @else
+                              <option value="{{$cat->id}}">{{$cat->categoryName}}</option>
+                            @endif
+                          @endforeach
+                        @endif
+                      </select>
+                  </div>
               </div>
+
 
               <div class="form-group">
                   <label for="adImage" class="col-sm-2 control-label">@lang('leftsidebar.adImage')</label>

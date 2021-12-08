@@ -10,8 +10,9 @@ class Ad extends Model
     use HasFactory;
     protected $table="ads";
     protected $fillable = [
-        'adLink',
-        'adImage'
+        'adImage',
+        'vendor_id',
+        'cat_id',
     ];
 
     protected $hidden = [

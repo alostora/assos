@@ -22,20 +22,20 @@
 		              	<table class="table table-hover">
 			                <tr>
 			                  	<th>#</th>
-			                  	<th>@lang('leftsidebar.adLink')</th>
 			                  	<th>@lang('leftsidebar.adImage')</th>
+			                  	<th>@lang('leftsidebar.vendors')</th>
+			                  	<th>@lang('leftsidebar.categories')</th>
 			                  	<th>@lang('leftsidebar.Operations')</th>
 			                </tr>
 						@if(!empty($ads))
 							@foreach($ads as $key=>$ad)
 								<tr>
 						          	<td>{{$key+1}}</td>
-						          	<td>{{$ad->adLink}}</td>
 						          	<td>
 						          		<img src="{{url('Admin_uploads/ads/'.$ad->adImage)}}" style="height: 100px;width:100px">
 						          	</td>
-
-						        
+						          	<td>{{$ad->vendor_id}}</td>
+						          	<td>{{$ad->cat_id}}</td>
 						          	<td>
 							          	<div class="btn-group">
 							          		<a class="btn btn-success" href="{{url('admin/viewCreateAd/'.$ad->id)}}">

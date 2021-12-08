@@ -966,7 +966,19 @@ class Users extends Controller
 
         if ($ads) {
             foreach ($ads as $ad) {
-               $ad->adImage = URL::to('Admin_uploads/ads/'.$ad->adImage);
+                $ad->adImage = URL::to('Admin_uploads/ads/'.$ad->adImage);
+                $vendor = Vendor::find($ad->vendor_id);
+                $ad->vendor_name = null;
+                if(!empty($vendor)) {
+                    $ad->vendor_name = $vendor->vendor_name;
+                }
+                $category = Category::find($ad->cat_id);
+                $ad->categoryName = null;
+                if(!empty($category)) {
+                    $ad->categoryName = $request->header('accept-language') == 'en' ? $category->categoryName : $category->categoryNameAr;
+                }
+
+
             }
         }
 
@@ -1001,7 +1013,7 @@ class Users extends Controller
 
         $offer_item_ids = Offer_item::where('offer_id',$offerId)->pluck('item_id');
         if (!empty($offer_item_ids)){
-            $items = Item::whereIn('id',$offer_item_ids)->get();
+            $items = Item::whereIn('id',$offer_item_ids)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
 
             if(!empty($items)){
                 foreach($items as $item){

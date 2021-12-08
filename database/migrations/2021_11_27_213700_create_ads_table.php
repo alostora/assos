@@ -15,9 +15,24 @@ class CreateAdsTable extends Migration
     {
         Schema::create('ads', function (Blueprint $table) {
             $table->id();
-            $table->string('adLink')->nullable();
+            
             $table->string('adImage')->nullable();
+
+            $table->bigInteger("vendor_id")->unsigned()->nullable();
+            $table->foreign('vendor_id')
+            ->references('id')
+            ->on('users')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
+
+            $table->bigInteger("cat_id")->unsigned()->nullable();
+            $table->foreign('cat_id')
+            ->references('id')
+            ->on('categories')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
             $table->timestamps();
+
         });
     }
 
