@@ -579,6 +579,7 @@ return [
     "ads Info"=> "Ads Info",
     "adLink"=> "Ad Link",
     "adImage"=> "Ad image",
+    "orderSettings"=> "Order Settings",
 
 
 

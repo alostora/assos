@@ -72,6 +72,12 @@
                             </a>
                         </li>
 
+                        <li>
+                            <a href="{{url('admin/orderSettings')}}">
+                                <i class="fa fa-circle-o"></i>@lang('leftsidebar.orderSettings')
+                            </a>
+                        </li>
+
                     @elseif(Auth::guard('vendor')->check())
                         <li>
                             <a href="{{url('vendor/itemsInfo')}}">

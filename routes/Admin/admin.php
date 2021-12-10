@@ -32,6 +32,10 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::get('deleteAdmin/{id?}','Admins@deleteAdmin');
 			Route::get('logOut','Admins@logOut');
 
+			//orderSettings
+			Route::get('orderSettings','Admins@orderSettings');
+
+
 
 			//categories
 			Route::get('categoriesInfo','Categories@categoriesInfo');
@@ -86,6 +90,7 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::get('viewCreateAd/{id?}','Ads@viewCreateAd');
 			Route::post('createAd','Ads@createAd');
 			Route::get('deleteAd/{id?}','Ads@deleteAd');
+
 
 		});
 	});

@@ -133,4 +133,8 @@ class Admins extends Controller
         return redirect('admin');
     }
 
+    public function orderSettings(){
+        return view('Admin/OrderSettings/orderSettings');
+    }
+
 }
