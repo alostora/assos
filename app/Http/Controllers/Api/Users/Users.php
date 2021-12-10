@@ -289,6 +289,7 @@ class Users extends Controller
 
                 if(count($data['item']->reviews)) {
                     foreach($data['item']->reviews as $review){
+                        $review->date = date("D d M,Y",strtotime($review->created_at));
                         $review->user_info = User::where('id',$review->user_id)->first(['id','name','image']);
                         $review->user_info->image = URL::to('Admin_uploads/vendors/'.$review->user_info->image);
                     }
@@ -516,6 +517,7 @@ class Users extends Controller
             if(!empty($item)) {
                 $data['status'] = true;
                 $data['message'] = 'review add';
+
                 Review::create([
                     'rate'=>$request->rate,
                     'comment'=>$request->comment,
@@ -554,6 +556,7 @@ class Users extends Controller
 
         if(!empty($data['reviews'])){
             foreach($data['reviews'] as $review){
+                $review->date = date("D d M,Y",strtotime($review->created_at));
                 $review->user_info = User::where('id',$review->user_id)->first(['id','name','image']);
                 $review->user_info->image = URL::to('Admin_uploads/vendors/'.$review->user_info->image);
             }  

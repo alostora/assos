@@ -125,10 +125,16 @@ class Orders extends Controller
                         }
                     }
                 }
+                $data['status'] = true;
+                $data['order'] = $order;
+            }else{
+                $data['status'] = false;
+                $data['message'] = "empty orders";
             }
+        }else{
+            $data['status'] = false;
+            $data['message'] = "user not found";
         }
-        $data['status'] = true;
-        $data['order'] = $order;
 
         return $data;
     }
@@ -255,15 +261,25 @@ class Orders extends Controller
 
 
     public function checkOut($orderId){
-        $order = Order::find($orderId);
-        if(!empty($order) && $order->status == "new"){
-            $order->status = "confirmed";
-            $order->save();
-            $data['status'] = true;
-            $data['message'] = "order status changed";
+        if(Auth::guard('api')->check()){
+            $user = Auth::guard('api')->user();
         }else{
-            $data['status'] = false;
-            $data['message'] = "order Can't changed";
+            $user = User::where('deviceId',$request->header('device-id'))->first();
+        }
+
+        if(!empty($user)){
+            $order = Order::find($orderId);
+            if(!empty($order) && $order->status == "new"){
+                $order->status = "confirmed";
+                $order->save();
+                $data['status'] = true;
+                $data['message'] = "order status changed";
+            }else{
+                $data['status'] = false;
+                $data['message'] = "order Can't changed";
+            }
+        }else{
+
         }
 
         return $data;
