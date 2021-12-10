@@ -40,7 +40,6 @@ class Users extends Controller
 
         $data['vendors'] = Vendor::whereIn('id',$vendorMainFIlter)->get(['id','vendor_name','vendor_image']);
 
-
         if(!empty($data['vendors'])){
             foreach($data['vendors'] as $key => $vend){
                 $vend->vendor_image = URL::to('Admin_uploads/vendors/'.$vend->vendor_image);
@@ -277,10 +276,7 @@ class Users extends Controller
                         $data['item']->cart = true;
                     }
                 }
-
-
-
-                
+ 
 
                 $data['item']->vendor_info = Vendor::find($data['item']->vendor_id);
                 $data['item']->vendor_info->vendor_image = URL::to('Admin_uploads/vendors/'.$data['item']->vendor_info->vendor_image);
@@ -398,7 +394,6 @@ class Users extends Controller
 
     public function addItemToFav(Request $request,$item_id){
 
-        
         $deviceId = $request->header('device-id');
 
         if (Auth::guard('api')->check()) {
@@ -831,9 +826,6 @@ class Users extends Controller
 
 
 
-
-
-
     //sliders
     public function home(Request $request){
 
@@ -977,8 +969,6 @@ class Users extends Controller
                 if(!empty($category)) {
                     $ad->categoryName = $request->header('accept-language') == 'en' ? $category->categoryName : $category->categoryNameAr;
                 }
-
-
             }
         }
 
@@ -990,11 +980,7 @@ class Users extends Controller
         $data['data']['offers'] = $offers;
         $data['data']['ads'] = $ads;
         return $data;
-
-
     }
-
-
 
 
 
@@ -1009,7 +995,6 @@ class Users extends Controller
         }else{
             $user = User::where('deviceId',$device_id)->first();
         }
-
 
         $offer_item_ids = Offer_item::where('offer_id',$offerId)->pluck('item_id');
         if (!empty($offer_item_ids)){
@@ -1051,10 +1036,7 @@ class Users extends Controller
         }
 
         return $data;
-
     }
-
-
 
 
 

@@ -89,7 +89,8 @@ class Orders extends Controller
         }
 
         if(!empty($user)){
-            $order = Order::where(['user_id'=>$user->id,'status' => "new"])
+            $status = ["new","confirmed"];
+            $order = Order::where(['user_id'=>$user->id])->whereIn('status',$status)
                     ->with(['order_items'=>function($query){
                         $query->with('order_items_props');
                     }])->first();
@@ -165,7 +166,6 @@ class Orders extends Controller
             $data['message'] = 'item not found';
         }
         return $data;
-
     }
 
 
@@ -246,6 +246,24 @@ class Orders extends Controller
         }else{
             $data['status'] = false;
             $data['message'] = "order item not found";
+        }
+
+        return $data;
+    }
+
+
+
+
+    public function checkOut($orderId){
+        $order = Order::find($orderId);
+        if(!empty($order) && $order->status == "new"){
+            $order->status = "confirmed";
+            $order->save();
+            $data['status'] = true;
+            $data['message'] = "order status changed";
+        }else{
+            $data['status'] = false;
+            $data['message'] = "order Can't changed";
         }
 
         return $data;

@@ -29,7 +29,6 @@ Route::group(['namespace'=>'Api\Users'],function(){
 
         //review
         Route::post('userItemReview','Users@userItemReview');
-        Route::get('itemReviews/{item_id}','Users@itemReviews');
         Route::get('itemMayLike/{item_id}','Users@itemMayLike');
         Route::get('itemFit/{item_id}','Users@itemFit');
         
@@ -56,6 +55,11 @@ Route::group(['namespace'=>'Api\Users'],function(){
     Route::get('addItemToFav/{item_id}','Users@addItemToFav');
     Route::get('removeItemFromFav/{item_id}','Users@removeItemFromFav');
     Route::get('userItemsFav','Users@userItemsFav');
+
+
+    //item reviews
+    Route::get('itemReviews/{item_id}','Users@itemReviews');
+
 
     //properties
     Route::get('properties','Users@properties');
