@@ -34,6 +34,9 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 
 			//orderSettings
 			Route::get('orderSettings','Admins@orderSettings');
+			Route::get('viewCreateOrderSettings/{settingId?}','Admins@viewCreateOrderSettings');
+			Route::post('createSetting','Admins@createSetting');
+			Route::get('deleteOrderSettings/{settingId?}','Admins@deleteOrderSettings');
 
 
 

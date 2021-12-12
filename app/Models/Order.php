@@ -11,6 +11,8 @@ class Order extends Model
     protected $table = 'orders';
     protected $fillable = [
         'status',//['new','confirmed']
+        'shippingType',//[freeShipping,normalShipping,fastShipping]
+        'paymentMethod',//[myFatora,cashOnDelivery]
         'total_price',
         'user_id'
 

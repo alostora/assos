@@ -12,6 +12,8 @@ use App\Models\Order_item_prop;
 use App\Models\Item_property_plus;
 use App\Models\Sub_property;
 use App\Models\Property;
+use App\Models\User_address;
+use App\Models\Order_setting;
 use Auth;
 use URL;
 
@@ -87,6 +89,7 @@ class Orders extends Controller
         }else{
             $user = User::where('deviceId',$request->header('device-id'))->first();
         }
+        $orderSetting = Order_setting::get();
 
         if(!empty($user)){
             $status = ["new","confirmed"];
@@ -122,6 +125,18 @@ class Orders extends Controller
                                     }
                                 }
                             }
+                        }
+                    }
+                }
+                $order->shippingAddress = User_address::where(['user_id'=>$user->id,'isMain'=>true])->first();
+                if (!empty($orderSetting)) {
+                    foreach($orderSetting as $setting){
+                        if ($setting->settingName == 'freeShipping' && $order->total_price >= $setting->settingValue) {
+                            $order->shippingCost = 0 ;
+                        }elseif($setting->settingName == 'fastShipping' || $setting->settingName == 'normalShipping'){
+                            $order->shippingCost = $setting->settingValue;
+                        }elseif($setting->settingName == 'addedTax') {
+                            $order->addedTax = (int)$setting->settingValue / 100;
                         }
                     }
                 }

@@ -1,5 +1,5 @@
 @include('MainLayouts/header')
 @include('MainLayouts/mainheader')
     @include('MainLayouts/leftsidebar')
-    @include('Admin/layouts/OrderSettings/orderSettings')
+    @include('Admin/layouts/OrderSettings/viewCreateOrderSettings')
 @include('MainLayouts/footer')

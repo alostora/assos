@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin;
 use App\Models\User;
+use App\Models\Order_setting;
 use Auth;
 use Hash;
 use \Carbon\Carbon;
@@ -133,8 +134,57 @@ class Admins extends Controller
         return redirect('admin');
     }
 
+
+
+
+
     public function orderSettings(){
-        return view('Admin/OrderSettings/orderSettings');
+        $data['settings'] = Order_setting::get();
+        return view('Admin/OrderSettings/orderSettings',$data);
     }
+
+
+
+
+
+    public function viewCreateOrderSettings($settingId=false){
+        $data['setting']= false;
+        if ($settingId != false) {
+            $data['setting'] = Order_setting::find($settingId);
+        }
+        return view('Admin/OrderSettings/viewCreateOrderSettings',$data);
+    }
+
+
+
+
+
+
+    public function createSetting(Request $request){
+        $data = $request->except("_token");
+        if (!empty($data['id'])) {
+            Order_setting::where('id',$data['id'])->update($data);
+        }else{
+            Order_setting::create($data);
+        }
+        session()->flash('success','Done');
+        return back();
+    }
+
+
+
+
+
+    public function deleteOrderSettings($settingId){
+        Order_setting::where('id',$settingId)->delete();
+        session()->flash('success','Done');
+        return back();
+    }
+
+
+
+
+
+
 
 }
