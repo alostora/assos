@@ -16,4 +16,16 @@ class Order_setting extends Model
         "settingOptions",
         "settingOptionsAr",
     ];
+
+
+    protected $hidden = [
+        'settingNameAr',
+        'settingOptionsAr',
+    ];
+
+    
+    protected $casts = [
+        'settingValue' => 'double',
+    ];
+
 }

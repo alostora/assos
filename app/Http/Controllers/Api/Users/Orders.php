@@ -128,18 +128,7 @@ class Orders extends Controller
                         }
                     }
                 }
-                $order->shippingAddress = User_address::where(['user_id'=>$user->id,'isMain'=>true])->first();
-                if (!empty($orderSetting)) {
-                    foreach($orderSetting as $setting){
-                        if ($setting->settingName == 'freeShipping' && $order->total_price >= $setting->settingValue) {
-                            $order->shippingCost = 0 ;
-                        }elseif($setting->settingName == 'fastShipping' || $setting->settingName == 'normalShipping'){
-                            $order->shippingCost = $setting->settingValue;
-                        }elseif($setting->settingName == 'addedTax') {
-                            $order->addedTax = (int)$setting->settingValue / 100;
-                        }
-                    }
-                }
+        
                 $data['status'] = true;
                 $data['order'] = $order;
             }else{
@@ -271,6 +260,60 @@ class Orders extends Controller
 
         return $data;
     }
+
+
+
+
+
+
+    public function checkOutDetails(Request $request){
+
+        if(Auth::guard('api')->check()){
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = User::where('deviceId',$request->header('device-id'))->first();
+        }
+
+        $lang = $request->header('accept-language');
+
+        if(!empty($user)){
+            $status = ["new","confirmed"];
+            $order = Order::where(['user_id'=>$user->id])->whereIn('status',$status)
+                    ->first();
+
+            if(!empty($order)){
+                
+                $orderSetting = Order_setting::get();
+
+                if (!empty($orderSetting)) {
+                    foreach($orderSetting as $setting){
+                        $setting->settingName =  $lang == 'ar' ? $setting->settingNameAr : $setting->settingName;
+                        $setting->settingOptions =  $lang == 'ar' ? $setting->settingOptionsAr : $setting->settingOptions;
+                    }
+                }
+
+                $order->shippingAddress = User_address::where(['user_id'=>$user->id,'isMain'=>true])->first();
+                $order->orderSetting = $orderSetting;
+
+                $data['status'] = true;
+                $data['data'] = $order;
+            }else{
+                $data['status'] = false;
+                $data['message'] = "empty orders";
+            }
+        }else{
+            $data['status'] = false;
+            $data['message'] = "user not found";
+        }
+
+        return $data;
+
+    }
+
+
+
+
+
 
 
 

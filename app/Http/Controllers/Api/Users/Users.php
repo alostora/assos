@@ -180,6 +180,8 @@ class Users extends Controller
             $user = User::where('deviceId',$deviceId)->first();
         }
 
+        $lang = $request->header('accept-language');
+
         if (!empty($user)){
             
             $data['status'] = true;
@@ -187,20 +189,19 @@ class Users extends Controller
                 $data['items'] = Item::where([
                             'sub_cat_id'=>$s_cat_id,
                             'department'=>$main_filter,
-                    ])->select(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->paginate(20);
+                    ])->select(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->paginate(20);
             }else{
                 $data['items'] = Item::where([
                             'sub_cat_id'=>$s_cat_id,
                             'vendor_id'=>$vendor_id,
                             'department'=>$main_filter,
-                    ])->select(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->paginate(20);
+                    ])->select(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->paginate(20);
             }
 
             if(!empty($data['items'])){
                 foreach($data['items'] as $item){
-
-                    $item->itemName = $request->header('accept-language') == 'en' ? $item->itemName : $item->itemNameAr;
-                    $item->itemDescribe = $request->header('accept-language') == 'en' ? $item->itemDescribe : $item->itemDescribeAr;
+                    $item->itemName = $lang == 'en' ? $item->itemName : $item->itemNameAr;
+                    $item->itemDescribe = $lang == 'en' ? $item->itemDescribe : $item->itemDescribeAr;
 
                     $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
                     $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
@@ -217,6 +218,7 @@ class Users extends Controller
                             $item->cart = true;
                         }
                     }
+
                 }
             }
 
@@ -318,12 +320,9 @@ class Users extends Controller
                 }
 
                 $data['item']->color = $color;
-                $data['item']->size = $size;
+                $data['item']->size = $size;                        
 
-              
-                        
-
-                $data['item']->itemMayLike = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'
+                $data['item']->itemMayLike = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
                     ]);
 
                 if(!empty($data['item']->itemMayLike)) {
@@ -353,7 +352,7 @@ class Users extends Controller
                     }
                 }
 
-                $data['item']->itemFit = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'
+                $data['item']->itemFit = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
                 ]);
 
                 if(!empty($data['item']->itemFit)) {
@@ -462,13 +461,7 @@ class Users extends Controller
             $fav_item_id = User_fav_item::where('user_id',$user_id)->get();
             $data['items'] = Item::whereIn('id',$fav_item_id)
                             ->where('department',$main_filter)
-                            ->get([
-                                'id',
-                                'itemName',
-                                'itemImage',
-                                'itemPrice',
-                                'itemPriceAfterDis'
-                            ]);
+                            ->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis']);
 
             if(!empty($data['items'])){
                 foreach($data['items'] as $item){
@@ -577,14 +570,7 @@ class Users extends Controller
 
         
         $data['status'] = true;
-        $data['items'] = Item::/*where('id',$item_id)->where('department',$main_filter)->*/get([
-            'id',
-            'itemName',
-            'itemImage',
-            'itemPrice',
-            'itemPriceAfterDis',
-            'discountValue'
-        ]);
+        $data['items'] = Item::get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
 
 
         if(!empty($data['items'])){
@@ -628,7 +614,7 @@ class Users extends Controller
         $user = User::where('deviceId',$device_id)->first();
 
         $data['status'] = true;
-        $data['items'] = Item::/*where('id',$item_id)->where('department',$main_filter)->*/get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
+        $data['items'] = Item::get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
 
         if(!empty($data['items'])){
             foreach($data['items'] as $item){
@@ -866,7 +852,7 @@ class Users extends Controller
             }
         }
 
-        $itemMayLike = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
+        $itemMayLike = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
 
         if (!empty($itemMayLike)) {
             foreach($itemMayLike as $itemLike){
@@ -892,7 +878,7 @@ class Users extends Controller
             }
         }
 
-        $itemFit = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'
+        $itemFit = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
         ]);
 
         if(!empty($itemFit)) {
@@ -920,7 +906,7 @@ class Users extends Controller
         }
 
 
-        $recentItems = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'
+        $recentItems = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
         ]);
 
         if(!empty($recentItems)) {
@@ -1001,7 +987,7 @@ class Users extends Controller
 
         $offer_item_ids = Offer_item::where('offer_id',$offerId)->pluck('item_id');
         if (!empty($offer_item_ids)){
-            $items = Item::whereIn('id',$offer_item_ids)->get(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
+            $items = Item::whereIn('id',$offer_item_ids)->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
 
             if(!empty($items)){
                 foreach($items as $item){

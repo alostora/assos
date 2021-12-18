@@ -18,6 +18,7 @@ Route::group(['namespace'=>'Api\Users'],function(){
     Route::get('itemCountPlus/{itemId}','Orders@itemCountPlus');
     Route::get('itemCountMinus/{itemId}','Orders@itemCountMinus');
     Route::get('checkOut/{orderId}','Orders@checkOut');
+    Route::get('checkOutDetails','Orders@checkOutDetails');
 
 
 

@@ -18,6 +18,10 @@ class Order extends Model
 
     ];
 
+    protected $casts = [
+        'total_price' => 'double',
+    ];
+
 
     public function order_items(){
         return $this->hasMany('App\Models\Order_item','order_id');
