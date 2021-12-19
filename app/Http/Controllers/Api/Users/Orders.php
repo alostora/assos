@@ -287,7 +287,6 @@ class Orders extends Controller
 
                 if (!empty($orderSetting)) {
                     foreach($orderSetting as $setting){
-                        $setting->settingName =  $lang == 'ar' ? $setting->settingNameAr : $setting->settingName;
                         $setting->settingOptions =  $lang == 'ar' ? $setting->settingOptionsAr : $setting->settingOptions;
                     }
                 }
