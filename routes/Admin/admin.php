@@ -99,7 +99,7 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::get('coponsInfo','Copons@coponsInfo');
 			Route::get('viewCreateCopon/{id?}','Copons@viewCreateCopon');
 			Route::post('createCopon','Copons@createCopon');
-			Route::get('deleteCopon/{id?}','Copons@deleteCopon');
+			Route::get('deleteCopon/{id}','Copons@deleteCopon');
 
 
 		});

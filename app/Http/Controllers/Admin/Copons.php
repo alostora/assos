@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Discount_copon;
+use Str;
 
 class Copons extends Controller
 {
@@ -21,7 +22,7 @@ class Copons extends Controller
 
 
     public function viewCreateCopon($id=null){
-
+        $data['copon'] = null;
         if($id != null){
             $data['copon'] = Discount_copon::find($id);
         }

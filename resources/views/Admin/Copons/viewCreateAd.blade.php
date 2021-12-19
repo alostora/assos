@@ -1,5 +1,0 @@
-@include('MainLayouts/header')
-@include('MainLayouts/mainheader')
-    @include('MainLayouts/leftsidebar')
-    @include('Admin/layouts/Ads/viewCreateAd') 
-@include('MainLayouts/footer')
