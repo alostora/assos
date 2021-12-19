@@ -564,4 +564,12 @@ return [
     "adLink"=> "رابط الاعلان",
     "adImage"=> "صورة الاعلان",
     "orderSettings"=> "إعدادات الطلب",
+
+
+
+    //copon
+    "Copons Info"=> "الكوبونات",
+    "code"=> "كود الخصم",
+    "dateFrom"=> "تاريخ من",
+    "dateTo"=> "تاريخ الي",
 ];

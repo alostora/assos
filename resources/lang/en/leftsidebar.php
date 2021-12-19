@@ -582,5 +582,12 @@ return [
     "orderSettings"=> "Order Settings",
 
 
+    //copon
+    "Copons Info"=> "Copons Info",
+    "code"=> "Code",
+    "dateFrom"=> "Date from",
+    "dateTo"=> "Date to",
+
+
 
 ];
