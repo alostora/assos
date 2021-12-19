@@ -11,7 +11,7 @@
                 <div class="box">
                     <div class="box-header">
                         <div class="col-xs-6">
-                            <h3 class="box-title">@lang('leftsidebar.Copons Info')</h3>
+                            <h3 class="box-title">@lang('leftsidebar.coponsInfo')</h3>
                         </div>
                         <a href="{{url('admin/viewCreateCopon')}}" class="btn btn-primary col-xs-6">
                             <i class="fa fa-plus"></i>

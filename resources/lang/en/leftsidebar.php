@@ -583,7 +583,7 @@ return [
 
 
     //copon
-    "Copons Info"=> "Copons Info",
+    "coponsInfo"=> "Copons Info",
     "code"=> "Code",
     "dateFrom"=> "Date from",
     "dateTo"=> "Date to",

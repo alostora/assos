@@ -568,7 +568,7 @@ return [
 
 
     //copon
-    "Copons Info"=> "الكوبونات",
+    "coponsInfo"=> "الكوبونات",
     "code"=> "كود الخصم",
     "dateFrom"=> "تاريخ من",
     "dateTo"=> "تاريخ الي",

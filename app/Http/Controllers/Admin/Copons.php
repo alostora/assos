@@ -42,16 +42,15 @@ class Copons extends Controller
         ]);
 
         $data = $request->except('_token');
-        $data['code'] = Str::random(4);
 
          if(!empty($data)){
             if ($data['id'] == null) {
+                $data['code'] = Str::random(4);
                 Discount_copon::create($data);
             }else{
                 Discount_copon::where('id',$data['id'])->update($data);
             }
         }
-
         session()->flash("success","done");
         return back(); 
     }
