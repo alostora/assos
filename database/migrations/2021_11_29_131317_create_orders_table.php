@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->string('shippingType');//[freeShipping,normalShipping,fastShipping]
             $table->string('paymentMethod');//[myFatora,cashOnDelivery]
             $table->string('total_price');
+            $table->string('discoutnCopon')->default(0);
 
             $table->bigInteger("user_id")->unsigned()->nullable();
             $table->foreign('user_id')

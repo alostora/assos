@@ -14,6 +14,7 @@ class Order extends Model
         'shippingType',//[freeShipping,normalShipping,fastShipping]
         'paymentMethod',//[myFatora,cashOnDelivery]
         'total_price',
+        'discoutnCopon',
         'user_id'
 
     ];

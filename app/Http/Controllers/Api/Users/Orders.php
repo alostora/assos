@@ -14,6 +14,7 @@ use App\Models\Sub_property;
 use App\Models\Property;
 use App\Models\User_address;
 use App\Models\Order_setting;
+use App\Models\Discount_copon;
 use Auth;
 use URL;
 
@@ -340,6 +341,19 @@ class Orders extends Controller
         }
 
         return $data;
+    }
+
+
+
+
+    public function orderCopon(Request $request){
+        $discoutnCopon = Discount_copon::where('code',$request->code)->first();
+        $order = Order::find($request->order_id);
+        
+        $order->discoutnCopon = $discoutnCopon->discountValue;
+        $order->save();
+
+        return $request->all();
     }
 
 

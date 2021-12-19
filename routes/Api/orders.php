@@ -21,6 +21,10 @@ Route::group(['namespace'=>'Api\Users'],function(){
     Route::get('checkOutDetails','Orders@checkOutDetails');
 
 
+    //order discount copon
+    Route::post('orderCopon','Orders@orderCopon');
+
+
 
 
 
