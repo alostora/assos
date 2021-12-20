@@ -15,6 +15,7 @@ use App\Models\Property;
 use App\Models\User_address;
 use App\Models\Order_setting;
 use App\Models\Discount_copon;
+use App\Models\user_discount_copon;
 use Auth;
 use URL;
 
@@ -347,13 +348,60 @@ class Orders extends Controller
 
 
     public function orderCopon(Request $request){
-        $discoutnCopon = Discount_copon::where('code',$request->code)->first();
-        $order = Order::find($request->order_id);
-        
-        $order->discoutnCopon = $discoutnCopon->discountValue;
-        $order->save();
 
-        return $request->all();
+        if(Auth::guard('api')->check()){
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = User::where('deviceId',$request->header('device-id'))->first();
+        }
+
+        $discoutnCopon = Discount_copon::where('code',$request->code)->first();
+
+        if (!empty($discoutnCopon)) {
+            $today = strtotime(date("Y-m-d"));
+            $dateTo = strtotime($discoutnCopon->dateTo);
+            $dateFrom = strtotime($discoutnCopon->dateFrom);
+
+            if($today > $dateTo or $today < $dateFrom){
+                $data['status'] = false;
+                $data['message'] = "invalid copon";
+            }else{
+                $order = Order::find($request->order_id);
+
+                $vendorItems = Item::where('vendor_id',$discoutnCopon->vendor_id)->pluck('id');
+                $orderItems = Order_item::where('order_id',$order->id)->whereIn('item_id',$vendorItems)->get();
+                if(empty($orderItems)){
+                    $data['status'] = false;
+                    $data['message'] = "invalid copon";
+                }else{
+                    $userCopon = user_discount_copon::where('user_id',$user->id)
+                        ->where('copon_id',$discoutnCopon->id)->first();
+
+                    if(empty($userCopon)) {
+
+                        $order->discoutnCopon = $discoutnCopon->discountValue;
+                        $order->save();
+
+                        user_discount_copon::create([
+                            'user_id'=>$user->id,
+                            'copon_id'=>$discoutnCopon->id
+                        ]);
+
+                        $data['status'] = true;
+                        $data['data'] = $order;
+                    }else{
+                        $data['status'] = false;
+                        $data['message'] = "you already used this copon";
+                    }
+                }
+
+            }
+        }else{
+            $data['status'] = false;
+            $data['message'] = "invalid copon";
+        }
+
+        return $data;
     }
 
 

@@ -19,7 +19,7 @@
           @if(session()->has('warning'))
             <div class="alert alert-warning">{{session('warning')}}</div>
           @endif
-          <form class="form-horizontal" action="{{url('admin/createCopon')}}" method="post" enctype="multipart/form-data">
+          <form class="form-horizontal" action="{{url('vendor/createCopon')}}" method="post" enctype="multipart/form-data">
             <div class="box-body">
               @csrf
               <input type="hidden" name="id" value="@if(!empty($copon)) {{$copon->id}} @endif">

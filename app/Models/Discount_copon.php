@@ -15,6 +15,7 @@ class Discount_copon extends Model
         'dateFrom',
         'dateTo',
         'discountValue',
+        'vendor_id'
     ];
 
 }

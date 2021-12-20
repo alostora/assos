@@ -1,5 +1,5 @@
 @include('MainLayouts/header')
 @include('MainLayouts/mainheader')
     @include('MainLayouts/leftsidebar')
-    @include('Admin/layouts/Copons/coponsInfo') 
+    @include('Vendors/layouts/Copons/viewCreateCopon') 
 @include('MainLayouts/footer')

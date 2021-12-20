@@ -77,11 +77,7 @@
                                 <i class="fa fa-circle-o"></i>@lang('leftsidebar.orderSettings')
                             </a>
                         </li>
-                        <li>
-                            <a href="{{url('admin/coponsInfo')}}">
-                                <i class="fa fa-circle-o"></i>@lang('leftsidebar.coponsInfo')
-                            </a>
-                        </li>
+                        
 
                     @elseif(Auth::guard('vendor')->check())
                         <li>
@@ -97,6 +93,12 @@
                         <li>
                             <a href="{{url('vendor/sliderVendorInfo')}}">
                                 <i class="fa fa-plus"></i> @lang('leftsidebar.sliders')
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{url('vendor/coponsInfo')}}">
+                                <i class="fa fa-circle-o"></i>@lang('leftsidebar.coponsInfo')
                             </a>
                         </li>
                     @endif

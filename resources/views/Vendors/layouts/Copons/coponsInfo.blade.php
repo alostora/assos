@@ -13,7 +13,7 @@
                         <div class="col-xs-6">
                             <h3 class="box-title">@lang('leftsidebar.coponsInfo')</h3>
                         </div>
-                        <a href="{{url('admin/viewCreateCopon')}}" class="btn btn-primary col-xs-6">
+                        <a href="{{url('vendor/viewCreateCopon')}}" class="btn btn-primary col-xs-6">
                             <i class="fa fa-plus"></i>
                             @lang('leftsidebar.Add')
                         </a>
@@ -39,11 +39,11 @@
                                     <td>{{$copon->discountValue}}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <a class="btn btn-success" href="{{url('admin/viewCreateCopon/'.$copon->id)}}">
+                                            <a class="btn btn-success" href="{{url('vendor/viewCreateCopon/'.$copon->id)}}">
                                                 <i class="fa fa-edit"></i>
                                             </a>
                                         
-                                            <a class="btn btn-danger" href="{{url('admin/deleteCopon/'.$copon->id)}}" onclick="return confirm('Are you sure?');" >
+                                            <a class="btn btn-danger" href="{{url('vendor/deleteCopon/'.$copon->id)}}" onclick="return confirm('Are you sure?');" >
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                         </div>

@@ -35,6 +35,13 @@ Route::group(['prefix'=>'vendor'],function(){
                 Route::get('ajaxDeleteItemImage/{imageId?}','Vendors@ajaxDeleteItemImage');
 
 
+                //discount_copons
+                Route::get('coponsInfo','Copons@coponsInfo');
+                Route::get('viewCreateCopon/{id?}','Copons@viewCreateCopon');
+                Route::post('createCopon','Copons@createCopon');
+                Route::get('deleteCopon/{id}','Copons@deleteCopon');
+
+
                 Route::any('logOut','Vendors@logOut');
 
             });

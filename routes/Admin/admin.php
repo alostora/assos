@@ -94,14 +94,6 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::post('createAd','Ads@createAd');
 			Route::get('deleteAd/{id?}','Ads@deleteAd');
 
-
-			//discount_copons
-			Route::get('coponsInfo','Copons@coponsInfo');
-			Route::get('viewCreateCopon/{id?}','Copons@viewCreateCopon');
-			Route::post('createCopon','Copons@createCopon');
-			Route::get('deleteCopon/{id}','Copons@deleteCopon');
-
-
 		});
 	});
 });

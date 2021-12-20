@@ -19,6 +19,15 @@ class CreateDiscountCoponsTable extends Migration
             $table->string('dateFrom');
             $table->string('dateTo');
             $table->string('discountValue');
+
+            $table->unsignedBigInteger('vendor_id')->nullable();
+
+            $table->foreign('vendor_id')
+            ->references('id')
+            ->on('vendors')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
+            
             $table->timestamps();
         });
     }

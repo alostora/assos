@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Vendors;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Discount_copon;
 use Str;
+use Auth;
 
 class Copons extends Controller
 {
@@ -13,8 +14,8 @@ class Copons extends Controller
 
 
     public function coponsInfo(){
-       $data['copons'] = Discount_copon::get();
-        return view('Admin/Copons/coponsInfo',$data);
+       $data['copons'] = Discount_copon::where('vendor_id',Auth::guard('vendor')->id())->get();
+        return view('Vendors/Copons/coponsInfo',$data);
     }
 
 
@@ -27,7 +28,7 @@ class Copons extends Controller
             $data['copon'] = Discount_copon::find($id);
         }
     
-        return view('Admin/Copons/viewCreateCopon',$data);
+        return view('Vendors/Copons/viewCreateCopon',$data);
     }
 
 
@@ -42,6 +43,7 @@ class Copons extends Controller
         ]);
 
         $data = $request->except('_token');
+        $data['vendor_id'] = Auth::guard('vendor')->id();
 
          if(!empty($data)){
             if ($data['id'] == null) {
