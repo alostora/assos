@@ -1001,6 +1001,8 @@ class Users extends Controller
                     $review = Review::where('user_id',$user->id)->where('item_id',$item->id)->first();
                     $item->review = !empty($review) ? true : false;
                     $item->fav = !empty($fav) ? true : false;
+                   
+
                     $item->cart = false;
 
                     $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
@@ -1025,6 +1027,121 @@ class Users extends Controller
         }
 
         return $data;
+    }
+
+
+
+
+    public function seeMore(Request $request,$type){
+
+        $main_filter = $request->header('main_filter');
+        $device_id = $request->header('device-id');
+
+        if(Auth::guard('api')->check()) {
+            $user = User::find(Auth::guard('api')->id());
+        }else{
+            $user = User::where('deviceId',$device_id)->first();
+        }
+
+
+        $data['status'] = true;
+
+
+        if ($type == 'itemMayLike') {
+
+            $itemMayLike = Item::where('department',$main_filter)->select(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->paginate(25);
+
+
+            if (!empty($itemMayLike)) {
+                foreach($itemMayLike as $itemLike){
+                    $itemLike->itemName = $request->header('accept-language') == 'en' ? $itemLike->itemName : $itemLike->itemNameAr;
+
+                    $itemLike->itemImage = URL::to('uploads/itemImages/'.$itemLike->itemImage);
+                    $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$itemLike->id)->first();
+                    $reviewLike = Review::where('user_id',$user->id)->where('item_id',$itemLike->id)->first();
+                    
+                    $itemLike->review = !empty($reviewLike) ? true : false;
+                    $itemLike->fav = !empty($fav) ? true : false;
+                    $itemLike->cart = false;
+
+
+                    //item in cart?    
+                    $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
+                    if(!empty($order)){
+                        $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$itemLike->id])->first();
+                        if(!empty($order_item)) {
+                            $itemLike->cart = true;
+                        }
+                    }
+                }
+            }
+
+            $data['data'] = $itemMayLike;
+
+        }elseif($type == 'itemFit') {
+
+            $itemFit = Item::where('department',$main_filter)->select(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
+            ])->paginate(25);
+
+            if(!empty($itemFit)) {
+                foreach($itemFit as $fit){
+                    $fit->itemName = $request->header('accept-language') == 'en' ? $fit->itemName : $fit->itemNameAr;
+
+                    $fit->itemImage = URL::to('uploads/itemImages/'.$fit->itemImage);
+                    $favFit = User_fav_item::where('user_id',$user->id)->where('item_id',$fit->id)->first();
+                    $reviewFit = Review::where('user_id',$user->id)->where('item_id',$fit->id)->first();
+                    
+                    $fit->review = !empty($reviewFit) ? true : false;
+                    $fit->fav = !empty($favFit) ? true : false;
+                    $fit->cart = false;
+
+
+                    //item in cart?    
+                    $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
+                    if(!empty($order)){
+                        $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$fit->id])->first();
+                        if(!empty($order_item)) {
+                            $fit->cart = true;
+                        }
+                    }
+                }
+            }
+
+            $data['data'] = $itemFit;
+
+        }elseif($type == 'recentItems'){
+
+            $recentItems = Item::where('department',$main_filter)->select(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
+            ])->paginate(25);
+
+            if(!empty($recentItems)) {
+                foreach($recentItems as $recentItem){
+                    $recentItem->itemName = $request->header('accept-language') == 'en' ? $recentItem->itemName : $recentItem->itemNameAr;
+
+                    $recentItem->itemImage = URL::to('uploads/itemImages/'.$recentItem->itemImage);
+                    $favFit = User_fav_item::where('user_id',$user->id)->where('item_id',$recentItem->id)->first();
+                    $reviewFit = Review::where('user_id',$user->id)->where('item_id',$recentItem->id)->first();
+                    
+                    $recentItem->review = !empty($reviewFit) ? true : false;
+                    $recentItem->fav = !empty($favFit) ? true : false;
+                    $recentItem->cart = false;
+
+
+                    //item in cart?    
+                    $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
+                    if(!empty($order)){
+                        $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$recentItem->id])->first();
+                        if(!empty($order_item)) {
+                            $recentItem->cart = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $data;
+
+
     }
 
 
