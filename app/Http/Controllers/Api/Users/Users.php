@@ -64,7 +64,7 @@ class Users extends Controller
         if(!empty($vendor_sub_cats_id)) {
             $vendor_cats_id = Sub_category::whereIn('id',$vendor_sub_cats_id)->pluck('cat_id');
             if(!empty($vendor_cats_id)) {
-                $categories = Category::whereIn('id',$vendor_cats_id)->get(['id','categoryName','categoryImage','sliderCategoryStatus','categorySliderImage']);
+                $categories = Category::whereIn('id',$vendor_cats_id)->get(['id','categoryName','categoryNameAr','categoryImage','sliderCategoryStatus','categorySliderImage']);
             }
         }
 
@@ -97,7 +97,7 @@ class Users extends Controller
     public function categories(Request $request){
 
         $data['status'] = true;
-        $categories = Category::get(['id','categoryName','categoryImage','sliderCategoryStatus','categorySliderImage']);
+        $categories = Category::get(['id','categoryName','categoryNameAr','categoryImage','sliderCategoryStatus','categorySliderImage']);
         
 
         if (!empty($categories)) {
