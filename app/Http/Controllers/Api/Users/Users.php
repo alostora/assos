@@ -307,16 +307,20 @@ class Users extends Controller
                     $color = [];
                     $size = [];
                     $itemPropPlus = $item_properties_plus->pluck('id');
+
                     foreach($sub_prop as $key=>$pro){
                         $pro->sub_prop_id = $itemPropPlus[$key];
                         $pro->propertyName = $lang == 'en' ? $pro->propertyName : $pro->propertyNameAr;
                         $main_admin_prop = Property::find($pro->prop_id);
                         if (!empty($main_admin_prop) && $main_admin_prop->type == 'color') {
                             array_push($color, $pro);
-                        }elseif(!empty($main_admin_prop) && $main_admin_prop->type == 'size'){
+                        }elseif(!empty($main_admin_prop) && $main_admin_prop->type == 'clothes_size'){
+                            array_push($size, $pro);
+                        }elseif(!empty($main_admin_prop) && $main_admin_prop->type == 'shoes_size'){
                             array_push($size, $pro);
                         }
                     }
+
                 }
 
                 $data['item']->color = $color;
@@ -1076,7 +1080,7 @@ class Users extends Controller
                 }
             }
 
-            $data['data'] = $itemMayLike;
+            $data['items'] = $itemMayLike;
 
         }elseif($type == 'itemFit') {
 
@@ -1107,7 +1111,7 @@ class Users extends Controller
                 }
             }
 
-            $data['data'] = $itemFit;
+            $data['items'] = $itemFit;
 
         }elseif($type == 'recentItems'){
 
@@ -1137,6 +1141,7 @@ class Users extends Controller
                     }
                 }
             }
+            $data['items'] = $recentItems;
         }
 
         return $data;

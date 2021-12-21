@@ -370,10 +370,23 @@ class Orders extends Controller
 
                 $vendorItems = Item::where('vendor_id',$discoutnCopon->vendor_id)->pluck('id');
                 $orderItems = Order_item::where('order_id',$order->id)->whereIn('item_id',$vendorItems)->get();
+
+
                 if(empty($orderItems)){
                     $data['status'] = false;
                     $data['message'] = "invalid copon";
                 }else{
+
+                    $orderItems = Order_item::where('order_id',$order->id)->whereIn('item_id',$vendorItems)->pluck('item_id');
+
+                    $itemsTotalPrice = Item::whereIn('id',$orderItems)->sum('itemPriceAfterDis');
+
+                    if($itemsTotalPrice <= $discoutnCopon->discountValue) {
+                        $data['status'] = false;
+                        $data['message'] = "invalid copon";
+                        return $data;
+                    }
+
                     $userCopon = user_discount_copon::where('user_id',$user->id)
                         ->where('copon_id',$discoutnCopon->id)->first();
 

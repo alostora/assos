@@ -21,6 +21,7 @@ class Order extends Model
 
     protected $casts = [
         'total_price' => 'double',
+        'discoutnCopon' => 'double',
     ];
 
 
