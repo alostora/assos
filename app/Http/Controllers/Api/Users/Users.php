@@ -129,7 +129,7 @@ class Users extends Controller
 
 
     public function subCats(Request $request,$cat_id){
-        $s_categories = Sub_category::where('cat_id',$cat_id)->get(['id','s_categoryName','s_categoryImage']);
+        $s_categories = Sub_category::where('cat_id',$cat_id)->get(['id','s_categoryName','s_categoryNameAr','s_categoryImage']);
         if(!empty($s_categories)) {
             foreach($s_categories as $cat){
                 $cat->s_categoryImage = URL::to('Admin_uploads/categories/subCategory/'.$cat->s_categoryImage);
@@ -150,7 +150,7 @@ class Users extends Controller
 
     public function vendorSubCats(Request $request,$cat_id,$vendor_id){
         $item_sub = Item::where('vendor_id',$vendor_id)->pluck('sub_cat_id');
-        $s_categories = Sub_category::whereIn('id',$item_sub)->where('cat_id',$cat_id)->get(['id','s_categoryName','s_categoryImage']);
+        $s_categories = Sub_category::whereIn('id',$item_sub)->where('cat_id',$cat_id)->get(['id','s_categoryName','s_categoryNameAr','s_categoryImage']);
 
         if(!empty($s_categories)) {
             foreach($s_categories as $cat){
