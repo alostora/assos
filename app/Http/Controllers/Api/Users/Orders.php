@@ -355,12 +355,12 @@ class Orders extends Controller
             $user = User::where('deviceId',$request->header('device-id'))->first();
         }
 
-        $discoutnCopon = Discount_copon::where('code',$request->code)->first();
+        $discountCopon = Discount_copon::where('code',$request->code)->first();
 
-        if (!empty($discoutnCopon)) {
+        if (!empty($discountCopon)) {
             $today = strtotime(date("Y-m-d"));
-            $dateTo = strtotime($discoutnCopon->dateTo);
-            $dateFrom = strtotime($discoutnCopon->dateFrom);
+            $dateTo = strtotime($discountCopon->dateTo);
+            $dateFrom = strtotime($discountCopon->dateFrom);
 
             if($today > $dateTo or $today < $dateFrom){
                 $data['status'] = false;
@@ -368,7 +368,7 @@ class Orders extends Controller
             }else{
                 $order = Order::find($request->order_id);
 
-                $vendorItems = Item::where('vendor_id',$discoutnCopon->vendor_id)->pluck('id');
+                $vendorItems = Item::where('vendor_id',$discountCopon->vendor_id)->pluck('id');
                 $orderItems = Order_item::where('order_id',$order->id)->whereIn('item_id',$vendorItems)->get();
 
 
@@ -381,23 +381,23 @@ class Orders extends Controller
 
                     $itemsTotalPrice = Item::whereIn('id',$orderItems)->sum('itemPriceAfterDis');
 
-                    if($itemsTotalPrice <= $discoutnCopon->discountValue) {
+                    if($itemsTotalPrice <= $discountCopon->discountValue) {
                         $data['status'] = false;
                         $data['message'] = "invalid copon";
                         return $data;
                     }
 
                     $userCopon = user_discount_copon::where('user_id',$user->id)
-                        ->where('copon_id',$discoutnCopon->id)->first();
+                        ->where('copon_id',$discountCopon->id)->first();
 
                     if(empty($userCopon)) {
 
-                        $order->discoutnCopon = $discoutnCopon->discountValue;
+                        $order->discountCopon = $discountCopon->discountValue;
                         $order->save();
 
                         user_discount_copon::create([
                             'user_id'=>$user->id,
-                            'copon_id'=>$discoutnCopon->id
+                            'copon_id'=>$discountCopon->id
                         ]);
 
                         $data['status'] = true;
