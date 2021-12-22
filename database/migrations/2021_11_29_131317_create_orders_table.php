@@ -20,6 +20,8 @@ class CreateOrdersTable extends Migration
             $table->string('paymentMethod');//[myFatora,cashOnDelivery]
             $table->string('total_price');
             $table->string('discountCopon')->default(0);
+            $table->string('addedTax')->nullable();
+            $table->string('shippingAddress_id')->nullable();
 
             $table->bigInteger("user_id")->unsigned()->nullable();
             $table->foreign('user_id')

@@ -18,6 +18,7 @@ use App\Models\Discount_copon;
 use App\Models\user_discount_copon;
 use Auth;
 use URL;
+use Validator;
 
 class Orders extends Controller
 {
@@ -415,6 +416,46 @@ class Orders extends Controller
         }
 
         return $data;
+    }
+
+    //confirmOrder
+
+    public function confirmOrder(Request $request){
+        $info =$request->all();
+        $validator = Validator::make($info,[
+            'id' => 'required',
+            'shippingType' => 'required',
+            'paymentMethod' => 'required',
+            'addedTax' => 'required',
+            'shippingAddress_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $err = $validator->errors()->toArray();
+            $data['message'] = array_values($err)[0][0];
+            return $data;
+        }
+        $id =$request->id;
+        $shippingType =$request->shippingType;
+        $paymentMethod =$request->paymentMethod;
+        $addedTax =$request->addedTax;
+        $shippingAddress_id =$request->shippingAddress_id;
+
+        Order::where('id',$id)->update([
+            "status" => "confirmed",
+            "shippingType" => $shippingType,
+            "paymentMethod" => $paymentMethod,
+            "addedTax" => $addedTax,
+            "shippingAddress_id" => $shippingAddress_id,
+        ]);
+
+
+        $data['status']=true;
+        $data['message'] = "order confirmed";
+
+        return $data;
+
     }
 
 

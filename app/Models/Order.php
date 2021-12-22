@@ -15,8 +15,9 @@ class Order extends Model
         'paymentMethod',//[myFatora,cashOnDelivery]
         'total_price',
         'discountCopon',
+        'addedTax',
+        'shippingAddress_id',
         'user_id'
-
     ];
 
     protected $casts = [
