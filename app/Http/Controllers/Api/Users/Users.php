@@ -61,7 +61,7 @@ class Users extends Controller
             'department' => $main_filter
         ])->pluck('sub_cat_id');
 
-        if(!empty($vendor_sub_cats_id)) {
+        if(!empty($vendor_sub_cats_id)){
             $vendor_cats_id = Sub_category::whereIn('id',$vendor_sub_cats_id)->pluck('cat_id');
             if(!empty($vendor_cats_id)) {
                 $categories = Category::whereIn('id',$vendor_cats_id)->get(['id','categoryName','categoryNameAr','categoryImage','sliderCategoryStatus','categorySliderImage']);
@@ -433,7 +433,13 @@ class Users extends Controller
     public function removeItemFromFav(Request $request,$item_id){
 
         $device_id = $request->header('device-id');
-        $user = Auth::guard('api')->user();
+        
+        if (Auth::guard('api')->check()) {
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = User::where('deviceId',$device_id)->first();
+        }
+
 
         if (!empty($user)) {
             $user_id = $user->id;
@@ -453,11 +459,15 @@ class Users extends Controller
 
     public function userItemsFav(Request $request){
 
-        $device_id = $request->header('device-id');
         $main_filter = $request->header('main-filter');
+        $device_id = $request->header('device-id');
+        
+        if (Auth::guard('api')->check()) {
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = User::where('deviceId',$device_id)->first();
+        }
 
-        $user = Auth::guard('api')->user();
-            
         if(!empty($user)) {
             $user_id = $user->id;
             $data['status'] = true;
@@ -759,7 +769,7 @@ class Users extends Controller
                 $items->orderBy('rate','ASC');
             }
         
-            $data['items'] = $items->select(['id','itemName','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->paginate(25);
+            $data['items'] = $items->select(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->paginate(25);
 
             if(!empty($data['items'])){
                 foreach($data['items'] as $item){

@@ -237,7 +237,7 @@ class Orders extends Controller
                     $order = Order::find($orderItem->order_id);
 
                     if (!empty($order)) {
-                        $order->total_price = $itemPrice - $order->total_price;
+                        $order->total_price = $order->total_price - $itemPrice;
                         $order->save();
                         $orderItem->save();
 
@@ -355,57 +355,62 @@ class Orders extends Controller
             $user = User::where('deviceId',$request->header('device-id'))->first();
         }
 
-        $discoutnCopon = Discount_copon::where('code',$request->code)->first();
+        $discountCopon = Discount_copon::where('code',$request->code)->first();
 
-        if (!empty($discoutnCopon)) {
+        if (!empty($discountCopon)) {
             $today = strtotime(date("Y-m-d"));
-            $dateTo = strtotime($discoutnCopon->dateTo);
-            $dateFrom = strtotime($discoutnCopon->dateFrom);
+            $dateTo = strtotime($discountCopon->dateTo);
+            $dateFrom = strtotime($discountCopon->dateFrom);
 
             if($today > $dateTo or $today < $dateFrom){
                 $data['status'] = false;
                 $data['message'] = "invalid copon";
             }else{
                 $order = Order::find($request->order_id);
+                if(!empty($order)){
 
-                $vendorItems = Item::where('vendor_id',$discoutnCopon->vendor_id)->pluck('id');
-                $orderItems = Order_item::where('order_id',$order->id)->whereIn('item_id',$vendorItems)->get();
+                    $vendorItems = Item::where('vendor_id',$discountCopon->vendor_id)->pluck('id');
+                    $orderItems = Order_item::where('order_id',$order->id)->whereIn('item_id',$vendorItems)->get();
 
 
-                if(empty($orderItems)){
-                    $data['status'] = false;
-                    $data['message'] = "invalid copon";
-                }else{
-
-                    $orderItems = Order_item::where('order_id',$order->id)->whereIn('item_id',$vendorItems)->pluck('item_id');
-
-                    $itemsTotalPrice = Item::whereIn('id',$orderItems)->sum('itemPriceAfterDis');
-
-                    if($itemsTotalPrice <= $discoutnCopon->discountValue) {
+                    if(empty($orderItems)){
                         $data['status'] = false;
-                        $data['message'] = "invalid copon";
-                        return $data;
-                    }
-
-                    $userCopon = user_discount_copon::where('user_id',$user->id)
-                        ->where('copon_id',$discoutnCopon->id)->first();
-
-                    if(empty($userCopon)) {
-
-                        $order->discoutnCopon = $discoutnCopon->discountValue;
-                        $order->save();
-
-                        user_discount_copon::create([
-                            'user_id'=>$user->id,
-                            'copon_id'=>$discoutnCopon->id
-                        ]);
-
-                        $data['status'] = true;
-                        $data['data'] = $order;
+                        $data['message'] = "you cant use this copon with this items";
                     }else{
-                        $data['status'] = false;
-                        $data['message'] = "you already used this copon";
+
+                        $orderItems = Order_item::where('order_id',$order->id)->whereIn('item_id',$vendorItems)->pluck('item_id');
+
+                        $itemsTotalPrice = Item::whereIn('id',$orderItems)->sum('itemPriceAfterDis');
+
+                        if($itemsTotalPrice <= $discountCopon->discountValue) {
+                            $data['status'] = false;
+                            $data['message'] = "invalid copon item price less than discount copon";
+                            return $data;
+                        }
+
+                        $userCopon = user_discount_copon::where('user_id',$user->id)
+                            ->where('copon_id',$discountCopon->id)->first();
+
+                        if(empty($userCopon)) {
+
+                            $order->discountCopon = $discountCopon->discountValue;
+                            $order->save();
+
+                            user_discount_copon::create([
+                                'user_id'=>$user->id,
+                                'copon_id'=>$discountCopon->id
+                            ]);
+
+                            $data['status'] = true;
+                            $data['message'] = "copon used successfully";
+                        }else{
+                            $data['status'] = false;
+                            $data['message'] = "you already used this copon";
+                        }
                     }
+                }else{
+                    $data['status'] = false;
+                    $data['message'] = "order not found";
                 }
 
             }
