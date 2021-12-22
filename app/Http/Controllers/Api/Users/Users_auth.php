@@ -29,7 +29,7 @@ class Users_auth extends Controller
         if ($validator->fails()) {
             $response['status'] = false;
             $err = $validator->errors()->toArray();
-            $data['message'] = array_values($err)[0][0];
+            $response['message'] = array_values($err)[0][0];
             return $response;
         }
 

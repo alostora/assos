@@ -22,6 +22,9 @@ Route::group(['namespace'=>'Api\Users'],function(){
     //order discount copon
     Route::post('orderCopon','Orders@orderCopon');
 
+    //confirm order
+    Route::post('confirmOrder','Orders@confirmOrder');
+
 
 
 

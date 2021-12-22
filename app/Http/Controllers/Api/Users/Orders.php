@@ -18,6 +18,7 @@ use App\Models\Discount_copon;
 use App\Models\user_discount_copon;
 use Auth;
 use URL;
+use Validator;
 
 class Orders extends Controller
 {
@@ -369,8 +370,13 @@ class Orders extends Controller
                 $order = Order::find($request->order_id);
                 if(!empty($order)){
 
+<<<<<<< HEAD
                     $vendorItems = Item::where('vendor_id',$discountCopon->vendor_id)->pluck('id');
                     $orderItems = Order_item::where('order_id',$order->id)->whereIn('item_id',$vendorItems)->get();
+=======
+                $vendorItems = Item::where('vendor_id',$discountCopon->vendor_id)->pluck('id');
+                $orderItems = Order_item::where('order_id',$order->id)->whereIn('item_id',$vendorItems)->get();
+>>>>>>> 55080f8550cd67d21d1640eed382d64e540e76ec
 
 
                     if(empty($orderItems)){
@@ -382,6 +388,7 @@ class Orders extends Controller
 
                         $itemsTotalPrice = Item::whereIn('id',$orderItems)->sum('itemPriceAfterDis');
 
+<<<<<<< HEAD
                         if($itemsTotalPrice <= $discountCopon->discountValue) {
                             $data['status'] = false;
                             $data['message'] = "invalid copon item price less than discount copon";
@@ -390,9 +397,20 @@ class Orders extends Controller
 
                         $userCopon = user_discount_copon::where('user_id',$user->id)
                             ->where('copon_id',$discountCopon->id)->first();
+=======
+                    if($itemsTotalPrice <= $discountCopon->discountValue) {
+                        $data['status'] = false;
+                        $data['message'] = "invalid copon";
+                        return $data;
+                    }
+
+                    $userCopon = user_discount_copon::where('user_id',$user->id)
+                        ->where('copon_id',$discountCopon->id)->first();
+>>>>>>> 55080f8550cd67d21d1640eed382d64e540e76ec
 
                         if(empty($userCopon)) {
 
+<<<<<<< HEAD
                             $order->discountCopon = $discountCopon->discountValue;
                             $order->save();
 
@@ -400,6 +418,15 @@ class Orders extends Controller
                                 'user_id'=>$user->id,
                                 'copon_id'=>$discountCopon->id
                             ]);
+=======
+                        $order->discountCopon = $discountCopon->discountValue;
+                        $order->save();
+
+                        user_discount_copon::create([
+                            'user_id'=>$user->id,
+                            'copon_id'=>$discountCopon->id
+                        ]);
+>>>>>>> 55080f8550cd67d21d1640eed382d64e540e76ec
 
                             $data['status'] = true;
                             $data['message'] = "copon used successfully";
@@ -420,6 +447,46 @@ class Orders extends Controller
         }
 
         return $data;
+    }
+
+    //confirmOrder
+
+    public function confirmOrder(Request $request){
+        $info =$request->all();
+        $validator = Validator::make($info,[
+            'id' => 'required',
+            'shippingType' => 'required',
+            'paymentMethod' => 'required',
+            'addedTax' => 'required',
+            'shippingAddress_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            $data['status'] = false;
+            $err = $validator->errors()->toArray();
+            $data['message'] = array_values($err)[0][0];
+            return $data;
+        }
+        $id =$request->id;
+        $shippingType =$request->shippingType;
+        $paymentMethod =$request->paymentMethod;
+        $addedTax =$request->addedTax;
+        $shippingAddress_id =$request->shippingAddress_id;
+
+        Order::where('id',$id)->update([
+            "status" => "confirmed",
+            "shippingType" => $shippingType,
+            "paymentMethod" => $paymentMethod,
+            "addedTax" => $addedTax,
+            "shippingAddress_id" => $shippingAddress_id,
+        ]);
+
+
+        $data['status']=true;
+        $data['message'] = "order confirmed";
+
+        return $data;
+
     }
 
 

@@ -14,9 +14,10 @@ class Order extends Model
         'shippingType',//[freeShipping,normalShipping,fastShipping]
         'paymentMethod',//[myFatora,cashOnDelivery]
         'total_price',
-        'discoutnCopon',
+        'discountCopon',
+        'addedTax',
+        'shippingAddress_id',
         'user_id'
-
     ];
 
     protected $casts = [
