@@ -92,7 +92,14 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::get('adsInfo','Ads@adsInfo');
 			Route::get('viewCreateAd/{id?}','Ads@viewCreateAd');
 			Route::post('createAd','Ads@createAd');
-			Route::get('deleteAd/{id?}','Ads@deleteAd');
+			Route::get('deleteAd/{id}','Ads@deleteAd');
+
+			//itemBackReasons
+			Route::get('itemBackReasonsInfo','Admins@itemBackReasonsInfo');
+			Route::get('viewCreateitemBackReason/{id?}','Admins@viewCreateitemBackReason');
+			Route::post('createitemBackReason','Admins@createitemBackReason');
+			Route::get('deleteitemBackReason/{id}','Admins@deleteitemBackReason');
+
 
 		});
 	});
