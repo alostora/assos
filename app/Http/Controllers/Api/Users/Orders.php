@@ -16,6 +16,8 @@ use App\Models\User_address;
 use App\Models\Order_setting;
 use App\Models\Discount_copon;
 use App\Models\user_discount_copon;
+//use App\Models\Item_back_reason;
+use App\Models\Item_back_request;
 use Auth;
 use URL;
 use Validator;
@@ -462,7 +464,55 @@ class Orders extends Controller
         $data['message'] = "order confirmed";
 
         return $data;
+    }
 
+
+
+
+
+    public function itemBackReasons(Request $request){
+
+        $lang = $request->header('accept-language');
+        $reasons = Item_back_reason::get();
+        if (!empty($reasons)){
+            foreach($reasons as $reason){
+                $reason->backReasonName = $lang == 'en' ? $reason->backReasonName : $reason->backReasonArName;
+            }
+        }
+
+        $data['status'] = true;
+        $data['reasons'] = $reasons;
+
+        return $data;
+
+
+    }
+
+
+
+
+
+    public function itemBackRequest(Request $request){
+
+        if(Auth::guard('api')->check()){
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = User::where('deviceId',$request->header('device-id'))->first();
+        }
+
+        $info = $request->all();
+        $validator = Validator::make($info,[
+            'order_id' => 'required',
+            'item_id' => 'required',
+            'reason_id' => 'required',
+        ]);
+
+        $info['user_id'] = $user->id;
+        Item_back_request::create($info);
+
+        $data['status'] = true;
+        $data['message'] = 'request item back sent';
+        return $data;
     }
 
 

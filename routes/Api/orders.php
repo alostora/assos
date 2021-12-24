@@ -25,6 +25,10 @@ Route::group(['namespace'=>'Api\Users'],function(){
     //confirm order
     Route::post('confirmOrder','Orders@confirmOrder');
 
+    //item back
+    Route::get('itemBackReasons','Orders@itemBackReasons');
+    Route::post('itemBackRequest','Orders@itemBackRequest');
+
 
 
 
