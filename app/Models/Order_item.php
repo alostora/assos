@@ -13,6 +13,7 @@ class Order_item extends Model
         'item_count',
         'order_id',
         'item_id',
+        'itemPrice'//itemPrice for one item
     ];
 
 

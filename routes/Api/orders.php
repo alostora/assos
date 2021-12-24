@@ -28,6 +28,7 @@ Route::group(['namespace'=>'Api\Users'],function(){
     //item back
     Route::get('itemBackReasons','Orders@itemBackReasons');
     Route::post('itemBackRequest','Orders@itemBackRequest');
+    Route::get('getAllOrders','Orders@getAllOrders');
 
 
 

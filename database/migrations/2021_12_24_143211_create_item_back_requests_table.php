@@ -38,8 +38,9 @@ class CreateItemBackRequestsTable extends Migration
             ->onDelete('cascade')
             ->onUpdate('cascade');
 
-            $table->string('reason_id')->nullable();
             $table->string('status')->default('waiting');//['waiting','accepted','refused']
+            $table->string('item_back_count')->default(1);
+            $table->string('reason_id')->nullable();
 
             $table->timestamps();
         });

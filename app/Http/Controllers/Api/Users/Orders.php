@@ -16,11 +16,12 @@ use App\Models\User_address;
 use App\Models\Order_setting;
 use App\Models\Discount_copon;
 use App\Models\user_discount_copon;
-//use App\Models\Item_back_reason;
+use App\Models\Item_back_reason;
 use App\Models\Item_back_request;
 use Auth;
 use URL;
 use Validator;
+use Str;
 
 class Orders extends Controller
 {
@@ -46,7 +47,8 @@ class Orders extends Controller
                     $order = Order::create([
                         'user_id' => $user->id,
                         'status' => "new",
-                        "total_price" => $itemPrice
+                        "total_price" => $itemPrice,
+                        "orderCode" => Str::random(8),
                     ]);
                 }else{
                     $this->deleteOrderItem($item->id);
@@ -59,6 +61,7 @@ class Orders extends Controller
                     "item_id" => $request->item_id,
                     "item_count" => $count,
                     "order_id" => $order->id,
+                    "itemPrice" => Item::find($request->item_id)->itemPriceAfterDis,
                 ]);
 
                 if(!empty($request->props) && is_array($request->props)) {
@@ -102,6 +105,8 @@ class Orders extends Controller
                     ->with(['order_items'=>function($query){
                         $query->with('order_items_props');
                     }])->first();
+            $order->date = date("D d M,Y",strtotime($order->created_at));
+            $order->shippingAddress = User_address::find($order->shippingAddress_id);
 
             if(!empty($order)){
                 if(count($order->order_items)){
@@ -136,6 +141,76 @@ class Orders extends Controller
         
                 $data['status'] = true;
                 $data['order'] = $order;
+            }else{
+                $data['status'] = false;
+                $data['message'] = "empty orders";
+            }
+        }else{
+            $data['status'] = false;
+            $data['message'] = "user not found";
+        }
+
+        return $data;
+    }
+
+
+
+
+
+
+    public function getAllOrders(Request $request){
+        if(Auth::guard('api')->check()){
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = User::where('deviceId',$request->header('device-id'))->first();
+        }
+        $orderSetting = Order_setting::get();
+
+        if(!empty($user)){
+            $orders = Order::where(['user_id'=>$user->id])->where('status','!=','new')
+                    ->with(['order_items'=>function($query){
+                        $query->with('order_items_props');
+                    }])->get();
+
+            if(!empty($orders)){
+
+                foreach($orders as $order){
+                    $order->date = date("D d M,Y",strtotime($order->created_at));
+                    $order->shippingAddress = User_address::find($order->shippingAddress_id);
+                    if(count($order->order_items)){
+                        foreach($order->order_items as $orderItem){
+                            $item = Item::find($orderItem->item_id);
+                            if(!empty($item)) {
+                                $orderItem->itemName = $request->header('accept-language') != 'ar' ? $item->itemName : $item->itemNameAr;
+                                $orderItem->itemPrice = $item->itemPrice;
+                                $orderItem->itemPriceAfterDis = $item->itemPriceAfterDis;
+                                $orderItem->discountValue = $item->discountValue;
+                                $orderItem->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
+
+                                if(count($orderItem->order_items_props)){
+                                    foreach($orderItem->order_items_props as $itemProp){
+                                        $itemPropPlus = Item_property_plus::find($itemProp->item_prop_id);
+                                        if($itemPropPlus) {
+                                            $itemSubProp= Sub_property::find($itemPropPlus->sub_prop_id);
+                                            if(!empty($itemSubProp)) {
+                                                $itemProp->propertyName = $request->header('accept-language') != 'ar' ? $itemSubProp->propertyName : $itemSubProp->propertyNameAr;
+
+                                                $mainProp = Property::find($itemSubProp->prop_id);
+                                                if(!empty($mainProp)) {
+                                                    $itemProp->type = $mainProp->type;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+        
+                $data['status'] = true;
+                $data['order'] = $orders;
             }else{
                 $data['status'] = false;
                 $data['message'] = "empty orders";
@@ -436,6 +511,8 @@ class Orders extends Controller
             'shippingType' => 'required',
             'paymentMethod' => 'required',
             'addedTax' => 'required',
+            'sub_total' => 'required',
+            'total' => 'required',
             'shippingAddress_id' => 'required'
         ]);
 
@@ -504,6 +581,7 @@ class Orders extends Controller
         $validator = Validator::make($info,[
             'order_id' => 'required',
             'item_id' => 'required',
+            'item_back_count' => 'required',
             'reason_id' => 'required',
         ]);
 

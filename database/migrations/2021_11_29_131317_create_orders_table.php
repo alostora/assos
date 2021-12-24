@@ -15,12 +15,15 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('orderCode')->nullable();
             $table->string('status');
             $table->string('shippingType');//[freeShipping,normalShipping,fastShipping]
             $table->string('paymentMethod');//[myFatora,cashOnDelivery]
             $table->string('total_price');
             $table->string('discountCopon')->default(0);
-            $table->string('addedTax')->nullable();
+            $table->string('addedTax')->default(1);
+            $table->string('sub_total')->default(1);
+            $table->string('total')->nullable();
             $table->string('shippingAddress_id')->nullable();
 
             $table->bigInteger("user_id")->unsigned()->nullable();

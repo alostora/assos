@@ -17,6 +17,7 @@ class CreateOrderItemsTable extends Migration
             $table->id();
 
             $table->integer('item_count')->default(1);
+            $table->integer('itemPrice')->default(0);
             $table->bigInteger("order_id")->unsigned()->nullable();
             $table->foreign('order_id')
             ->references('id')

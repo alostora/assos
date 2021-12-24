@@ -10,12 +10,15 @@ class Order extends Model
     use HasFactory;
     protected $table = 'orders';
     protected $fillable = [
+        'orderCode',
         'status',//['new','confirmed']
         'shippingType',//[freeShipping,normalShipping,fastShipping]
         'paymentMethod',//[myFatora,cashOnDelivery]
         'total_price',
         'discountCopon',
         'addedTax',
+        'sub_total',
+        'total',
         'shippingAddress_id',
         'user_id'
     ];

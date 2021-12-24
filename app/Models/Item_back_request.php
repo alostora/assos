@@ -14,6 +14,7 @@ class Item_back_request extends Model
         'order_item_id',
         'user_id',
         'status',//['waiting','accepted','refused']
+        'item_back_count',
         'reason_id',
     ];
 }
