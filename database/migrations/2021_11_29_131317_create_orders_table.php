@@ -24,6 +24,7 @@ class CreateOrdersTable extends Migration
             $table->string('addedTax')->default(1);
             $table->string('sub_total')->default(1);
             $table->string('total')->nullable();
+            $table->string('shippingValue')->default(0);
             $table->string('shippingAddress_id')->nullable();
 
             $table->bigInteger("user_id")->unsigned()->nullable();

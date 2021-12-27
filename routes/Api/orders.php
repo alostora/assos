@@ -12,6 +12,7 @@ Route::group(['namespace'=>'Api\Users'],function(){
     Route::post('makeOrder','Orders@makeOrder');
     
     Route::get('getOrder','Orders@getOrder');
+    Route::get('deleteItem/{itemId}','Orders@deleteItem');
     Route::get('deleteOrderItem/{itemId}','Orders@deleteOrderItem');
     Route::get('itemCountPlus/{itemId}','Orders@itemCountPlus');
     Route::get('itemCountMinus/{itemId}','Orders@itemCountMinus');
@@ -29,6 +30,7 @@ Route::group(['namespace'=>'Api\Users'],function(){
     Route::get('itemBackReasons','Orders@itemBackReasons');
     Route::post('itemBackRequest','Orders@itemBackRequest');
     Route::get('getAllOrders','Orders@getAllOrders');
+    Route::get('itemsCanBack','Orders@itemsCanBack');
 
 
 

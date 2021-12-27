@@ -19,6 +19,7 @@ class Order extends Model
         'addedTax',
         'sub_total',
         'total',
+        'shippingValue',
         'shippingAddress_id',
         'user_id'
     ];

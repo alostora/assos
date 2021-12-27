@@ -22,6 +22,8 @@ use Auth;
 use URL;
 use Validator;
 use Str;
+use Carbon\Carbon;
+
 
 class Orders extends Controller
 {
@@ -105,10 +107,11 @@ class Orders extends Controller
                     ->with(['order_items'=>function($query){
                         $query->with('order_items_props');
                     }])->first();
-            $order->date = date("D d M,Y",strtotime($order->created_at));
-            $order->shippingAddress = User_address::find($order->shippingAddress_id);
 
             if(!empty($order)){
+                $order->date = date("D d M,Y",strtotime($order->created_at));
+                $order->shippingAddress = User_address::find($order->shippingAddress_id);
+                $order->expectedDate = "expeted date";
                 if(count($order->order_items)){
                     foreach($order->order_items as $orderItem){
                         $item = Item::find($orderItem->item_id);
@@ -177,6 +180,7 @@ class Orders extends Controller
                 foreach($orders as $order){
                     $order->date = date("D d M,Y",strtotime($order->created_at));
                     $order->shippingAddress = User_address::find($order->shippingAddress_id);
+                    $order->expectedDate = "expeted date";
                     if(count($order->order_items)){
                         foreach($order->order_items as $orderItem){
                             $item = Item::find($orderItem->item_id);
@@ -227,10 +231,52 @@ class Orders extends Controller
 
 
 
+    public function deleteItem(Request $request,$itemId){
+
+
+        if(Auth::guard('api')->check()){
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = User::where('deviceId',$request->header('device-id'))->first();
+        }
+        $orderSetting = Order_setting::get();
+
+        if(!empty($user)){
+            $order = Order::where(['user_id'=>$user->id])->where('status','new')->first();
+
+            if(!empty($order)){
+
+                $orderItems = Order_item::where('order_id',$order->id)->get();
+                if(!empty($orderItems) && count($orderItems) <= 1){
+                    $order->delete();
+                }else{
+                    Order_item::where(['item_id'=>$itemId,'order_id'=>$order->id])->delete();
+                }
+
+                $data['status'] = true;
+                $data['message'] = "item deleted";
+
+            }else{
+                $data['status'] = false;
+                $data['message'] = "empty orders";
+            }
+        }else{
+            $data['status'] = false;
+            $data['message'] = "user not found";
+        }
+
+        return $data;
+
+    }
+
+
+
+
+
 
     public function deleteOrderItem($itemId){
         
-        $orderItem = Order_item::where('id',$itemId)->first();
+        $orderItem = Order_item::find($itemId);
         if (!empty($orderItem)){
             $order =Order::where('id',$orderItem->order_id)->first();
             $count_order_items =Order_item::where('order_id',$orderItem->order_id)->count();
@@ -513,7 +559,8 @@ class Orders extends Controller
             'addedTax' => 'required',
             'sub_total' => 'required',
             'total' => 'required',
-            'shippingAddress_id' => 'required'
+            'shippingValue' => 'required',
+            'shippingAddress_id' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -522,10 +569,14 @@ class Orders extends Controller
             $data['message'] = array_values($err)[0][0];
             return $data;
         }
+        
         $id =$request->id;
         $shippingType =$request->shippingType;
         $paymentMethod =$request->paymentMethod;
         $addedTax =$request->addedTax;
+        $shippingValue =$request->shippingValue;
+        $sub_total =$request->sub_total;
+        $total =$request->total;
         $shippingAddress_id =$request->shippingAddress_id;
 
         Order::where('id',$id)->update([
@@ -533,6 +584,9 @@ class Orders extends Controller
             "shippingType" => $shippingType,
             "paymentMethod" => $paymentMethod,
             "addedTax" => $addedTax,
+            "shippingValue" => $shippingValue,
+            "total" => $total,
+            "sub_total" => $sub_total,
             "shippingAddress_id" => $shippingAddress_id,
         ]);
 
@@ -590,6 +644,27 @@ class Orders extends Controller
 
         $data['status'] = true;
         $data['message'] = 'request item back sent';
+        return $data;
+    }
+
+
+
+    public function itemsCanBack(Request $request){
+
+        
+        if(Auth::guard('api')->check()){
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = User::where('deviceId',$request->header('device-id'))->first();
+        }
+
+
+        $orders = Order::where(['user_id'=>$user->id,'status'=>'completed'])->whereDate('created_at','<=',Carbon::now()->subDays(15))->pluck('id');
+
+        $orderItems = Order_item::whereIn('order_id',$orders)->whereDate('created_at','<=',Carbon::now()->subDays(15))->get();
+
+        $data['status'] = true;
+        $data['items'] = $orderItems;
         return $data;
     }
 

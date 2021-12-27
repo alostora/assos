@@ -240,13 +240,13 @@ class Users_auth extends Controller
         $validator = Validator::make($request->all(),[
             'name' => 'required|max:100',
             'phone' => 'required|max:15',
-            'street' => 'required|max:100',
+            'street' => 'max:100',
             'address' => 'required|max:200',
-            'addressDESC' => 'required|max:200',
-            'homeNumber' => 'required|max:100',
+            'addressDESC' => 'max:200',
+            'homeNumber' => 'max:100',
             'postalCode' => 'required|max:100',
-            'lng' => 'required|max:100',
-            'lat' => 'required|max:100',
+            'lng' => 'max:100',
+            'lat' => 'max:100',
             'isMain' => 'required|boolean',
         ]);
 
@@ -256,12 +256,22 @@ class Users_auth extends Controller
             $data['message'] = array_values($err)[0][0];
             return $data;
         }
+
+
+
+        if(Auth::guard('api')->check()){
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = User::where('deviceId',$request->header('device-id'))->first();
+        }
+        
         $data['status'] = true;
         $addressData = $request->all();
         $addressData['user_id'] = Auth::guard('api')->id();
 
         $userAddress = User_address::where([
-            'user_id' => Auth::guard('api')->id(),'isMain'=>true
+            'user_id' => Auth::guard('api')->id(),
+            'isMain'=>true
         ])->first();
 
         if(!empty($userAddress)){
@@ -395,9 +405,6 @@ class Users_auth extends Controller
 
         return $data;
     }
-
-
-
 
 
 

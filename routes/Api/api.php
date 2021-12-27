@@ -34,41 +34,43 @@ Route::group(['namespace'=>'Api\Users'],function(){
         
         //Users_auth_actions
         Route::get('test','Users_auth_actions@test');
-    });
 
 
-    //un auth routes
+        //un auth routes
 
 
-    Route::get('home','Users@home');
-    Route::get('offerItems/{offerId}','Users@offerItems');
-    Route::get('vendors','Users@vendors');
+        Route::get('home','Users@home');
+        Route::get('ourNew','Users@ourNew');
+        Route::get('ourNewItems','Users@ourNewItems');
+        Route::get('offerItems/{offerId}','Users@offerItems');
+        Route::get('vendors','Users@vendors');
 
-    Route::get('vendorCategories/{vendor_id}','Users@vendorCategories');
-    Route::get('categories','Users@categories');
-    Route::get('subCats/{cat_id}','Users@subCats');
-    Route::get('vendorSubCats/{cat_id}/{vendor_id}','Users@vendorSubCats');
-    Route::get('items/{s_cat_id}/{vendor_id?}','Users@items');
-    Route::get('itemInfo/{itemId}','Users@itemInfo');
+        Route::get('vendorCategories/{vendor_id}','Users@vendorCategories');
+        Route::get('categories','Users@categories');
+        Route::get('subCats/{cat_id}','Users@subCats');
+        Route::get('vendorSubCats/{cat_id}/{vendor_id}','Users@vendorSubCats');
+        Route::get('items/{s_cat_id}/{vendor_id?}','Users@items');
+        Route::get('itemInfo/{itemId}','Users@itemInfo');
 
-    //fav items
-    Route::get('addItemToFav/{item_id}','Users@addItemToFav');
-    Route::get('removeItemFromFav/{item_id}','Users@removeItemFromFav');
-    Route::get('userItemsFav','Users@userItemsFav');
-
-
-    //item reviews
-    Route::get('itemReviews/{item_id}','Users@itemReviews');
+        //fav items
+        Route::get('addItemToFav/{item_id}','Users@addItemToFav');
+        Route::get('removeItemFromFav/{item_id}','Users@removeItemFromFav');
+        Route::get('userItemsFav','Users@userItemsFav');
 
 
-    //properties
-    Route::get('properties','Users@properties');
-    //items search
-    Route::any('itemSearch','Users@itemSearch');
-    Route::get('sortType','Users@sortType');
+        //item reviews
+        Route::get('itemReviews/{item_id}','Users@itemReviews');
 
-    //seeMore
-    Route::get('seeMore/{type}','Users@seeMore');
+
+        //properties
+        Route::get('properties','Users@properties');
+        //items search
+        Route::any('itemSearch','Users@itemSearch');
+        Route::get('sortType','Users@sortType');
+
+        //seeMore
+        Route::get('seeMore/{type}','Users@seeMore');
     
+    });
 
 });
