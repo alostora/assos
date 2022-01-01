@@ -39,11 +39,12 @@ class Users extends Controller
         $vendorMainFIlter = Item::where('department',$main_filter)->pluck('vendor_id');
 
 
-        $data['vendors'] = Vendor::whereIn('id',$vendorMainFIlter)->get(['id','vendor_name','vendor_image']);
+        $data['vendors'] = Vendor::whereIn('id',$vendorMainFIlter)->get(['id','vendor_name','vendor_image','vendor_logo']);
 
         if(!empty($data['vendors'])){
             foreach($data['vendors'] as $key => $vend){
                 $vend->vendor_image = URL::to('Admin_uploads/vendors/'.$vend->vendor_image);
+                $vend->vendor_logo = URL::to('Admin_uploads/vendors/'.$vend->vendor_logo);
             }
         }
         return $data;
@@ -261,6 +262,9 @@ class Users extends Controller
             }])->first();
 
             if(!empty($data['item'])){
+                $s_category = Sub_category::find($data['item']->sub_cat_id);
+                $category = Category::find($s_category->cat_id);
+                $data['item']->categoryName = $lang == 'en' ? $category->categoryName : $category->categoryNameAr;
                 $data['item']->itemName = $lang == 'en' ? $data['item']->itemName : $data['item']->itemNameAr;
 
                 $data['item']->itemDescribe = $lang == 'en' ? $data['item']->itemDescribe : $data['item']->itemDescribeAr;
@@ -288,6 +292,7 @@ class Users extends Controller
 
                 $data['item']->vendor_info = Vendor::find($data['item']->vendor_id);
                 $data['item']->vendor_info->vendor_image = URL::to('Admin_uploads/vendors/'.$data['item']->vendor_info->vendor_image);
+                $data['item']->vendor_info->vendor_logo = URL::to('Admin_uploads/vendors/'.$data['item']->vendor_info->vendor_logo);
 
                 if(count($data['item']->other_item_images)) {
                     foreach($data['item']->other_item_images as $otherImage){
@@ -1208,6 +1213,8 @@ class Users extends Controller
         }
 
         $data['status'] = true;
+        $data['count'] = count($item_sub->toArray());
+        $data['message'] = "new items in 24 hours";
         $data['sub_cats'] = $s_categories;
 
         return $data;

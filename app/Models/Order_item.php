@@ -17,6 +17,12 @@ class Order_item extends Model
     ];
 
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
+
     public function order_items_props(){
         return $this->hasMany('App\Models\Order_item_prop','order_item_id');
     }

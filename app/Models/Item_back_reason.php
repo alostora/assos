@@ -13,4 +13,9 @@ class Item_back_reason extends Model
         "backReasonName",
         "backReasonArName",
     ];
+
+
+    protected $hidden = [
+        "backReasonArName"
+    ];
 }

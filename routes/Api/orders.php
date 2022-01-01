@@ -33,6 +33,10 @@ Route::group(['namespace'=>'Api\Users'],function(){
     Route::get('itemsCanBack','Orders@itemsCanBack');
 
 
+    ///test and well delete
+    Route::get('changeOrderStatus/{oderId}/{status}','Orders@changeOrderStatus');
+
+
 
 
 

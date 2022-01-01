@@ -18,10 +18,13 @@ use App\Models\Discount_copon;
 use App\Models\user_discount_copon;
 use App\Models\Item_back_reason;
 use App\Models\Item_back_request;
+use App\Models\Review;
+use App\Models\User_fav_item;
 use Auth;
 use URL;
 use Validator;
 use Str;
+use lang;
 use Carbon\Carbon;
 
 
@@ -99,11 +102,12 @@ class Orders extends Controller
         }else{
             $user = User::where('deviceId',$request->header('device-id'))->first();
         }
+
+        $lang = $request->header('accept-language');
         $orderSetting = Order_setting::get();
 
         if(!empty($user)){
-            $status = ["new","confirmed"];
-            $order = Order::where(['user_id'=>$user->id])->whereIn('status',$status)
+            $order = Order::where(['user_id'=>$user->id,'status'=>'new'])
                     ->with(['order_items'=>function($query){
                         $query->with('order_items_props');
                     }])->first();
@@ -116,7 +120,7 @@ class Orders extends Controller
                     foreach($order->order_items as $orderItem){
                         $item = Item::find($orderItem->item_id);
                         if(!empty($item)) {
-                            $orderItem->itemName = $request->header('accept-language') != 'ar' ? $item->itemName : $item->itemNameAr;
+                            $orderItem->itemName = $lang != 'ar' ? $item->itemName : $item->itemNameAr;
                             $orderItem->itemPrice = $item->itemPrice;
                             $orderItem->itemPriceAfterDis = $item->itemPriceAfterDis;
                             $orderItem->discountValue = $item->discountValue;
@@ -128,7 +132,7 @@ class Orders extends Controller
                                     if($itemPropPlus) {
                                         $itemSubProp= Sub_property::find($itemPropPlus->sub_prop_id);
                                         if(!empty($itemSubProp)) {
-                                            $itemProp->propertyName = $request->header('accept-language') != 'ar' ? $itemSubProp->propertyName : $itemSubProp->propertyNameAr;
+                                            $itemProp->propertyName = $lang != 'ar' ? $itemSubProp->propertyName : $itemSubProp->propertyNameAr;
 
                                             $mainProp = Property::find($itemSubProp->prop_id);
                                             if(!empty($mainProp)) {
@@ -167,6 +171,9 @@ class Orders extends Controller
         }else{
             $user = User::where('deviceId',$request->header('device-id'))->first();
         }
+
+        $lang = $request->header('accept-language');
+
         $orderSetting = Order_setting::get();
 
         if(!empty($user)){
@@ -180,12 +187,12 @@ class Orders extends Controller
                 foreach($orders as $order){
                     $order->date = date("D d M,Y",strtotime($order->created_at));
                     $order->shippingAddress = User_address::find($order->shippingAddress_id);
-                    $order->expectedDate = "expeted date";
+                    $order->expectedDate = "expeted date";//confermed_at + shipping type period 
                     if(count($order->order_items)){
                         foreach($order->order_items as $orderItem){
                             $item = Item::find($orderItem->item_id);
                             if(!empty($item)) {
-                                $orderItem->itemName = $request->header('accept-language') != 'ar' ? $item->itemName : $item->itemNameAr;
+                                $orderItem->itemName = $lang != 'ar' ? $item->itemName : $item->itemNameAr;
                                 $orderItem->itemPrice = $item->itemPrice;
                                 $orderItem->itemPriceAfterDis = $item->itemPriceAfterDis;
                                 $orderItem->discountValue = $item->discountValue;
@@ -197,7 +204,7 @@ class Orders extends Controller
                                         if($itemPropPlus) {
                                             $itemSubProp= Sub_property::find($itemPropPlus->sub_prop_id);
                                             if(!empty($itemSubProp)) {
-                                                $itemProp->propertyName = $request->header('accept-language') != 'ar' ? $itemSubProp->propertyName : $itemSubProp->propertyNameAr;
+                                                $itemProp->propertyName = $lang != 'ar' ? $itemSubProp->propertyName : $itemSubProp->propertyNameAr;
 
                                                 $mainProp = Property::find($itemSubProp->prop_id);
                                                 if(!empty($mainProp)) {
@@ -563,6 +570,12 @@ class Orders extends Controller
             'shippingAddress_id' => 'required',
         ]);
 
+        if (empty(User_address::find($request->shippingAddress_id))) {
+            $data['status'] = false;
+            $data['message'] = "shipping address error";
+            return $data;
+        }
+
         if ($validator->fails()) {
             $data['status'] = false;
             $err = $validator->errors()->toArray();
@@ -651,20 +664,80 @@ class Orders extends Controller
 
     public function itemsCanBack(Request $request){
 
-        
         if(Auth::guard('api')->check()){
             $user = Auth::guard('api')->user();
         }else{
             $user = User::where('deviceId',$request->header('device-id'))->first();
         }
 
+        $lang = $request->header('accept-language');
 
-        $orders = Order::where(['user_id'=>$user->id,'status'=>'completed'])->whereDate('created_at','<=',Carbon::now()->subDays(15))->pluck('id');
+        $orders = Order::where(['user_id'=>$user->id,'status'=>'completed'])->whereDate('created_at','>=',Carbon::now()->subDays(15))->pluck('id');
 
-        $orderItems = Order_item::whereIn('order_id',$orders)->whereDate('created_at','<=',Carbon::now()->subDays(15))->get();
+        
+        $orderItems = Order_item::whereIn('order_id',$orders)->whereDate('created_at','>=',Carbon::now()->subDays(15))->get();
 
         $data['status'] = true;
+        $data['message'] = "Products cannot be returned after 14 days from the date of purchase";
+
+
+        if(!empty($orderItems)) {
+            foreach($orderItems as $orderItem){
+                $order = Order::find($orderItem->order_id);
+                $orderItem->orderDate = date('D d M,Y',strtotime($order->created_at));
+                $orderItem->orderCode = $order->orderCode;
+                $item = Item::where('id',$orderItem->item_id)->select(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->first();
+
+                $item->itemName = $lang == 'en' ? $item->itemName : $item->itemNameAr;
+
+                $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
+                $favFit = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
+                $reviewFit = Review::where('user_id',$user->id)->where('item_id',$item->id)->first();
+                
+                $item->review = !empty($reviewFit) ? true : false;
+                $item->fav = !empty($favFit) ? true : false;
+                $item->cart = false;
+
+
+                //item in cart?    
+                $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
+                if(!empty($order)){
+                    $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$item->id])->first();
+                    if(!empty($order_item)) {
+                        $item->cart = true;
+                    }
+                }
+                $orderItem->item = $item;
+            }    
+
+        }
+
         $data['items'] = $orderItems;
+        return $data;
+    }
+
+
+
+
+     ///test and well delete
+    public function changeOrderStatus(Request $request,$orderId,$status){
+
+        if(Auth::guard('api')->check()){
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = User::where('deviceId',$request->header('device-id'))->first();
+        }
+
+        if(!empty($user)){
+
+            $orders = Order::where(['user_id'=>$user->id,'id'=>$orderId])->update(['status'=>$status]);
+            $data['status'] = true;
+            $data['message'] = 'updated to '. $status;
+        }else{
+            $data['status'] = false;
+            $data['message'] = 'user not found';
+        }
+
         return $data;
     }
 

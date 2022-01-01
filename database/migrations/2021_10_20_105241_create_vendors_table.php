@@ -19,6 +19,7 @@ class CreateVendorsTable extends Migration
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->string('vendor_image')->nullable();
+            $table->string('vendor_logo')->nullable();
             $table->string('password')->nullable();
             $table->string('address')->nullable();
             $table->string('api_token')->nullable();

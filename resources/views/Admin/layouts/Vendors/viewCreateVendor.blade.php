@@ -74,6 +74,14 @@
                         <img src="{{url('Admin_uploads/vendors/'.$vendor->vendor_image)}}" style="height:200px;width:200px"> 
                       @endif
                   </div>
+
+                  <label for="vendor_logo" class="col-sm-2 control-label">@lang('leftsidebar.logo')</label>
+                  <div class="col-sm-4">
+                      <input type="file" name="vendor_logo" class="form-control">
+                      @if(!empty($vendor) && !empty($vendor->vendor_logo)) 
+                        <img src="{{url('Admin_uploads/vendors/'.$vendor->vendor_logo)}}" style="height:200px;width:200px"> 
+                      @endif
+                  </div>
               </div>
 
             </div>

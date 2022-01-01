@@ -21,7 +21,7 @@ class CreateAdsTable extends Migration
             $table->bigInteger("vendor_id")->unsigned()->nullable();
             $table->foreign('vendor_id')
             ->references('id')
-            ->on('users')
+            ->on('vendors')
             ->onDelete('cascade')
             ->onUpdate('cascade');
 

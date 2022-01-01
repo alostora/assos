@@ -30,6 +30,7 @@
 				                  	<th>@lang('leftsidebar.phone')</th>
 				                  	<th>@lang('leftsidebar.address')</th>
 				                  	<th>@lang('leftsidebar.image')</th>
+				                  	<th>@lang('leftsidebar.logo')</th>
 				                  	<th>@lang('leftsidebar.Operations')</th>
 				                </tr>
 							@if(!empty($vendors))
@@ -41,6 +42,7 @@
 							          	<td>{{$vendor->phone}}</td>
 							          	<td>{{$vendor->address}}</td>
 							          	<td><img src="{{url('Admin_uploads/vendors/'.$vendor->vendor_image)}}" style="height: 100px;width:100px"></td>
+							          	<td><img src="{{url('Admin_uploads/vendors/'.$vendor->vendor_logo)}}" style="height: 100px;width:100px"></td>
 							          	<td>
 								          	<div class="btn-group">
 								          		<a class="btn btn-success" href="{{url('admin/viewCreateVendor/'.$vendor->id)}}">
