@@ -53,7 +53,7 @@
                         </li>
                         <li>
                             <a href="{{url('admin/sliderInfo/home')}}">
-                                <i class="fa fa-circle-o"></i>@lang('leftsidebar.sliderInfoHome')
+                                <i class="fa fa-circle-o"></i>@lang('leftsidebar.sliderInfohome')
                             </a>
                         </li>
                         <li>

@@ -31,6 +31,7 @@ class User extends Authenticatable
         'socialType',
         'socialToken',
         'verify_token',
+        'firebase_token',
     ];
 
     /**

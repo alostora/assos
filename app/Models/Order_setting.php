@@ -14,7 +14,7 @@ class Order_setting extends Model
         "settingNameAr",
         "settingValue",
         "settingOptions",
-        "settingOptionsAr",
+        //"settingOptionsAr",
     ];
 
 

@@ -46,7 +46,8 @@
 
                   <label for="cat_id" class="col-sm-2 control-label">@lang('leftsidebar.categories')</label>
                   <div class="col-sm-4">
-                      <select name="cat_id" class="form-control" id="cat_id"required>
+                      <select name="cat_id" class="form-control" id="cat_id">
+                        <option value="">@lang('leftsidebar.choose')</option>
                         @if(!empty($categories))
                           @foreach($categories as $cat)
                             @if(!empty($ad) && $cat->id == $ad->cat_id)

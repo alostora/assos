@@ -19,7 +19,7 @@ class CreateOrderSettingsTable extends Migration
             $table->string("settingNameAr")->nullable();
             $table->string("settingValue")->nullable();
             $table->string("settingOptions")->nullable();
-            $table->string("settingOptionsAr")->nullable();
+            //$table->string("settingOptionsAr")->nullable();
             $table->timestamps();
         });
     }

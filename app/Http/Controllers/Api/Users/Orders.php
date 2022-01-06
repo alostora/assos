@@ -115,7 +115,7 @@ class Orders extends Controller
             if(!empty($order)){
                 $order->date = date("D d M,Y",strtotime($order->created_at));
                 $order->shippingAddress = User_address::find($order->shippingAddress_id);
-                $order->expectedDate = "expeted date";
+                $order->expectedDate = "expeted arrival date is after ".$orderSetting->settingOptions;
                 if(count($order->order_items)){
                     foreach($order->order_items as $orderItem){
                         $item = Item::find($orderItem->item_id);

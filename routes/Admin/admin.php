@@ -33,10 +33,16 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::get('logOut','Admins@logOut');
 
 			//orderSettings
-			Route::get('orderSettings','Admins@orderSettings');
-			Route::get('viewCreateOrderSettings/{settingId?}','Admins@viewCreateOrderSettings');
-			Route::post('createSetting','Admins@createSetting');
-			Route::get('deleteOrderSettings/{settingId?}','Admins@deleteOrderSettings');
+			Route::get('orderSettings','Order_settings@orderSettings');
+			Route::get('viewCreateOrderSettings/{settingId?}','Order_settings@viewCreateOrderSettings');
+			Route::post('createSetting','Order_settings@createSetting');
+			Route::get('deleteOrderSettings/{settingId?}','Order_settings@deleteOrderSettings');
+
+			//itemBackReasons
+			Route::get('itemBackReasonsInfo','Order_settings@itemBackReasonsInfo');
+			Route::get('viewCreateitemBackReason/{id?}','Order_settings@viewCreateitemBackReason');
+			Route::post('createitemBackReason','Order_settings@createitemBackReason');
+			Route::get('deleteitemBackReason/{id}','Order_settings@deleteitemBackReason');
 
 
 
@@ -94,11 +100,7 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::post('createAd','Ads@createAd');
 			Route::get('deleteAd/{id}','Ads@deleteAd');
 
-			//itemBackReasons
-			Route::get('itemBackReasonsInfo','Admins@itemBackReasonsInfo');
-			Route::get('viewCreateitemBackReason/{id?}','Admins@viewCreateitemBackReason');
-			Route::post('createitemBackReason','Admins@createitemBackReason');
-			Route::get('deleteitemBackReason/{id}','Admins@deleteitemBackReason');
+			
 
 
 		});

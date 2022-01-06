@@ -26,7 +26,7 @@
 			                  	<th>@lang('leftsidebar.settingNameAr')</th>
 			                  	<th>@lang('leftsidebar.settingValue')</th>
 			                  	<th>@lang('leftsidebar.settingOptions')</th>
-			                  	<th>@lang('leftsidebar.settingOptionsAr')</th>
+			                  	<!-- <th>@lang('leftsidebar.settingOptionsAr')</th> -->
 			                  	<th>@lang('leftsidebar.Operations')</th>
 			                </tr>
 							@if(!empty($settings))
@@ -37,7 +37,7 @@
 							          	<td>{{$setting->settingNameAr}}</td>
 							          	<td>{{$setting->settingValue}}</td>
 							          	<td>{{$setting->settingOptions}}</td>
-							          	<td>{{$setting->settingOptionsAr}}</td>
+							          	<!-- <td>{{$setting->settingOptionsAr}}</td> -->
 							          	<td>
 								          	<div class="btn-group">
 								          		<a class="btn btn-success" href="{{url('admin/viewCreateOrderSettings/'.$setting->id)}}">

@@ -50,7 +50,7 @@
                       <input type="text" name="address" class="form-control" placeholder="@lang('leftsidebar.address')" value="@if(!empty($vendor)) {{$vendor->address}} @endif" required id="address">
                   </div>
               </div>
-
+              @if(empty($vendor))
               <div class="form-group">
 
                   <label for="password" class="col-sm-2 control-label">@lang('leftsidebar.password')</label>
@@ -64,6 +64,7 @@
                       <input type="password" name="confirm_password" class="form-control" id="confirm_password" placeholder="@lang('leftsidebar.confirmPassword')" value="" required>
                   </div>
               </div>
+              @endif
 
 
               <div class="form-group">

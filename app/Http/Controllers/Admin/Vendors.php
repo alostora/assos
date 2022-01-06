@@ -44,7 +44,7 @@ class Vendors extends Controller
         ]);
 
         $data = $request->except('_token','confirm_password');
-        if($data['password']){
+        if(isset($data['password'])){
             $data['password'] = Hash::make($data['password']);
         }
 

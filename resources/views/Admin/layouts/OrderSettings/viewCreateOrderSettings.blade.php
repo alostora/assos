@@ -39,16 +39,9 @@
                         <div class="form-group">
                             <label for="name" class="col-sm-2 control-label">@lang('leftsidebar.settingOptions')</label>
                             <div class="col-sm-4">
-                                <input type="text" name="settingOptions" class="form-control" id="settingOptions" placeholder="@lang('leftsidebar.settingOptions')" value="@if(!empty($setting)) {{$setting->settingOptions}} @endif">
+                                <input type="number" name="settingOptions" class="form-control" id="settingOptions" placeholder="@lang('leftsidebar.settingOptions')" value="@if(!empty($setting)){{$setting->settingOptions}}@endif">
                             </div>
 
-                            <label for="name" class="col-sm-2 control-label">@lang('leftsidebar.settingOptionsAr')</label>
-                            <div class="col-sm-4">
-                                <input type="text" name="settingOptionsAr" class="form-control" id="settingOptionsAr" placeholder="@lang('leftsidebar.settingOptionsAr')" value="@if(!empty($setting)) {{$setting->settingOptionsAr}} @endif">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label for="name" class="col-sm-2 control-label">@lang('leftsidebar.settingValue')</label>
                             <div class="col-sm-4">
                                 <input type="text" name="settingValue" class="form-control" id="settingValue" placeholder="@lang('leftsidebar.settingValue')" value="@if(!empty($setting)) {{$setting->settingValue}} @endif" required>

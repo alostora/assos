@@ -531,6 +531,7 @@ return [
 
     "vendors" => "التجار",
     "Vendors" => "التجار",
+    "logo" => "الشعار",
 
     "propertiesInfo" => "الخصائص",
     "propertyName" => "اسم الخاصية ",
@@ -549,12 +550,18 @@ return [
     "color"=> "اللون",
 
     "Molak"=> "مولك",
-    "sliderInfoHome"=> "سلايدر الصفحة الرئيسية",
+
+
+
+    "sliderInfohome"=> "سلايدر الصفحة الرئيسية",
     "sliderInfocategory"=> "سلايدر الاقسام",
     "sliderStatus"=> "حالة السلايدر",
     "categorySliderImage"=> "صورة السلايدر",
     "itemSliderImage"=> "صورة السلايدر",
     "sliders"=> "سلايدرات",
+
+
+    //merna translate
     "offersInfo"=> "معلومات العروض",
     "offerName"=> "اسم العرض",
     "offerNameAr"=> "اسم العرض عربي",
@@ -563,7 +570,8 @@ return [
     "ads Info"=> "معلومات الاعلانات",
     "adLink"=> "رابط الاعلان",
     "adImage"=> "صورة الاعلان",
-    "orderSettings"=> "إعدادات الطلب",
+
+
 
 
 
@@ -572,4 +580,19 @@ return [
     "code"=> "كود الخصم",
     "dateFrom"=> "تاريخ من",
     "dateTo"=> "تاريخ الي",
+
+
+    //back reasons
+    "Item back reason" => "اسباب الارجاع",
+    "backReasonName" => "سبب الارجاع",
+    "backReasonArName" => "سبب الارجاع عربي",
+
+
+    //orderSetting
+    "orderSettings"=> "إعدادات الطلب",
+    "settingName" => "اسم الاعداد",
+    "settingNameAr" => "اسم الاعداد عربي",
+    "settingOptions" => "المده",
+    "settingValue" => "القيمة",
+
 ];

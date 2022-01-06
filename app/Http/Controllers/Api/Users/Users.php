@@ -22,6 +22,7 @@ use App\Models\Ad;
 use App\Models\Order;
 use App\Models\Order_item;
 use App\Models\Order_item_prop;
+use App\Helpers\Helper;
 use URL;
 use Auth;
 use Lang;
@@ -331,7 +332,6 @@ class Users extends Controller
                             array_push($size, $pro);
                         }
                     }
-
                 }
 
                 $data['item']->color = $color;
@@ -361,9 +361,6 @@ class Users extends Controller
                                 $itemMayLike->cart = true;
                             }
                         }
-
-
-
                     }
                 }
 
@@ -527,7 +524,14 @@ class Users extends Controller
     public function userItemReview(Request $request){
 
         $device_id = $request->header('device-id');
-        $user = Auth::guard('api')->user();
+           
+        if (Auth::guard('api')->check()) {
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = User::where('deviceId',$device_id)->first();
+        }
+
+
         $item = Item::find($request->item_id);
             
         if(!empty($user)) {
@@ -568,7 +572,12 @@ class Users extends Controller
     public function itemReviews(Request $request,$item_id){
 
         $device_id = $request->header('device-id');
-        $user = User::where('deviceId',$device_id)->first();
+            
+        if (Auth::guard('api')->check()) {
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = User::where('deviceId',$device_id)->first();
+        }
 
         $data['status'] = true;
         $data['reviews'] = Review::where('item_id',$item_id)->get();
@@ -577,7 +586,14 @@ class Users extends Controller
             foreach($data['reviews'] as $review){
                 $review->date = date("D d M,Y",strtotime($review->created_at));
                 $review->user_info = User::where('id',$review->user_id)->first(['id','name','image']);
-                $review->user_info->image = URL::to('Admin_uploads/vendors/'.$review->user_info->image);
+
+                if(!empty($user->image)){
+                    if(substr($user->image, 0, 4) === "user"){
+                        $review->user_info->image = URL::to('uploads/users/'.$user->image);
+                    }
+                }else{
+                    $review->user_info->image = URL::to('uploads/users/defaultLogo.jpg');
+                }
             }  
         }
 
@@ -593,7 +609,12 @@ class Users extends Controller
         $device_id = $request->header('device-id');
         $main_filter = $request->header('main-filter');
         $lang = $request->header('accept-language');
-        $user = User::where('deviceId',$device_id)->first();
+            
+        if (Auth::guard('api')->check()) {
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = User::where('deviceId',$device_id)->first();
+        }
 
         
         $data['status'] = true;
@@ -639,7 +660,12 @@ class Users extends Controller
         $device_id = $request->header('device-id');
         $main_filter = $request->header('main-filter');
         $lang = $request->header('accept-language');
-        $user = User::where('deviceId',$device_id)->first();
+            
+        if (Auth::guard('api')->check()) {
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = User::where('deviceId',$device_id)->first();
+        }
 
         $data['status'] = true;
         $data['items'] = Item::get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
@@ -713,7 +739,12 @@ class Users extends Controller
 
         $device_id = $request->header('device-id');
         $lang = $request->header('accept-language');
-        $user = User::where('deviceId',$device_id)->first();
+            
+        if (Auth::guard('api')->check()) {
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = User::where('deviceId',$device_id)->first();
+        }
 
         if(!empty($user)) {
 
@@ -824,7 +855,12 @@ class Users extends Controller
     public function sortType(Request $request){
         $device_id = $request->header('device-id');
         $lang = $request->header('accept-language');
-        $user = User::where('deviceId',$device_id)->first();
+            
+        if (Auth::guard('api')->check()) {
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = User::where('deviceId',$device_id)->first();
+        }
 
         if(!empty($user)) {
             $data['status'] = true;
@@ -1269,6 +1305,34 @@ class Users extends Controller
         return $data;
 
 
+    }
+
+
+
+
+
+
+
+
+
+    public function sendTestNotifi(Request $request){
+
+        $main_filter = $request->header('main_filter');
+        $lang = $request->header('accept-language');
+        $device_id = $request->header('device-id');
+
+        if(Auth::guard('api')->check()) {
+            $user = User::find(Auth::guard('api')->id());
+        }else{
+            $user = User::where('deviceId',$device_id)->first();
+        }
+
+        //start_notifi
+        $info['users'] = User::where('id',$user->id)->get();
+        $info['title'] = Lang::get('leftsidebar.Confirm order');
+        $info['body'] = Lang::get('leftsidebar.confirmOrderBody');
+        return Helper::senNotifi($info);
+        //end_notifi
     }
 
 

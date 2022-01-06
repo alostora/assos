@@ -35,7 +35,7 @@
 						          		<img src="{{url('Admin_uploads/ads/'.$ad->adImage)}}" style="height: 100px;width:100px">
 						          	</td>
 						          	<td>{{$ad->vendor_id}}</td>
-						          	<td>{{$ad->cat_id}}</td>
+						          	<td>{{$ad->cat_id ? $ad->cat_id : 'empty'}}</td>
 						          	<td>
 							          	<div class="btn-group">
 							          		<a class="btn btn-success" href="{{url('admin/viewCreateAd/'.$ad->id)}}">

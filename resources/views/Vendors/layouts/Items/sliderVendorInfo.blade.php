@@ -14,7 +14,7 @@
 		            <div class="box-header">
 		              	<div class="col-xs-6">
 			              	<h3 class="box-title">
-			              		@lang('leftsidebar.sliderInfo')
+			              		@lang('leftsidebar.sliders')
 			              	</h3>
 		              	</div>
 				      	<label class="col-xs-6 label label-success">

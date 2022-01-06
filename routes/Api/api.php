@@ -38,6 +38,7 @@ Route::group(['namespace'=>'Api\Users'],function(){
 
         //un auth routes
 
+        Route::get('sendTestNotifi','Users@sendTestNotifi');
 
         Route::get('home','Users@home');
         Route::get('ourNew','Users@ourNew');

@@ -542,9 +542,9 @@ return [
 
     "vendors" => "vendors",
     "Vendors" => "Vendors",
+    "logo" => "logo",
+    
     "propertiesInfo" => "propertiesInfo",
-
-
     "propertyName" => "property name",
     "propertyNameAr" => "property name ar",
     "subProperties" => "sub properties",
@@ -563,7 +563,7 @@ return [
     "Molak"=> "Molak",
 
 
-    "sliderInfoHome"=> "Home page slider",
+    "sliderInfohome"=> "Home page slider",
     "sliderInfocategory"=> "Category slider",
     "sliderStatus"=> "Slider status",
     "categorySliderImage"=> "Slider image",
@@ -579,7 +579,6 @@ return [
     "ads Info"=> "Ads Info",
     "adLink"=> "Ad Link",
     "adImage"=> "Ad image",
-    "orderSettings"=> "Order Settings",
 
 
     //copon
@@ -587,6 +586,22 @@ return [
     "code"=> "Code",
     "dateFrom"=> "Date from",
     "dateTo"=> "Date to",
+
+
+    
+    //back reasons
+    "Item back reason" => "Item back reason",
+    "backReasonName" => "back reason",
+    "backReasonArName" => "back reason Ar",
+
+
+
+    //orderSetting
+    "orderSettings"=> "Order Settings",
+    "settingName" => "Setting name",
+    "settingNameAr" => "Setting name Ar",
+    "settingOptions" => "Duration",
+    "settingValue" => "Value",
 
 
 
