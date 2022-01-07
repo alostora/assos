@@ -484,7 +484,7 @@ class Users extends Controller
             $fav_item_id = User_fav_item::where('user_id',$user_id)->pluck('item_id');
             $data['items'] = Item::whereIn('id',$fav_item_id)
                             //->where('department',$main_filter)
-                            ->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis']);
+                            ->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','vendor_id']);
 
             if(!empty($data['items'])){
                 foreach($data['items'] as $item){
@@ -508,6 +508,8 @@ class Users extends Controller
                             $item->cart = true;
                         }
                     }
+
+                    $item->vendor_info = Vendor::find($item->vendor_id);
                 }
             }
 
