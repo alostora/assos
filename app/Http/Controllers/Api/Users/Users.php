@@ -37,10 +37,17 @@ class Users extends Controller
         $data['status'] = true;
 
         $main_filter = $request->header('main-filter');
-        $vendorMainFIlter = Item::where('department',$main_filter)->pluck('vendor_id');
+        $country = $request->header('country');
+
+        $vendorMainFIlter = Item::where([
+            'department' => $main_filter,
+            'country' => $country
+        ])->pluck('vendor_id');
+
+        $vendorMainFIlter =  array_unique($vendorMainFIlter->toArray());
 
 
-        $data['vendors'] = Vendor::whereIn('id',$vendorMainFIlter)->get(['id','vendor_name','vendor_image','vendor_logo']);
+        $data['vendors'] = !empty($vendorMainFIlter) ? Vendor::whereIn('id',$vendorMainFIlter)->get(['id','vendor_name','vendor_image','vendor_logo']) : [];
 
         if(!empty($data['vendors'])){
             foreach($data['vendors'] as $key => $vend){
@@ -48,6 +55,7 @@ class Users extends Controller
                 $vend->vendor_logo = URL::to('Admin_uploads/vendors/'.$vend->vendor_logo);
             }
         }
+
         return $data;
     }
 
@@ -55,18 +63,23 @@ class Users extends Controller
 
 
     public function vendorCategories(Request $request,$vendor_id){
-        $lang = $request->header('accept-language');
+        
         $data['status'] = true;
+        $lang = $request->header('accept-language');
         $main_filter = $request->header('main-filter');
+        $country = $request->header('country');
 
         $vendor_sub_cats_id = Item::where([
             'vendor_id' => $vendor_id,
-            'department' => $main_filter
+            'department' => $main_filter,
+            'country' => $country
         ])->pluck('sub_cat_id');
 
         if(!empty($vendor_sub_cats_id)){
+            $vendor_sub_cats_id = array_unique($vendor_sub_cats_id->toArray());
             $vendor_cats_id = Sub_category::whereIn('id',$vendor_sub_cats_id)->pluck('cat_id');
             if(!empty($vendor_cats_id)) {
+                $vendor_cats_id =  array_unique($vendor_cats_id->toArray());
                 $categories = Category::whereIn('id',$vendor_cats_id)->get(['id','categoryName','categoryNameAr','categoryImage','sliderCategoryStatus','categorySliderImage']);
             }
         }
@@ -158,12 +171,13 @@ class Users extends Controller
 
         $lang = $request->header('accept-language');
         $item_sub = Item::where('vendor_id',$vendor_id)->pluck('sub_cat_id');
+        $item_sub =  array_unique($item_sub->toArray());
+
         $s_categories = Sub_category::whereIn('id',$item_sub)->where('cat_id',$cat_id)->get(['id','s_categoryName','s_categoryNameAr','s_categoryImage']);
 
         if(!empty($s_categories)) {
             foreach($s_categories as $cat){
                 $cat->s_categoryImage = URL::to('Admin_uploads/categories/subCategory/'.$cat->s_categoryImage);
-
                 $cat->s_categoryName = $lang == 'en' ? $cat->s_categoryName : $cat->s_categoryNameAr;
             }    
         }
@@ -181,6 +195,8 @@ class Users extends Controller
 
         $deviceId = $request->header('device-id');
         $main_filter = $request->header('main-filter');
+        $country = $request->header('country');
+        $lang = $request->header('accept-language');
 
         if (Auth::guard('api')->check()) {
             $user = Auth::guard('api')->user();
@@ -188,7 +204,6 @@ class Users extends Controller
             $user = User::where('deviceId',$deviceId)->first();
         }
 
-        $lang = $request->header('accept-language');
 
         if (!empty($user)){
             
@@ -197,12 +212,14 @@ class Users extends Controller
                 $data['items'] = Item::where([
                             'sub_cat_id'=>$s_cat_id,
                             'department'=>$main_filter,
+                            'country'=>$country,
                     ])->select(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->orderBy('id','DESC')->paginate(20);
             }else{
                 $data['items'] = Item::where([
                             'sub_cat_id'=>$s_cat_id,
                             'vendor_id'=>$vendor_id,
                             'department'=>$main_filter,
+                            'country'=>$country,
                     ])->select(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->orderBy('id','DESC')->paginate(20);
             }
 
@@ -241,10 +258,13 @@ class Users extends Controller
 
 
 
+
+
     public function itemInfo(Request $request,$itemId){
 
         $deviceId = $request->header('device-id');
         $main_filter = $request->header('main-filter');
+        $country = $request->header('country');
         $lang = $request->header('accept-language');
 
         if (Auth::guard('api')->check()) {
@@ -311,14 +331,17 @@ class Users extends Controller
 
                 //item property belongs to items
                 $item_properties = Item_properity::where('item_id',$data['item']->id)->pluck('id');
+                $item_properties =  array_unique($item_properties->toArray());
                 //item property belongs to item properties
                 $item_properties_plus = Item_property_plus::whereIn('properity_id',$item_properties);
                 //item property belongs to admin properties
                 $sub_prop = Sub_property::whereIn('id',$item_properties_plus->pluck('sub_prop_id'))->get();
+
                 if(!empty($sub_prop)) {
                     $color = [];
                     $size = [];
                     $itemPropPlus = $item_properties_plus->pluck('id');
+                    $itemPropPlus =  array_unique($itemPropPlus->toArray());
 
                     foreach($sub_prop as $key=>$pro){
                         $pro->sub_prop_id = $itemPropPlus[$key];
@@ -337,8 +360,9 @@ class Users extends Controller
                 $data['item']->color = $color;
                 $data['item']->size = $size;                        
 
-                $data['item']->itemMayLike = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
-                    ]);
+                $data['item']->itemMayLike = Item::where(['department'=>$main_filter,
+                    'country'=>$country])->limit(10)->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
+                ]);
 
                 if(!empty($data['item']->itemMayLike)) {
                     foreach($data['item']->itemMayLike as $itemMayLike){
@@ -364,7 +388,8 @@ class Users extends Controller
                     }
                 }
 
-                $data['item']->itemFit = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
+                $data['item']->itemFit = Item::where(['department'=>$main_filter,
+                    'country'=>$country])->limit(10)->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
                 ]);
 
                 if(!empty($data['item']->itemFit)) {
@@ -482,6 +507,7 @@ class Users extends Controller
             $data['status'] = true;
 
             $fav_item_id = User_fav_item::where('user_id',$user_id)->pluck('item_id');
+            $fav_item_id =  array_unique($fav_item_id->toArray());
             $data['items'] = Item::whereIn('id',$fav_item_id)
                             //->where('department',$main_filter)
                             ->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','vendor_id']);
@@ -708,6 +734,7 @@ class Users extends Controller
     public function properties(Request $request){
         $data['status'] = true;
         $prop_ids = Property::pluck('id');
+        $prop_ids =  array_unique($prop_ids->toArray());
         $sub_props = Sub_property::whereIn('prop_id',$prop_ids)->get();
         $lang = $request->header('accept-language');
 
@@ -740,6 +767,8 @@ class Users extends Controller
     public function itemSearch(Request $request){
 
         $device_id = $request->header('device-id');
+        $main_filter = $request->header('main-filter');
+        $country = $request->header('country');
         $lang = $request->header('accept-language');
             
         if (Auth::guard('api')->check()) {
@@ -751,7 +780,7 @@ class Users extends Controller
         if(!empty($user)) {
 
             $data['status'] = true;
-            $items = Item::query()->where('department',$request->header('main-filter'));
+            $items = Item::query()->where(['department'=>$main_filter,'country'=>$country]);
            
             if(!empty($request->itemNameSearch)) {
                 $itemName = $lang == "en" ? "itemName" : "itemNameAr";
@@ -769,9 +798,11 @@ class Users extends Controller
 
                     $cats =  Category::whereIn('id',$request->cats_ids)->pluck('id');
                     if(!empty($cats)) {
+                        $cats =  array_unique($cats->toArray());
                         $sub_cats = Sub_category::whereIn('cat_id',$cats)->pluck('id');
 
                         if($sub_cats) {
+                            $sub_cats =  array_unique($sub_cats->toArray());
                             $items->whereIn('sub_cat_id',$sub_cats);
                         }
                     }
@@ -788,8 +819,10 @@ class Users extends Controller
                 if (is_array($request->sub_prop_ids)) {
                     $sub_prop_ids = Item_property_plus::whereIn('sub_prop_id',$request->sub_prop_ids)->pluck('properity_id');
                     if (!empty($sub_prop_ids)) {
+                        $sub_prop_ids =  array_unique($sub_prop_ids->toArray());
                         $main_prop_ids = Item_properity::whereIn('id',$sub_prop_ids)->pluck('item_id');
                         if (!empty($main_prop_ids)) {
+                            $main_prop_ids =  array_unique($main_prop_ids->toArray());
                             $items->whereIn('id',$main_prop_ids);
                         }
                     }
@@ -888,7 +921,8 @@ class Users extends Controller
 
         $catSliders = Category::where('sliderHomeStatus',true)->get();
         $itemSliders = Item::where('sliderHomeStatus',true)->get();
-        $main_filter = $request->header('main_filter');
+        $main_filter = $request->header('main-filter');
+        $country = $request->header('country');
         $lang = $request->header('accept-language');
         $device_id = $request->header('device-id');
 
@@ -923,7 +957,7 @@ class Users extends Controller
                 }
             }
 
-            $itemMayLike = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
+            $itemMayLike = Item::where(['department'=>$main_filter,'country'=>$country])->limit(10)->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
 
             if (!empty($itemMayLike)) {
                 foreach($itemMayLike as $itemLike){
@@ -949,7 +983,7 @@ class Users extends Controller
                 }
             }
 
-            $itemFit = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
+            $itemFit = Item::where(['department'=>$main_filter,'country'=>$country])->limit(10)->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
             ]);
 
             if(!empty($itemFit)) {
@@ -977,7 +1011,7 @@ class Users extends Controller
             }
 
 
-            $recentItems = Item::where('department',$main_filter)->limit(10)->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
+            $recentItems = Item::where(['department'=>$main_filter,'country'=>$country])->limit(10)->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
             ]);
 
             if(!empty($recentItems)) {
@@ -1064,6 +1098,7 @@ class Users extends Controller
 
         $offer_item_ids = Offer_item::where('offer_id',$offerId)->pluck('item_id');
         if (!empty($offer_item_ids)){
+            $offer_item_ids =  array_unique($offer_item_ids->toArray());
             $items = Item::whereIn('id',$offer_item_ids)->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
 
             if(!empty($items)){
@@ -1111,7 +1146,8 @@ class Users extends Controller
 
     public function seeMore(Request $request,$type){
 
-        $main_filter = $request->header('main_filter');
+        $main_filter = $request->header('main-filter');
+        $country = $request->header('country');
         $lang = $request->header('accept-language');
         $device_id = $request->header('device-id');
 
@@ -1127,7 +1163,7 @@ class Users extends Controller
 
         if ($type == 'itemMayLike') {
 
-            $itemMayLike = Item::where('department',$main_filter)->select(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->orderBy('id','DESC')->paginate(25);
+            $itemMayLike = Item::where(['department'=>$main_filter,'country'=>$country])->select(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->orderBy('id','DESC')->paginate(25);
 
 
             if (!empty($itemMayLike)) {
@@ -1158,7 +1194,7 @@ class Users extends Controller
 
         }elseif($type == 'itemFit') {
 
-            $itemFit = Item::where('department',$main_filter)->select(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
+            $itemFit = Item::where(['department'=>$main_filter,'country'=>$country])->select(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
             ])->orderBy('id','DESC')->paginate(25);
 
             if(!empty($itemFit)) {
@@ -1189,7 +1225,7 @@ class Users extends Controller
 
         }elseif($type == 'recentItems'){
 
-            $recentItems = Item::where('department',$main_filter)->select(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
+            $recentItems = Item::where(['department'=>$main_filter,'country'=>$country])->select(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
             ])->orderBy('id','DESC')->paginate(25);
 
             if(!empty($recentItems)) {
@@ -1230,7 +1266,8 @@ class Users extends Controller
 
     public function ourNew(Request $request){
 
-        $main_filter = $request->header('main_filter');
+        $main_filter = $request->header('main-filter');
+        $country = $request->header('country');
         $lang = $request->header('accept-language');
         $device_id = $request->header('device-id');
 
@@ -1240,7 +1277,8 @@ class Users extends Controller
             $user = User::where('deviceId',$device_id)->first();
         }
 
-        $item_sub = Item::whereDate('created_at','<=', Carbon::today() )->where('department',$main_filter)->pluck('sub_cat_id');
+        $item_sub = Item::whereDate('created_at','<=', Carbon::today() )->where(['department'=>$main_filter,'country'=>$country])->pluck('sub_cat_id');
+        $item_sub =  array_unique($item_sub->toArray());
         $s_categories = Sub_category::whereIn('id',$item_sub)->get(['id','s_categoryName','s_categoryNameAr','s_categoryImage']);
 
         if(!empty($s_categories)) {
@@ -1251,7 +1289,7 @@ class Users extends Controller
         }
 
         $data['status'] = true;
-        $data['count'] = count($item_sub->toArray());
+        $data['count'] = count($item_sub);
         $data['message'] = "new items in 24 hours";
         $data['sub_cats'] = $s_categories;
 
@@ -1265,7 +1303,8 @@ class Users extends Controller
 
 
     public function ourNewItems(Request $request){
-        $main_filter = $request->header('main_filter');
+        $main_filter = $request->header('main-filter');
+        $country = $request->header('country');
         $lang = $request->header('accept-language');
         $device_id = $request->header('device-id');
 
@@ -1275,7 +1314,7 @@ class Users extends Controller
             $user = User::where('deviceId',$device_id)->first();
         }
 
-        $items = Item::whereDate('created_at','<=', Carbon::today() )->where('department',$main_filter)->select(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
+        $items = Item::whereDate('created_at','<=', Carbon::today() )->where(['department'=>$main_filter,'country'=>$country])->select(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'
             ])->orderBy('id','DESC')->paginate(25);
         $data['status'] = false;
         if(!empty($items)){
@@ -1319,7 +1358,8 @@ class Users extends Controller
 
     public function sendTestNotifi(Request $request){
 
-        $main_filter = $request->header('main_filter');
+        $main_filter = $request->header('main-filter');
+        $country = $request->header('country');
         $lang = $request->header('accept-language');
         $device_id = $request->header('device-id');
 

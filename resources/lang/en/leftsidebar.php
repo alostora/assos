@@ -604,5 +604,8 @@ return [
     "settingValue" => "Value",
 
 
+    //country
+    "sa" => "Saudi Arabia",
+    "kw" => "kwiat",
 
 ];

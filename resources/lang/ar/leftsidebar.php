@@ -595,4 +595,8 @@ return [
     "settingOptions" => "المده",
     "settingValue" => "القيمة",
 
+    //country
+    "sa" => "السعودية",
+    "kw" => "الكويت",
+
 ];

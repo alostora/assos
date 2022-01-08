@@ -40,27 +40,49 @@
                               <input type="hidden" name="id" value="@if(!empty($item)) {{Crypt::encryptString($item->id)}} @endif">
 
                               <div class="form-group">
-                                <label for="itemDescribeAr" class="control-label col-sm-2">
+                                <label for="department" class="control-label col-sm-2">
                                   @lang('leftsidebar.department')
                                 </label>
                                 <div class="col-sm-4">
-                                  <select name="department" class="form-control">
-                                    @if(!empty($item) && $item->department == 'men')
-                                      <option value="men" selected>@lang('leftsidebar.men')</option>
-                                      <option value="women">@lang('leftsidebar.women')</option>
-                                      <option value="kids">@lang('leftsidebar.kids')</option>
-                                    @elseif(!empty($item) && $item->department == 'women')
-                                      <option value="men">@lang('leftsidebar.men')</option>
-                                      <option value="women" selected>@lang('leftsidebar.women')</option>
-                                      <option value="kids">@lang('leftsidebar.kids')</option>
-                                    @elseif(!empty($item) && $item->department == 'kids')
-                                      <option value="men">@lang('leftsidebar.men')</option>
-                                      <option value="women">@lang('leftsidebar.women')</option>
-                                      <option value="kids" selected>@lang('leftsidebar.kids')</option>
+                                  <select name="department" class="form-control" id="department" required>
+                                    @if(!empty($item))
+                                      @if($item->department == 'men')
+                                        <option value="men" selected>@lang('leftsidebar.men')</option>
+                                        <option value="women">@lang('leftsidebar.women')</option>
+                                        <option value="kids">@lang('leftsidebar.kids')</option>
+                                      @elseif($item->department == 'women')
+                                        <option value="men">@lang('leftsidebar.men')</option>
+                                        <option value="women" selected>@lang('leftsidebar.women')</option>
+                                        <option value="kids">@lang('leftsidebar.kids')</option>
+                                      @elseif($item->department == 'kids')
+                                        <option value="men">@lang('leftsidebar.men')</option>
+                                        <option value="women">@lang('leftsidebar.women')</option>
+                                        <option value="kids" selected>@lang('leftsidebar.kids')</option>
+                                      @endif
                                     @else
                                       <option value="men">@lang('leftsidebar.men')</option>
                                       <option value="women">@lang('leftsidebar.women')</option>
                                       <option value="kids">@lang('leftsidebar.kids')</option>
+                                    @endif
+                                  </select>
+                                </div>
+
+                                <label for="country" class="control-label col-sm-2">
+                                  @lang('leftsidebar.country')
+                                </label>
+                                <div class="col-sm-4">
+                                  <select name="country" class="form-control" id="country" required>
+                                    @if(!empty($item))
+                                      @if($item->country == 'sa')
+                                        <option value="sa" selected>@lang('leftsidebar.sa')</option>
+                                        <option value="kw">@lang('leftsidebar.kw')</option>
+                                      @elseif($item->department == 'kw')
+                                        <option value="sa">@lang('leftsidebar.sa')</option>
+                                        <option value="kw" selected>@lang('leftsidebar.kw')</option>
+                                      @endif
+                                    @else
+                                      <option value="sa" selected>@lang('leftsidebar.sa')</option>
+                                      <option value="kw">@lang('leftsidebar.kw')</option>
                                     @endif
                                   </select>
                                 </div>

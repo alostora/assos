@@ -116,8 +116,9 @@ class Vendors extends Controller
         $data['facePage'] = $request->facePage;
         $data['videoLink'] = $request->videoLink;
 
-        $data['itemNameAr'] = $request->itemNameAr;
+        $data['country'] = $request->country;//[sa,kw]
         $data['itemName'] = $request->itemName;
+        $data['itemNameAr'] = $request->itemNameAr;
         $data['itemDescribeAr'] = $request->itemDescribeAr;
         $data['itemDescribe'] = $request->itemDescribe;
         $data['itemPrice'] = $request->itemPrice;
@@ -138,6 +139,7 @@ class Vendors extends Controller
             'main_prop_type'=>'required',
             'department'=>'required',
             //'withProp'=>'required|in:hasProperty,dontHasProperty',
+            'country'=>'required|max:5',
             'itemName'=>'required|max:100',
             'itemNameAr'=>'required|max:100',
             'itemDescribe'=>'required|max:3000',

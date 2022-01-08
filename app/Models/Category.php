@@ -21,6 +21,8 @@ class Category extends Model
 
     protected $hidden = [
         "categoryNameAr",
+        'updated_at',
+        'created_at'
     ];
 
 

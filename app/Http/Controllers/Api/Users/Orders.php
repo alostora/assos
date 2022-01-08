@@ -104,7 +104,6 @@ class Orders extends Controller
         }
 
         $lang = $request->header('accept-language');
-        $orderSetting = Order_setting::get();
 
         if(!empty($user)){
             $order = Order::where(['user_id'=>$user->id,'status'=>'new'])
@@ -113,9 +112,13 @@ class Orders extends Controller
                     }])->first();
 
             if(!empty($order)){
+                $orderSetting = Order_setting::where('settingName',$order->shippingType)->first();
+                if (empty($orderSetting)) {
+                    $orderSetting = Order_setting::where('settingName','normalShipping')->first();
+                }
+
                 $order->date = date("D d M,Y",strtotime($order->created_at));
                 $order->shippingAddress = User_address::find($order->shippingAddress_id);
-                $order->expectedDate = "expeted arrival date is after ".$orderSetting->settingOptions;
                 if(count($order->order_items)){
                     foreach($order->order_items as $orderItem){
                         $item = Item::find($orderItem->item_id);
@@ -187,7 +190,9 @@ class Orders extends Controller
                 foreach($orders as $order){
                     $order->date = date("D d M,Y",strtotime($order->created_at));
                     $order->shippingAddress = User_address::find($order->shippingAddress_id);
-                    $order->expectedDate = "expeted date";//confermed_at + shipping type period 
+                    $orderSett = Order_setting::where('settingName','normalShipping')->first();
+                    $order->expectedDate = "expeted arrival date is after ".$orderSett->settingOptions ." days";
+
                     if(count($order->order_items)){
                         foreach($order->order_items as $orderItem){
                             $item = Item::find($orderItem->item_id);
@@ -246,7 +251,6 @@ class Orders extends Controller
         }else{
             $user = User::where('deviceId',$request->header('device-id'))->first();
         }
-        $orderSetting = Order_setting::get();
 
         if(!empty($user)){
             $order = Order::where(['user_id'=>$user->id])->where('status','new')->first();
@@ -417,12 +421,12 @@ class Orders extends Controller
             if(!empty($order)){
                 
                 $orderSetting = Order_setting::get();
-
-                if (!empty($orderSetting)) {
+               if (!empty($orderSetting)) {
                     foreach($orderSetting as $setting){
-                        $setting->settingOptions =  $lang == 'ar' ? $setting->settingOptionsAr : $setting->settingOptions;
+                        $setting->settingOptions =  $setting->settingOptions ? "expeted arrival date is after ".$setting->settingOptions ." days" : "";
                     }
                 }
+
 
                 $order->shippingAddress = User_address::where(['user_id'=>$user->id,'isMain'=>true])->first();
                 $order->orderSetting = $orderSetting;
@@ -501,6 +505,7 @@ class Orders extends Controller
                 if(!empty($order)){
 
                     $vendorItems = Item::where('vendor_id',$discountCopon->vendor_id)->pluck('id');
+                    $vendorItems = array_unique($vendorItems->toArray());
                     $orderItems = Order_item::where('order_id',$order->id)->whereIn('item_id',$vendorItems)->get();
 
 
@@ -510,6 +515,7 @@ class Orders extends Controller
                     }else{
 
                         $orderItems = Order_item::where('order_id',$order->id)->whereIn('item_id',$vendorItems)->pluck('item_id');
+                        $orderItems = array_unique($orderItems->toArray());
 
                         $itemsTotalPrice = Item::whereIn('id',$orderItems)->sum('itemPriceAfterDis');
 
@@ -673,6 +679,7 @@ class Orders extends Controller
         $lang = $request->header('accept-language');
 
         $orders = Order::where(['user_id'=>$user->id,'status'=>'completed'])->whereDate('created_at','>=',Carbon::now()->subDays(15))->pluck('id');
+        $orders = array_unique($orders->toArray());
 
         
         $orderItems = Order_item::whereIn('order_id',$orders)->whereDate('created_at','>=',Carbon::now()->subDays(15))->get();

@@ -13,6 +13,7 @@ class Item extends Model
 
         "facePage",
         "videoLink",
+        "country",
         "itemName",
         "itemNameAr",
         "itemDescribe",

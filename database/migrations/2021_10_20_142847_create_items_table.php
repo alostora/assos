@@ -18,6 +18,7 @@ class CreateItemsTable extends Migration
             
             $table->text("facePage")->nullable();
             $table->text("videoLink")->nullable();
+            $table->string("country")->default('sa');
             $table->string("itemName")->nullable();
             $table->string("itemNameAr")->nullable();
             $table->text("itemDescribe")->nullable();
