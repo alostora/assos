@@ -22,6 +22,7 @@ use App\Models\Ad;
 use App\Models\Order;
 use App\Models\Order_item;
 use App\Models\Order_item_prop;
+use App\Models\Privacy;
 use App\Helpers\Helper;
 use URL;
 use Auth;
@@ -285,9 +286,11 @@ class Users extends Controller
             if(!empty($data['item'])){
                 $s_category = Sub_category::find($data['item']->sub_cat_id);
                 $category = Category::find($s_category->cat_id);
+                $data['item']->categor_id = $category->id;
                 $data['item']->categoryName = $lang == 'en' ? $category->categoryName : $category->categoryNameAr;
-                $data['item']->itemName = $lang == 'en' ? $data['item']->itemName : $data['item']->itemNameAr;
+                $data['item']->s_categoryName = $lang == 'en' ? $s_category->s_categoryName : $s_category->s_categoryNameAr;
 
+                $data['item']->itemName = $lang == 'en' ? $data['item']->itemName : $data['item']->itemNameAr;
                 $data['item']->itemDescribe = $lang == 'en' ? $data['item']->itemDescribe : $data['item']->itemDescribeAr;
 
                 $data['item']->itemImage = URL::to('uploads/itemImages/'.$data['item']->itemImage);
@@ -1375,6 +1378,30 @@ class Users extends Controller
         $info['body'] = Lang::get('leftsidebar.confirmOrderBody');
         return Helper::senNotifi($info);
         //end_notifi
+    }
+
+
+
+
+
+
+
+
+
+    public function privacy_policies(){
+        $data['status'] = true;
+
+        $privacy = Privacy::get();
+
+        foreach ($privacy as $key => $priv) {
+            $priv->privacyTitle = app()->getLocale() != 'ar' ? $priv->privacyTitle : $priv->privacyTitleAr;
+            $priv->privacy = app()->getLocale() != 'ar' ? $priv->privacy : $priv->privacyAr;
+            $priv->privacy = strip_tags($priv->privacy);
+        }
+
+        $data['data'] = $privacy;
+
+        return $data;
     }
 
 

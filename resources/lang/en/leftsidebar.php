@@ -608,4 +608,16 @@ return [
     "sa" => "Saudi Arabia",
     "kw" => "kwiat",
 
+
+    //orders
+    "shippingType" => "Shipping type",
+    "total_price" => "Total price",
+    "discountCopon" => "Discount copon",
+    "addedTax" => "Taxes",
+    "sub_total" => "Sub total",
+    "shippingValue" => "Shipping value",
+    "shippingAddress_id" => "Shipping address",
+    "completed" => "Completed",
+    "order_items_props" => "order_items_props",
+
 ];

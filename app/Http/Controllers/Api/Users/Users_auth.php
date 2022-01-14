@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\User_address;
+use App\Models\Contact_message;
 use Validator;
 use Hash;
 use Str;
@@ -409,6 +410,30 @@ class Users_auth extends Controller
 
 
 
+
+
+    public function contactUs(Request $request){
+
+        $validator = Validator::make($request->all(),[
+                    'name'=>'required|max:100',
+                    'email'=>'required|email|max:100',
+                    'message'=>'required|max:2000',
+                ]);
+        
+        if($validator->fails()) {
+            $data['status'] = false;
+            $err = $validator->errors()->toArray();
+            $data['message'] = array_values($err)[0][0];
+            return $data;
+        }
+
+        Contact_message::create($request->all());
+
+        $data['status'] = true;
+        $data['message'] = 'sent success';
+
+        return $data;
+    }
 
 
 

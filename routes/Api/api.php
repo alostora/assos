@@ -13,6 +13,7 @@ Route::group(['namespace'=>'Api\Users'],function(){
     Route::post('socialSignUp','Users_auth@socialSignUp');
     Route::post('login','Users_auth@login');
     Route::post('postForgetPass','Users_auth@postForgetPass');
+    Route::post('contactUs','Users_auth@contactUs');
     
     //Auth Routes
     Route::group(['middleware'=>'auth_user_api'],function(){
@@ -71,6 +72,10 @@ Route::group(['namespace'=>'Api\Users'],function(){
 
         //seeMore
         Route::get('seeMore/{type}','Users@seeMore');
+
+
+        //privacy&Policies
+        Route::get('privacy_policies','Users@privacy_policies');
     
     });
 

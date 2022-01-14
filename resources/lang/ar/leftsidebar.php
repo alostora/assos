@@ -599,4 +599,17 @@ return [
     "sa" => "السعودية",
     "kw" => "الكويت",
 
+
+
+    //orders
+    "shippingType" => "نوع الشحن",
+    "total_price" => "اجمالي السعر",
+    "discountCopon" => "كوبونات الخصم",
+    "addedTax" => "الضريبة",
+    "sub_total" => "صافي السعر",
+    "shippingValue" => "قيمة الشحن",
+    "shippingAddress_id" => "عنوان الشحن",
+    "completed" => "مكتمل",
+    "order_items_props" => "الاضافات والخصائص",
+
 ];

@@ -27,12 +27,12 @@
                         <div class="form-group">
                             <label for="name" class="col-sm-2 control-label">@lang('leftsidebar.settingName')</label>
                             <div class="col-sm-4">
-                                <input type="text" name="settingName" class="form-control" id="settingName" placeholder="@lang('leftsidebar.settingName')" value="@if(!empty($setting)) {{$setting->settingName}} @endif" required>
+                                <input type="text" name="settingName" class="form-control" id="settingName" placeholder="@lang('leftsidebar.settingName')" value="@if(!empty($setting)) {{$setting->settingName}} @endif" required  @if(!empty($setting)) readonly @endif>
                             </div>
 
                             <label for="name" class="col-sm-2 control-label">@lang('leftsidebar.settingNameAr')</label>
                             <div class="col-sm-4">
-                                <input type="text" name="settingNameAr" class="form-control" id="settingNameAr" placeholder="@lang('leftsidebar.settingNameAr')" value="@if(!empty($setting)) {{$setting->settingNameAr}} @endif" required>
+                                <input type="text" name="settingNameAr" class="form-control" id="settingNameAr" placeholder="@lang('leftsidebar.settingNameAr')" value="@if(!empty($setting)) {{$setting->settingNameAr}} @endif" required @if(!empty($setting)) readonly @endif>
                             </div>
                         </div>
 

@@ -38,10 +38,11 @@ class Order_settings extends Controller
 
 
     public function createSetting(Request $request){
-        $data = $request->except("_token");
         if (!empty($data['id'])) {
+            $data = $request->except("_token","settingName","settingNameAr");
             Order_setting::where('id',$data['id'])->update($data);
         }else{
+            $data = $request->except("_token");
             Order_setting::create($data);
         }
         session()->flash('success','Done');

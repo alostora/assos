@@ -30,6 +30,7 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::get('viewCreateAdmin/{id?}','Admins@viewCreateAdmin');
 			Route::post('createAdmin','Admins@createAdmin');
 			Route::get('deleteAdmin/{id?}','Admins@deleteAdmin');
+			Route::get('contactUs','Admins@contactUs');
 			Route::get('logOut','Admins@logOut');
 
 			//orderSettings
@@ -99,6 +100,17 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::get('viewCreateAd/{id?}','Ads@viewCreateAd');
 			Route::post('createAd','Ads@createAd');
 			Route::get('deleteAd/{id}','Ads@deleteAd');
+
+
+			//Orders
+			Route::get('ordersInfo','Orders@ordersInfo');
+
+
+			//Privacies
+			Route::get('privacyInfo','Privacies@privacyInfo');
+			Route::get('viewCreatePrivacy/{privacyId?}','Privacies@viewCreatePrivacy');
+			Route::post('createPrivacy','Privacies@createPrivacy');
+			Route::get('deletePrivacy/{privacyId}','Privacies@deletePrivacy');
 
 			
 

@@ -9,6 +9,7 @@ use App\Models\Admin;
 use App\Models\User;
 use App\Models\Order_setting;
 use App\Models\Item_back_reason;
+use App\Models\Contact_message;
 use Auth;
 use Hash;
 use \Carbon\Carbon;
@@ -124,6 +125,16 @@ class Admins extends Controller
         Admin::where('id',$id)->delete();
         $request->session()->flash('warning','admin has been deleted successfully');
         return redirect('admin/adminInfo');
+    }
+
+
+
+
+
+    public function contactUs(){
+        $data['messages'] = Contact_message::get();
+        return view('Admin/Admin/contactUs',$data);
+
     }
 
 

@@ -78,9 +78,26 @@
                             </a>
                         </li>
 
-                         <li>
+                        <li>
                             <a href="{{url('admin/itemBackReasonsInfo')}}">
                                 <i class="fa fa-circle-o"></i>@lang('leftsidebar.Item back reason')
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{url('admin/ordersInfo')}}">
+                                <i class="fa fa-circle-o"></i>@lang('leftsidebar.Sales info')
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{url('admin/privacyInfo')}}">
+                                <i class="fa fa-circle-o"></i>@lang('leftsidebar.Privacy & Policies')
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('admin/contactUs')}}">
+                                <i class="fa fa-circle-o"></i>@lang('leftsidebar.contactUs')
                             </a>
                         </li>
                         

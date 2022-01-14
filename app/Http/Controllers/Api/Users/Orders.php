@@ -20,6 +20,7 @@ use App\Models\Item_back_reason;
 use App\Models\Item_back_request;
 use App\Models\Review;
 use App\Models\User_fav_item;
+use App\Models\Vendor;
 use Auth;
 use URL;
 use Validator;
@@ -33,12 +34,14 @@ class Orders extends Controller
     
 
     public function makeOrder(Request $request){
+
         
         if(Auth::guard('api')->check()) {
             $user = Auth::guard('api')->user();
         }else{
             $user = User::where('deviceId',$request->header('device-id'))->first();
         }
+      
 
         if (!empty($user)) {
             
@@ -55,19 +58,35 @@ class Orders extends Controller
                         "total_price" => $itemPrice,
                         "orderCode" => Str::random(8),
                     ]);
-                }else{
-                    $this->deleteOrderItem($item->id);
-                    $order->total_price = (int)$order->total_price + (int)$itemPrice;
-                    $order->save();
-                }
-                        
 
-                $order_item = Order_item::create([
-                    "item_id" => $request->item_id,
-                    "item_count" => $count,
-                    "order_id" => $order->id,
-                    "itemPrice" => Item::find($request->item_id)->itemPriceAfterDis,
-                ]);
+
+                    $order_item = Order_item::create([
+                        "item_id" => $item->id,
+                        "item_count" => $count,
+                        "order_id" => $order->id,
+                        "itemPrice" => $item->itemPriceAfterDis,
+                    ]);
+
+                }else{
+                    
+                    $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$item->id])->first();
+                    if (!empty($orderItem)) {
+                        //return $this->deleteOrderItem($orderItem->id);
+                        $order_item->item_count = $count;
+                        $order_item->itemPrice = $item->itemPriceAfterDis;
+                        $order_item->save();
+                        Order_item_prop::where('order_item_id',$order_item->id)->delete();
+                    }else{
+                        $order_item = Order_item::create([
+                            "item_id" => $item->id,
+                            "item_count" => $count,
+                            "order_id" => $order->id,
+                            "itemPrice" => $item->itemPriceAfterDis,
+                        ]);
+                    }
+                }
+              
+                
 
                 if(!empty($request->props) && is_array($request->props)) {
                     foreach($request->props as $requestProp){
@@ -90,6 +109,7 @@ class Orders extends Controller
             $data['status'] = false;
             $data['message'] = "user not found";
         }
+
         return $data;
     }
 
@@ -128,6 +148,20 @@ class Orders extends Controller
                             $orderItem->itemPriceAfterDis = $item->itemPriceAfterDis;
                             $orderItem->discountValue = $item->discountValue;
                             $orderItem->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
+
+
+                            $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
+                            $review = Review::where('user_id',$user->id)->where('item_id',$item->id)->first();
+
+                            $orderItem->review = !empty($review) ? true : false;
+                            $orderItem->fav = !empty($fav) ? true : false;
+                            $orderItem->cart = true;
+
+
+                            $orderItem->vendor_info = Vendor::find($item->vendor_id);
+                            $orderItem->vendor_info->vendor_image = URL::to('Admin_uploads/vendors/'.$orderItem->vendor_info->vendor_image);
+                            $orderItem->vendor_info->vendor_logo = URL::to('Admin_uploads/vendors/'.$orderItem->vendor_info->vendor_logovendor_logo);
+
 
                             if(count($orderItem->order_items_props)){
                                 foreach($orderItem->order_items_props as $itemProp){
@@ -176,8 +210,6 @@ class Orders extends Controller
         }
 
         $lang = $request->header('accept-language');
-
-        $orderSetting = Order_setting::get();
 
         if(!empty($user)){
             $orders = Order::where(['user_id'=>$user->id])->where('status','!=','new')
@@ -285,9 +317,23 @@ class Orders extends Controller
 
 
 
-    public function deleteOrderItem($itemId){
+    public function deleteOrderItem(Request $request,$itemId){
+
+
+        if(Auth::guard('api')->check()){
+            $user = Auth::guard('api')->user();
+        }else{
+            $user = User::where('deviceId',$request->header('device-id'))->first();
+        }
         
         $orderItem = Order_item::find($itemId);
+        if (empty($orderItem)) {
+            $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
+            if (!empty($order)) {
+                $orderItem = Order_item::where(['order_id'=>$order->id,'item_id'=>$itemId])->first();
+            }
+        }
+
         if (!empty($orderItem)){
             $order =Order::where('id',$orderItem->order_id)->first();
             $count_order_items =Order_item::where('order_id',$orderItem->order_id)->count();
@@ -300,7 +346,7 @@ class Orders extends Controller
                     $order->total_price = $order->total_price- $itemPrice;
                     $order->save();
                 }
-                Order_item::where('id',$itemId)->delete();
+                $orderItem->delete();
             }else{
                 Order::where('id',$orderItem->order_id)->delete();
             }
@@ -613,6 +659,24 @@ class Orders extends Controller
         $data['status']=true;
         $data['message'] = "order confirmed";
 
+        return $data;
+    }
+
+
+
+
+
+    public function discountCopons(Request $request){
+        $data['status']=true;
+        $discountCopon = Discount_copon::get();
+        if (!empty($discountCopon)) {
+            foreach($discountCopon as $copon){
+                $copon->vendor_info = Vendor::find($copon->vendor_id);
+                $copon->vendor_info->vendor_image = URL::to('Admin_uploads/vendors/'.$copon->vendor_info->vendor_image);
+                $copon->vendor_info->vendor_logo = URL::to('Admin_uploads/vendors/'.$copon->vendor_info->vendor_logo);
+            }
+        }
+        $data['data'] = $discountCopon;
         return $data;
     }
 

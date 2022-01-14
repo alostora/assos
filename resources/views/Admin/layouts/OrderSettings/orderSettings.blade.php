@@ -13,10 +13,10 @@
 		              	<div class="col-xs-6">
 			              	<h3 class="box-title">@lang('leftsidebar.offersInfo')</h3>
 		              	</div>
-				      	<a href="{{url('admin/viewCreateOrderSettings')}}" class="btn btn-primary col-xs-6">
+				      	<!-- <a href="{{url('admin/viewCreateOrderSettings')}}" class="btn btn-primary col-xs-6">
 				      		<i class="fa fa-plus"></i>
 				      		@lang('leftsidebar.Add')
-				      	</a>
+				      	</a> -->
 		            </div>
 		            <div class="box-body table-responsive no-padding">
 		              	<table class="table table-hover">
@@ -43,9 +43,9 @@
 								          		<a class="btn btn-success" href="{{url('admin/viewCreateOrderSettings/'.$setting->id)}}">
 								          			<i class="fa fa-edit"></i>
 								          		</a>
-							          	 		<a class="btn btn-danger" href="{{url('admin/deleteOrderSettings/'.$setting->id)}}" onclick="return confirm('Are you sure?');" >
+							          	 		<!-- <a class="btn btn-danger" href="{{url('admin/deleteOrderSettings/'.$setting->id)}}" onclick="return confirm('Are you sure?');" >
 							          	 			<i class="fa fa-trash"></i>
-							          	 		</a>
+							          	 		</a> -->
 						          	 		</div>
 							          	</td>
 							      	</tr>
