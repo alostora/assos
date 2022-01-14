@@ -43,7 +43,7 @@
                                         <td>
                                             <div class="btn-group">
                                                 <a class="btn btn-danger" href="{{url('admin/deleteItemOffer/'.$item->id.'/'.Request('offer_id'))}}">
-                                                    <i class="fa fa-info"></i>
+                                                    <i class="fa fa-trash"></i>
                                                 </a>
                                             </div>
                                         </td>

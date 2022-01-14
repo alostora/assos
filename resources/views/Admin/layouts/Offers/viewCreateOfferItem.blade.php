@@ -29,7 +29,7 @@
                 
                   <label for="items" class="col-sm-2 control-label">@lang('leftsidebar.items')</label>
                   <div class="col-sm-4">
-                      <select name="items[]" class="form-control" id="items" multiple>
+                      <select name="items[]" class="form-control js-example-basic-multiple" id="items" multiple>
                         @if(!empty($items))
                           @foreach($items as $item)
                             <option value="{{$item->id}}">

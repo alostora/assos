@@ -34,8 +34,18 @@
 						          	<td>
 						          		<img src="{{url('Admin_uploads/ads/'.$ad->adImage)}}" style="height: 100px;width:100px">
 						          	</td>
-						          	<td>{{$ad->vendor_id}}</td>
-						          	<td>{{$ad->cat_id ? $ad->cat_id : 'empty'}}</td>
+						          	<td>
+						          		{{$ad->vendor_id ? \App\Models\Vendor::find($ad->vendor_id)->vendor_name : 'empty'}}
+						          	</td>
+						          	<td>
+						          		@if(!empty($ad->cat_id))
+							          		@if(App::getLocale() != 'ar')
+							          			{{\App\Models\Category::find($ad->cat_id)->categoryName}}
+							          		@else
+							          			{{\App\Models\Category::find($ad->cat_id)->categoryNameAr}}
+							          		@endif	
+						          		@endif	
+						          	</td>
 						          	<td>
 							          	<div class="btn-group">
 							          		<a class="btn btn-success" href="{{url('admin/viewCreateAd/'.$ad->id)}}">

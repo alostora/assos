@@ -51,9 +51,9 @@
                         @if(!empty($categories))
                           @foreach($categories as $cat)
                             @if(!empty($ad) && $cat->id == $ad->cat_id)
-                              <option value="{{$cat->id}}" selected>{{$cat->categoryName}}</option>
+                              <option value="{{$cat->id}}" selected>{{App::getLocale() != 'ar' ? $cat->categoryName : $cat->categoryNameAr }}</option>
                             @else
-                              <option value="{{$cat->id}}">{{$cat->categoryName}}</option>
+                              <option value="{{$cat->id}}">{{App::getLocale() != 'ar' ? $cat->categoryName : $cat->categoryNameAr }}</option>
                             @endif
                           @endforeach
                         @endif

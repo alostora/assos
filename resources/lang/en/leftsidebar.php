@@ -166,7 +166,7 @@ return [
     "acceptShipping" => "Accept shipping",
     "inShipping" => "In shipping",
 
-    "cancled" => "canceled",
+    "canceled" => "canceled",
     "finished" => "finished",
     "Expired" => "Expired",
     "Active" => "Active",
@@ -618,6 +618,8 @@ return [
     "shippingValue" => "Shipping value",
     "shippingAddress_id" => "Shipping address",
     "completed" => "Completed",
+    "confirmed" => "Confirmed",
     "order_items_props" => "order_items_props",
+    "accepted" => "Accepted",
 
 ];

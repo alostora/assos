@@ -1147,6 +1147,66 @@ class Users extends Controller
 
 
 
+
+    public function allOfferItems(Request $request){
+
+        $device_id = $request->header('device-id');
+        $lang = $request->header('accept-language');
+
+        if(Auth::guard('api')->check()) {
+            $user = User::find(Auth::guard('api')->id());
+        }else{
+            $user = User::where('deviceId',$device_id)->first();
+        }
+
+        $offer_item_ids = Offer_item::pluck('item_id');
+        if (!empty($offer_item_ids)){
+            $offer_item_ids =  array_unique($offer_item_ids->toArray());
+            $items = Item::whereIn('id',$offer_item_ids)->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue']);
+
+            if(!empty($items)){
+                foreach($items as $item){
+
+                    $item->itemName = $lang == 'en' ? $item->itemName : $item->itemNameAr;
+                    $item->itemDescribe = $lang == 'en' ? $item->itemDescribe : $item->itemDescribeAr;
+
+                    $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
+                    $fav = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
+
+                    $review = Review::where('user_id',$user->id)->where('item_id',$item->id)->first();
+                    $item->review = !empty($review) ? true : false;
+                    $item->fav = !empty($fav) ? true : false;
+                   
+
+                    $item->cart = false;
+
+                    $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
+                    if(!empty($order)){
+                        $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$item->id])->first();
+                        if(!empty($order_item)) {
+                            $item->cart = true;
+                        }
+                    }
+                }
+
+                $data['status'] = true;
+                $data['data'] = $items;
+            }else{
+                $data['status'] = false;
+                $data['message'] = "no item found";
+            }
+
+        }else{
+            $data['status'] = false;
+            $data['message'] = "no offer found";
+        }
+
+        return $data;
+    }
+
+
+
+
     public function seeMore(Request $request,$type){
 
         $main_filter = $request->header('main-filter');

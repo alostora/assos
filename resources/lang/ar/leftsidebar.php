@@ -165,7 +165,7 @@ return [
 
 
 
-    "cancled" => "ملغي",
+    "canceled" => "ملغي",
     "finished" => "منتهي",
 	"Expired" => "منتهي",
     "active" => "نشط",
@@ -610,6 +610,8 @@ return [
     "shippingValue" => "قيمة الشحن",
     "shippingAddress_id" => "عنوان الشحن",
     "completed" => "مكتمل",
+    "confirmed" => "مؤكد",
     "order_items_props" => "الاضافات والخصائص",
+    "accepted" => "مقبول",
 
 ];

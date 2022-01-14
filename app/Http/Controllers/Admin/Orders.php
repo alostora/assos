@@ -50,8 +50,12 @@ class Orders extends Controller
             foreach($orders as $order){
                 $order->date = date("D d M,Y",strtotime($order->created_at));
                 $order->shippingAddress = User_address::find($order->shippingAddress_id);
-                $orderSett = Order_setting::where('settingName','normalShipping')->first();
-                $order->expectedDate = "expeted arrival date is after ".$orderSett->settingOptions ." days";
+                $order->user_info = User::find($order->user_id);
+                $orderSett = Order_setting::where('settingName',$order->shippingType)->orWhere('settingNameAr',$order->shippingType)->first();
+                if(!empty($orderSett)) {
+                    $order->shippingType = $lang != 'ar' ? $orderSett->settingName : $orderSett->settingNameAr;
+                    $order->expectedDate = "expeted arrival date is after ".$orderSett->settingOptions ." days";
+                }
 
                 if(count($order->order_items)){
                     foreach($order->order_items as $orderItem){
@@ -91,6 +95,19 @@ class Orders extends Controller
         //return $data;
 
         return view('Admin/Orders/ordersInfo',$data);
+    }
+
+
+
+
+    public function changeOrderStatus(Request $request,$orderId,$orderStatus){
+        $order = Order::find($orderId);
+        if (!empty($order)) {
+            $order->status = $orderStatus;
+            $order->save();
+            session()->flash("success","order status changed");
+            return back();
+        }
     }
 
 

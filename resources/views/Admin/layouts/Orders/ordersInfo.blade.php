@@ -40,10 +40,52 @@
                             </thead>
                             @if(!empty($orders))
                                 @foreach($orders as $key=>$order)
-                                    <tr data-toggle="collapse" data-target="#items{{$order->id}}" class="accordion-toggle">
-                                        <td>{{$key+1}}</td>
+                                    <tr>
+                                        <td>{{$order->id}}</td>
                                         <td>{{$order->orderCode}}</td>
-                                        <td>{{Lang::get('leftsidebar.'.$order->status)}}</td>
+                                        <td>
+                                            @lang('leftsidebar.'.$order->status)
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                  <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li class="label label-default col-sm-12">
+                                                        <a href="{{url('admin/changeOrderStatus/'.$order->id.'/accepted')}}">@lang('leftsidebar.accepted')</a>
+                                                    </li>
+                                                    <li class="label label-info col-sm-12">
+                                                        <a href="{{url('admin/changeOrderStatus/'.$order->id.'/inOperation')}}">
+                                                            @lang('leftsidebar.inOperation')
+                                                        </a>
+                                                    </li>
+                                                    <li class="label label-warning col-sm-12">
+                                                        <a href="{{url('admin/changeOrderStatus/'.$order->id.'/operationDone')}}">
+                                                            @lang('leftsidebar.operationDone')
+                                                        </a>
+                                                    </li>
+                                                    <li class="label label-primary col-sm-12">
+                                                        <a href="{{url('admin/changeOrderStatus/'.$order->id.'/salesMan')}}">
+                                                            @lang('leftsidebar.salesMan')
+                                                        </a>
+                                                    </li>
+                                                    <li class="label label-success col-sm-12">
+                                                        <a href="{{url('admin/changeOrderStatus/'.$order->id.'/delivered')}}">
+                                                            @lang('leftsidebar.delivered')
+                                                        </a>
+                                                    </li>
+                                                    <li class="label label-danger col-sm-12">
+                                                        <a href="{{url('admin/changeOrderStatus/'.$order->id.'/canceled')}}">
+                                                            @lang('leftsidebar.canceled')
+                                                        </a>
+                                                    </li>
+                                                    <li class="label label-light col-sm-12">
+                                                        <a href="{{url('admin/changeOrderStatus/'.$order->id.'/delayed')}}">
+                                                            @lang('leftsidebar.delayed')
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
                                         <td>{{$order->shippingType}}</td>
                                         <td>{{$order->paymentMethod}}</td>
                                         <td>{{$order->total_price}}</td>
@@ -52,9 +94,28 @@
                                         <td>{{$order->sub_total}}</td>
                                         <td>{{$order->total}}</td>
                                         <td>{{$order->shippingValue}}</td>
-                                        <td>{{$order->shippingAddress_id}}</td>
-                                        <td>{{$order->user_id}}</td>
                                         <td>
+                                            @if(!empty($order->shippingAddress))
+                                                <ul>
+                                                    <li>
+                                                        {{$order->shippingAddress->name}}
+                                                        
+                                                    </li>
+                                                    <li>
+                                                        {{$order->shippingAddress->phone}}
+                                                    </li>
+                                                    <li>
+                                                        {{$order->shippingAddress->street}}
+                                                    </li>
+                                                    <li>
+                                                        {{$order->shippingAddress->address}}
+                                                    </li>
+                                                    
+                                                </ul>
+                                            @endif
+                                        </td>
+                                        <td>{{!empty($order->user_info) ? $order->user_info->name : ''}}</td>
+                                        <td data-toggle="collapse" data-target="#items{{$order->id}}" class="accordion-toggle">
                                             <button class="btn btn-default btn-xs">
                                                 <span class="glyphicon glyphicon-eye-open"></span>
                                             </button>

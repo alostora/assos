@@ -45,6 +45,7 @@ Route::group(['namespace'=>'Api\Users'],function(){
         Route::get('ourNew','Users@ourNew');
         Route::get('ourNewItems','Users@ourNewItems');
         Route::get('offerItems/{offerId}','Users@offerItems');
+        Route::get('allOfferItems','Users@allOfferItems');
         Route::get('vendors','Users@vendors');
 
         Route::get('vendorCategories/{vendor_id}','Users@vendorCategories');

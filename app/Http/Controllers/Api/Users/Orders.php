@@ -528,6 +528,8 @@ class Orders extends Controller
 
 
 
+
+
     public function orderCopon(Request $request){
 
         if(Auth::guard('api')->check()){
@@ -607,8 +609,9 @@ class Orders extends Controller
 
 
 
-    //confirmOrder
 
+
+    //confirmOrder
     public function confirmOrder(Request $request){
         $info =$request->all();
         $validator = Validator::make($info,[
@@ -635,25 +638,9 @@ class Orders extends Controller
             return $data;
         }
         
-        $id =$request->id;
-        $shippingType =$request->shippingType;
-        $paymentMethod =$request->paymentMethod;
-        $addedTax =$request->addedTax;
-        $shippingValue =$request->shippingValue;
-        $sub_total =$request->sub_total;
-        $total =$request->total;
-        $shippingAddress_id =$request->shippingAddress_id;
-
-        Order::where('id',$id)->update([
-            "status" => "confirmed",
-            "shippingType" => $shippingType,
-            "paymentMethod" => $paymentMethod,
-            "addedTax" => $addedTax,
-            "shippingValue" => $shippingValue,
-            "total" => $total,
-            "sub_total" => $sub_total,
-            "shippingAddress_id" => $shippingAddress_id,
-        ]);
+        $requestData = $request->all();
+        $requestData['status'] = "confirmed";
+        Order::where('id',$requestData['id'])->update($requestData);
 
 
         $data['status']=true;
