@@ -500,9 +500,6 @@ class Orders extends Controller
 
 
 
-
-
-
     public function checkOut(Request $request,$orderId){
         if(Auth::guard('api')->check()){
             $user = Auth::guard('api')->user();
