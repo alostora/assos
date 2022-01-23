@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password')->nullable();
             $table->string('api_token')->nullable();
             $table->string('socialType')->nullable();//['google,face',.....]
-            $table->string('socialToken')->unique()->nullable();
+            $table->text('socialToken')->unique()->nullable();
 
             $table->string('country')->default('sa');//[sa,kw]
             $table->string('mobile_lang')->default('ar');//[ar,en]

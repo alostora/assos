@@ -70,7 +70,8 @@ class Orders extends Controller
                 }else{
                     
                     $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$item->id])->first();
-                    if (!empty($orderItem)) {
+                    if (!empty($order_item)) {
+                        $order->total_price = $order->total_price + $itemPrice - ($order_item->item_count*$order_item->itemPrice);
                         //return $this->deleteOrderItem($orderItem->id);
                         $order_item->item_count = $count;
                         $order_item->itemPrice = $item->itemPriceAfterDis;
@@ -83,7 +84,9 @@ class Orders extends Controller
                             "order_id" => $order->id,
                             "itemPrice" => $item->itemPriceAfterDis,
                         ]);
+                        $order->total_price = $order->total_price + $itemPrice;
                     }
+                    $order->save();
                 }
               
                 

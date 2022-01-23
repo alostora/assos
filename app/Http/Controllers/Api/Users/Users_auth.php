@@ -111,7 +111,7 @@ class Users_auth extends Controller
                     $user->image = URL::to('uploads/users/'.$user->image);
                 }
             }else{
-                $user->image = URL::to('uploads/users/defaultLogo.jpg');
+                $user->image = URL::to('uploads/users/defaultLogo.jpeg');
             }
 
             if(empty($user->api_token)){
@@ -127,7 +127,7 @@ class Users_auth extends Controller
             'name'=>'required|max:100',
             'email'=>'required|unique:users,email|email|max:100',
             'image'=>'required|unique:users,image|max:500',
-            'socialType'=>'required|in:face,google',
+            'socialType'=>'required|in:face,google,twitter,apple',
             'socialToken'=>'required|unique:users,socialToken|max:250',
         ]);
             
@@ -150,7 +150,7 @@ class Users_auth extends Controller
             $requestData['country'] = $country;
             $user = User::create($requestData);
         }
-        $user->image = URL::to('uploads/users/defaultLogo.jpg');
+        $user->image = URL::to('uploads/users/defaultLogo.jpeg');
 
         $data['user'] = $user;
         return $data;
@@ -174,7 +174,7 @@ class Users_auth extends Controller
                         $data['user']->image = URL::to('uploads/users/'.$data['user']->image);
                     }
                 }else{
-                    $data['user']->image = URL::to('uploads/users/defaultLogo.jpg');
+                    $data['user']->image = URL::to('uploads/users/defaultLogo.jpeg');
                 }
 
             }else{
@@ -192,15 +192,21 @@ class Users_auth extends Controller
 
 
     public function profile(Request $request){
-        $data['status'] = true;
-        $data['user'] = Auth::guard('api')->user();
 
-        if(!empty($data['user']->image)){
-            if(substr($data['user']->image, 0, 4) === "user"){
-                $data['user']->image = URL::to('uploads/users/'.$data['user']->image);
+        if(Auth::guard('api')->check()) {
+            $data['status'] = true;
+            $data['user'] = Auth::guard('api')->user();
+
+            if(!empty($data['user']->image)){
+                if(substr($data['user']->image, 0, 4) === "user"){
+                    $data['user']->image = URL::to('uploads/users/'.$data['user']->image);
+                }
+            }else{
+                $data['user']->image = URL::to('uploads/users/defaultLogo.jpeg');
             }
         }else{
-            $data['user']->image = URL::to('uploads/users/defaultLogo.jpg');
+            $data['status'] = false;
+            $data['message'] = "plz login";
         }
 
         return $data;
@@ -357,7 +363,7 @@ class Users_auth extends Controller
                 $user->image = URL::to('uploads/users/'.$user->image);
             }
         }else{
-            $user->image = URL::to('uploads/users/defaultLogo.jpg');
+            $user->image = URL::to('uploads/users/defaultLogo.jpeg');
         }
 
         $info['status'] = true;

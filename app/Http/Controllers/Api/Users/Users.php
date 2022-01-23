@@ -452,10 +452,13 @@ class Users extends Controller
                         'user_id'=>$user_id
                     ]);
                 }
+                $data['status'] = true;
+                $data['message'] = 'item add to fav success';
+            }else{
+                $data['status'] = false;
+                $data['message'] = 'item not found';
             }
 
-            $data['status'] = true;
-            $data['message'] = 'item add to fav success';
         }else{
             $data['status'] = false;
             $data['message'] = 'user not found';
