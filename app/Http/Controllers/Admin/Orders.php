@@ -21,11 +21,12 @@ use App\Models\Item_back_request;
 use App\Models\Review;
 use App\Models\User_fav_item;
 use App\Models\Vendor;
+use App\Helpers\Helper;
 use Auth;
 use URL;
 use Validator;
 use Str;
-use lang;
+use Lang;
 use Carbon\Carbon;
 
 class Orders extends Controller
@@ -105,6 +106,14 @@ class Orders extends Controller
         if (!empty($order)) {
             $order->status = $orderStatus;
             $order->save();
+
+            //start_notifi
+            $info['users'] = User::where('id',$order->user_id)->get();
+            $info['title'] = Lang::get('leftsidebar.'.$orderStatus);
+            $info['body'] = Lang::get('leftsidebar.'.$orderStatus);
+            Helper::senNotifi($info);
+            //end_notifi
+
             session()->flash("success","order status changed");
             return back();
         }

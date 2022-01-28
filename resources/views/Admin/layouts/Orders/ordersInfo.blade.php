@@ -32,8 +32,8 @@
                                     <th>@lang('leftsidebar.shippingValue')</th>
                                     <th>@lang('leftsidebar.shippingAddress_id')</th>
                                     <th>@lang('leftsidebar.clientName')</th>
-                                    <th>@lang('leftsidebar.items')</th>
-                                    <th>@lang('leftsidebar.status')</th>
+                                    <!-- <th>@lang('leftsidebar.items')</th>
+                                    <th>@lang('leftsidebar.status')</th> -->
                                     <th>@lang('leftsidebar.Operations')</th>
                                 </tr>
                             </thead>
@@ -53,16 +53,15 @@
                                         <td>
                                             @if(!empty($order->shippingAddress))
                                                 <ul>
-                                                    <li>
+                                                    <!-- <li>
                                                         {{$order->shippingAddress->name}}
-                                                        
                                                     </li>
                                                     <li>
                                                         {{$order->shippingAddress->phone}}
                                                     </li>
                                                     <li>
                                                         {{$order->shippingAddress->street}}
-                                                    </li>
+                                                    </li> -->
                                                     <li>
                                                         {{$order->shippingAddress->address}}
                                                     </li>
@@ -71,15 +70,14 @@
                                             @endif
                                         </td>
                                         <td>{{!empty($order->user_info) ? $order->user_info->name : ''}}</td>
-                                        <td data-toggle="collapse" data-target="#items{{$order->id}}" class="accordion-toggle">
-                                            <button class="btn btn-default btn-xs">
-                                                <span class="glyphicon glyphicon-eye-open"></span>
-                                            </button>
-                                        </td>
-                                        <td>
-                                            @lang('leftsidebar.'.$order->status)
+                                        <td data-toggle="collapse" data-target="#items{{$order->id}}" class="accordion-toggle" width="150px">
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                <button class="btn btn-warning btn-sm" >
+                                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                                </button>
+
+                                                <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    @lang('leftsidebar.'.$order->status)
                                                   <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu">
@@ -117,14 +115,12 @@
                                                         </a>
                                                     </li>
                                                 </ul>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group">
-                                            
+
+
                                                 <a class="btn btn-danger btn-sm" href="{{url('admin/deleteOrder/'.$order->id)}}" onclick="return confirm('Are you sure?');" >
                                                     <i class="fa fa-trash"></i>
                                                 </a>
+
                                             </div>
                                         </td>
                                     </tr>

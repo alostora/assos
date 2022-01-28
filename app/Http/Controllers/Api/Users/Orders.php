@@ -21,11 +21,12 @@ use App\Models\Item_back_request;
 use App\Models\Review;
 use App\Models\User_fav_item;
 use App\Models\Vendor;
+use App\Helpers\Helper;
 use Auth;
 use URL;
 use Validator;
 use Str;
-use lang;
+use Lang;
 use Carbon\Carbon;
 
 
@@ -791,6 +792,16 @@ class Orders extends Controller
             $orders = Order::where(['user_id'=>$user->id,'id'=>$orderId])->update(['status'=>$status]);
             $data['status'] = true;
             $data['message'] = 'updated to '. $status;
+
+            //start_notifi
+            $info['users'] = User::where('id',$user->id)->get();
+            $info['title'] = Lang::get('leftsidebar.'.$status);
+            $info['body'] = Lang::get('leftsidebar.'.$status);
+            return Helper::senNotifi($info);
+            //end_notifi
+
+
+
         }else{
             $data['status'] = false;
             $data['message'] = 'user not found';

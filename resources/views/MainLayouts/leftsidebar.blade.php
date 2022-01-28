@@ -36,6 +36,11 @@
                                 <i class="fa fa-user"></i>@lang('leftsidebar.Admins')
                             </a>
                         </li>
+                        <li>
+                            <a href="{{url('admin/vendorsInfo')}}">
+                                <i class="fa fa-users"></i>@lang('leftsidebar.vendors')
+                            </a>
+                        </li>
 
                         <!-- products -->
                         <li class="treeview" style="height: auto;">
@@ -55,11 +60,6 @@
                                 <li>
                                     <a href="{{url('admin/propertiesInfo')}}">
                                         <i class="fa fa-cogs"></i>@lang('leftsidebar.propertiesInfo')
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{url('admin/vendorsInfo')}}">
-                                        <i class="fa fa-users"></i>@lang('leftsidebar.vendors')
                                     </a>
                                 </li>
                             </ul>
