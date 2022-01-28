@@ -26,9 +26,30 @@
 
               <div class="form-group">
 
+                  <label for="country" class="col-sm-2 control-label">@lang('leftsidebar.name')</label>
+                  <div class="col-sm-4">
+                      <select name="country" class="form-control" id="country" required>
+                        @if(!empty($vendor))
+                          @if($vendor->country = 'kw')
+                            <option value="kw" selected>@lang('leftsidebar.kw')</option>
+                            <option value="sa">@lang('leftsidebar.sa')</option>
+                          @else
+                            <option value="kw">@lang('leftsidebar.kw')</option>
+                            <option value="sa"selected>@lang('leftsidebar.sa')</option>
+                          @endif
+                        @else
+                          <option value="kw">@lang('leftsidebar.kw')</option>
+                          <option value="sa">@lang('leftsidebar.sa')</option>
+                        @endif
+                      </select>
+                  </div>
+              </div>
+
+              <div class="form-group">
+
                   <label for="vendor_name" class="col-sm-2 control-label">@lang('leftsidebar.name')</label>
                   <div class="col-sm-4">
-                      <input type="text" name="vendor_name" class="form-control" id="vendor_name" placeholder="@lang('leftsidebar.name')" value="@if(!empty($vendor)) {{$vendor->vendor_name}} @endif" required>
+                      <input type="text" name="vendor_name" class="form-control" id="vendor_name" placeholder="@lang('leftsidebar.name')" value="@if(!empty($vendor)){{$vendor->vendor_name}}@endif" required>
                   </div>
 
 

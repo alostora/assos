@@ -113,10 +113,9 @@ class Vendors extends Controller
         $data['main_prop_type'] = $request->main_prop_type;
         $data['sub_cat_id'] = $request->sub_cat_id;
         //$data['withProp'] = $request->withProp;
-        $data['facePage'] = $request->facePage;
         $data['videoLink'] = $request->videoLink;
 
-        $data['country'] = $request->country;//[sa,kw]
+        $data['country'] = Auth::guard('vendor')->user()->country;//[sa,kw]
         $data['itemName'] = $request->itemName;
         $data['itemNameAr'] = $request->itemNameAr;
         $data['itemDescribeAr'] = $request->itemDescribeAr;
@@ -139,7 +138,6 @@ class Vendors extends Controller
             'main_prop_type'=>'required',
             'department'=>'required',
             //'withProp'=>'required|in:hasProperty,dontHasProperty',
-            'country'=>'required|max:5',
             'itemName'=>'required|max:100',
             'itemNameAr'=>'required|max:100',
             'itemDescribe'=>'required|max:3000',

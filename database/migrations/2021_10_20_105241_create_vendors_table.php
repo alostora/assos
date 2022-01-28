@@ -21,6 +21,7 @@ class CreateVendorsTable extends Migration
             $table->string('vendor_image')->nullable();
             $table->string('vendor_logo')->nullable();
             $table->string('password')->nullable();
+            $table->string('country')->default('kw');
             $table->string('address')->nullable();
             $table->string('api_token')->nullable();
             $table->string('firebase_token')->nullable();

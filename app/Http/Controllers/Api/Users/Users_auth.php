@@ -40,8 +40,6 @@ class Users_auth extends Controller
             $user->country = $data['country'];
             $user->deviceId = $data['deviceId'];
             $user->firebase_token = !empty($data['firebase_token']) ? $data['firebase_token'] : null;
-            $user->mobile_lang = !empty($data['mobile_lang']) ? $data['mobile_lang'] : $user->mobile_lang;
-            $user->web_lang = !empty($data['web_lang']) ? $data['web_lang'] : $user->web_lang;
             $user->save();
         }else{
             User::create($data);

@@ -66,26 +66,6 @@
                                     @endif
                                   </select>
                                 </div>
-
-                                <label for="country" class="control-label col-sm-2">
-                                  @lang('leftsidebar.country')
-                                </label>
-                                <div class="col-sm-4">
-                                  <select name="country" class="form-control" id="country" required>
-                                    @if(!empty($item))
-                                      @if($item->country == 'sa')
-                                        <option value="sa" selected>@lang('leftsidebar.sa')</option>
-                                        <option value="kw">@lang('leftsidebar.kw')</option>
-                                      @elseif($item->department == 'kw')
-                                        <option value="sa">@lang('leftsidebar.sa')</option>
-                                        <option value="kw" selected>@lang('leftsidebar.kw')</option>
-                                      @endif
-                                    @else
-                                      <option value="sa" selected>@lang('leftsidebar.sa')</option>
-                                      <option value="kw">@lang('leftsidebar.kw')</option>
-                                    @endif
-                                  </select>
-                                </div>
                               </div>
 
                               <div class="form-group">
@@ -153,9 +133,7 @@
                                     </div>
                                   </div>
                                 @endif
-                              </div>
-
-                              <div class="form-group">
+                              
                                 <label for="itemCount" class="control-label col-sm-2">@lang('leftsidebar.itemCount')</label>
                                 <div class="col-sm-4">
                                   @if(!empty($item)) 
@@ -228,18 +206,12 @@
                               </div>
 
                               <div class="form-group">
-                                  <label for="facePage" class="control-label col-sm-2">@lang('leftsidebar.facePage')</label>
-                                  <div class="col-sm-4">
-                                    <input id="facePage" type="text" name="facePage" class="form-control" placeholder="@lang('leftsidebar.facePage')" value="@if(!empty($item)) {{$item->facePage}} @endif">
-                                  </div>
 
-                                  <label for="videoLink" class="control-label col-sm-2">@lang('leftsidebar.videoLink')</label>
-                                  <div class="col-sm-4">
-                                    <input id="videoLink" type="text" name="videoLink" class="form-control" placeholder="@lang('leftsidebar.videoLink')" value="@if(!empty($item)) {{$item->videoLink}} @endif">
-                                  </div>
-                              </div>
-
-                              <div class="form-group">
+                                <label for="videoLink" class="control-label col-sm-2">@lang('leftsidebar.videoLink')</label>
+                                <div class="col-sm-4">
+                                  <input id="videoLink" type="text" name="videoLink" class="form-control" placeholder="@lang('leftsidebar.videoLink')" value="@if(!empty($item)) {{$item->videoLink}} @endif">
+                                </div>
+                              
                                 <label for="sub_cat_id" class="col-sm-2 control-label">
                                     @lang('leftsidebar.Category')
                                 </label>

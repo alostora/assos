@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Vendors;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Discount_copon;
+use App\Models\User;
+use App\Helpers\Helper;
+use Lang;
 use Str;
 use Auth;
 
@@ -49,6 +52,15 @@ class Copons extends Controller
             if ($data['id'] == null) {
                 $data['code'] = Str::random(4);
                 Discount_copon::create($data);
+
+                //start_notifi
+                $info['users'] = User::where('country',Auth::guard('vendor')->user()->country)->get();
+                $info['title'] = Lang::get('leftsidebar.New copon add');
+                $info['body'] = Lang::get('leftsidebar.use this copon '). $data['code'] . Lang::get(' leftsidebar.to buy from ')  . Auth::guard('vendor')->user()->vendor_name;
+                $info['type'] = 'copon';
+                Helper::senNotifi($info);
+                //end_notifi
+
             }else{
                 Discount_copon::where('id',$data['id'])->update($data);
             }

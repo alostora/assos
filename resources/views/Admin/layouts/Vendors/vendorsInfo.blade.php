@@ -28,6 +28,7 @@
 				                  	<th>@lang('leftsidebar.name')</th>
 				                  	<th>@lang('leftsidebar.email')</th>
 				                  	<th>@lang('leftsidebar.phone')</th>
+				                  	<th>@lang('leftsidebar.country')</th>
 				                  	<th>@lang('leftsidebar.address')</th>
 				                  	<th>@lang('leftsidebar.image')</th>
 				                  	<th>@lang('leftsidebar.logo')</th>
@@ -40,6 +41,7 @@
 							          	<td>{{$vendor->vendor_name}}</td>
 							          	<td>{{$vendor->email}}</td>
 							          	<td>{{$vendor->phone}}</td>
+							          	<td>{{$vendor->country}}</td>
 							          	<td>{{$vendor->address}}</td>
 							          	<td>
 							          		<img src="{{url('Admin_uploads/vendors/'.$vendor->vendor_image)}}" class="table-image">
