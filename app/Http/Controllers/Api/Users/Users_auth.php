@@ -20,6 +20,7 @@ class Users_auth extends Controller
     
 
 
+
     public function userCountery(Request $request){
         $data = $request->all();
         $validator = Validator::make($data,[
@@ -215,11 +216,64 @@ class Users_auth extends Controller
 
 
 
+    public function updateProfile(Request $request){
+
+        $user = Auth::guard("api")->user();
+        
+        $data = $request->except(['api_token']);
+        $destinationPath = public_path('uploads/users/');
+        $data['image'] = $user->image;
+
+        $validator = Validator::make($request->all(),[
+          'name' => 'required|max:100',
+          'email' => 'required|unique:users,email,'.$user->id.'|max:100',
+          'phone' => 'required|unique:users,phone,'.$user->id.'|max:100',
+        ]);
+
+        
+        if($validator->fails()) {
+            $data['status'] = false;
+            $err = $validator->errors()->toArray();
+            $data['message'] = array_values($err)[0][0];
+            return $data;
+        }
+
+
+        if ($request->hasFile('image')) {
+            File::delete($destinationPath.$data['image']);
+            $image = $request->file('image');
+            $data['image'] = "user".Str::random(30).'.'.$image->getClientOriginalExtension();
+            $image->move($destinationPath, $data['image']);
+        }
+
+        User::where('id',$user->id)->update($data);
+
+        $user = User::find($user->id);
+        
+        if(!empty($user->image)){
+            if(substr($user->image, 0, 4) === "user"){
+                $user->image = URL::to('uploads/users/'.$user->image);
+            }
+        }else{
+            $user->image = URL::to('uploads/users/defaultLogo.jpeg');
+        }
+
+        $info['status'] = true;
+        $info['user'] = $user;
+
+        return $info;
+    }
+
+
+
+
     public function changePassword(Request $request){
         $validator = Validator::make($request->all(),[
             'password' => 'required|max:100',
             'confirmPassword' => 'same:password',
         ]);
+
+        $user = Auth::guard('api')->user();
 
         if($validator->fails()) {
             $data['status'] = false;
@@ -230,16 +284,16 @@ class Users_auth extends Controller
 
 
         $password = Hash::make($request->password);
-        $user = User::find(Auth::guard('api')->id());
+        $user = User::find($user->id);
         $user->password = $password;
         $user->save();
+
 
         $data['status'] = true;
         $data['message'] = 'password changed';
 
         return $data;
     }
-
 
 
 
@@ -303,7 +357,6 @@ class Users_auth extends Controller
 
 
 
-
     public function getAddress(){
         $data['status'] = true;
         $data['address'] = User_address::where('user_id',Auth::guard('api')->id())->get();
@@ -319,57 +372,6 @@ class Users_auth extends Controller
         $data['message'] = 'address deleted';
 
         return $data;
-    }
-
-
-
-
-    public function updateProfile(Request $request){
-
-        $user = Auth::guard("api")->user();
-        
-        $data = $request->except(['api_token']);
-        $destinationPath = public_path('uploads/users/');
-        $data['image'] = $user->image;
-
-        $validator = Validator::make($request->all(),[
-          'name' => 'required|max:100',
-          'email' => 'required|unique:users,email,'.$user->id.'|max:100',
-          'phone' => 'required|unique:users,phone,'.$user->id.'|max:100',
-        ]);
-
-        
-        if($validator->fails()) {
-            $data['status'] = false;
-            $err = $validator->errors()->toArray();
-            $data['message'] = array_values($err)[0][0];
-            return $data;
-        }
-
-
-        if ($request->hasFile('image')) {
-            File::delete($destinationPath.$data['image']);
-            $image = $request->file('image');
-            $data['image'] = "user".Str::random(30).'.'.$image->getClientOriginalExtension();
-            $image->move($destinationPath, $data['image']);
-        }
-
-        User::where('id',$user->id)->update($data);
-
-        $user = User::find($user->id);
-        
-        if(!empty($user->image)){
-            if(substr($user->image, 0, 4) === "user"){
-                $user->image = URL::to('uploads/users/'.$user->image);
-            }
-        }else{
-            $user->image = URL::to('uploads/users/defaultLogo.jpeg');
-        }
-
-        $info['status'] = true;
-        $info['user'] = $user;
-
-        return $info;
     }
 
 
@@ -413,7 +415,6 @@ class Users_auth extends Controller
 
         return $data;
     }
-
 
 
 

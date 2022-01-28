@@ -105,6 +105,7 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			//Orders
 			Route::get('ordersInfo','Orders@ordersInfo');
 			Route::get('changeOrderStatus/{orderId}/{orderStatus}','Orders@changeOrderStatus');
+			Route::get('deleteOrder/{orderId}','Orders@deleteOrder');
 
 
 			//Privacies

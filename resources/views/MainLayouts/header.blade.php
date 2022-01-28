@@ -91,7 +91,20 @@
 
 
 
-   
+  <style type="text/css">
+    .table-image{
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+    }
+    .skin-purple .main-header .navbar{
+      background-color: #5cb85c;
+    }
+
+    .skin-purple .main-header .logo{
+      background-color: #209a94d1;
+  }
+  </style>
 
 
 
@@ -102,4 +115,3 @@
 </head>
 
 <body class="hold-transition skin-purple sidebar-mini" dir={{$dir}} >
-<div class="wrapper">

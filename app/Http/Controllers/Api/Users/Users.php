@@ -32,7 +32,9 @@ use Carbon\Carbon;
 
 class Users extends Controller
 {
-    
+
+
+
 
     public function vendors(Request $request){
         $data['status'] = true;

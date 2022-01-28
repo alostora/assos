@@ -103,10 +103,8 @@ class Admins extends Controller
 
         
         if($request->id != null){
-
             Admin::where('id',$request->id)->update($data);
             $request->session()->flash('success','admen has been edited successfully');
-
         }else{
 
             Admin::create($data);

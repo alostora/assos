@@ -37,20 +37,18 @@
 						          	<td>{{$cat->categoryName}}</td>
 						          	<td>{{$cat->categoryNameAr}}</td>
 						          	<td>
-						          		<img src="{{url('Admin_uploads/categories/'.$cat->categoryImage)}}" style="height: 100px;width:100px">
+						          		<img src="{{url('Admin_uploads/categories/'.$cat->categoryImage)}}" class="table-image">
 						          	</td>
 						          	<td>
-						          		<img src="{{url('Admin_uploads/categories/'.$cat->categorySliderImage)}}" style="height: 100px;width:100px">
+						          		<img src="{{url('Admin_uploads/categories/'.$cat->categorySliderImage)}}" class="table-image">
 						          	</td>
 						          	<td>
-							          	<div class="btn-group">
-							          		<a class="btn btn-success" href="{{url('admin/sub_categoriesInfo/'.$cat->id)}}">
-							          			<span class="text">
-								          			@lang('leftsidebar.subCategories')
-								          		</span>
-							          			<i class="fa fa-info"></i>
-							          		</a>
-					          	 		</div>
+						          		<a class="btn btn-success btn-sm" href="{{url('admin/sub_categoriesInfo/'.$cat->id)}}">
+						          			<span class="text">
+							          			@lang('leftsidebar.subCategories')
+							          		</span>
+						          			<i class="fa fa-info"></i>
+						          		</a>
 						          	</td>
 						          	<td>
 							          	<div class="btn-group">

@@ -1,6 +1,5 @@
 
 <div class="control-sidebar-bg"></div>
-</div>
 <!-- jQuery 3 -->
 
 <!-- jQuery UI 1.11.4 -->

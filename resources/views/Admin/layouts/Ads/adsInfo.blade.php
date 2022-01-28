@@ -22,18 +22,15 @@
 		              	<table class="table table-hover">
 			                <tr>
 			                  	<th>#</th>
-			                  	<th>@lang('leftsidebar.adImage')</th>
 			                  	<th>@lang('leftsidebar.vendors')</th>
 			                  	<th>@lang('leftsidebar.categories')</th>
+			                  	<th>@lang('leftsidebar.adImage')</th>
 			                  	<th>@lang('leftsidebar.Operations')</th>
 			                </tr>
 						@if(!empty($ads))
 							@foreach($ads as $key=>$ad)
 								<tr>
 						          	<td>{{$key+1}}</td>
-						          	<td>
-						          		<img src="{{url('Admin_uploads/ads/'.$ad->adImage)}}" style="height: 100px;width:100px">
-						          	</td>
 						          	<td>
 						          		{{$ad->vendor_id ? \App\Models\Vendor::find($ad->vendor_id)->vendor_name : 'empty'}}
 						          	</td>
@@ -45,6 +42,9 @@
 							          			{{\App\Models\Category::find($ad->cat_id)->categoryNameAr}}
 							          		@endif	
 						          		@endif	
+						          	</td>
+						          	<td>
+						          		<img src="{{url('Admin_uploads/ads/'.$ad->adImage)}}" class="table-image">
 						          	</td>
 						          	<td>
 							          	<div class="btn-group">

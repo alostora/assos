@@ -40,7 +40,7 @@
 							          	<td>{{$property->type}}</td>
 							          	<td>
 								          	<div class="btn-group">
-								          		<a class="btn btn-success" href="
+								          		<a class="btn btn-success btn-sm" href="
 								          		{{url('admin/sub_propertiesInfo/'.$property->id)}}">
 								          			<span class="text">
 									          			@lang('leftsidebar.subProperties')

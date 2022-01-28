@@ -112,4 +112,14 @@ class Orders extends Controller
 
 
 
+
+
+    public function deleteOrder($orderId){
+        Order::where('id',$orderId)->delete();
+        session()->flash('warning','deleted');
+        return back();
+    }
+
+
+
 }

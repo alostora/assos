@@ -38,7 +38,7 @@
 								          	<td>{{$item->itemName}}</td>
 								          	<td>{{$item->itemNameAr}}</td>
 								          	<td>
-								          		<img src="{{url('uploads/itemImages/'.$item->itemSliderImage)}}" style="height: 100px;width:100px">
+								          		<img src="{{url('uploads/itemImages/'.$item->itemSliderImage)}}" class="table-image">
 								          	</td>
 								          	<td>
 									          	<div class="btn-group">

@@ -35,11 +35,11 @@
 								          	<td>{{$cat->categoryName}}</td>
 								          	<td>{{$cat->categoryNameAr}}</td>
 								          	<td>
-								          		<img src="{{url('Admin_uploads/categories/'.$cat->categorySliderImage)}}" style="height: 100px;width:100px">
+								          		<img src="{{url('Admin_uploads/categories/'.$cat->categorySliderImage)}}" class="table-image">
 								          	</td>
 								          	<td>
 									          	<div class="btn-group">
-									          		<a class="btn btn-{{$cat->sliderHomeStatus ? 'success' : 'danger'}}" href="{{url('admin/changeCatSliderStatus/'.$cat->id.'/'.Request('type'))}}">
+									          		<a class="btn btn-sm btn-{{$cat->sliderHomeStatus ? 'success' : 'danger'}}" href="{{url('admin/changeCatSliderStatus/'.$cat->id.'/'.Request('type'))}}">
 									          			<span class="text">
 									          				@if($cat->sliderHomeStatus)
 										          				@lang('leftsidebar.active')
@@ -74,11 +74,11 @@
 								          	<td>{{$cat->categoryName}}</td>
 								          	<td>{{$cat->categoryNameAr}}</td>
 								          	<td>
-								          		<img src="{{url('Admin_uploads/categories/'.$cat->categorySliderImage)}}" style="height: 100px;width:100px">
+								          		<img src="{{url('Admin_uploads/categories/'.$cat->categorySliderImage)}}" class="table-image">
 								          	</td>
 								          	<td>
 									          	<div class="btn-group">
-									          		<a class="btn btn-{{$cat->sliderHomeStatus ? 'success' : 'danger'}}" href="{{url('admin/changeCatSliderStatus/'.$cat->id.'/'.Request('type'))}}">
+									          		<a class="btn btn-sm btn-{{$cat->sliderHomeStatus ? 'success' : 'danger'}}" href="{{url('admin/changeCatSliderStatus/'.$cat->id.'/'.Request('type'))}}">
 									          			<span class="text">
 									          				@if($cat->sliderHomeStatus)
 										          				@lang('leftsidebar.active')
@@ -141,11 +141,11 @@
 								          	<td>{{$item->itemName}}</td>
 								          	<td>{{$item->itemNameAr}}</td>
 								          	<td>
-								          		<img src="{{url('uploads/itemImages/'.$item->itemSliderImage)}}" style="height: 100px;width:100px">
+								          		<img src="{{url('uploads/itemImages/'.$item->itemSliderImage)}}" class="table-image">
 								          	</td>
 								          	<td>
 									          	<div class="btn-group">
-									          		<a class="btn btn-{{$item->sliderHomeStatus ? 'success' : 'danger'}}" href="{{url('admin/changeItemSliderStatus/'.$item->id.'/'.Request('type'))}}">
+									          		<a class="btn btn-sm btn-{{$item->sliderHomeStatus ? 'success' : 'danger'}}" href="{{url('admin/changeItemSliderStatus/'.$item->id.'/'.Request('type'))}}">
 									          			<span class="text">
 									          				@if($item->sliderHomeStatus)
 										          				@lang('leftsidebar.active')
@@ -180,11 +180,11 @@
 								          	<td>{{$item->itemName}}</td>
 								          	<td>{{$item->itemNameAr}}</td>
 								          	<td>
-								          		<img src="{{url('uploads/itemImages/'.$item->itemSliderImage)}}" style="height: 100px;width:100px">
+								          		<img src="{{url('uploads/itemImages/'.$item->itemSliderImage)}}" class="table-image">
 								          	</td>
 								          	<td>
 									          	<div class="btn-group">
-									          		<a class="btn btn-{{$item->sliderHomeStatus ? 'success' : 'danger'}}" href="{{url('admin/changeItemSliderStatus/'.$item->id.'/'.Request('type'))}}">
+									          		<a class="btn btn-sm btn-{{$item->sliderHomeStatus ? 'success' : 'danger'}}" href="{{url('admin/changeItemSliderStatus/'.$item->id.'/'.Request('type'))}}">
 									          			<span class="text">
 									          				@if($item->sliderHomeStatus)
 										          				@lang('leftsidebar.active')

@@ -39,7 +39,7 @@
 							          	<td>{{$cat->s_categoryName}}</td>
 							          	<td>{{$cat->s_categoryNameAr}}</td>
 							          	<td>
-							          		<img src="{{url('Admin_uploads/categories/subCategory/'.$cat->s_categoryImage)}}" style="height: 100px;width:100px">
+							          		<img src="{{url('Admin_uploads/categories/subCategory/'.$cat->s_categoryImage)}}" class="table-image">
 							          	</td>
 							          	<td>
 								          	<div class="btn-group">
