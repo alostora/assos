@@ -8,6 +8,7 @@ use App\Models\Offer;
 use App\Models\Offer_item;
 use App\Models\Item;
 use File;
+use Lang;
 
 class Offers extends Controller
 {
@@ -58,6 +59,7 @@ class Offers extends Controller
                     $offerImage->move($destinationPath, $data['offerImage']);
                 }
                 Offer::create($data);
+                session()->flash('warning',Lang::get('leftsidebar.Created'));
             }else{
                 $offer = Offer::find($data['id']);
                 $data['offerImage'] = $offer->offerImage;
@@ -70,10 +72,9 @@ class Offers extends Controller
                     $offerImage->move($destinationPath, $data['offerImage']);
                 }
                 Offer::where('id',$data['id'])->update($data);
+                session()->flash('warning',Lang::get('leftsidebar.Updated'));
             }
         }
-
-        $request->session()->flash('success','Done successfully');
         return redirect('admin/offersInfo');
     }
 
@@ -88,8 +89,7 @@ class Offers extends Controller
             File::delete($destinationPath . $offer->offerImage);
             $offer->delete();
         }
-
-        session()->flash('warning','deleted');
+        session()->flash('warning',Lang::get('leftsidebar.Deleted'));
         return back();
     }
 
@@ -124,15 +124,14 @@ class Offers extends Controller
                 'item_id' => $item,
             ]);
         }
-
-        session()->flash('success','Done');
+        session()->flash('warning',Lang::get('leftsidebar.Created'));
         return back();
 
     }
 
     public function deleteItemOffer($item_id ,$offer_id){
         Offer_item::where('item_id',$item_id)->where('offer_id',$offer_id)->delete();
-        session()->flash('success','Done');
+        session()->flash('warning',Lang::get('leftsidebar.Deleted'));
         return back();
     }
 

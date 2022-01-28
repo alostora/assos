@@ -2,7 +2,30 @@
 
 
 return [
-	"menuqr" => "MENUQR",
+
+	//alert messages
+	"Done" => "تم بنجاح",
+	"Deleted" => "تم الحذف بنجاح",
+	"Created" => "تم الانشاء بنجاح",
+	"Updated" => "تم التحديث بنجاح",
+	"Sent" => "تم الارسال بنجاح",
+	"Error" => "خطأ",
+	"Error_pass" => "كلمة المرور خاطئة",
+	"Error_email" => "البريد خاطئ",
+	"Empty" => "فارغ",
+	"error_logn" => "خطأ بيانات الدخول",
+	"plz_login" => "من فضلك قم بتسجيل الدخول",
+	"Logged_out" => "تم تسجيل الخروج",
+	"Invalid" => "غير صالح",
+	"Used" => "مستخدم من قبل",
+	"Products cannot be returned" => "الطلب لا يمكن ان يرد بعد مرور يوم من تاريخ الشراء",
+	"new items in 24 hours" => "احدث المنتجات خلال اخر 24 ساعة",
+	//alert messages
+
+
+
+
+	"appName" => "مولك",
 	"desc" => "بيع منتجاتك وتسوق بحرية",
 	
 	"online" => "متصل",

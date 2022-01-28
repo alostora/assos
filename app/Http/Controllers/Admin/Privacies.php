@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Privacy;
+use Lang;
 
 
 class Privacies extends Controller
@@ -39,10 +40,10 @@ class Privacies extends Controller
         $data = $request->except('_token');
         if (!empty($request->id)){
             Privacy::where('id',$request->id)->update($data);
-            $request->session()->flash("success","تم التعديل");
+            session()->flash('warning',Lang::get('leftsidebar.Updated'));
         }else{
             Privacy::create($data);
-            $request->session()->flash("success","تمت الاضافة");
+            session()->flash('warning',Lang::get('leftsidebar.Created'));
         }
 
         return back();
@@ -54,7 +55,7 @@ class Privacies extends Controller
 
     public function deletePrivacy(Request $request,$privacyId){
         Privacy::where('id',$privacyId)->delete();
-        $request->session()->flash("warning","تم الحذف");
+        session()->flash('warning',Lang::get('leftsidebar.Deleted'));
         return back();
     }
 

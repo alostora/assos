@@ -12,8 +12,6 @@ use App\Models\Item_image;
 use App\Models\Property;
 use App\Models\Sub_property;
 use \Carbon\Carbon;
-
-use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Rule;
 
@@ -46,7 +44,7 @@ class Vendors extends Controller
         if(Auth::guard('vendor')->attempt($validated)){
             return redirect('vendor');
         }else{
-            session()->flash('warning','error informations');
+            session()->flash('warning',Lang::get('leftsidebar.error_login'));
             return redirect('vendor/login');
         }
 
@@ -223,10 +221,10 @@ class Vendors extends Controller
                 $targetNumber = 4;
 
                 if ($targetNumber - $countOtherImages == 0) {
-                    $request->session()->flash('warning','Done');
+                    session()->flash('warning',Lang::get('leftsidebar.Done'));
                     return back();
                 }elseif($targetNumber - $countOtherImages < $countRequestOtherImages){
-                    $request->session()->flash('warning','Done');
+                    session()->flash('warning',Lang::get('leftsidebar.Done'));
                     return back();
                 }
 
@@ -241,34 +239,31 @@ class Vendors extends Controller
                     Item_image::create(["itemImageName"=>$oImageName,"item_id"=>$itemId]);
                 }
             }else{
-                $request->session()->flash('warning',Lang::get('leftsidebar.only4Images'));
+                session()->flash('warning',Lang::get('leftsidebar.only4Images'));
                 return back();
             }
         }
-
-        //if($request->withProp === "hasProperty"){
             
-            if(is_array($request->sub_prop_id) && count($request->sub_prop_id)){
+        if(is_array($request->sub_prop_id) && count($request->sub_prop_id)){
 
-                foreach($request->sub_prop_id as $sub_prop_id){
+            foreach($request->sub_prop_id as $sub_prop_id){
 
-                    $sub_prop = Sub_property::find($sub_prop_id);
-                    $main_prop = Property::find($sub_prop->prop_id);
+                $sub_prop = Sub_property::find($sub_prop_id);
+                $main_prop = Property::find($sub_prop->prop_id);
 
-                    $item_prop_main = Item_properity::create([
-                        "main_prop_id" => $main_prop->id,
-                        "item_id" => $itemId ,
-                    ]);
+                $item_prop_main = Item_properity::create([
+                    "main_prop_id" => $main_prop->id,
+                    "item_id" => $itemId ,
+                ]);
 
-                    Item_property_plus::create([
-                        "sub_prop_id" => $sub_prop_id,
-                        "properity_id" => $item_prop_main->id,
-                    ]);
-                }
+                Item_property_plus::create([
+                    "sub_prop_id" => $sub_prop_id,
+                    "properity_id" => $item_prop_main->id,
+                ]);
             }
-        //}
+        }
 
-        $request->session()->flash('success',Lang::get('leftsidebar.Done item add'));
+        session()->flash('success',Lang::get('leftsidebar.Done item add'));
         return back();
     }
 
@@ -286,7 +281,7 @@ class Vendors extends Controller
         if(!empty($item)){
             $item->update(['sliderVendorStatus' => !$item->sliderVendorStatus]);
         }
-        session()->flash('success','done');
+        session()->flash('success',Lang::get('leftsidebar.Done'));
         return back();
     }
 

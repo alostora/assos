@@ -12,6 +12,7 @@ use App\Models\Item_back_reason;
 use App\Models\Contact_message;
 use Auth;
 use Hash;
+use Lang;
 use \Carbon\Carbon;
 
 class Admins extends Controller
@@ -104,11 +105,10 @@ class Admins extends Controller
         
         if($request->id != null){
             Admin::where('id',$request->id)->update($data);
-            $request->session()->flash('success','admen has been edited successfully');
+            session()->flash('success',Lang::get('leftsidebar.Updated'));
         }else{
-
             Admin::create($data);
-            $request->session()->flash('success','admen has been created successfully');
+            session()->flash('success',Lang::get('leftsidebar.Created'));
         }
         
         return redirect('admin/adminInfo');
@@ -121,7 +121,7 @@ class Admins extends Controller
 
     public function deleteAdmin(Request $request,$id=false){
         Admin::where('id',$id)->delete();
-        $request->session()->flash('warning','admin has been deleted successfully');
+        session()->flash('warning',Lang::get('leftsidebar.Deleted'));
         return redirect('admin/adminInfo');
     }
 

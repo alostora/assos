@@ -8,26 +8,15 @@ use App\Models\User;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\Order_item;
-use App\Models\Order_item_prop;
 use App\Models\Item_property_plus;
 use App\Models\Sub_property;
 use App\Models\Property;
 use App\Models\User_address;
 use App\Models\Order_setting;
-use App\Models\Discount_copon;
-use App\Models\user_discount_copon;
-use App\Models\Item_back_reason;
-use App\Models\Item_back_request;
-use App\Models\Review;
-use App\Models\User_fav_item;
-use App\Models\Vendor;
 use App\Helpers\Helper;
 use Lang;
-use Auth;
 use URL;
-use Validator;
 use Str;
-use Carbon\Carbon;
 
 class Orders extends Controller
 {
@@ -114,7 +103,7 @@ class Orders extends Controller
             Helper::senNotifi($info);
             //end_notifi
 
-            session()->flash("success","order status changed");
+            session()->flash('warning',Lang::get('leftsidebar.Done'));
             return back();
         }
     }
@@ -125,7 +114,7 @@ class Orders extends Controller
 
     public function deleteOrder($orderId){
         Order::where('id',$orderId)->delete();
-        session()->flash('warning','deleted');
+        session()->flash('warning',Lang::get('leftsidebar.Deleted'));
         return back();
     }
 

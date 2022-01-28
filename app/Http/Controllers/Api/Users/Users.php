@@ -426,7 +426,7 @@ class Users extends Controller
             }
         }else{
             $data['status'] = false;
-            $data['message'] = 'user not found';
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
         return $data;
     }
@@ -455,15 +455,15 @@ class Users extends Controller
                     ]);
                 }
                 $data['status'] = true;
-                $data['message'] = 'item add to fav success';
+                $data['message'] = Lang::get('leftsidebar.Done');
             }else{
                 $data['status'] = false;
-                $data['message'] = 'item not found';
+                $data['message'] = Lang::get('leftsidebar.Empty');
             }
 
         }else{
             $data['status'] = false;
-            $data['message'] = 'user not found';
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
         return $data;
     }
@@ -487,10 +487,10 @@ class Users extends Controller
             User_fav_item::where('user_id',$user_id)->where('item_id',$item_id)->delete();
 
             $data['status'] = true;
-            $data['message'] = 'item deleted from fav success';
+            $data['message'] = Lang::get('leftsidebar.Deleted');
         }else{
             $data['status'] = false;
-            $data['message'] = 'user not found';
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
         return $data;
     }
@@ -549,7 +549,7 @@ class Users extends Controller
 
         }else{
             $data['status'] = false;
-            $data['message'] = 'user not found';
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
         return $data;
     }
@@ -575,7 +575,7 @@ class Users extends Controller
             $item = Item::find($request->item_id);
             if(!empty($item)) {
                 $data['status'] = true;
-                $data['message'] = 'review add';
+                $data['message'] = Lang::get('leftsidebar.Created');
 
                 Review::create([
                     'rate'=>$request->rate,
@@ -592,12 +592,12 @@ class Users extends Controller
 
             }else{
                 $data['status'] = false;
-                $data['message'] = 'item not found';
+                $data['message'] = Lang::get('leftsidebar.Empty');
             }
 
         }else{
             $data['status'] = false;
-            $data['message'] = 'user not found';
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
         return $data;
     }
@@ -682,7 +682,7 @@ class Users extends Controller
             }
         }else{
             $data['status'] = false;
-            $data['message'] = 'item not found';
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
 
         return $data;
@@ -730,7 +730,7 @@ class Users extends Controller
             }
         }else{
             $data['status'] = false;
-            $data['message'] = 'item not found';
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
 
         return $data;
@@ -887,7 +887,7 @@ class Users extends Controller
             }
         }else{
             $data['status'] = false;
-            $data['message'] = 'user not found';
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
         return $data;
     }
@@ -916,7 +916,7 @@ class Users extends Controller
             }
         }else{
             $data['status'] = false;
-            $data['message'] = 'user not found';
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
 
         return $data;
@@ -1083,7 +1083,7 @@ class Users extends Controller
             $data['data']['ads'] = $ads;
         }else{
             $data['status'] = false;
-            $data['message'] = "user not found";
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
 
         return $data;
@@ -1138,12 +1138,12 @@ class Users extends Controller
                 $data['data'] = $items;
             }else{
                 $data['status'] = false;
-                $data['message'] = "no item found";
+                $data['message'] = Lang::get('leftsidebar.Empty');
             }
 
         }else{
             $data['status'] = false;
-            $data['message'] = "no offer found";
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
 
         return $data;
@@ -1198,12 +1198,12 @@ class Users extends Controller
                 $data['data'] = $items;
             }else{
                 $data['status'] = false;
-                $data['message'] = "no item found";
+                $data['message'] = Lang::get('leftsidebar.Empty');
             }
 
         }else{
             $data['status'] = false;
-            $data['message'] = "no offer found";
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
 
         return $data;
@@ -1358,7 +1358,7 @@ class Users extends Controller
 
         $data['status'] = true;
         $data['count'] = count($item_sub);
-        $data['message'] = "new items in 24 hours";
+        $data['message'] = Lang::get('leftsidebar.new items in 24 hours');
         $data['sub_cats'] = $s_categories;
 
         return $data;

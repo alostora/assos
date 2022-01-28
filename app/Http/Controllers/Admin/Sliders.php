@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Item;
+use Lang;
 
 class Sliders extends Controller
 {
@@ -34,8 +35,7 @@ class Sliders extends Controller
             }
             $category->save();
         }
-
-        session()->flash('success','done');
+        session()->flash('warning',Lang::get('leftsidebar.Done'));
         return back();
     }
 
@@ -53,7 +53,7 @@ class Sliders extends Controller
             }
         }
 
-        session()->flash('success','done');
+        session()->flash('warning',Lang::get('leftsidebar.Done'));
         return back();
     }
 

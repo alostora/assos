@@ -1,7 +1,30 @@
 <?php
 
 return [
-	"menuqr" => "MENUQR",
+	
+	//alert messages
+	"Done" => "Done",
+	"Deleted" => "Deleted",
+	"Created" => "Created",
+	"Updated" => "Updated",
+	"Sent" => "Sent",
+	"Error" => "Error",
+	"Error_pass" => "Error password",
+	"Error_email" => "Error email",
+	"Empty" => "Empty",
+	"error_logn" => "error email or password",
+	"plz_login" => "please login",
+	"Logged_out" => "Logged out",
+	"Invalid" => "Invalid",
+	"Used" => "Used",
+	"Products cannot be returned" => "Products cannot be returned after days ago",
+	"new items in 24 hours" => "new items in 24 hours",
+	//alert messages
+
+
+
+
+	"appName" => "Molak",
 	"desc" => "sell your products and free shopping",
 
 	"online" => "online",

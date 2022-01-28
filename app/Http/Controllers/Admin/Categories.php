@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Sub_category;
 use File;
+use Lang;
 
 class Categories extends Controller
 {
@@ -63,6 +64,7 @@ class Categories extends Controller
             }
 
             Category::create($data);
+            session()->flash('warning',Lang::get('leftsidebar.Created'));
         }else{
             //edit
             $category = Category::find($data['id']);
@@ -84,8 +86,8 @@ class Categories extends Controller
                 $categorySliderImage->move($destinationPath, $data['categorySliderImage']);
             }
             Category::where('id',$data['id'])->update($data);
+            session()->flash('warning',Lang::get('leftsidebar.Updated'));
         }
-        $request->session()->flash('success','Done successfully');
         return redirect('admin/categoriesInfo');
     }
 
@@ -107,7 +109,7 @@ class Categories extends Controller
 
         Category::where('id',$id)->delete();
 
-        session()->flash('success','Done successfully');
+        session()->flash('warning',Lang::get('leftsidebar.Deleted'));
         return back();
     }
 
@@ -156,6 +158,7 @@ class Categories extends Controller
                 $s_categoryImage->move($destinationPath, $data['s_categoryImage']);
             }
             Sub_category::create($data);
+            session()->flash('warning',Lang::get('leftsidebar.Created'));
 
         }else{
             $s_category = Sub_category::find($data['id']);
@@ -169,9 +172,9 @@ class Categories extends Controller
                 $s_categoryImage->move($destinationPath, $data['s_categoryImage']);
             }
             Sub_category::where('id',$data['id'])->update($data);
+            session()->flash('warning',Lang::get('leftsidebar.Updated'));
         }
 
-        session()->flash('success','Done successfully');
         return redirect('admin/sub_categoriesInfo/'.$data['cat_id']);
 
     }

@@ -102,16 +102,16 @@ class Orders extends Controller
                 }
 
                 $data['status'] = true;
-                $data['message'] = "item add to cart";
+                $data['message'] = Lang::get('leftsidebar.Done');
 
             }else{
                 $data['status'] = false;
-                $data['message'] = "plz choose correct item";
+                $data['message'] = Lang::get('leftsidebar.Error');
             }
 
         }else{
             $data['status'] = false;
-            $data['message'] = "user not found";
+            $data['message'] = Lang::get('leftsidebar.Error');
         }
 
         return $data;
@@ -191,11 +191,11 @@ class Orders extends Controller
                 $data['order'] = $order;
             }else{
                 $data['status'] = false;
-                $data['message'] = "empty orders";
+                $data['message'] = Lang::get('leftsidebar.Empty');
             }
         }else{
             $data['status'] = false;
-            $data['message'] = "user not found";
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
 
         return $data;
@@ -265,11 +265,11 @@ class Orders extends Controller
                 $data['order'] = $orders;
             }else{
                 $data['status'] = false;
-                $data['message'] = "empty orders";
+                $data['message'] = Lang::get('leftsidebar.Empty');
             }
         }else{
             $data['status'] = false;
-            $data['message'] = "user not found";
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
 
         return $data;
@@ -301,15 +301,15 @@ class Orders extends Controller
                 }
 
                 $data['status'] = true;
-                $data['message'] = "item deleted";
+                $data['message'] = Lang::get('leftsidebar.Deleted');
 
             }else{
                 $data['status'] = false;
-                $data['message'] = "empty orders";
+                $data['message'] = Lang::get('leftsidebar.Empty');
             }
         }else{
             $data['status'] = false;
-            $data['message'] = "user not found";
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
 
         return $data;
@@ -356,11 +356,11 @@ class Orders extends Controller
             }
 
             $data['status'] = true;
-            $data['message'] = 'item deleted';
+            $data['message'] = Lang::get('leftsidebar.Deleted');
 
         }else{
             $data['status'] = false;
-            $data['message'] = 'item not found';
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
         return $data;
     }
@@ -387,18 +387,18 @@ class Orders extends Controller
                     $orderItem->save();
 
                     $data['status'] = true;
-                    $data['message'] = "item count plus 1";
+                    $data['message'] = Lang::get('leftsidebar.Done') . "+1";
                 }else{
                     $data['status'] = false;
-                    $data['message'] = "order not found";
+                    $data['message'] = Lang::get('leftsidebar.Empty');
                 }
             }else{
                 $data['status'] = false;
-                $data['message'] = "main item not found";
+                $data['message'] = Lang::get('leftsidebar.Empty');
             }
         }else{
             $data['status'] = false;
-            $data['message'] = "order item not found";
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
 
         return $data;
@@ -427,22 +427,22 @@ class Orders extends Controller
                         $orderItem->save();
 
                         $data['status'] = true;
-                        $data['message'] = "item count minus 1";
+                        $data['message'] = Lang::get('leftsidebar.Done') . "-1";
                     }else{
                         $data['status'] = false;
-                        $data['message'] = "order not found";
+                        $data['message'] = Lang::get('leftsidebar.Empty');
                     }
                 }else{
                     $data['status'] = false;
-                    $data['message'] = "item cant be 0";
+                    $data['message'] = Lang::get('leftsidebar.Error') ."0";
                 }
             }else{
                 $data['status'] = false;
-                $data['message'] = "main item not found";
+                $data['message'] = Lang::get('leftsidebar.Empty');
             }
         }else{
             $data['status'] = false;
-            $data['message'] = "order item not found";
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
 
         return $data;
@@ -485,11 +485,11 @@ class Orders extends Controller
                 $data['data'] = $order;
             }else{
                 $data['status'] = false;
-                $data['message'] = "empty orders";
+                $data['message'] = Lang::get('leftsidebar.Empty');
             }
         }else{
             $data['status'] = false;
-            $data['message'] = "user not found";
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
 
         return $data;
@@ -514,10 +514,10 @@ class Orders extends Controller
                 $order->status = "confirmed";
                 $order->save();
                 $data['status'] = true;
-                $data['message'] = "order status changed";
+                $data['message'] = Lang::get('leftsidebar.Done');
             }else{
                 $data['status'] = false;
-                $data['message'] = "order Can't changed";
+                $data['message'] = Lang::get('leftsidebar.Error');
             }
         }else{
 
@@ -548,7 +548,7 @@ class Orders extends Controller
 
             if($today > $dateTo or $today < $dateFrom){
                 $data['status'] = false;
-                $data['message'] = "invalid copon";
+                $data['message'] = Lang::get('leftsidebar.Error');
             }else{
                 $order = Order::find($request->order_id);
                 if(!empty($order)){
@@ -560,7 +560,7 @@ class Orders extends Controller
 
                     if(empty($orderItems)){
                         $data['status'] = false;
-                        $data['message'] = "you cant use this copon with this items";
+                        $data['message'] = $data['message'] = Lang::get('leftsidebar.Invalid');
                     }else{
 
                         $orderItems = Order_item::where('order_id',$order->id)->whereIn('item_id',$vendorItems)->pluck('item_id');
@@ -570,7 +570,7 @@ class Orders extends Controller
 
                         if($itemsTotalPrice <= $discountCopon->discountValue) {
                             $data['status'] = false;
-                            $data['message'] = "invalid copon item price less than discount copon";
+                            $data['message'] = $data['message'] = Lang::get('leftsidebar.Invalid');
                             return $data;
                         }
 
@@ -588,21 +588,21 @@ class Orders extends Controller
                             ]);
 
                             $data['status'] = true;
-                            $data['message'] = "copon used successfully";
+                            $data['message'] = Lang::get('leftsidebar.Done');
                         }else{
                             $data['status'] = false;
-                            $data['message'] = "you already used this copon";
+                            $data['message'] = Lang::get('leftsidebar.Used');
                         }
                     }
                 }else{
                     $data['status'] = false;
-                    $data['message'] = "order not found";
+                    $data['message'] = Lang::get('leftsidebar.Empty');
                 }
 
             }
         }else{
             $data['status'] = false;
-            $data['message'] = "invalid copon";
+            $data['message'] = Lang::get('leftsidebar.Invalid');
         }
 
         return $data;
@@ -628,7 +628,7 @@ class Orders extends Controller
 
         if (empty(User_address::find($request->shippingAddress_id))) {
             $data['status'] = false;
-            $data['message'] = "shipping address error";
+            $data['message'] = Lang::get('leftsidebar.Error');
             return $data;
         }
 
@@ -645,7 +645,7 @@ class Orders extends Controller
 
 
         $data['status']=true;
-        $data['message'] = "order confirmed";
+        $data['message'] = Lang::get('leftsidebar.confirmed');
 
         return $data;
     }
@@ -714,7 +714,7 @@ class Orders extends Controller
         Item_back_request::create($info);
 
         $data['status'] = true;
-        $data['message'] = 'request item back sent';
+        $data['message'] = Lang::get('leftsidebar.Sent');
         return $data;
     }
 
@@ -729,15 +729,15 @@ class Orders extends Controller
         }
 
         $lang = $request->header('accept-language');
-
+        
+        $orderSett = Order_setting::where('settingName','backDuration')->first();
         $orders = Order::where(['user_id'=>$user->id,'status'=>'completed'])->whereDate('created_at','>=',Carbon::now()->subDays(15))->pluck('id');
         $orders = array_unique($orders->toArray());
 
         
         $orderItems = Order_item::whereIn('order_id',$orders)->whereDate('created_at','>=',Carbon::now()->subDays(15))->get();
-
         $data['status'] = true;
-        $data['message'] = "Products cannot be returned after 14 days from the date of purchase";
+        $data['message'] = Lang::get('leftsidebar.Products cannot be returned ') . $orderSett->settingValue;
 
 
         if(!empty($orderItems)) {
@@ -791,7 +791,7 @@ class Orders extends Controller
 
             $orders = Order::where(['user_id'=>$user->id,'id'=>$orderId])->update(['status'=>$status]);
             $data['status'] = true;
-            $data['message'] = 'updated to '. $status;
+            $data['message'] = Lang::get('leftsidebar.Updated '). $status;
 
             //start_notifi
             $info['users'] = User::where('id',$user->id)->get();
@@ -804,7 +804,7 @@ class Orders extends Controller
 
         }else{
             $data['status'] = false;
-            $data['message'] = 'user not found';
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
 
         return $data;

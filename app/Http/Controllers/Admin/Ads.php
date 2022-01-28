@@ -8,6 +8,7 @@ use App\Models\Ad;
 use App\Models\Vendor;
 use App\Models\Category;
 use File;
+use Lang;
 
 class Ads extends Controller
 {
@@ -72,7 +73,7 @@ class Ads extends Controller
             }
         }
 
-        session()->flash("success","done");
+        session()->flash('warning',Lang::get('leftsidebar.Created'));
         return back(); 
     }
 
@@ -88,7 +89,7 @@ class Ads extends Controller
             $ad->delete();
         }
 
-        session()->flash('warning','deleted');
+        session()->flash('warning',Lang::get('leftsidebar.Deleted'));
         return back();
     }
 

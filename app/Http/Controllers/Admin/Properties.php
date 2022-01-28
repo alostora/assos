@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Property;
 use App\Models\Sub_property;
+use Lang;
 
 class Properties extends Controller
 {
@@ -35,10 +36,11 @@ class Properties extends Controller
 
         if ($data['id'] == null) {
             Property::create($data);
+            session()->flash('warning',Lang::get('leftsidebar.Created'));
         }else{
             Property::where('id',$data['id'])->update($data);
+            session()->flash('warning',Lang::get('leftsidebar.Updated'));
         }
-        session()->flash('success','Done');
         return back();
     }
 
@@ -47,7 +49,7 @@ class Properties extends Controller
 
     public function deleteProperty($id){
         Property::where('id',$id)->delete();
-        session()->flash('success','Done');
+        session()->flash('warning',Lang::get('leftsidebar.Deleted'));
         return back();
     }
 
@@ -78,10 +80,11 @@ class Properties extends Controller
 
         if ($data['id'] == null) {
             Sub_property::create($data);
+            session()->flash('warning',Lang::get('leftsidebar.Created'));
         }else{
             Sub_property::where('id',$data['id'])->update($data);
+            session()->flash('warning',Lang::get('leftsidebar.Updated'));
         }
-        session()->flash('success','Done');
         return back();
     }
 
@@ -91,7 +94,7 @@ class Properties extends Controller
 
     public function sub_deleteProperty($id){
         Sub_property::where('id',$id)->delete();
-        session()->flash('success','Done');
+        session()->flash('warning',Lang::get('leftsidebar.Deleted'));
         return back();
     }
 

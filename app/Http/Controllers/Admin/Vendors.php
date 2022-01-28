@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Vendor;
 use Hash;
 use File;
+use Lang;
 
 
 class Vendors extends Controller
@@ -30,6 +31,10 @@ class Vendors extends Controller
         }
         return view('Admin/Vendors/viewCreateVendor',$data);
     }
+
+
+
+
 
     public function createVendor(Request $request){
         $validated = $request->validate([
@@ -67,7 +72,8 @@ class Vendors extends Controller
                 $vendor_logo->move($destinationPath, $data['vendor_logo']);
             }
             Vendor::create($data);
-             }else{
+            session()->flash('warning',Lang::get('leftsidebar.Created'));
+        }else{
             //edit
             $vendor = Vendor::find($data['id']);
             $data['vendor_image'] = $vendor->vendor_image;
@@ -89,9 +95,8 @@ class Vendors extends Controller
             }
 
             Vendor::where('id',$data['id'])->update($data);
+            session()->flash('warning',Lang::get('leftsidebar.Updated'));
         }
-
-        $request->session()->flash('success','Done successfully');
         return redirect('admin/vendorsInfo');
     }
 
@@ -105,7 +110,7 @@ class Vendors extends Controller
         File::delete($destinationPath . $vendor->vendor_image );
         File::delete($destinationPath . $vendor->vendor_logo );
         Vendor::where('id',$id)->delete();
-        session()->flash('success','Done successfully');
+        session()->flash('warning',Lang::get('leftsidebar.Deleted'));
         return back();
     }
 

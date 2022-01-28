@@ -30,7 +30,6 @@ class Copons extends Controller
         if($id != null){
             $data['copon'] = Discount_copon::find($id);
         }
-    
         return view('Vendors/Copons/viewCreateCopon',$data);
     }
 
@@ -52,6 +51,7 @@ class Copons extends Controller
             if ($data['id'] == null) {
                 $data['code'] = Str::random(4);
                 Discount_copon::create($data);
+                session()->flash('success',Lang::get('leftsidebar.Created'));
 
                 //start_notifi
                 $info['users'] = User::where('country',Auth::guard('vendor')->user()->country)->get();
@@ -63,9 +63,9 @@ class Copons extends Controller
 
             }else{
                 Discount_copon::where('id',$data['id'])->update($data);
+                session()->flash('success',Lang::get('leftsidebar.Updated'));
             }
         }
-        session()->flash("success","done");
         return back(); 
     }
 
@@ -75,7 +75,7 @@ class Copons extends Controller
 
     public function deleteCopon($id){
         $discount_copon = Discount_copon::where('id',$id)->delete();
-        session()->flash('warning','deleted');
+        session()->flash('warning',Lang::get('leftsidebar.Deleted'));
         return back();
     }
 

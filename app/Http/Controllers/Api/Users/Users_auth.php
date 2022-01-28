@@ -13,6 +13,7 @@ use Str;
 use Auth;
 use URL;
 use File;
+use Lang;
 use App\Mail\Forget_pass;
 
 class Users_auth extends Controller
@@ -46,7 +47,7 @@ class Users_auth extends Controller
         }
 
         $response['status'] = true;
-        $response['message'] = "success";
+        $response['message'] = Lang::get('leftsidebar.Done');
 
         return $response;
     }
@@ -86,7 +87,7 @@ class Users_auth extends Controller
             $data['user'] = $user ;
         }else{
             $data['status'] = false;
-            $data['message'] = 'user not found';
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
         return $data;
     }
@@ -178,11 +179,11 @@ class Users_auth extends Controller
 
             }else{
                 $data['status'] = false;
-                $data['message'] = 'error password';
+                $data['message'] = Lang::get('leftsidebar.Error_pass');
             }
         }else{
             $data['status'] = false;
-            $data['message'] = 'error email';
+            $data['message'] = Lang::get('leftsidebar.Error_email');
         }
         return $data;
     }
@@ -205,7 +206,7 @@ class Users_auth extends Controller
             }
         }else{
             $data['status'] = false;
-            $data['message'] = "plz login";
+            $data['message'] = Lang::get('leftsidebar.plz_login');
         }
 
         return $data;
@@ -288,7 +289,7 @@ class Users_auth extends Controller
 
 
         $data['status'] = true;
-        $data['message'] = 'password changed';
+        $data['message'] = Lang::get('leftsidebar.Done');
 
         return $data;
     }
@@ -342,12 +343,11 @@ class Users_auth extends Controller
         
         if ($request->id == false) {
             User_address::create($addressData);
-            $data['message'] = 'address added';
+            $data['message'] = Lang::get('leftsidebar.Created');
         }else{
             User_address::where('id',$request->id)->update($addressData);
-            $data['message'] = 'address updated';
+            $data['message'] = Lang::get('leftsidebar.Updated');
         }
-
 
         return $data;
     }
@@ -367,7 +367,7 @@ class Users_auth extends Controller
     public function deleteAddress(Request $request,$id){
         User_address::where(['id' => $id ,'user_id' => Auth::guard('api')->id()])->delete();
         $data['status'] = true;
-        $data['message'] = 'address deleted';
+        $data['message'] = Lang::get('leftsidebar.Deleted');
 
         return $data;
     }
@@ -378,7 +378,7 @@ class Users_auth extends Controller
     public function logOut(Request $request){
         User::where('id',Auth::guard('api')->id())->update(['api_token' => null]);
         $data['status'] = true;
-        $data['message'] = "loged out";
+        $data['message'] = Lang::get('leftsidebar.Logged_out');
         return $data;
     }
 
@@ -405,10 +405,10 @@ class Users_auth extends Controller
 
             \Mail::to($user->email)->send(new Forget_pass($user));
             $data['status'] = true;
-            $data['message'] = "mailSent";
+            $data['message'] = Lang::get('leftsidebar.Sent');
         }else{
             $data['status'] = false;
-            $data['message'] = "Not found";
+            $data['message'] = Lang::get('leftsidebar.Empty');
         }
 
         return $data;
@@ -435,7 +435,7 @@ class Users_auth extends Controller
         Contact_message::create($request->all());
 
         $data['status'] = true;
-        $data['message'] = 'sent success';
+        $data['message'] = Lang::get('leftsidebar.Sent');
 
         return $data;
     }

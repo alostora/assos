@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order_setting;
 use App\Models\Item_back_reason;
+use Lang;
 
 
 class Order_settings extends Controller
@@ -45,7 +46,7 @@ class Order_settings extends Controller
             $data = $request->except("_token");
             Order_setting::create($data);
         }
-        session()->flash('success','Done');
+        session()->flash('warning',Lang::get('leftsidebar.Created'));
         return back();
     }
 
@@ -55,7 +56,7 @@ class Order_settings extends Controller
 
     public function deleteOrderSettings($settingId){
         Order_setting::where('id',$settingId)->delete();
-        session()->flash('success','Done');
+        session()->flash('warning',Lang::get('leftsidebar.Deleted'));
         return back();
     }
 
@@ -87,21 +88,22 @@ class Order_settings extends Controller
             Item_back_reason::where('id',$request->id)->update([
                 'backReasonName' => $request->backReasonName,
                 'backReasonArName' => $request->backReasonArName,
-            ]);    
+            ]);
+            session()->flash('warning',Lang::get('leftsidebar.Updated')); 
         }else{
             Item_back_reason::create([
                 'backReasonName' => $request->backReasonName,
                 'backReasonArName' => $request->backReasonArName,
-            ]);    
+            ]);
+            session()->flash('warning',Lang::get('leftsidebar.Created'));
         }
-        session()->flash('success','Done');
         return back();
 
     }
 
     public function deleteitemBackReason($id){
         Item_back_reason::where('id',$id)->delete();
-        session()->flash('success','Done');
+        session()->flash('warning',Lang::get('leftsidebar.Deleted'));
         return back();
     }
     
