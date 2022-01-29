@@ -32,24 +32,24 @@
 				                  	<th>@lang('leftsidebar.Operations')</th>
 				                </tr>
 									@foreach($admins as $key=>$admin)
-											<tr>
-										<td>{{$key+1}}</td>
-										<td>{{$admin->name}}</td>
-										<td>{{$admin->email}}</td>
-										<td>{{$admin->created_at}}</td>
-										<td>{{$admin->updated_at}}</td>
-										<td>
-											<div class="btn-group">
-												<a class="btn btn-success" href="{{url('admin/viewCreateAdmin/'.$admin->id)}}">
-													<i class="fa fa-edit"></i>
-												</a>
+										<tr>
+											<td>{{$key+1}}</td>
+											<td>{{$admin->name}}</td>
+											<td>{{$admin->email}}</td>
+											<td>{{$admin->created_at}}</td>
+											<td>{{$admin->updated_at}}</td>
+											<td>
+												<div class="btn-group">
+													<a class="btn btn-success" href="{{url('admin/viewCreateAdmin/'.$admin->id)}}">
+														<i class="fa fa-edit"></i>
+													</a>
 
-												<a class="btn btn-danger" href="{{url('admin/deleteAdmin/'.$admin->id)}}" onclick="return confirm('Are you sure?');" >
-													<i class="fa fa-trash"></i>
-												</a>
-											</div>
-										</td>
-									</tr>
+													<a class="btn btn-danger" href="{{url('admin/deleteAdmin/'.$admin->id)}}" onclick="return confirm('Are you sure?');" >
+														<i class="fa fa-trash"></i>
+													</a>
+												</div>
+											</td>
+										</tr>
 									@endforeach
 			              	</table>
 			            </div>
