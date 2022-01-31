@@ -5,7 +5,7 @@ export const axiosInstance =
 
   axios.create({
 
-    baseURL: `https://molk-kw.com/api`,
+    baseURL: `https://xx.hmaserv.online/assos/api`,
     headers: {
       'device-id': localStorage.getItem("device-id") || "",
       'accept-language': localStorage.getItem("i18nextLng") || "en",

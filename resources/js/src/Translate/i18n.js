@@ -18,10 +18,10 @@ i18n
       escapeValue: false,
     },
     ns: ['Translation'], //Names of the translation files
-    backend: {
-      loadPath: `./locales/{{lng}}/{{ns}}.json`, //Path to the translation files
-      //addPath: `${process.env.PUBLIC_URL}/locales/add/{{lng}}/{{ns}}`,
-    },
+    // backend: {
+    //   loadPath: `./locales/{{lng}}/{{ns}}.json`, //Path to the translation files
+    //   //addPath: `${process.env.PUBLIC_URL}/locales/add/{{lng}}/{{ns}}`,
+    // },
     detection: {
       order: ['localStorage', 'cookie'],
       caches: ['localStorage', 'cookie'],

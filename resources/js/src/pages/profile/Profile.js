@@ -21,6 +21,7 @@ import ProfileInfo from './ProfileInfo';
 import ChangePassword from './ChangePassword';
 import Address from './address/Address';
 import AddAddress from './address/AddAddress';
+import Payment from './payment/Payment';
 
 const Profile = () => {
 
@@ -99,7 +100,7 @@ const Profile = () => {
 
                                         <Route exact path={"/profile/orders"} render={() => <h4>orders</h4>} />
 
-                                        <Route exact path={"/profile/payment-methods"} render={() => <h4>payment </h4>} />
+                                        <Route exact path={"/profile/payment-methods"} render={() => <Payment/>} />
 
                                         <Route exact path={"/profile/notifications"} render={() => <h4>notifi </h4>} />
 
