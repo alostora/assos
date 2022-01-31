@@ -12,7 +12,6 @@ use App\Models\Item_back_reason;
 use App\Models\Contact_message;
 use Auth;
 use Hash;
-use Lang;
 use \Carbon\Carbon;
 
 class Admins extends Controller
