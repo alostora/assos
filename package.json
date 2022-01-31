@@ -1,4 +1,7 @@
 {
+    "name" : "Molak",
+    "homepage" : "https://molk-kw.com/",
+    "version" : "1.0.0",
     "private": true,
     "scripts": {
         "dev": "npm run development",
