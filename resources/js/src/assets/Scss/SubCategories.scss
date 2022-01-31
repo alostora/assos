@@ -1,0 +1,43 @@
+.sub-categories {
+    .page-names {
+      .page-name {
+        font-style: normal;
+        font-weight: bold;
+        font-size: 16px;
+        color: #667085;
+        text-transform: capitalize;
+      }
+    }
+    .items-category {
+      .item-category {
+        img {
+          width: 100%;
+          max-width: 250px;
+          min-width: 140px;
+          object-fit: cover;
+        }
+        .category-name {
+          font-style: normal;
+          font-weight: normal;
+          font-size: 18px;
+          color:gray ;
+        }
+      }
+    }
+  }
+  
+  @media only screen and (min-width: 600px) {
+    .item-category {
+      img {
+        height: 230px;
+      }
+    }
+  }
+  
+  @media only screen and (max-width: 600px) {
+    .item-category {
+      img {
+        height: 150px;
+      }
+    }
+  }

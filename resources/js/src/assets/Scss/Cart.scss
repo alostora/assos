@@ -1,0 +1,137 @@
+.cart-page {
+  .page-names {
+    .page-name {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 16px;
+      color: #667085;
+      text-transform: capitalize;
+    }
+  }
+  .items-cart {
+    .items-num {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 18px;
+    }
+    .items {
+      .item-cart {
+        // background-color: lavender;
+        border-radius: 4px;
+        img {
+          max-width: 160px;
+          height: 150px;
+          object-fit: cover;
+        }
+        .brand-name {
+          font-style: normal;
+          font-weight: 600;
+          font-size: 18px;
+          color: #6c757d;
+        }
+        .item-name {
+          font-style: normal;
+          font-weight: normal;
+          font-size: 18px;
+          color: rgb(88, 85, 85);
+        }
+        .item-price {
+          font-style: normal;
+          font-weight: 600;
+          font-size: 16px;
+          color: #dc3545;
+        }
+        .item-price-old {
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          color: #70767c;
+          text-decoration: line-through;
+        }
+        .btn-delete {
+          width: 80px;
+          height: 36px;
+          border: none;
+          background-color: inherit;
+          border-radius: 4px;
+          font-weight: normal;
+          font-size: 16px;
+          color: #6c757d;
+
+          &:hover {
+            transition: 0.2s;
+            box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+          }
+        }
+        .btn-cart {
+          width: 150px;
+          height: 24px;
+          border: none;
+          background-color: inherit;
+          border: 1px solid #212529;
+          border-radius: 34px;
+          font-weight: bold;
+          font-size: 16px;
+          color: #6c757d;
+          &:hover {
+            transition: 0.2s;
+            box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+          }
+        }
+
+        .count-num {
+          width: 130px;
+          height: 38px;
+          border: 1px solid #ced4da;
+          border-radius: 36px;
+          background-color: inherit;
+
+          button {
+            width: 30px;
+            height: 30px;
+            background-color: #e4e7ec;
+            border-radius: 16px;
+            border: none;
+            &:hover {
+              transition: 0.2s;
+              box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.6);
+            }
+          }
+          span {
+            font-style: normal;
+            font-weight: bold;
+            font-size: 14px;
+            color: #868e96;
+          }
+        }
+      }
+    }
+    .confirm-order {
+      max-height: 150px;
+      height: 120px;
+      //background-color: #c9dbee;
+      border-radius: 4px;
+      color: black;
+
+      .total-price {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+
+        .total-num {
+          color: #dc3545;
+        }
+      }
+      .confirm-order-btn {
+        background-color: #212529;
+        border: 1px solid #ffffff;
+        border-radius: 34px;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 16px;
+        color: $white;
+        height: 40px;
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+.app-header {
+  background-color: $black;
+  .btn-header {
+    border: none;
+    background-color: inherit;
+    color: $white;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    &:hover {
+      opacity: 0.8;
+    }
+    span {
+      margin-inline-end: 8px;
+    }
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.app-header-dark {
+  background-color: #1c1c1c;
+}

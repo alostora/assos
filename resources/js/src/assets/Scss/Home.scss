@@ -1,0 +1,182 @@
+.home {
+  .details-header {
+    margin: 20px 0;
+    background: #e9ecef;
+    border-radius: 4px;
+    min-height: 50px;
+    color: $black;
+    .details-name {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+    }
+  }
+  .home-carousel {
+    margin-bottom: 33px;
+    margin-top: 10px;
+    .carousel-indicators {
+      display: flex;
+      justify-content: flex-end;
+      button {
+        //background: url("./../icons/Home/Rectangle_297.svg") no-repeat;
+        width: 36px;
+        height: 8px;
+      }
+    }
+    .carousel-item {
+      img {
+        object-fit: cover;
+        width: 100%;
+        height: 500px;
+      }
+    }
+  }
+  .brand-section {
+    .section-title {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 24px;
+      color: #6c757d;
+    }
+    .brand-items {
+      .brand-item {
+        border-radius: 4px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        width: 100%;
+        height: 130px;
+        min-width: 140px;
+        max-width: 265px;
+       
+        img {
+          max-width: 150px;
+          
+        }
+      }
+    }
+  }
+  .offer-section {
+    margin-top: 70px;
+    margin-bottom: 57px;
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+  .best-offer-section {
+    .best-offer-word {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 24px;
+      line-height: 36px;
+    }
+    .btn-more {
+      width: 192px;
+      height: 50px;
+      border: 1px solid #6c757d;
+      background: $white;
+      border-radius: 34px;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 27px;
+      color: #6c757d;
+    }
+  }
+  .brands-offers {
+    background: #212529;
+
+    .header {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 24px;
+      color: $white;
+    }
+    .item-offer-lg {
+      max-width: 540px;
+      min-width: 140px;
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+    .item-offer-sm {
+      width: 100%;
+      max-width: 348px;
+      min-width: 140px;
+      height: 250px;
+      object-fit: cover;
+    }
+  }
+  .fashion-section {
+    .header {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 24px;
+    }
+    .btn-more {
+      width: 192px;
+      height: 50px;
+      border: 1px solid #6c757d;
+      background: $white;
+      border-radius: 34px;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 18px;
+      color: #6c757d;
+    }
+  }
+  .brands-papular {
+    .header {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 24px;
+    }
+  }
+  .download-section {
+    //height: 1443px;
+    background: #6c757d;
+
+    .list {
+      margin-top: 85px;
+
+      ul li {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 18px;
+        color: #f8f9fa;
+        padding-bottom: 15px;
+      }
+    }
+    .qr-scan {
+      .header {
+        font-style: normal;
+        font-weight: bold;
+        font-size: 36px;
+        color: $white;
+      }
+      img {
+        width: 100%;
+      }
+    }
+    .mobil-img {
+      margin-top: 15px;
+      img {
+        width: 100%;
+        //object-fit: cover;
+      }
+    }
+  }
+  .store-download {
+    button {
+      border: none;
+      background-color: inherit;
+      width: 146px;
+      height: 44px;
+      img {
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+}

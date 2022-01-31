@@ -18,6 +18,6 @@
         </style>
     </head>
     <body class="antialiased">
-        <div id="example"></div>
+        <div id="root"></div>
     </body>
 </html>

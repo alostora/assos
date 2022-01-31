@@ -1,0 +1,177 @@
+.confirm-order-page {
+  .page-names {
+    .page-name {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 16px;
+      color: #667085;
+      text-transform: capitalize;
+    }
+  }
+  .items-cart {
+    .items-num {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 18px;
+    }
+    .items {
+      .item-cart {
+        img {
+          max-width: 160px;
+          height: 150px;
+          object-fit: cover;
+          border-radius: 4px;
+        }
+
+        .item-name {
+          font-style: normal;
+          font-weight: normal;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+  .header {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+  }
+  .delivery-address {
+    .btn-change-address {
+      height: 38px;
+      width: 185px;
+      border: 1px solid #212529;
+      border-radius: 34px;
+      background-color: white;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 16px;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+    .address-details {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      .details {
+        color: #868e96;
+      }
+    }
+  }
+  .delivery-options {
+    .option-details {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      color: #667085;
+      .shipping-option {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        color: #868e96;
+      }
+    }
+  }
+  .pay-options {
+    .option-details {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      color: #667085;
+    }
+    .btn-add-card {
+      height: 38px;
+      width: 185px;
+      border: 1px solid #212529;
+      border-radius: 34px;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 16px;
+      background-color: white;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+  .discount-code {
+    background-color: #f9fafb;
+    input {
+      width: 90%;
+      height: 38px;
+      border: 1px solid #ced4da;
+      border-radius: 30px;
+    }
+    .btn-active-copoun {
+      margin-inline-start: -95px;
+      width: 95px;
+      height: 38px;
+      border: 1px solid #212529;
+      border-radius: 34px;
+      background-color: inherit;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 16px;
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+  .order-calc {
+    background-color: #f9fafb;
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      left: 5%;
+      height: 1px;
+      width: 90%;
+      border-bottom: 1px solid #e4e7ec;
+    }
+    .second-header {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 18px;
+      color: black;
+    }
+    .calc-result {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 18px;
+      color: #6c757d;
+    }
+  }
+  .order-total {
+    background-color: #f9fafb;
+  }
+  .second-header {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    color: black;
+  }
+  .calc-result {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    color: #212529;
+  }
+  .submit-order{
+    background-color: #f9fafb;
+    .btn-complete-order {
+      width: 150px;
+      height: 38px;
+      background-color: #212529;
+      border: 1px solid #ffffff;
+      border-radius: 34px;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 16px;
+      color: white;
+      &:hover{
+        opacity: 0.8;
+      }
+    }
+  }
+  
+}

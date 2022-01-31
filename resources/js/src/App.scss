@@ -1,0 +1,184 @@
+* {
+  font-family: IBM Plex Sans Arabic;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@import "./assets/Scss/Colors.scss";
+
+@import "./assets/Scss/Header.scss";
+
+@import "./assets/Scss/Navbar.scss";
+
+@import "./assets/Scss/Category.scss";
+
+@import "./assets/Scss/Item.scss";
+
+@import "./assets/Scss/Home.scss";
+
+@import "./assets/Scss/Productdetails.scss";
+
+@import "./assets/Scss/Search.scss";
+
+@import "./assets/Scss/Brands.scss";
+
+@import "./assets/Scss/RecentItems.scss";
+
+@import "./assets/Scss/BrandCategories.scss";
+
+@import "./assets/Scss/SubCategories.scss";
+
+@import "./assets/Scss/CategoryItems.scss";
+
+@import "./assets/Scss/Favorite.scss";
+
+@import "./assets/Scss/Cart.scss";
+
+@import "./assets/Scss/Login.scss";
+
+@import "./assets/Scss/Register.scss";
+
+@import "./assets/Scss/ConfirmOrder.scss";
+
+@import "./assets/Scss/Profile.scss";
+
+.App {
+  width: 100%;
+
+  //YoutubeEmbed Component
+  .video-responsive {
+    overflow: hidden;
+    padding-bottom: 56.25%;
+    position: relative;
+    height: 0;
+  }
+
+  .video-responsive iframe {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+  }
+  ///////////////////////////////////////////////////////////////////
+
+  //brand logo
+  .brand-logo-img {
+    width: 100%;
+    max-width: 150px;
+    min-width: 80px;
+    height: 85px;
+    background-color: white;
+  }
+  ///////////////////////////////////////////////////////////////////
+
+  //footer
+  .footer {
+    width: 100%;
+    .social {
+      background-color: #343a40;
+      width: 100%;
+      .header {
+        font-style: normal;
+        font-weight: bold;
+        font-size: 24px;
+        color: #f8f9fa;
+      }
+      .social-icons {
+        button {
+          border: none;
+          background-color: inherit;
+          padding: 10px;
+        }
+      }
+    }
+    .footer-info {
+      width: 100%;
+      background-color: #212529;
+
+      .lists {
+        .list {
+          .name-list {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 18px;
+            color: #6c757d;
+          }
+          ul {
+            li {
+              font-style: normal;
+              font-weight: normal;
+              font-size: 16px;
+              color: #f8f9fa;
+              padding: 8px 0;
+              .brand-route {
+                color: #f8f9fa;
+              }
+            }
+            li:hover {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+      .owner {
+        width: 100%;
+        background: #343a40;
+        span {
+          font-style: normal;
+          font-weight: normal;
+          font-size: 16px;
+          color: #6c757d;
+        }
+      }
+    }
+  }
+}
+////////////////////////////////////////////////////////
+
+//folr light mode
+.App-light {
+  background-color: $white;
+  color: $black;
+}
+
+////////////////////////////////////////////////////////
+
+//folr dark mode
+.App-dark {
+  background-color: $black;
+  color: $white;
+}
+
+////////////////////////////////////////////////////////
+
+/* Loader */
+.loader {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20%;
+  width: 80px;
+  height: 80px;
+  padding-left: 0;
+}
+.loader:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fa9c23;
+  border-color: #fa9c23 transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
