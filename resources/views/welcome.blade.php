@@ -6,7 +6,7 @@
             <link href="{{ mix('/css/app.css') }}" rel="stylesheet" />
             <script src="{{ mix('/js/app.js') }}" defer></script>
 
-        <title>Molak</title>
+        <title>Molk</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
