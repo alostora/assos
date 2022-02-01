@@ -21,8 +21,9 @@ import ProfileInfo from './ProfileInfo';
 import ChangePassword from './ChangePassword';
 import Address from './address/Address';
 import AddAddress from './address/AddAddress';
-import Payment from './payment/Payment';
 import Orders from './orders/Orders';
+import OrderDetails from './orders/OrderDetails';
+import Payment from './payment/Payment';
 
 
 const Profile = () => {
@@ -101,6 +102,10 @@ const Profile = () => {
                                         <Route exact path={"/profile/address/edit-address-:id"} render={() => <AddAddress />} />
 
                                         <Route exact path={"/profile/orders"} render={() => <Orders />} />
+
+                                        <Route exact path={"/profile/order-details"} render={() => <OrderDetails />} />
+
+                                        <Route exact path={"/profile/order/product-back"} render={() => <p>back</p>} />
 
                                         <Route exact path={"/profile/payment-methods"} render={() => <Payment />} />
 

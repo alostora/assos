@@ -329,4 +329,141 @@
             }
         }
     }
+    .order-details-page {
+        .secondary-color-grey {
+            color: #868e96;
+        }
+        .order-code {
+            font-style: normal;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .progress-order {
+            .progress-details {
+                font-style: normal;
+                font-weight: bold;
+                font-size: 16px;
+                color: #28a745;
+            }
+        }
+        .details-section {
+            .order-details-line {
+                font-style: normal;
+                font-weight: normal;
+                font-size: 18px;
+            }
+        }
+        .order-items {
+            .header {
+                font-style: normal;
+                font-weight: bold;
+                font-size: 16px;
+                color: #6c757d;
+            }
+            .order-item {
+                img {
+                    max-width: 144px;
+                    height: 135px;
+                    border-radius: 5px;
+                    object-fit: cover;
+                }
+                .brand-name {
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 18px;
+                    color: #6c757d;
+                }
+                .item-name {
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 18px;
+                }
+                .item-price {
+                    font-style: normal;
+                    font-weight: bold;
+                    font-size: 18px;
+                }
+                .item-count {
+                    font-style: normal;
+                    font-weight: bold;
+                    font-size: 16px;
+                    color: #868e96;
+                }
+            }
+        }
+        .btn-order-again,
+        .btn-return-order {
+            width: 150px;
+            height: 38px;
+            border: 1px solid #212529;
+            background-color: inherit;
+            border-radius: 34px;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 16px;
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+        .btn-order-again {
+            background-color: #212529;
+            color: white;
+        }
+        .order-calc {
+            background-color: #f9fafb;
+            position: relative;
+            &::after {
+                content: "";
+                position: absolute;
+                left: 5%;
+                height: 1px;
+                width: 90%;
+                border-bottom: 1px solid #e4e7ec;
+            }
+            .second-header {
+                font-style: normal;
+                font-weight: normal;
+                font-size: 18px;
+                color: black;
+            }
+            .calc-result {
+                font-style: normal;
+                font-weight: 600;
+                font-size: 18px;
+                color: #6c757d;
+            }
+        }
+        .order-total {
+            background-color: #f9fafb;
+        }
+        .second-header {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 18px;
+            color: black;
+        }
+        .calc-result {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 18px;
+            color: #212529;
+        }
+        .submit-order {
+            background-color: #f9fafb;
+            .btn-complete-order {
+                width: 150px;
+                height: 38px;
+                background-color: #212529;
+                border: 1px solid #ffffff;
+                border-radius: 34px;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 16px;
+                color: white;
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
 }

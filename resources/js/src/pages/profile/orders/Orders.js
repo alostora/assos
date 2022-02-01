@@ -1,6 +1,9 @@
 //react
 import React, { useContext } from 'react';
 
+//react router
+import { useHistory } from "react-router-dom";
+
 //translate
 import { useTranslation } from "react-i18next"
 
@@ -19,7 +22,9 @@ const Orders = () => {
     const { t } = useTranslation();
 
     // current country
-    const { country, } = useContext(CountryContext)
+    const { country, } = useContext(CountryContext);
+
+    const history = useHistory();
 
     return (
         <div className='d-flex flex-column profile-orders px-2'>
@@ -79,7 +84,12 @@ const Orders = () => {
                     </div>
                 </div>
 
-                <button className='btn-order-details d-flex '>
+                <button className='btn-order-details d-flex'
+                onClick={(e)=>{
+                    e.preventDefault();
+                    return history.push("/profile/order-details");
+                }}
+                >
                     {t("View order details")}
                     <span className='px-2'>{localStorage.getItem("i18nextLng") === "en" ?
                         <ArrowForwardIcon /> : <ArrowBackIcon />}</span>

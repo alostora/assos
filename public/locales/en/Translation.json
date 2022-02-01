@@ -149,6 +149,13 @@
     "completed":"completed",
     "Products":"Products",
     "Count":"Count",
-    "View order details":"View order details"
+    "View order details":"View order details",
+    "Order Number":"Order Number",
+    "Payment Method":"Payment Method",
+    "Delivery Method":"Delivery Method",
+    "Estimated arrival time":"Estimated arrival time",
+    "order again":"order again",
+    "return order":"return order"
+    
 
   }

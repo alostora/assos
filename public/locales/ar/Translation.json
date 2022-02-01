@@ -149,5 +149,11 @@
     "completed":"مكتملة",
     "Products":"المنتجات",
     "Count":"العدد",
-    "View order details":"عرض تفاصيل الطلب"
+    "View order details":"عرض تفاصيل الطلب",
+    "Order Number":"رقم الطلب",
+    "Payment Method":"طريقة الدفع",
+    "Delivery Method":"طريقة التوصيل",
+    "Estimated arrival time":"الوقت المتوقع للوصول",
+    "order again":"طلب مرة أخرى",
+    "return order":"إرجاع الطلب"
   }
