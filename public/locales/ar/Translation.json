@@ -138,5 +138,16 @@
     "Orders":"الطلبات",
     "Payment Methods":"طرق الدفع",
     "Notifications":"الإشعارات",
-    "Communication Preferences":"تفضيلات التواصل"
+    "Communication Preferences":"تفضيلات التواصل",
+    "Current":"الحالية",
+    "Completed":"المكتملة",
+    "Canceled":"الملغاة",
+    "Order":"الطلب",
+    "Order Date":"تاريخ الطلب",
+    "Receipt of order":"تم استلام الطلب",
+    "Processing":"جارى المعالجة",
+    "completed":"مكتملة",
+    "Products":"المنتجات",
+    "Count":"العدد",
+    "View order details":"عرض تفاصيل الطلب"
   }

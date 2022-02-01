@@ -1,12 +1,12 @@
 {
-    "name" : "Molak",
-    "homepage" : "https://molk-kw.com/",
-    "version" : "1.0.0",
+    "name": "molk",
+    "homepage": "https://molk-kw.com",
+    "version": "1.0.0",
     "private": true,
     "scripts": {
         "dev": "npm run development",
         "development": "mix",
-        "watch": "mix watch",
+        "watch": "npx mix watch",
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",

@@ -22,6 +22,8 @@ import ChangePassword from './ChangePassword';
 import Address from './address/Address';
 import AddAddress from './address/AddAddress';
 import Payment from './payment/Payment';
+import Orders from './orders/Orders';
+
 
 const Profile = () => {
 
@@ -98,9 +100,9 @@ const Profile = () => {
 
                                         <Route exact path={"/profile/address/edit-address-:id"} render={() => <AddAddress />} />
 
-                                        <Route exact path={"/profile/orders"} render={() => <h4>orders</h4>} />
+                                        <Route exact path={"/profile/orders"} render={() => <Orders />} />
 
-                                        <Route exact path={"/profile/payment-methods"} render={() => <Payment/>} />
+                                        <Route exact path={"/profile/payment-methods"} render={() => <Payment />} />
 
                                         <Route exact path={"/profile/notifications"} render={() => <h4>notifi </h4>} />
 

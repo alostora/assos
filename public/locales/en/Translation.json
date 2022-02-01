@@ -138,6 +138,17 @@
     "Orders":"Orders",
     "Payment Methods":"Payment Methods",
     "Notifications":"Notifications",
-    "Communication Preferences":"Communication Preferences"
+    "Communication Preferences":"Communication Preferences",
+    "Current":"Current",
+    "Completed":"Completed",
+    "Canceled":"Canceled",
+    "Order":"Order",
+    "Order Date":"Order Date",
+    "Receipt of order":"Receipt of Order",
+    "Processing":"Processing",
+    "completed":"completed",
+    "Products":"Products",
+    "Count":"Count",
+    "View order details":"View order details"
 
   }
