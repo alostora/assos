@@ -8,6 +8,7 @@ import { grey } from '@mui/material/colors';
 import CreditCardRoundedIcon from '@mui/icons-material/CreditCardRounded';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SmsIcon from '@mui/icons-material/Sms';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 //icons
@@ -90,7 +91,7 @@ const NavProfile = () => {
 
                     <li className="nav-item mb-3" onClick={() => setExpanded(false)}>
                         <NavLink
-                            to="/profile/orders"
+                            to="/profile/order"
                             className="text-decoration-none d-flex justify-content-between link-item"
                             activeClassName="selected-link">
 
@@ -169,6 +170,24 @@ const NavProfile = () => {
                             <div>
                                 <SmsIcon />
                                 <span className='px-2'>{t("Communication Preferences")}</span>
+                            </div>
+
+                            <span className='arrow-link'>  {localStorage.getItem("i18nextLng") === "en" ?
+                                <ArrowForwardIosIcon /> : <ArrowBackIosIcon />}
+                            </span>
+                        </NavLink>
+                    </li>
+                    {/*//////////////////////////////////*/}
+
+                    <li className="nav-item mb-3" onClick={() => setExpanded(false)}>
+                        <NavLink
+                            to="/profile/gift-coupons"
+                            className="text-decoration-none d-flex justify-content-between link-item"
+                            activeClassName="selected-link">
+
+                            <div>
+                                <CardGiftcardIcon />
+                                <span className='px-2'>{t("Gift Coupons")}</span>
                             </div>
 
                             <span className='arrow-link'>  {localStorage.getItem("i18nextLng") === "en" ?

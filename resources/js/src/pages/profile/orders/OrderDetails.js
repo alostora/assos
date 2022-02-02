@@ -117,10 +117,10 @@ const OrderDetails = () => {
                         <button className='btn-return-order'
                             onClick={(e) => {
                                 e.preventDefault();
-                                return history.push('/profile/order/product-back');
+                                return history.push('/profile/order/product-back-15-20');
                             }}
                         >
-                            {t("return order")}
+                            {t("Product return")}
                         </button>
                     </div>
                 </div>

@@ -155,7 +155,14 @@
     "Delivery Method":"Delivery Method",
     "Estimated arrival time":"Estimated arrival time",
     "order again":"order again",
-    "return order":"return order"
-    
+    "Product return":"Product return",
+    "Product Return":"Product Return",
+    "Product Number":"Product Number",
+    "Reason for return":"Reason for return",
+    "Other Notes":"Other Notes",
+    "Write your notes here, if any":"Write your notes here, if any",
+    "I have read and agree to the return policy":"I have read and agree to the return policy",
+    "Send Request":"Send Request",
+    "Gift Coupons":"Gift Coupons"
 
   }

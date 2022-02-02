@@ -87,7 +87,7 @@ const Orders = () => {
                 <button className='btn-order-details d-flex'
                 onClick={(e)=>{
                     e.preventDefault();
-                    return history.push("/profile/order-details");
+                    return history.push("/profile/order/order-details");
                 }}
                 >
                     {t("View order details")}
