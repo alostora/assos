@@ -20,6 +20,7 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import CreditCardRoundedIcon from '@mui/icons-material/CreditCardRounded';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SmsIcon from '@mui/icons-material/Sms';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 
 //translate
 import { useTranslation } from "react-i18next"
@@ -302,7 +303,7 @@ const NavBar = () => {
                                             className='d-flex align-items-center'
                                             onClick={(e) => {
                                                 e.preventDefault();
-                                                history.push("/profile/orders");
+                                                history.push("/profile/order");
                                                 window.location.reload();
                                             }}>
 
@@ -353,6 +354,20 @@ const NavBar = () => {
                                             }}>
                                             <SmsIcon />
                                             <span className='px-1'>{t("Communication Preferences")}</span>
+                                        </Dropdown.Item>
+                                        {/*//////////////////////////////////*/}
+
+                                        <Dropdown.Item
+                                            className='d-flex align-items-center'
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                history.push("/profile/gift-coupons");
+                                                window.location.reload();
+                                            }}>
+
+                                            <CardGiftcardIcon />
+                                            <span className='px-1'>{t("Gift Coupons")}</span>
+
                                         </Dropdown.Item>
                                         {/*//////////////////////////////////*/}
 

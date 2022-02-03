@@ -92,25 +92,22 @@ const AddAddress = () => {
         // console.log(  newObj)
     }
 
-    // const editAddress = (e) => {
-
-    //     e.preventDefault();
-
-    //     axiosInstance({
-    //         method: "post",
-    //         url: `/addNewAddress`,
-    //         data: newAddress
-    //     })
-    //         .then((res) => res.data)
-    //         .then(data => setErrorMessage(data.message))
-
-    //         .catch((err) => console.error(err));
-
-    // }
-
     const { id: addressId } = useParams();
 
-    console.log(addressId)
+    const editAddressHandler = (e) => {
+
+        e.preventDefault();
+
+        axiosInstance({
+            method: "post",
+            url: `/addNewAddress`,
+            data: { ...newAddress, id: addressId }
+        })
+            .then((res) => res.data)
+            .then(data => setErrorMessage(data.message))
+
+            .catch((err) => console.error(err));
+    }
 
     return (
 
@@ -135,7 +132,7 @@ const AddAddress = () => {
                             <CustomGoogleMaps />
                         </div>
 
-                        <form className='row mt-4' onSubmit={addAddressHandler}>
+                        <form className='row mt-4' onSubmit={addressId ? editAddressHandler : addAddressHandler}>
                             <Form.Group className="mb-3 col-lg-6 col-12" controlId="formPlainName">
 
                                 <Form.Label className='paragraph-form-address'>{t("Name")}</Form.Label>

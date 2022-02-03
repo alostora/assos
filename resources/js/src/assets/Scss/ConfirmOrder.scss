@@ -156,6 +156,14 @@
     font-size: 18px;
     color: #212529;
   }
+  .error-message {
+    background-color: #f9fafb;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    //color: rgba(255, 0, 0, 0.938);
+    color: rgba(255, 0, 0, 0.938);
+  }
   .submit-order{
     background-color: #f9fafb;
     .btn-complete-order {
@@ -173,5 +181,18 @@
       }
     }
   }
-  
+  .btn-continue-shopping{
+    width: 150px;
+    height: 38px;
+    background-color: #212529;
+    border: 1px solid #ffffff;
+    border-radius: 34px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+    &:hover{
+      opacity: 0.8;
+    }
+  }
 }

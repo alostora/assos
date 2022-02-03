@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getOrder } from './../../redux/actions/orderActions'
 
 //react
-import React, { Fragment, useEffect, useState, useContext } from 'react';
+import React, { Fragment, useEffect, useState, useContext, useCallback } from 'react';
 
 //react router
 import { Link, useHistory } from 'react-router-dom';
@@ -74,7 +74,7 @@ const ConfirmOrder = () => {
     //tax Value
     const addedTaxValue = shippingTypes ? shippingTypes.find(type => type.settingName === "addedTax") : ""
 
-    const taxPercent = (order.total_price * addedTaxValue.settingValue) / 100;
+    const taxPercent = order && addedTaxValue && (order.total_price * addedTaxValue.settingValue) / 100;
 
     //payment method value
     const [payMethodValue, setPayMethodValue] = useState("")
@@ -82,12 +82,16 @@ const ConfirmOrder = () => {
     //total price
     const [totalPrice, setTotalPrice] = useState(0)
 
+    //error message for validate new account
+    const [errorMessage, setErrorMessage] = useState(null)
 
     useEffect(() => {
 
-        dispatch(getOrder())
+        dispatch(getOrder());
 
-        getCheckOutDetails()
+        getCheckOutDetails();
+
+        getDiscountcoupons();
 
     }, [dispatch, error])
 
@@ -108,13 +112,59 @@ const ConfirmOrder = () => {
     }, [order, shippingTypeSelect, payMethodValue, checkDetails, taxPercent, defaultAddress, totalPrice])
 
     useEffect(() => {
-        setTotalPrice(
-            shippingTypeSelect && addedTaxValue && order ?
 
-                order.total_price + taxPercent + shippingTypeSelect.settingValue :
-                order.total_price + taxPercent
-        )
+        if (order) {
+            setTotalPrice(
+                shippingTypeSelect && addedTaxValue && order ?
+
+                    order.total_price + taxPercent + shippingTypeSelect.settingValue :
+                    order.total_price + taxPercent
+            )
+        }
+
     }, [shippingTypeSelect, order, addedTaxValue, checkDetails, taxPercent])
+
+    //discount coupons
+    const [discountCoupons, setDiscountCoupons] = useState([])
+
+    const [couponValue, setCouponValue] = useState("")
+
+    //const [discountCopon, setDiscountCoupon] = useState({})
+
+    const [discountValue, setDiscountValue] = useState(0)
+
+    const getDiscountcoupons = async () => {
+
+        await axiosInstance({
+            method: "get",
+            url: `/discountCopons`,
+        })
+            .then(res => res.data)
+            .then(data => setDiscountCoupons(data.data))
+
+            .catch((err) => console.error(err));
+    }
+
+    const sendCoupon = async () => {
+
+        await axiosInstance({
+            method: "post",
+            url: `/orderCopon`,
+            data: {
+                code: couponValue,
+                order_id: order && order.id
+            }
+        })
+            .then(res => res.data)
+            .then(data => {
+                setErrorMessage(data.message);
+                if (data.status) {
+                    const discountCopon = discountCoupons.find(coupon => coupon.code === couponValue);
+                    setDiscountValue(Number(discountCopon.discountValue));
+                }
+            })
+            .catch((err) => console.error(err));
+    }
 
     //confirm order function
     const confirmOrder = async () => {
@@ -125,11 +175,14 @@ const ConfirmOrder = () => {
             data: confirmData
         })
             .then(res => res.data)
-            .then(data => console.log({ data }))
+            .then(data => {
+                setErrorMessage(data.message);
+                data.status && history.push(`/confirm-order-done/${order && order.id}`);
+                window.location.reload();
+            })
 
             .catch((err) => console.error(err));
     }
-
 
     return (
         <div className='d-flex flex-column container my-4 confirm-order-page'>
@@ -149,214 +202,244 @@ const ConfirmOrder = () => {
             <Fragment>
                 {loading ? <Loader /> :
 
-                    <div className='container d-flex flex-column'>
+                    order ?
 
-                        <div className='d-flex flex-column items-cart'>
+                        <div className='container d-flex flex-column'>
 
-                            <span className='items-num mb-3'>{cartItems && cartItems.length} &nbsp; {t("Cart Items")}</span>
+                            <div className='d-flex flex-column items-cart'>
 
-                            <div className='items row mx-0 mb-3'>
-                                {cartItems && cartItems.map(item =>
+                                <span className='items-num mb-3'>{cartItems && cartItems.length} &nbsp; {t("Cart Items")}</span>
 
-                                    <div className='item-cart d-flex flex-column col-lg-2 col-3' key={item.id}>
+                                <div className='items row mx-0 mb-3'>
+                                    {cartItems && cartItems.map(item =>
 
-                                        <img src={item.itemImage} alt='itemImage' />
-                                        <span className='item-name my-1'>{item.itemName}</span>
-                                    </div>
+                                        <div className='item-cart d-flex flex-column col-lg-2 col-3' key={item.id}>
 
-                                )}
-                            </div>
-                        </div>
-                        {/*///////////////////////////////////////////*/}
+                                            <img src={item.itemImage} alt='itemImage' />
+                                            <span className='item-name my-1'>{item.itemName}</span>
+                                        </div>
 
-                        <div className='d-flex flex-column delivery-address'>
-
-                            <span className='header mt-4 mb-3'>{t("Delivery Address")}</span>
-
-                            <div className='row'>
-
-                                <div className='d-flex flex-column address-details col-lg-10 col-12 p-2'>
-
-                                    <div className='row mb-2'>
-                                        <span className='col-2 fw-bold'>{t("Name")}</span>
-                                        <span className='col-10 details'>{defaultAddress && defaultAddress.name}</span>
-                                    </div>
-
-
-                                    <div className='row mb-2'>
-                                        <span className='col-2 fw-bold'>{t("Address")}</span>
-                                        <span className='col-10 details'>
-
-
-                                            {`${defaultAddress && defaultAddress.street ? defaultAddress.street : ""} - ${defaultAddress && defaultAddress.address}`}</span>
-                                    </div>
-
-
-                                    <div className='row mb-2'>
-                                        <span className='col-2 fw-bold'>{t("Phone")}</span>
-                                        <span className='col-10 details'>{defaultAddress && defaultAddress.phone}</span>
-                                    </div>
-
+                                    )}
                                 </div>
-
-                                <button className='btn-change-address d-flex justify-content-center align-items-center my-2 col-lg-2 col-12 p-1'
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        return history.push('/profile/address')
-                                    }}
-                                >
-                                    {defaultAddress ? t("Change Address") : t("Add Address")}
-                                </button>
                             </div>
-                        </div>
-                        {/*///////////////////////////////////////////*/}
+                            {/*///////////////////////////////////////////*/}
 
-                        <div className='d-flex flex-column mt-4 delivery-options'>
-                            <span className='d-flex header mb-3'>{t("Delivery options")}</span>
+                            <div className='d-flex flex-column delivery-address'>
 
-                            <div className='row mx-0 option-details mb-2'>
+                                <span className='header mt-4 mb-3'>{t("Delivery Address")}</span>
 
-                                <div className="form-check col-lg-6 col-12">
-                                    <input className="form-check-input" type="radio" name="flexRadioDelivery" id="flexRadio1"
-                                        value={normalShippingType} required
-                                        onChange={() => setShippingTypeSelect(normalShippingType)}
-                                    />
-                                    <label className="form-check-label row" htmlFor="flexRadio1">
+                                <div className='row'>
 
-                                        <span className='col-3'>{t("Normal Delivery")} </span>
-                                        <span className='col-9 shipping-option'>{`(${normalShippingType && normalShippingType.settingOptions})`}</span>
-                                    </label>
-                                </div>
+                                    <div className='d-flex flex-column address-details col-lg-10 col-12 p-2'>
 
-                                <span className='col-lg-6 col-12 d-flex justify-content-end'>
+                                        <div className='row mb-2'>
+                                            <span className='col-2 fw-bold'>{t("Name")}</span>
+                                            <span className='col-10 details'>{defaultAddress && defaultAddress.name}</span>
+                                        </div>
 
-                                    {normalShippingType && normalShippingType.settingValue}
-                                    &nbsp;{country === "sa" ? t("SAR") : t("KWD")}
-                                </span>
-                            </div>
 
-                            <div className='row mx-0 option-details'>
+                                        <div className='row mb-2'>
+                                            <span className='col-2 fw-bold'>{t("Address")}</span>
+                                            <span className='col-10 details'>
 
-                                <div className="form-check col-lg-6 col-12" >
-                                    <input className="form-check-input" type="radio" name="flexRadioDelivery" id="flexRadio2"
-                                        value={fastShippingType}
-                                        onChange={() => setShippingTypeSelect(fastShippingType)}
-                                    />
-                                    <label className="form-check-label row" htmlFor="flexRadio2">
 
-                                        <span className='col-3'>{t("Fast Shipping")} </span>
-                                        <span className='col-9 shipping-option'>{`(${fastShippingType && fastShippingType.settingOptions})`}</span>
-                                    </label>
-                                </div>
+                                                {`${defaultAddress && defaultAddress.street ? defaultAddress.street : ""} - ${defaultAddress ? defaultAddress.address : ""}`}</span>
+                                        </div>
 
-                                <span className='col-lg-6 col-12 d-flex justify-content-end'>
 
-                                    {fastShippingType && fastShippingType.settingValue}
-                                    &nbsp;{country === "sa" ? t("SAR") : t("KWD")}
-                                </span>
-                            </div>
-                        </div>
-                        {/*///////////////////////////////////////////*/}
+                                        <div className='row mb-2'>
+                                            <span className='col-2 fw-bold'>{t("Phone")}</span>
+                                            <span className='col-10 details'>{defaultAddress && defaultAddress.phone}</span>
+                                        </div>
 
-                        <div className='d-flex flex-column mt-5 pay-options mb-2'>
-                            <span className='d-flex header mb-3'>{t("Payment options")}</span>
-
-                            <div className='row'>
-
-                                <div className='col-lg-4 col-12'>
-
-                                    <div className="form-check option-details mb-2">
-                                        <input className="form-check-input" type="radio" name="flexRadioPayment" id="flexRadiopay1"
-                                            value={""}
-                                        />
-                                        <label className="form-check-label" htmlFor="flexRadiopay1">
-                                            {t("Credit Card")}
-                                        </label>
                                     </div>
 
-                                    <div className="form-check option-details mb-2">
-                                        <input className="form-check-input" type="radio" name="flexRadioPayment" id="flexRadiopay2"
-                                            value={"cash"}
-                                            onChange={(e) => setPayMethodValue(e.target.value)}
-                                        />
-                                        <label className="form-check-label" htmlFor="flexRadiopay2">
-                                            {t("Paiement when recieving")}
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <div className='col-lg-8 col-12 d-flex justify-content-end'>
-
-                                    <button className='btn-add-card d-flex justify-content-center align-items-center my-2 p-1'>
-                                        {t("Add a new card")}
+                                    <button className='btn-change-address d-flex justify-content-center align-items-center my-2 col-lg-2 col-12 p-1'
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            return history.push('/profile/address')
+                                        }}
+                                    >
+                                        {defaultAddress ? t("Change Address") : t("Add Address")}
                                     </button>
                                 </div>
                             </div>
-                        </div>
-                        {/*///////////////////////////////////////////*/}
+                            {/*///////////////////////////////////////////*/}
 
-                        <div className='d-flex justify-content-center discount-code py-4'>
+                            <div className='d-flex flex-column mt-4 delivery-options'>
+                                <span className='d-flex header mb-3'>{t("Delivery options")}</span>
 
-                            <Form.Control type="text" placeholder={t("Enter discount code")}
-                                onChange={e => console.log(e.target.value)} />
-                            <button className='btn-active-copoun '>{t("activation")}</button>
+                                <div className='row mx-0 option-details mb-2'>
 
-                        </div>
-                        {/*///////////////////////////////////////////*/}
+                                    <div className="form-check col-lg-6 col-12">
+                                        <input className="form-check-input" type="radio" name="flexRadioDelivery" id="flexRadio1"
+                                            value={normalShippingType} required
+                                            onChange={() => setShippingTypeSelect(normalShippingType)}
+                                        />
+                                        <label className="form-check-label row" htmlFor="flexRadio1">
 
-                        <div className='order-calc px-5'>
+                                            <span className='col-3'>{t("Normal Delivery")} </span>
+                                            <span className='col-9 shipping-option'>{`(${normalShippingType && normalShippingType.settingOptions})`}</span>
+                                        </label>
+                                    </div>
 
-                            <div className='d-flex justify-content-between pb-3'>
-                                <span className='second-header'>{t("Total order")}</span>
-                                <span className='calc-result'>
-                                    {order && order.total_price}
-                                    &nbsp;{country === "sa" ? t("SAR") : t("KWD")}
-                                </span>
+                                    <span className='col-lg-6 col-12 d-flex justify-content-end'>
+
+                                        {normalShippingType && normalShippingType.settingValue}
+                                        &nbsp;{country === "sa" ? t("SAR") : t("KWD")}
+                                    </span>
+                                </div>
+
+                                <div className='row mx-0 option-details'>
+
+                                    <div className="form-check col-lg-6 col-12" >
+                                        <input className="form-check-input" type="radio" name="flexRadioDelivery" id="flexRadio2"
+                                            value={fastShippingType}
+                                            onChange={() => setShippingTypeSelect(fastShippingType)}
+                                        />
+                                        <label className="form-check-label row" htmlFor="flexRadio2">
+
+                                            <span className='col-3'>{t("Fast Shipping")} </span>
+                                            <span className='col-9 shipping-option'>{`(${fastShippingType && fastShippingType.settingOptions})`}</span>
+                                        </label>
+                                    </div>
+
+                                    <span className='col-lg-6 col-12 d-flex justify-content-end'>
+
+                                        {fastShippingType && fastShippingType.settingValue}
+                                        &nbsp;{country === "sa" ? t("SAR") : t("KWD")}
+                                    </span>
+                                </div>
                             </div>
+                            {/*///////////////////////////////////////////*/}
 
-                            <div className='d-flex justify-content-between pb-3'>
-                                <span className='second-header'>{t("Shipping Expenses")}</span>
-                                <span className='calc-result'>
-                                    {shippingTypeSelect && shippingTypeSelect.settingValue}
-                                    &nbsp;{country === "sa" ? t("SAR") : t("KWD")}
-                                </span>
+                            <div className='d-flex flex-column mt-5 pay-options mb-2'>
+                                <span className='d-flex header mb-3'>{t("Payment Options")}</span>
+
+                                <div className='row'>
+
+                                    <div className='col-lg-4 col-12'>
+
+                                        <div className="form-check option-details mb-2">
+                                            <input className="form-check-input" type="radio" name="flexRadioPayment" id="flexRadiopay1"
+                                                value={""}
+                                            />
+                                            <label className="form-check-label" htmlFor="flexRadiopay1">
+                                                {t("Credit Card")}
+                                            </label>
+                                        </div>
+
+                                        <div className="form-check option-details mb-2">
+                                            <input className="form-check-input" type="radio" name="flexRadioPayment" id="flexRadiopay2"
+                                                value={"cash"}
+                                                onChange={(e) => setPayMethodValue(e.target.value)}
+                                            />
+                                            <label className="form-check-label" htmlFor="flexRadiopay2">
+                                                {t("Paiement when recieving")}
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div className='col-lg-8 col-12 d-flex justify-content-end'>
+
+                                        <button className='btn-add-card d-flex justify-content-center align-items-center my-2 p-1'>
+                                            {t("Add a new card")}
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
+                            {/*///////////////////////////////////////////*/}
 
-                            <div className='d-flex justify-content-between pb-3'>
+                            <div className='d-flex justify-content-center discount-code py-4'>
+
+                                <Form.Control type="text" placeholder={t("Enter discount code")}
+                                    onChange={e => setCouponValue(e.target.value)} />
+                                <button className='btn-active-copoun'
+                                    onClick={sendCoupon} >
+                                    {t("activation")}</button>
+
+                            </div>
+                            {/*///////////////////////////////////////////*/}
+
+                            <div className='order-calc px-5'>
+
+                                <div className='d-flex justify-content-between pb-3'>
+                                    <span className='second-header'>{t("Total order")}</span>
+                                    <span className='calc-result'>
+                                        {order && order.total_price}
+                                        &nbsp;{country === "sa" ? t("SAR") : t("KWD")}
+                                    </span>
+                                </div>
+
+                                <div className='d-flex justify-content-between pb-3'>
+                                    <span className='second-header'>{t("Shipping Expenses")}</span>
+                                    <span className='calc-result'>
+                                        {shippingTypeSelect && shippingTypeSelect.settingValue}
+                                        &nbsp;{country === "sa" ? t("SAR") : t("KWD")}
+                                    </span>
+                                </div>
+
+                                <div className='d-flex justify-content-between pb-3'>
+                                    <span className='second-header'>{t("Coupon Discount")}</span>
+                                    <span className='calc-result'>
+                                        {(discountValue * order.total_price) / 100}
+                                        &nbsp;{country === "sa" ? t("SAR") : t("KWD")}
+                                    </span>
+                                </div>
+
+                                <div className='d-flex justify-content-between pb-3'>
+                                    <span className='second-header'>
+                                        {t("Value added tax")} &nbsp;{`(${addedTaxValue && addedTaxValue.settingValue}%)`}
+
+                                    </span>
+                                    <span className='calc-result'>
+                                        {addedTaxValue && order && taxPercent}
+                                        &nbsp;{country === "sa" ? t("SAR") : t("KWD")}
+                                    </span>
+                                </div>
+                            </div>
+                            {/*///////////////////////////////////////////*/}
+
+                            <div className='d-flex justify-content-between py-4 px-5 order-total'>
                                 <span className='second-header'>
-                                    {t("Value added tax")} &nbsp;{`(${addedTaxValue && addedTaxValue.settingValue}%)`}
+                                    {t("Total")}
 
                                 </span>
                                 <span className='calc-result'>
-                                    {addedTaxValue && order && taxPercent}
+                                    {totalPrice - ((discountValue * order.total_price) / 100)}
+
                                     &nbsp;{country === "sa" ? t("SAR") : t("KWD")}
                                 </span>
                             </div>
+                            {/*///////////////////////////////////////////*/}
+
+                            {errorMessage && <span className='error-message py-2 px-5'> {errorMessage}</span>}
+                            {/*///////////////////////////////////////////*/}
+
+                            <div className='submit-order d-flex justify-content-end p-4'>
+
+                                <button className='d-flex justify-content-center align-items-center btn-complete-order'
+                                    onClick={confirmOrder}
+                                >
+                                    {t("Complete order")}
+                                </button>
+
+                            </div>
+
                         </div>
-                        {/*///////////////////////////////////////////*/}
+                        :
+                        <div className='d-flex flex-column justify-content-center align-items-center py-5'>
 
-                        <div className='d-flex justify-content-between py-4 px-5 order-total'>
-                            <span className='second-header'>
-                                {t("Total")}
+                            <h4 className='d-flex mb-4'>{t("There is no currently order")}</h4>
 
-                            </span>
-                            <span className='calc-result'>
-                                {totalPrice}
-
-                                &nbsp;{country === "sa" ? t("SAR") : t("KWD")}
-                            </span>
-                        </div>
-                        {/*///////////////////////////////////////////*/}
-                        <div className='submit-order d-flex justify-content-end p-4'>
-                            <button className='d-flex justify-content-center align-items-center btn-complete-order'
-                                onClick={confirmOrder}
-                            >
-                                {t("Complete order")}
+                            <button className='btn-continue-shopping'
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    return history.push("/")
+                                }}>
+                                {t("Continue Shopping")}
                             </button>
-
                         </div>
-                        
-                    </div>
                 }
             </Fragment>
         </div>

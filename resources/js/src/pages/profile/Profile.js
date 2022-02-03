@@ -21,7 +21,12 @@ import ProfileInfo from './ProfileInfo';
 import ChangePassword from './ChangePassword';
 import Address from './address/Address';
 import AddAddress from './address/AddAddress';
+import Orders from './orders/Orders';
+import OrderDetails from './orders/OrderDetails';
+import ProductBack from './orders/ProductBack';
 import Payment from './payment/Payment';
+import GiftCoupons from './giftCoupons/GiftCoupons';
+
 
 const Profile = () => {
 
@@ -98,13 +103,19 @@ const Profile = () => {
 
                                         <Route exact path={"/profile/address/edit-address-:id"} render={() => <AddAddress />} />
 
-                                        <Route exact path={"/profile/orders"} render={() => <h4>orders</h4>} />
+                                        <Route exact path={"/profile/order"} render={() => <Orders />} />
 
-                                        <Route exact path={"/profile/payment-methods"} render={() => <Payment/>} />
+                                        <Route exact path={"/profile/order/order-details"} render={() => <OrderDetails />} />
+
+                                        <Route exact path={"/profile/order/product-back-:order_id-:product_id"} render={() => <ProductBack />} />
+
+                                        <Route exact path={"/profile/payment-methods"} render={() => <Payment />} />
 
                                         <Route exact path={"/profile/notifications"} render={() => <h4>notifi </h4>} />
 
                                         <Route exact path={"/profile/communication-preferences"} render={() => <h4>communication </h4>} />
+
+                                        <Route exact path={"/profile/gift-coupons"} render={() => <GiftCoupons />} />
 
                                     </Switch>
                                 </div>
