@@ -20,14 +20,15 @@ const EditProfileModal = ({ show, handleClose }) => {
     //translate
     const { t } = useTranslation();
 
-    const [newImg, setNewImg] = useState("");
-
     const [newUserData, setNewUserData] = useState({})
 
     // fetch from api
     const dispatch = useDispatch()
 
     const { user } = useSelector(state => state.auth)
+
+    const [newImg, setNewImg] = useState(user && user.image);
+
 
     useEffect(() => {
 

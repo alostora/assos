@@ -5,7 +5,7 @@ export const axiosInstance =
 
   axios.create({
 
-    baseURL: `https://xx.hmaserv.online/assos/api`,
+    baseURL: `https://molk-kw.com/api`,
     headers: {
       'device-id': localStorage.getItem("device-id") || "",
       'accept-language': localStorage.getItem("i18nextLng") || "en",
@@ -13,9 +13,9 @@ export const axiosInstance =
       'main-filter': localStorage.getItem("main-filter") || "men",
       "Authorization": `Bearer ${localStorage.getItem("api-token") || ""}`
     },
-    params: {
-      api_token: localStorage.getItem("api-token") || "",
-    }
+    // params: {
+    //   api_token: localStorage.getItem("api-token") || "",
+    // }
   });
 
 

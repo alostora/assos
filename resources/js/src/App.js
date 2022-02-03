@@ -33,7 +33,7 @@ import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import ConfirmOrder from "./pages/confirmOrder/ConfirmOrder";
 import Profile from "./pages/profile/Profile";
-
+import ConfirmOrderDone from "./pages/confirmOrder/ConfirmOrderDone";
 
 //function for user data
 import { getUserProfile } from "./redux/actions/userActions";
@@ -185,7 +185,9 @@ function App() {
 
                 <Route exact path={["/profile", "/profile/:name_link", "/profile/:name_link/:name_sub_link"]} render={() => <Profile />} />
 
-                <Route exact path={'/confirm-order'} render={() => <ConfirmOrder />} />
+                <Route exact path={'/confirm-order/:order_id'} render={() => <ConfirmOrder />} />
+
+                <Route exact path={'/confirm-order-done/:order_id'} render={() => <ConfirmOrderDone />} />
 
                 <Route path="*"><NotFound /></Route>
 

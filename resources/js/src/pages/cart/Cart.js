@@ -94,7 +94,7 @@ const Cart = () => {
                                             e.preventDefault();
                                             if (localStorage.getItem("api-token")) {
 
-                                                return history.push(`/confirm-order`)
+                                                return history.push(`/confirm-order/${order.id}`)
                                             } else {
                                                 return history.push(`/login`)
                                             }
