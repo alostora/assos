@@ -16,24 +16,28 @@ Route::group(['namespace'=>'Api\Users'],function(){
     Route::any('deleteOrderItem/{itemId}','Orders@deleteOrderItem');
     Route::get('itemCountPlus/{itemId}','Orders@itemCountPlus');
     Route::get('itemCountMinus/{itemId}','Orders@itemCountMinus');
-    Route::get('checkOut/{orderId}','Orders@checkOut');
-    Route::get('checkOutDetails','Orders@checkOutDetails');
+
+    //Auth Routes
+    Route::group(['middleware'=>'auth_user_api'],function(){
+
+        Route::get('checkOut/{orderId}','Orders@checkOut');
+        Route::get('checkOutDetails','Orders@checkOutDetails');
 
 
-    //order discount copon
-    Route::post('orderCopon','Orders@orderCopon');
-    Route::get('discountCopons','Orders@discountCopons');
+        //order discount copon
+        Route::post('orderCopon','Orders@orderCopon');
+        Route::get('discountCopons','Orders@discountCopons');
 
-    //confirm order
-    Route::post('confirmOrder','Orders@confirmOrder');
+        //confirm order
+        Route::post('confirmOrder','Orders@confirmOrder');
 
-    //item back
-    Route::get('itemBackReasons','Orders@itemBackReasons');
-    Route::post('itemBackRequest','Orders@itemBackRequest');
-    Route::get('getAllOrders','Orders@getAllOrders');
-    Route::get('itemsCanBack','Orders@itemsCanBack');
+        //item back
+        Route::get('itemBackReasons','Orders@itemBackReasons');
+        Route::post('itemBackRequest','Orders@itemBackRequest');
+        Route::get('getAllOrders','Orders@getAllOrders');
+        Route::get('itemsCanBack','Orders@itemsCanBack');
 
-
+    });
 
 
     ///test and well delete

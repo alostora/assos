@@ -36,6 +36,7 @@ Route::group(['namespace'=>'Api\Users'],function(){
         //Users_auth_actions
         Route::get('test','Users_auth_actions@test');
 
+    });
 
         //un auth routes
 
@@ -78,7 +79,6 @@ Route::group(['namespace'=>'Api\Users'],function(){
         //privacy&Policies
         Route::get('privacy_policies','Users@privacy_policies');
     
-    });
 
 
 });

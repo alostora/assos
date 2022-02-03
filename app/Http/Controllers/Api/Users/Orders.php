@@ -493,7 +493,6 @@ class Orders extends Controller
         }
 
         return $data;
-
     }
 
 
@@ -525,7 +524,6 @@ class Orders extends Controller
 
         return $data;
     }
-
 
 
 
@@ -686,8 +684,6 @@ class Orders extends Controller
         $data['reasons'] = $reasons;
 
         return $data;
-
-
     }
 
 
@@ -717,6 +713,7 @@ class Orders extends Controller
         $data['message'] = Lang::get('leftsidebar.Sent');
         return $data;
     }
+
 
 
 
@@ -774,7 +771,6 @@ class Orders extends Controller
         $data['items'] = $orderItems;
         return $data;
     }
-
 
 
 

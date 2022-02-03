@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Auth;
+use Lang;
 use App\Models\User;
 
 class Auth_user_api
@@ -21,16 +22,9 @@ class Auth_user_api
         if(Auth::guard('api')->check()) {
             return $next($request);
         }else{
-            $user = User::where('deviceId',$request->header('device-id'))->first();
-            if(!empty($user)){
-                //$data['status'] = false;
-                //$data['message'] = "plz login";
-                //return response($data);
-                return $next($request);
-            }else{
-                User::create(['deviceId'=>$request->header('device-id')]);
-            }
-            return $next($request);
+            $data['status'] = false;
+            $data['message'] = Lang::get('leftsidebar.plz_login');
+            return response($data);
         }
     }
 }
