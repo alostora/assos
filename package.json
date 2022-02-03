@@ -1,11 +1,6 @@
 {
-<<<<<<< HEAD
     "name": "Molak",
     "homepage": "https://molk-kw.com/",
-=======
-    "name": "molk",
-    "homepage": "https://molk-kw.com",
->>>>>>> 298083f3e1d443b200062e052cf9aaf8c21e2466
     "version": "1.0.0",
     "private": true,
     "scripts": {
