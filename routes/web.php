@@ -3,7 +3,12 @@
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/{path?}', function () {
+Route::get('/', function () {
+    return redirect('molk');
+});
+
+
+Route::get('molk/{path?}',function(){
     return view('welcome');
-})->where('path', "!=",'admin');
+})->where('path','.*');
 
