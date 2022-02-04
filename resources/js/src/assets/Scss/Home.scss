@@ -48,10 +48,9 @@
         height: 130px;
         min-width: 140px;
         max-width: 265px;
-       
+
         img {
           max-width: 150px;
-          
         }
       }
     }
@@ -82,6 +81,9 @@
       font-size: 18px;
       line-height: 27px;
       color: #6c757d;
+      &:hover {
+        opacity: 0.8;
+      }
     }
   }
   .brands-offers {
@@ -124,6 +126,9 @@
       font-weight: normal;
       font-size: 18px;
       color: #6c757d;
+      &:hover {
+        opacity: 0.8;
+      }
     }
   }
   .brands-papular {

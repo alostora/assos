@@ -186,7 +186,7 @@ const NavBar = () => {
                                     sx={{ ml: 1, flex: 1 }}
                                     placeholder={t("Search for what you want")}
                                     onChange={(e) => searchInput(e)}
-                                    className="px-5"
+                                    
                                     onKeyPress={(event) => {
                                         if (event.key === 'Enter') {
                                             event.preventDefault();
@@ -253,17 +253,11 @@ const NavBar = () => {
 
                                 </Link>
                             </button>
-                        </li>
-                        {/* //////////////////////////////////// */}
 
-                        <li className="nav-item d-flex align-items-center py-1">
                             <button className="notifi-btn" onClick={() => setExpanded(false)}>
                                 <NotificationsNoneOutlinedIcon />
                             </button>
-                        </li>
-                        {/* //////////////////////////////////// */}
 
-                        <li className="nav-item d-flex  align-items-center py-1">
                             <button className="cart-btn" onClick={() => setExpanded(false)}>
                                 <Link
                                     to="/cart"
