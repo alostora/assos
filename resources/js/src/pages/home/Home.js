@@ -15,7 +15,7 @@ import MoodOutlinedIcon from '@mui/icons-material/MoodOutlined';
 //react
 import React, { useEffect, Fragment } from "react"
 import { useTranslation } from "react-i18next";
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 // redux
 import { useDispatch, useSelector } from 'react-redux'
@@ -33,6 +33,9 @@ export default function Home({ brands }) {
 
     //translate
     const { t } = useTranslation();
+
+    // for route
+    const history = useHistory()
 
     //route ads
     const routeUrl = (categoryName, categoryId, brandName, brandId) => {
@@ -124,7 +127,7 @@ export default function Home({ brands }) {
 
                         <div className="row mx-0 items w-100">
 
-                            {homePage && homePage.itemMayLike.map(it =>
+                            {homePage && homePage.itemMayLike.filter((item, index) => index <= 7).map(it =>
                                 <div className='col-lg-3 col-6 mb-2' key={it.id}>
 
                                     <Item item={it} />
@@ -135,7 +138,12 @@ export default function Home({ brands }) {
                         </div>
 
                         <div className="d-flex justify-content-center my-4">
-                            <button className="btn-more ">{t("Browse more")}</button>
+                            <button className="btn-more"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    return history.push("/see-more/itemMayLike");
+                                }}  >
+                                {t("Browse more")}</button>
                         </div>
 
                     </div>
@@ -182,7 +190,7 @@ export default function Home({ brands }) {
                         <span className="header mb-4">{t("Recently Seen")}</span>
 
                         <div className="row mx-0 items w-100 ">
-                            {homePage && homePage.recentItems.map(it =>
+                            {homePage && homePage.recentItems.filter((item, index) => index <= 7).map(it =>
                                 <div className='col-lg-3 col-6 mb-2' key={it.id}>
 
                                     <Item item={it} />
@@ -192,7 +200,12 @@ export default function Home({ brands }) {
 
                         </div>
                         <div className="d-flex justify-content-center my-4">
-                            <button className="btn-more ">{t("Browse more")}</button>
+                            <button className="btn-more "
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    return history.push("/see-more/recentItems");
+                                }}  >
+                                {t("Browse more")}</button>
                         </div>
                     </div>
                     {/* /////////////////////////////////////////////////////////////////////// */}

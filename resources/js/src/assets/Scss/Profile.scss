@@ -276,7 +276,13 @@
                 font-style: normal;
                 font-weight: bold;
                 font-size: 16px;
-                color: #28a745;
+                color: #6c757d;
+                .progress-details-cancel {
+                    color: rgba(255, 0, 0, 0.637);
+                }
+                .progress-details-confirm {
+                    color: #28a745;
+                }
             }
         }
         .order-items {
@@ -343,7 +349,13 @@
                 font-style: normal;
                 font-weight: bold;
                 font-size: 16px;
-                color: #28a745;
+                color: #6c757d;
+                .progress-details-cancel {
+                    color: rgba(255, 0, 0, 0.637);
+                }
+                .progress-details-confirm {
+                    color: #28a745;
+                }
             }
         }
         .details-section {
@@ -485,7 +497,7 @@
                 border: 1px solid #ced4da;
                 border-radius: 20px;
             }
-            select{
+            select {
                 border-radius: 30px;
                 border: 1px solid #6c757d;
                 height: 38px;
@@ -493,7 +505,6 @@
                 font-weight: normal;
                 font-size: 18px;
                 line-height: 21px;
-              
             }
             .secondary-header {
                 font-style: normal;

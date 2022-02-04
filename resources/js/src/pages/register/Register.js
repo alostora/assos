@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from '@greatsumini/react-facebook-login';
-//import TwitterLogin from "react-twitter-login";
+import TwitterLogin from "react-twitter-login";
 
 // redux
 import { useDispatch, useSelector } from 'react-redux'
@@ -155,9 +155,9 @@ const Register = () => {
 
     ///////////////////////////////////////////////////////////
 
-    // const authHandler = (err, data) => {
-    //     console.log(err, data);
-    //   };
+    const authHandler = (err, data) => {
+        console.log(err, data);
+    };
 
     return (
 
@@ -206,17 +206,18 @@ const Register = () => {
                         <span className='px-3'>{t("Join with Apple")}</span>
                     </button>
 
-                    <button
-                        className="btn-login__social d-flex justify-content-center align-items-center col-12 mx-auto mb-3 ">
-                        <img src={twitterIcon} alt="twitterIcon" />
-                        <span className='px-3'>{t("Join with Twitter")}</span>
-                    </button>
-
-                    {/* <TwitterLogin
+                    <TwitterLogin
                         authCallback={authHandler}
-                        consumerKey="n45W1iFwwIXa7KMuRt7px3uLf"
-                        consumerSecret="OVyYfvxJTFFXFlNYRzl28dRCQF7GeyNMoifKzQFcII0WhLMQsk"
-                    /> */}
+                        consumerKey="LTn00fcsgUC7sfC4FkA1JGOd4"
+                        consumerSecret="ksN2GJKsHnfF1fcQoVsShFIG529OqNkDcgQVMxts2JEonerIWK"
+                    >
+                        <button
+                            className="btn-login__social d-flex justify-content-center align-items-center col-12 mx-auto mb-3 ">
+                            <img src={twitterIcon} alt="twitterIcon" />
+                            <span className='px-3'>{t("Join with Twitter")}</span>
+
+                        </button>
+                    </TwitterLogin>
 
                     <span className='register-word d-flex justify-content-center mx-auto mt-5 mb-3'>{t("Create a New account")}</span>
 

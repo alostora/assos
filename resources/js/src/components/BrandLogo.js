@@ -6,7 +6,7 @@ const BrandLogo = ({ brand }) => {
     return (
 
         <Link to={`/brands-categories/${brand.vendor_name}/${brand.id}`}
-            className="text-decoration-none col-lg-2 col-3 my-4">
+            className="text-decoration-none col-lg-2 col-4 my-4">
 
             <img src={brand.vendor_logo}
                 alt="brand Icon"

@@ -1,5 +1,5 @@
 //react
-import React, { useEffect, useState, createContext, useCallback, } from "react";
+import React, { useEffect, useState, createContext, useCallback } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { axiosInstance } from "./axios/config";
 
@@ -24,6 +24,8 @@ import Search from "./pages/search/Search";
 import NotFound from "./pages/notFound/NotFound";
 import Brands from "./pages/brands/Brands";
 import RecentItems from "./pages/recentItems/RecentItems";
+import LastChance from "./pages/lastChance/LastChance";
+import SeeMore from "./pages/seeMorePage/SeeMore";
 import BrandCategories from "./pages/brandCategories/BrandCategories";
 import Favorite from "./pages/favorite/Favorite";
 import Cart from './pages/cart/Cart'
@@ -34,6 +36,7 @@ import Register from "./pages/register/Register";
 import ConfirmOrder from "./pages/confirmOrder/ConfirmOrder";
 import Profile from "./pages/profile/Profile";
 import ConfirmOrderDone from "./pages/confirmOrder/ConfirmOrderDone";
+
 
 //function for user data
 import { getUserProfile } from "./redux/actions/userActions";
@@ -60,6 +63,7 @@ function App() {
   const [properties, setProperties] = useState({})
   const [sortType, setSortType] = useState([])
   const [recentItems, setRecentItems] = useState([])
+  const [lastChanceItems, setLastChanceItems] = useState([])
 
   // for user profile
   const dispatch = useDispatch()
@@ -118,13 +122,22 @@ function App() {
       .then((data) => setSortType(data.sortType))
       .catch((err) => console.error(err));
 
-    ///recent items
+    //recent items
     await axiosInstance({
       method: "get",
       url: `/seeMore/recentItems`,
     })
       .then((res) => res.data)
       .then((data) => setRecentItems(data.items.data))
+      .catch((err) => console.error(err));
+
+    //last chance items
+    await axiosInstance({
+      method: "get",
+      url: `/allOfferItems`,
+    })
+      .then((res) => res.data)
+      .then((data) => setLastChanceItems(data.data))
       .catch((err) => console.error(err));
 
   }, [])
@@ -171,6 +184,7 @@ function App() {
 
                 <Route exact path={'/brands'} render={() => <Brands brands={brands} />} />
                 <Route exact path={'/recent-items'} render={() => <RecentItems recentItems={recentItems} />} />
+                <Route exact path={'/last-chance'} render={() => <LastChance lastChanceItems={lastChanceItems} />} />
                 <Route exact path={'/brands-categories/:name/:id'} render={() => <BrandCategories />} />
                 <Route exact path={'/sub-categories/:category_name/:brand_name/:category_id/:brand_id'} render={() => <SubCategories />} />
                 <Route exact
@@ -186,8 +200,9 @@ function App() {
                 <Route exact path={["/profile", "/profile/:name_link", "/profile/:name_link/:name_sub_link"]} render={() => <Profile />} />
 
                 <Route exact path={'/confirm-order/:order_id'} render={() => <ConfirmOrder />} />
-
                 <Route exact path={'/confirm-order-done/:order_id'} render={() => <ConfirmOrderDone />} />
+
+                <Route exact path={'/see-more/:category_items'} render={() => <SeeMore />} />
 
                 <Route path="*"><NotFound /></Route>
 

@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 
 //react
 import React, { useState, useEffect, useContext, Fragment } from "react"
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import { axiosInstance } from "../../axios/config";
 
 // redux
@@ -37,13 +37,12 @@ const ProductDetails = () => {
     //translate
     const { t } = useTranslation();
 
+    // for route
+    const history = useHistory()
+
     // current country
     const { country, } = useContext(CountryContext)
 
-    // rating stars value
-    const ratingChanged = (newRating) => {
-        console.log("raiting value: ", newRating);
-    };
 
     // product Size
     const [sizeId, setSizeId] = useState()
@@ -79,7 +78,7 @@ const ProductDetails = () => {
     // add to cart function
     const addItemToCart = async (id) => {
 
-       await axiosInstance({
+        await axiosInstance({
             method: "post",
             url: `/makeOrder`,
             data: {
@@ -123,6 +122,35 @@ const ProductDetails = () => {
     const brandName = item && item.vendor_info ? item.vendor_info.vendor_name : "";
 
     const brandId = item && item.vendor_info ? item.vendor_info.id : "";
+
+    //review item
+    const addReviewTOProduct = async () => {
+
+        await axiosInstance({
+            method: "post",
+            url: `/userItemReview`,
+            data: {
+                item_id: productId,
+                rate: productRate,
+                comment: commentReview
+
+            }
+        })
+            .then(res => res.data)
+            .then(data => console.log(data))
+
+            .catch((err) => console.error(err));
+    }
+
+    const [productRate, setProductRate] = useState(0)
+
+    const [commentReview, setCommentReview] = useState("")
+
+    // rating stars value
+    const ratingChanged = (newRating) => {
+        setProductRate(newRating);
+    };
+
 
     return (
         <Fragment>
@@ -223,7 +251,7 @@ const ProductDetails = () => {
                                 <ReactStars
                                     count={5}
                                     value={item.rate}
-                                    onChange={ratingChanged}
+                                    edit={false}
                                     size={24}
                                     activeColor="#ffd700"
                                 />
@@ -377,7 +405,7 @@ const ProductDetails = () => {
 
                             <div className="items row mx-0 justify-content-center p-4">
 
-                                {item.itemFit && item.itemFit.map(it =>
+                                {item.itemFit && item.itemFit.filter((item, index) => index <= 7).map(it =>
 
                                     <div className='col-lg-3 col-6 mb-4' key={it.id}>
 
@@ -386,7 +414,14 @@ const ProductDetails = () => {
                                 )}
 
                             </div>
-                            {/* <button className="btn-cart mt-3 mb-4">{t("Add to Cart")}</button> */}
+                            <div className="d-flex justify-content-center my-4">
+                                <button className="btn-more "
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        return history.push("/see-more/itemFit");
+                                    }}  >
+                                    {t("Browse more")}</button>
+                            </div>
                         </div>
 
                     </div>
@@ -436,20 +471,27 @@ const ProductDetails = () => {
 
                         <div className="d-flex flex-column add-review">
                             <span className="header mb-3">{t("Add Comment")}</span>
-                            <Form>
-                                <Form.Control placeholder={t("Name")} />
-                                <Form.Control as="textarea" rows={4} placeholder={t("Write your Comment Here")} />
-                            </Form>
-                            <div className="d-flex justify-content-between align-items-center rate-send-review">
-                                <ReactStars
-                                    count={5}
-                                    onChange={ratingChanged}
-                                    size={24}
-                                    activeColor="#ffd700"
-                                />
-                                <button className="btn-send">{t("Send")}</button>
-                            </div>
 
+                            <Form onSubmit={addReviewTOProduct}>
+
+                                <Form.Control placeholder={t("Name")} />
+
+                                <Form.Control as="textarea" rows={4} placeholder={t("Write your Comment Here")}
+                                    value={commentReview}
+                                    onChange={(e) => setCommentReview(e.target.value)}
+                                />
+
+                                <div className="d-flex justify-content-between align-items-center rate-send-review">
+                                    <ReactStars
+                                        count={5}
+                                        onChange={ratingChanged}
+                                        size={24}
+                                        activeColor="#ffd700"
+                                        required
+                                    />
+                                    <button className="btn-send" type="submit">{t("Send")}</button>
+                                </div>
+                            </Form>
                         </div>
                     </div>
                     {/* /////////////////////////////////////////////////////////////////////// */}
@@ -459,13 +501,21 @@ const ProductDetails = () => {
 
                         <div className="row mx-0 items w-100">
 
-                            {item.itemMayLike && item.itemMayLike.map(it =>
+                            {item.itemMayLike && item.itemMayLike.filter((item, index) => index <= 7).map(it =>
                                 <div className='col-lg-3 col-6 mb-2' key={it.id}>
 
                                     <Item item={it} />
                                 </div>
                             )}
 
+                        </div>
+                        <div className="d-flex justify-content-center my-4">
+                            <button className="btn-more "
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    return history.push("/see-more/itemMayLike");
+                                }}  >
+                                {t("Browse more")}</button>
                         </div>
                     </div>
                     {/* /////////////////////////////////////////////////////////////////////// */}
