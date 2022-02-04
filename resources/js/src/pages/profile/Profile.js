@@ -105,7 +105,7 @@ const Profile = () => {
 
                                         <Route exact path={"/profile/order"} render={() => <Orders />} />
 
-                                        <Route exact path={"/profile/order/order-details"} render={() => <OrderDetails />} />
+                                        <Route exact path={"/profile/order/order-details-:order_id"} render={() => <OrderDetails />} />
 
                                         <Route exact path={"/profile/order/product-back-:order_id-:product_id"} render={() => <ProductBack />} />
 
