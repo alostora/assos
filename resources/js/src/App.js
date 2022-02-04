@@ -165,7 +165,7 @@ function App() {
 
   return (
     <>
-      <Router>
+      <Router basename="/molk">
         <ScrollToTop />
         <ThemeContext.Provider value={{ mode, setMode }} >
           <div className={`App App-${mode}`}>

@@ -57,7 +57,7 @@ const Profile = () => {
         <Fragment>
             {loading ? <Loader /> :
 
-                <Router>
+                <Router basename="/molk">
                     <div className='d-flex flex-column profile-page'>
 
                         <img src={profileCover} alt="profileCover" width="100%" height="180px" />
