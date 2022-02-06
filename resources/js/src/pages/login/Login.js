@@ -10,12 +10,13 @@ import { login, clearErrors } from '../../redux/actions/userActions';
 //component
 import { Form } from 'react-bootstrap';
 import Loader from '../../components/Loader';
+import GoogleSignIn from '../register/GoogleSignIn';
+import FacebookSignIn from '../register/FacebookSignIn';
+import TwitterSignIn from '../register/TwitterSignIn';
 
 //icons
-import googleIcon from '../../assets/icons/Login/google-icon.png';
-import facebookIcon from '../../assets/icons/Login/facebook-icon.png';
 import appleIcon from '../../assets/icons/Login/apple-icon.png';
-import twitterIcon from '../../assets/icons/Login/twitter-icon.png';
+
 
 const Login = () => {
 
@@ -76,17 +77,9 @@ const Login = () => {
 
                 <div className='container login-page '>
 
-                    <button
-                        className="btn-login__social d-flex justify-content-center align-items-center col-12 mx-auto mb-3 ">
-                        <img src={googleIcon} alt="googleIcon" />
-                        <span className='px-3'>{t("Login with Google")}</span>
-                    </button>
+                    <GoogleSignIn />
 
-                    <button
-                        className="btn-login__social d-flex justify-content-center align-items-center col-12 mx-auto mb-3 ">
-                        <img src={facebookIcon} alt="googleIcon" />
-                        <span className='px-3'>{t("Login with Facebook")}</span>
-                    </button>
+                    <FacebookSignIn />
 
                     <button
                         className="btn-login__social d-flex justify-content-center align-items-center col-12 mx-auto mb-3 ">
@@ -94,11 +87,7 @@ const Login = () => {
                         <span className='px-3'>{t("Login with Apple")}</span>
                     </button>
 
-                    <button
-                        className="btn-login__social d-flex justify-content-center align-items-center col-12 mx-auto mb-3 ">
-                        <img src={twitterIcon} alt="googleIcon" />
-                        <span className='px-3'>{t("Login with Twitter")}</span>
-                    </button>
+                    <TwitterSignIn />
 
                     <span className='login-word d-flex justify-content-center mx-auto mt-5 mb-3'>{t("Login")}</span>
 

@@ -61,8 +61,12 @@
     "Categories":"Categories",
     "About Molk":"About Molk",
     "All Copyrights Reserved":"All Copyrights Reserved",
-    "who are we":"who are we",
-    "Our goal":"Our goal",
+    "About Us":"About Us",
+    "Privacy Policies":"Privacy Policies",
+    "Our Vision":"Our Vision",
+    "Return Policy":"Return Policy",
+    "Help":"Help",
+    "Contact Us":"Contact Us",
     "Sort by":"Sort by",
     "Shop by Brands":"Shop by Brands",
     "Favorite":"Favorite",
@@ -169,6 +173,13 @@
     "Continue Shopping":"Continue Shopping",
     "Thank you for your order from Molk":"Thank you for your order from Molk",
     "Cancelling order":"Cancelling order",
-    "You don't have any orders yet":"You don't have any orders yet"
-
+    "You don't have any orders yet":"You don't have any orders yet",
+    "Discount":"Discount",
+    "Copy":"Copy",
+    "Get a discount":"Get a discount",
+    "when you buy a brand":"when you buy a brand",
+    "There are no Gift Coupons at the moment":"There are no Gift Coupons at the moment",
+    "Message":"Message",
+    "Write your message here":"Write your message here",
+    "Price":"Price"
   }

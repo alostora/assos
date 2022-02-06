@@ -59,8 +59,7 @@
           color: #6c757d;
 
           &:hover {
-            transition: 0.2s;
-            box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+           opacity: 0.7;
           }
         }
         .btn-cart {
@@ -74,8 +73,7 @@
           font-size: 16px;
           color: #6c757d;
           &:hover {
-            transition: 0.2s;
-            box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+            opacity: 0.7;
           }
         }
       }

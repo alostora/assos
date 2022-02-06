@@ -1,0 +1,60 @@
+.privacy-policies-page {
+    .page-names {
+        .page-name {
+            font-style: normal;
+            font-weight: bold;
+            font-size: 16px;
+            color: #667085;
+            text-transform: capitalize;
+        }
+    }
+    .contact-us-form {
+        .header {
+            font-style: normal;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        .form-section {
+            input {
+                border-radius: 30px;
+                border: 1px solid #6c757d;
+                height: 38px;
+                max-width: 450px;
+            }
+
+            textarea {
+                resize: none;
+                border: 1px solid #ced4da;
+                border-radius: 20px;
+            }
+
+            .secondary-header {
+                font-style: normal;
+                font-weight: bold;
+                font-size: 16px;
+                color: #495057;
+            }
+            .error-message {
+                font-style: normal;
+                font-weight: normal;
+                font-size: 16px;
+                //color: rgba(255, 0, 0, 0.938);
+                color: #007e33;
+            }
+            .btn-send-request {
+                width: 150px;
+                height: 38px;
+                border: 1px solid #ffffff;
+                border-radius: 34px;
+                background-color: #212529;
+                color: white;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 16px;
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+}

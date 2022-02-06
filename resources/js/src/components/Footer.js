@@ -84,10 +84,67 @@ const Footer = ({ categories, brands }) => {
                         <div className="list col-12 col-lg-4">
                             <span className="name-list">{t("About Molk")}</span>
                             <ul className='row'>
-                                <li className='col-6'>{t("who are we")}</li>
-                                <li className='col-6'>{t("Our goal")}</li>
 
+                                <li className='col-6'>
+
+                                    <Link to="/molk/About-Us/5"
+                                        className="text-decoration-none d-flex brand-route">
+
+                                        {t("About Us")}
+                                    </Link>
+                                </li>
+
+                                <li className='col-6'>
+
+                                    <Link to="/molk/Privacy-Policies/3"
+                                        className="text-decoration-none d-flex brand-route">
+
+                                        {t("Privacy Policies")}
+                                    </Link>
+
+                                </li>
+
+                                <li className='col-6'>
+
+                                    <Link to="/molk/Our-Vision/2"
+                                        className="text-decoration-none d-flex brand-route">
+
+                                        {t("Our Vision")}
+                                    </Link>
+
+                                </li>
+
+                                <li className='col-6'>
+
+                                    <Link to="/molk/Return-Policy/4"
+                                        className="text-decoration-none d-flex brand-route">
+
+                                        {t("Return Policy")}
+                                    </Link>
+
+                                </li>
+
+                                <li className='col-6'>
+
+                                    <Link to="/molk/Help/6"
+                                        className="text-decoration-none d-flex brand-route">
+
+                                        {t("Help")}
+                                    </Link>
+
+                                </li>
+
+                                <li className='col-6'>
+
+                                    <Link to="/molk/Contact-Us/send-form"
+                                        className="text-decoration-none d-flex brand-route">
+
+                                        {t("Contact Us")}
+                                    </Link>
+
+                                </li>
                             </ul>
+
                         </div>
                         {/* ////////////////////////// */}
 

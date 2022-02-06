@@ -43,6 +43,8 @@
 
 @import "./assets/Scss/Profile.scss";
 
+@import "./assets/Scss/PrivacyPolicies.scss";
+
 .App {
   width: 100%;
 
@@ -118,6 +120,7 @@
             }
             li:hover {
               cursor: pointer;
+              text-decoration: underline;
             }
           }
         }
@@ -141,6 +144,15 @@
 .App-light {
   background-color: $white;
   color: $black;
+
+  .btn-toggle-user-info{
+    background-color: $black;
+    color: $white;
+  }
+  .login-btn{
+    background-color: $black;
+    color: $white;
+  }
 }
 
 ////////////////////////////////////////////////////////
@@ -149,6 +161,15 @@
 .App-dark {
   background-color: $black;
   color: $white;
+
+  .btn-toggle-user-info{
+    background-color: $white;
+    color: $black;
+  }
+  .login-btn{
+    background-color: $white;
+    color: $black;
+  }
 }
 
 ////////////////////////////////////////////////////////

@@ -187,7 +187,7 @@ export default function Home({ brands }) {
                     {/* /////////////////////////////////////////////////////////////////////// */}
 
                     <div className="fashion-section d-flex flex-column container mt-4 px-0">
-                        <span className="header mb-4">{t("Recently Seen")}</span>
+                        <span className="header mb-4 mx-2">{t("Recently Seen")}</span>
 
                         <div className="row mx-0 items w-100 ">
                             {homePage && homePage.recentItems.filter((item, index) => index <= 7).map(it =>

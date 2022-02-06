@@ -36,7 +36,7 @@ import Register from "./pages/register/Register";
 import ConfirmOrder from "./pages/confirmOrder/ConfirmOrder";
 import Profile from "./pages/profile/Profile";
 import ConfirmOrderDone from "./pages/confirmOrder/ConfirmOrderDone";
-
+import PrivacyPolicies from "./pages/privacyPolicies/PrivacyPolicies";
 
 //function for user data
 import { getUserProfile } from "./redux/actions/userActions";
@@ -64,6 +64,7 @@ function App() {
   const [sortType, setSortType] = useState([])
   const [recentItems, setRecentItems] = useState([])
   const [lastChanceItems, setLastChanceItems] = useState([])
+  const [privacyPolicies, setPrivacyPolicies] = useState([])
 
   // for user profile
   const dispatch = useDispatch()
@@ -140,6 +141,15 @@ function App() {
       .then((data) => setLastChanceItems(data.data))
       .catch((err) => console.error(err));
 
+    //privacy policies
+    await axiosInstance({
+      method: "get",
+      url: `/privacy_policies`,
+    })
+      .then((res) => res.data)
+      .then((data) => setPrivacyPolicies(data.data))
+      .catch((err) => console.error(err));
+
   }, [])
 
   useEffect(() => {
@@ -203,6 +213,8 @@ function App() {
                 <Route exact path={'/confirm-order-done/:order_id'} render={() => <ConfirmOrderDone />} />
 
                 <Route exact path={'/see-more/:category_items'} render={() => <SeeMore />} />
+
+                <Route exact path={'/molk/:section_name/:section_id'} render={() => <PrivacyPolicies privacyPolicies={privacyPolicies} />} />
 
                 <Route path="*"><NotFound /></Route>
 

@@ -59,8 +59,7 @@
           color: #6c757d;
 
           &:hover {
-            transition: 0.2s;
-            box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+            opacity: 0.7;
           }
         }
         .btn-cart {
@@ -74,8 +73,7 @@
           font-size: 16px;
           color: #6c757d;
           &:hover {
-            transition: 0.2s;
-            box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+            opacity: 0.7;
           }
         }
 
@@ -93,8 +91,7 @@
             border-radius: 16px;
             border: none;
             &:hover {
-              transition: 0.2s;
-              box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.6);
+              opacity: 0.7;
             }
           }
           span {
@@ -111,7 +108,7 @@
       height: 120px;
       //background-color: #c9dbee;
       border-radius: 4px;
-      color: black;
+      //color: black;
 
       .total-price {
         font-style: normal;
@@ -131,6 +128,9 @@
         font-size: 16px;
         color: $white;
         height: 40px;
+        &:hover{
+          opacity: 0.7;
+        }
       }
     }
   }
