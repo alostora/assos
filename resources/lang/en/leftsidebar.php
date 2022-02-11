@@ -644,5 +644,9 @@ return [
     "confirmed" => "Confirmed",
     "order_items_props" => "order_items_props",
     "accepted" => "Accepted",
+    
+    "Shipping conditions" => "Shipping conditions",
+    "shippingConditions" => "Shipping conditions",
+    "shippingConditionsAr" => "Shipping conditions Ar"
 
 ];
