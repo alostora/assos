@@ -37,10 +37,17 @@ import ConfirmOrder from "./pages/confirmOrder/ConfirmOrder";
 import Profile from "./pages/profile/Profile";
 import ConfirmOrderDone from "./pages/confirmOrder/ConfirmOrderDone";
 import PrivacyPolicies from "./pages/privacyPolicies/PrivacyPolicies";
+import OfferItems from "./pages/offerItems/OfferItems";
+
 
 //function for user data
 import { getUserProfile } from "./redux/actions/userActions";
 import { getAddress } from "./redux/actions/addressActions";
+
+// firebase
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 // mode context
 export const ThemeContext = createContext();
@@ -50,6 +57,66 @@ export const CountryContext = createContext();
 
 
 function App() {
+
+  //firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyDXGZlgYyzF0ZfbLkXpr74uvOQyWQRvnWc",
+    authDomain: "molk-7daf8.firebaseapp.com",
+    projectId: "molk-7daf8",
+    storageBucket: "molk-7daf8.appspot.com",
+    messagingSenderId: "688587750859",
+    appId: "1:688587750859:web:d1de7f059562ccc3aa4a4e"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+
+  const messaging = getMessaging();
+
+  const KeyPair =
+    "BKbV8KgRfpxV0C4eevbItBcG1NtYIWx9BW_a42S_Zr-pngQWko_yjBweTjXuhAmj0n4nB7arycpV_J_P82fwRfE";
+
+
+  const getTokenListener = () => {
+
+    getToken(messaging, { vapidKey: KeyPair })
+      .then(async (currentToken) => {
+        if (currentToken) {
+          //console.log("currentToken ::", currentToken);
+
+          await axiosInstance({
+            method: "post",
+            url: `/userCountery`,
+            data: {
+              country: localStorage.getItem("country") || "ku",
+              deviceId: localStorage.getItem("device-id") || "",
+              web_lang: localStorage.getItem("i18nextLng") || "en",
+              firebase_token: currentToken
+            },
+          })
+            .then((res) => res.data)
+            .then((data) => console.log("set devide id", data))
+            .catch((err) => console.error(err));
+
+        } else {
+          console.log(
+            "No registration token available. Request permission to generate one."
+          );
+        }
+      })
+      .catch((err) => {
+        console.log("An error occurred while retrieving token. ", err);
+      });
+  }
+
+  ///////////////////////////////
+  const onMessageListener = () =>
+    new Promise((resolve) => {
+      onMessage(messaging, payload => {
+        resolve(payload);
+      });
+    });
+  ////////////////////////////////////////////////////////////////////////
 
   // mode
   const [mode, setMode] = useState(localStorage.getItem("modeColor") || "light")
@@ -66,22 +133,20 @@ function App() {
   const [lastChanceItems, setLastChanceItems] = useState([])
   const [privacyPolicies, setPrivacyPolicies] = useState([])
 
+
   // for user profile
   const dispatch = useDispatch()
 
   const fetchFromApi = useCallback(async () => {
 
-    await axiosInstance({
-      method: "post",
-      url: `/userCountery`,
-      data: {
-        country: "ku",
-        deviceId: localStorage.getItem("device-id") || "",
-      },
-    })
-      .then((res) => res.data)
-      .then((data) => console.log("set devide id", data))
-      .catch((err) => console.error(err));
+    // firebase token 
+    getTokenListener()
+
+    // firebase msg
+    onMessageListener()
+      .then((payload) => payload)
+      .then((data) => console.log("notifi", data.notification))
+      .catch((err) => console.log("failed: ", err));
 
     //categories
     await axiosInstance({
@@ -195,6 +260,7 @@ function App() {
                 <Route exact path={'/brands'} render={() => <Brands brands={brands} />} />
                 <Route exact path={'/recent-items'} render={() => <RecentItems recentItems={recentItems} />} />
                 <Route exact path={'/last-chance'} render={() => <LastChance lastChanceItems={lastChanceItems} />} />
+                <Route exact path={'/offer-items/:offer_id'} render={() => <OfferItems />} />
                 <Route exact path={'/brands-categories/:name/:id'} render={() => <BrandCategories />} />
                 <Route exact path={'/sub-categories/:category_name/:brand_name/:category_id/:brand_id'} render={() => <SubCategories />} />
                 <Route exact

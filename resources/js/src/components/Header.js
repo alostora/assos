@@ -69,7 +69,7 @@ const Header = () => {
   const [countryName, setCountryName] = useState(nameCountry);
 
   const changeCountry = () => {
-    const currentCountry = country === "sa" ? "ku" : "sa";
+    const currentCountry = country === "sa" ? "kw" : "sa";
 
     setCountry(currentCountry)
     localStorage.setItem("country", currentCountry);
@@ -95,7 +95,7 @@ const Header = () => {
           <button className="btn-header col-4 col-xl-2" onClick={changeCountry}>
             <span>{t(countryName)}</span>
             <img
-              src={country === "ku" ? Saudi_Arabia_flag : Kuwait_flag}
+              src={country === "kw" ? Saudi_Arabia_flag : Kuwait_flag}
               alt="country Flag"
               width="28px" height="auto"
             />

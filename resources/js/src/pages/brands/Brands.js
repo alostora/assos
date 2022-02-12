@@ -8,11 +8,11 @@ import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined';
 import { grey } from '@mui/material/colors';
 
 //components
-import Carousel from 'react-bootstrap/Carousel'
+//import Carousel from 'react-bootstrap/Carousel'
 import BrandLogo from '../../components/BrandLogo';
 
 //image
-import brand_slider_img from './../../assets/icons/Brands/vendor_slider_img.jpg'
+//import brand_slider_img from './../../assets/icons/Brands/vendor_slider_img.jpg'
 
 
 const Brands = ({ brands }) => {
@@ -37,7 +37,7 @@ const Brands = ({ brands }) => {
 
             </div>
 
-            <Carousel
+            {/* <Carousel
                 nextIcon={<span aria-hidden="false" />}
                 prevIcon={<span aria-hidden="false" />}
                 className="brands-carousel">
@@ -48,9 +48,9 @@ const Brands = ({ brands }) => {
 
                 </Carousel.Item>
 
-            </Carousel>
+            </Carousel> */}
 
-            <div className='d-flex flex-column container'>
+            <div className='d-flex flex-column container my-5'>
                 <span className="header d-flex mb-5">{t("Shop by Brands")}</span>
 
                 <div className="row mx-0 justify-content-center align-items-center w-100">
@@ -61,7 +61,7 @@ const Brands = ({ brands }) => {
 
                 </div>
             </div>
-            
+
         </div>
     )
 }

@@ -1,12 +1,39 @@
-.recent-items-page{
+.recent-items-page {
     .page-names {
         .page-name {
-          font-style: normal;
-          font-weight: bold;
-          font-size: 16px;
-          color: #667085;
-          text-transform: capitalize;
-          
+            font-style: normal;
+            font-weight: bold;
+            font-size: 16px;
+            color: #667085;
+            text-transform: capitalize;
         }
-      }
+    }
+    .items-category {
+        .header {
+            font-style: normal;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        .item-category {
+            img {
+                width: 100%;
+                max-width: 350px;
+                min-width: 140px;
+                object-fit: cover;
+            }
+            .category-name {
+                font-style: normal;
+                font-weight: normal;
+                font-size: 18px;
+                color: gray;
+            }
+        }
+    }
+    .recent-items{
+      .header {
+        font-style: normal;
+        font-weight: bold;
+        font-size: 24px;
+    }
+    }
 }

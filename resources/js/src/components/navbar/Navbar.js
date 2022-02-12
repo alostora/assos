@@ -175,7 +175,7 @@ const NavBar = () => {
 
                 <Navbar.Collapse id="basic-navbar-nav" className="order-3 order-lg-2 py-2">
                     <ul className="navbar-nav ">
-                        <li className="nav-item py-1 search-section px-1">
+                        <li className="nav-item py-1 search-section px-1 col-lg-6 ">
 
                             <Paper
                                 component="form"

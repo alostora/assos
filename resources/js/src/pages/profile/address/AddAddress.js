@@ -137,7 +137,7 @@ const AddAddress = () => {
 
                                 <Form.Label className='paragraph-form-address'>{t("Name")}</Form.Label>
 
-                                <Form.Control type="text" placeholder={user && user.name} required
+                                <Form.Control type="text" placeholder={t("your name here")} required
                                     value={userName} className='custom-input'
                                     onChange={(e) => setUserName(e.target.value)} />
 
@@ -147,7 +147,7 @@ const AddAddress = () => {
 
                                 <Form.Label className='paragraph-form-address'>{t("Phone")}</Form.Label>
 
-                                <Form.Control type="tel" placeholder={user && user.phone} required
+                                <Form.Control type="tel" placeholder={t("your phone here")} required
                                     value={userPhone} className='custom-input'
                                     onChange={(e) => setUserPhone(e.target.value)} />
 
@@ -177,7 +177,7 @@ const AddAddress = () => {
 
                                 <Form.Label className='paragraph-form-address'>{t("Home Number")}</Form.Label>
 
-                                <Form.Control type="number" placeholder={t("Home Number")}
+                                <Form.Control type="text" placeholder={t("Home Number")}
                                     value={homeNumber} className='custom-input'
                                     onChange={(e) => setHomeNumber(e.target.value)} />
 
@@ -187,7 +187,7 @@ const AddAddress = () => {
 
                                 <Form.Label className='paragraph-form-address'>{t("Postal Code")}</Form.Label>
 
-                                <Form.Control type="number" placeholder={t("Postal Code")} required
+                                <Form.Control type="text" placeholder={t("Postal Code")} required
                                     value={postalCode} className='custom-input'
                                     onChange={(e) => setPostalCode(e.target.value)} />
 

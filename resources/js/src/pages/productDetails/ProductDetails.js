@@ -126,6 +126,8 @@ const ProductDetails = () => {
     //review item
     const addReviewTOProduct = async () => {
 
+        localStorage.getItem("api-token") ? 
+
         await axiosInstance({
             method: "post",
             url: `/userItemReview`,
@@ -139,7 +141,9 @@ const ProductDetails = () => {
             .then(res => res.data)
             .then(data => console.log(data))
 
-            .catch((err) => console.error(err));
+            .catch((err) => console.error(err))
+
+            : history.push("/login")
     }
 
     const [productRate, setProductRate] = useState(0)
@@ -474,21 +478,23 @@ const ProductDetails = () => {
 
                             <Form onSubmit={addReviewTOProduct}>
 
-                                <Form.Control placeholder={t("Name")} />
+                                {/* <Form.Control placeholder={t("Name")} /> */}
 
-                                <Form.Control as="textarea" rows={4} placeholder={t("Write your Comment Here")}
-                                    value={commentReview}
-                                    onChange={(e) => setCommentReview(e.target.value)}
-                                />
-
-                                <div className="d-flex justify-content-between align-items-center rate-send-review">
-                                    <ReactStars
+                                <ReactStars
                                         count={5}
                                         onChange={ratingChanged}
                                         size={24}
                                         activeColor="#ffd700"
                                         required
                                     />
+
+                                <Form.Control as="textarea" rows={4} placeholder={t("Write your Comment Here")}
+                                    value={commentReview} className="my-4"
+                                    onChange={(e) => setCommentReview(e.target.value)}
+                                />
+
+                                <div className="d-flex align-items-center rate-send-review">
+                               
                                     <button className="btn-send" type="submit">{t("Send")}</button>
                                 </div>
                             </Form>

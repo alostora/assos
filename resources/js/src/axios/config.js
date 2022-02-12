@@ -9,7 +9,7 @@ export const axiosInstance =
     headers: {
       'device-id': localStorage.getItem("device-id") || "",
       'accept-language': localStorage.getItem("i18nextLng") || "en",
-      'country': localStorage.getItem("country") || "ku",
+      'country': localStorage.getItem("country") || "kw",
       'main-filter': localStorage.getItem("main-filter") || "men",
       "Authorization": `Bearer ${localStorage.getItem("api-token") || ""}`
     },

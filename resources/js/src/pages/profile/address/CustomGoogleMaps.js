@@ -18,7 +18,7 @@ const CustomGoogleMaps = () => {
     // style container map
     const containerStyle = {
         width: '100%',
-        height: '180px',
+        height: '500px',
         borderRadius: "20px"
 
     };
@@ -42,6 +42,22 @@ const CustomGoogleMaps = () => {
     // const onUnmount = useCallback(function callback(map) {
     //     setMap(null)
     // }, [])
+
+    function getReverseGeocodingData(lat, lng) {
+        let latlng = new google.maps.LatLng(lat, lng);
+        // This is making the Geocode request
+        let geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'latLng': latlng }, (results, status) => {
+            if (status !== google.maps.GeocoderStatus.OK) {
+                console.log("status", status);
+            }
+            // This is checking to see if the Geoeode Status is OK before proceeding
+            if (status == google.maps.GeocoderStatus.OK) {
+                console.log("result", results);
+                let address = (results[0].formatted_address);
+            }
+        });
+    }
 
     //center start map
     const center = {
@@ -73,6 +89,8 @@ const CustomGoogleMaps = () => {
             newLat: e.latLng.lat(),
             newLng: e.latLng.lng()
         })
+
+        getReverseGeocodingData(e.latLng.lat(), e.latLng.lng())
     }
 
     return (

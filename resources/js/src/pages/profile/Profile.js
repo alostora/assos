@@ -2,6 +2,9 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+//translate
+import { useTranslation } from "react-i18next"
+
 //images
 import profileCover from './../../assets/icons/Profile/profile_cover.png'
 import backupImg from './../../assets/icons/Profile/onError_img.jpeg'
@@ -29,6 +32,9 @@ import GiftCoupons from './giftCoupons/GiftCoupons';
 
 
 const Profile = () => {
+
+     //translate
+     const { t } = useTranslation();
 
     // modal edit profile
     const [showModal, setShowModal] = useState(false);
@@ -111,9 +117,9 @@ const Profile = () => {
 
                                         <Route exact path={"/profile/payment-methods"} render={() => <Payment />} />
 
-                                        <Route exact path={"/profile/notifications"} render={() => <h4>notifi </h4>} />
+                                        <Route exact path={"/profile/notifications"} render={() => <h4>{t("Notifications")}</h4>} />
 
-                                        <Route exact path={"/profile/communication-preferences"} render={() => <h4>communication </h4>} />
+                                        <Route exact path={"/profile/communication-preferences"} render={() => <h4>{t("Communication Preferences")}</h4>} />
 
                                         <Route exact path={"/profile/gift-coupons"} render={() => <GiftCoupons />} />
 

@@ -78,7 +78,7 @@ const Cart = () => {
                                 )}
                             </div>
 
-                            {order &&
+                            {order && cartItems.length > 0 &&
 
                                 <div className='col-lg-3 col-12 d-flex flex-column confirm-order mt-4 '>
 

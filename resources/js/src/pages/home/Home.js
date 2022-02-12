@@ -1,5 +1,5 @@
 //icons
-import vipCrownIcon from './../../assets/icons/Home/vip-crown-line.svg'
+//import vipCrownIcon from './../../assets/icons/Home/vip-crown-line.svg'
 import offerIcon from './../../assets/icons/Home/Group 9.svg'
 import qrScanImg from './../../assets/icons/Home/Group 13019.svg'
 import mobilhomeImg from './../../assets/icons/Home/05_home___1 1.png'
@@ -9,8 +9,8 @@ import storeIcon2 from './../../assets/icons/Home/Mobile app store badge (1).svg
 import storeIcon3 from './../../assets/icons/Home/Mobile app store badge (2).svg'
 
 // icons material-ui
-import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
-import MoodOutlinedIcon from '@mui/icons-material/MoodOutlined';
+//import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
+//import MoodOutlinedIcon from '@mui/icons-material/MoodOutlined';
 
 //react
 import React, { useEffect, Fragment } from "react"
@@ -66,7 +66,7 @@ export default function Home({ brands }) {
                 <div className="home d-flex flex-column ">
 
                     {/* /////////////////////////////////////////////////////////////////////// */}
-                    <div className="details-header d-flex align-items-center text-nowrap flex-wrap mx-auto py-1">
+                    {/* <div className="details-header d-flex align-items-center text-nowrap flex-wrap mx-auto py-1">
                         <div className="details-name px-4">
 
                             <LocalShippingOutlinedIcon />
@@ -80,13 +80,13 @@ export default function Home({ brands }) {
                             <img src={vipCrownIcon} alt="vip Crown Icon" />
                             <span className="px-1">{t("original products")} </span>
                         </div>
-                    </div>
+                    </div> */}
                     {/* /////////////////////////////////////////////////////////////////////// */}
 
                     <Carousel
                         nextIcon={<span aria-hidden="false" />}
                         prevIcon={<span aria-hidden="false" />}
-                        className="home-carousel">
+                        className="home-carousel mt-5">
 
                         {homePage && homePage.sliders.map(slider => (
                             <Carousel.Item interval={1000} key={slider.id}>
