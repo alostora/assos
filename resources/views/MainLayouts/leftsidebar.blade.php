@@ -138,6 +138,11 @@
                                         <i class="fa fa-mail-reply-all"></i>@lang('leftsidebar.Item back reason')
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="{{url('admin/shippingConditions')}}">
+                                        <i class="fa fa-mail-reply-all"></i>@lang('leftsidebar.Shipping conditions')
+                                    </a>
+                                </li>
                             </ul>
                         </li>
 

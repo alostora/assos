@@ -636,5 +636,8 @@ return [
     "confirmed" => "مؤكد",
     "order_items_props" => "الاضافات والخصائص",
     "accepted" => "مقبول",
+    "Shipping conditions" => "شروط الشحن",
+    "shippingConditions" => "شروط الشحن",
+    "shippingConditionsAr" => "شروط الشحن عربي",
 
 ];

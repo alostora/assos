@@ -38,6 +38,11 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::get('viewCreateOrderSettings/{settingId?}','Order_settings@viewCreateOrderSettings');
 			Route::post('createSetting','Order_settings@createSetting');
 			Route::get('deleteOrderSettings/{settingId?}','Order_settings@deleteOrderSettings');
+			//shipping conditions
+			Route::get('shippingConditions','Order_settings@shippingConditions');
+			Route::get('viewCreateCondition','Order_settings@viewCreateCondition');
+			Route::post('createCondition','Order_settings@createCondition');
+			Route::get('deleteCondition','Order_settings@deleteCondition');
 
 			//itemBackReasons
 			Route::get('itemBackReasonsInfo','Order_settings@itemBackReasonsInfo');

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order_setting;
 use App\Models\Item_back_reason;
+use App\Models\S_condition;
+use File;
 use Lang;
 
 
@@ -60,22 +62,30 @@ class Order_settings extends Controller
         return back();
     }
 
-    //ItemBackReasons
 
+
+
+    //ItemBackReasons
     public function itemBackReasonsInfo(){
         $reasons= Item_back_reason::get();
-        return view('Admin/itemBackReasons/itemBackReasonsInfo',compact('reasons'));
+        return view('Admin/ItemBackReasons/itemBackReasonsInfo',compact('reasons'));
 
     }   
+
+
+
 
     public function viewCreateitemBackReason($id=false){
         $data['reason'] = false;
         if($id != false){
             $data['reason'] = Item_back_reason::find($id);
         }
-        return view('Admin/itemBackReasons/viewCreateitemBackReason',$data);
+        return view('Admin/ItemBackReasons/viewCreateitemBackReason',$data);
 
     } 
+
+
+
 
     public function createitemBackReason(Request $request){
 
@@ -98,8 +108,11 @@ class Order_settings extends Controller
             session()->flash('warning',Lang::get('leftsidebar.Created'));
         }
         return back();
-
     }
+
+
+
+
 
     public function deleteitemBackReason($id){
         Item_back_reason::where('id',$id)->delete();
@@ -110,6 +123,67 @@ class Order_settings extends Controller
 
 
 
+    //shipping conditions
+    public function shippingConditions(){
+        $data['conditions'] = S_condition::get();
+        return view('Admin/OrderSettings/shippingConditions',$data);
+    }
+
+
+
+
+    public function viewCreateCondition(){
+        $data['condition'] = S_condition::first();
+        return view('Admin/OrderSettings/viewCreateCondition',$data);
+    }
+
+
+
+
+    public function createCondition(Request $request){
+
+        $validated = $request->validate([
+          'shippingConditions' => 'required|max:1500',
+          'shippingConditionsAr' => 'required|max:1500',
+          'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:4048',
+        ]);
+
+        $destinationPath = public_path('Admin_uploads/conditions/');
+        $condition = S_condition::first();
+
+        if ($request->hasFile('image')) {
+            if(!empty($condition)){
+                $validated['image'] = $condition->image;
+                File::delete($destinationPath . $validated['image']);
+            }
+
+            $image = $request->file('image');
+            $validated['image'] = rand(11111, 99999).'.'.$image->getClientOriginalExtension();
+            $image->move($destinationPath, $validated['image']);
+        }
+        if(!empty($condition)){
+            S_condition::where('id',$condition->id)->update($validated);
+        }else{
+            S_condition::create($validated);
+        }
+        
+        session()->flash('success',Lang::get('leftsidebar.Created'));
+        return back();
+    }
+
+
+
+
+
+    public function deleteCondition(){
+        $condition =S_condition::first();
+        $destinationPath = public_path('Admin_uploads/conditions/');              
+        File::delete($destinationPath . $condition->image );
+        $condition->delete();
+
+        session()->flash('success',Lang::get('leftsidebar.Deleted'));
+        return back();
+    }
 
 
 
