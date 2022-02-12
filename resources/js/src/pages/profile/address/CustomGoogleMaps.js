@@ -55,6 +55,7 @@ const CustomGoogleMaps = () => {
             if (status == google.maps.GeocoderStatus.OK) {
                 console.log("result", results);
                 let address = (results[0].formatted_address);
+                console.log("address:", address)
             }
         });
     }

@@ -16,7 +16,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { grey } from '@mui/material/colors';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
 import CreditCardRoundedIcon from '@mui/icons-material/CreditCardRounded';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SmsIcon from '@mui/icons-material/Sms';
@@ -137,7 +137,7 @@ const NavBar = () => {
 
         localStorage.removeItem("api-token");
 
-        return history.push("/molk")
+        return history.push("/")
     }
 
     return (
@@ -149,7 +149,7 @@ const NavBar = () => {
             expanded={expanded}>
             <div className="container-fluid">
                 <NavLink
-                    to="/molk"
+                    to="/"
                     activeClassName="selected"
                     className="text-decoration-none"
                 >
@@ -175,7 +175,7 @@ const NavBar = () => {
 
                 <Navbar.Collapse id="basic-navbar-nav" className="order-3 order-lg-2 py-2">
                     <ul className="navbar-nav ">
-                        <li className="nav-item py-1 search-section px-1 col-lg-6 ">
+                        <li className="nav-item py-1 search-section px-1 col-lg-6">
 
                             <Paper
                                 component="form"
@@ -186,7 +186,7 @@ const NavBar = () => {
                                     sx={{ ml: 1, flex: 1 }}
                                     placeholder={t("Search for what you want")}
                                     onChange={(e) => searchInput(e)}
-                                    
+
                                     onKeyPress={(event) => {
                                         if (event.key === 'Enter') {
                                             event.preventDefault();
@@ -242,33 +242,37 @@ const NavBar = () => {
 
                         <li className="nav-item d-flex align-items-center py-1">
 
-                            <button className='fav-btn' onClick={() => setExpanded(false)}>
-                                <Link
-                                    to="/favorite"
-                                    className="text-decoration-none link-color">
+                            <Link
+                                to="/favorite"
+                                className="text-decoration-none d-flex align-items-center justify-content-center fav-btn"
+                                onClick={() => setExpanded(false)}>
 
-                                    <Badge badgeContent={favoriteItems && favoriteItems.length} color="error">
-                                        <FavoriteBorderRoundedIcon />
-                                    </Badge>
+                                <Badge badgeContent={favoriteItems && favoriteItems.length} color="error">
+                                    <FavoriteBorderRoundedIcon />
+                                </Badge>
 
-                                </Link>
-                            </button>
+                            </Link>
 
-                            <button className="notifi-btn" onClick={() => setExpanded(false)}>
+                            <Link
+                                to="/"
+                                className="text-decoration-none d-flex align-items-center justify-content-center notifi-btn"
+                                onClick={() => setExpanded(false)}>
+
                                 <NotificationsNoneOutlinedIcon />
-                            </button>
 
-                            <button className="cart-btn" onClick={() => setExpanded(false)}>
-                                <Link
-                                    to="/cart"
-                                    className="text-decoration-none link-color">
+                            </Link>
 
-                                    <Badge badgeContent={cartItems && cartItems.length} color="error">
-                                        <LocalGroceryStoreOutlinedIcon />
-                                    </Badge>
+                            <Link
+                                to="/cart"
+                                className="text-decoration-none d-flex align-items-center justify-content-center cart-btn"
+                                onClick={() => setExpanded(false)}>
 
-                                </Link>
-                            </button>
+                                <Badge badgeContent={cartItems && cartItems.length} color="error">
+                                    <LocalGroceryStoreOutlinedIcon />
+                                </Badge>
+
+                            </Link>
+
                         </li>
                         {/* //////////////////////////////////// */}
 
@@ -282,7 +286,7 @@ const NavBar = () => {
 
                                     <Dropdown.Menu className='dropdown-user-profile-item'>
                                         <Dropdown.Item
-                                            className='d-flex '
+                                            className='d-flex align-items-center py-2'
                                             onClick={(e) => {
                                                 e.preventDefault();
                                                 history.push("/profile/profile-info");
@@ -294,7 +298,7 @@ const NavBar = () => {
                                         {/*//////////////////////////////////*/}
 
                                         <Dropdown.Item
-                                            className='d-flex align-items-center'
+                                            className='d-flex align-items-center py-2'
                                             onClick={(e) => {
                                                 e.preventDefault();
                                                 history.push("/profile/order");
@@ -307,18 +311,18 @@ const NavBar = () => {
                                         </Dropdown.Item>
                                         {/*//////////////////////////////////*/}
 
-                                        <Dropdown.Item className='d-flex'
+                                        <Dropdown.Item className='d-flex align-items-center py-2'
                                             onClick={(e) => {
                                                 e.preventDefault();
                                                 history.push("/profile/address");
                                                 window.location.reload();
                                             }}>
-                                            <HomeRoundedIcon />
+                                            <LocationOnRoundedIcon />
                                             <span className='px-1'>{t("Address")}</span>
                                         </Dropdown.Item>
                                         {/*//////////////////////////////////*/}
 
-                                        <Dropdown.Item className='d-flex'
+                                        <Dropdown.Item className='d-flex align-items-center py-2'
                                             onClick={(e) => {
                                                 e.preventDefault();
                                                 history.push("/profile/payment-methods");
@@ -329,7 +333,7 @@ const NavBar = () => {
                                         </Dropdown.Item>
                                         {/*//////////////////////////////////*/}
 
-                                        <Dropdown.Item className='d-flex'
+                                        <Dropdown.Item className='d-flex align-items-center py-2'
                                             onClick={(e) => {
                                                 e.preventDefault();
                                                 history.push("/profile/notifications");
@@ -340,7 +344,7 @@ const NavBar = () => {
                                         </Dropdown.Item>
                                         {/*//////////////////////////////////*/}
 
-                                        <Dropdown.Item className='d-flex'
+                                        <Dropdown.Item className='d-flex align-items-center py-2'
                                             onClick={(e) => {
                                                 e.preventDefault();
                                                 history.push("/profile/communication-preferences");
@@ -352,7 +356,7 @@ const NavBar = () => {
                                         {/*//////////////////////////////////*/}
 
                                         <Dropdown.Item
-                                            className='d-flex align-items-center'
+                                            className='d-flex align-items-center py-2'
                                             onClick={(e) => {
                                                 e.preventDefault();
                                                 history.push("/profile/gift-coupons");
@@ -366,7 +370,7 @@ const NavBar = () => {
                                         {/*//////////////////////////////////*/}
 
                                         <Dropdown.Item
-                                            className='d-flex'
+                                            className='d-flex align-items-center py-2'
                                             onClick={logoutHandler}>
 
                                             <LogoutIcon />

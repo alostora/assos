@@ -1,6 +1,6 @@
 //material-ui
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -50,7 +50,7 @@ const NavProfile = () => {
 
         localStorage.removeItem("api-token");
 
-        history.push("/molk");
+        history.push("/");
 
         window.location.reload();
     }
@@ -114,7 +114,7 @@ const NavProfile = () => {
                             activeClassName="selected-link">
 
                             <div>
-                                <HomeRoundedIcon />
+                                <LocationOnRoundedIcon />
                                 <span className='px-2'>{t("Address")}</span>
                             </div>
 
@@ -202,7 +202,7 @@ const NavProfile = () => {
                         setExpanded(false);
                     }}>
                         <NavLink
-                            to="/molk"
+                            to="/"
                             className="text-decoration-none d-flex justify-content-between link-item"
                             activeClassName="selected-link">
 

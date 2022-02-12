@@ -164,7 +164,7 @@ const ProductDetails = () => {
                     {/* /////////////////////////////////////////////////////////////////////// */}
                     <div className="d-flex align-items-center page-names">
 
-                        <Link to="/molk" className="text-decoration-none">
+                        <Link to="/" className="text-decoration-none">
                             <HomeOutlinedIcon style={{ color: grey[500] }} className="me-2" />
                             <span className="page-name">{t("Home")}</span>
                         </Link>

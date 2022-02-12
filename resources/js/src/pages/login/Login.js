@@ -40,7 +40,7 @@ const Login = () => {
     useEffect(() => {
 
         if (isAuthenticated) {
-            return history.push("/molk")
+            return history.push("/")
         }
         if (message) {
             setErrorMessage(message)

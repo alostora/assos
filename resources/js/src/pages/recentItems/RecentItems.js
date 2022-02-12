@@ -23,7 +23,7 @@ const RecentItems = ({ recentItems }) => {
 
             <div className="d-flex align-items-center page-names container mb-4">
 
-                <Link to="/molk" className="text-decoration-none d-flex align-items-center ">
+                <Link to="/" className="text-decoration-none d-flex align-items-center ">
                     <HomeOutlinedIcon style={{ color: grey[500] }} />
                     <span className="page-name mx-1">{t("Home")}</span>
                 </Link>
