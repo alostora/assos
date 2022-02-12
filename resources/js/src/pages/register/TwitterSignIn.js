@@ -1,9 +1,6 @@
 //react
 import React from 'react';
 
-//twitter login package
-import TwitterLogin from "react-twitter-login";
-
 //icons
 import twitterIcon from '../../assets/icons/Login/twitter-icon.png';
 
@@ -11,12 +8,13 @@ import twitterIcon from '../../assets/icons/Login/twitter-icon.png';
 import { useDispatch } from 'react-redux'
 import { socialSignUp } from '../../redux/actions/userActions';
 
-//translate 
-import { useTranslation } from "react-i18next";
-
+//firebase 
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { TwitterAuthProvider, signInWithPopup } from "firebase/auth";
+
+//translate 
+import { useTranslation } from "react-i18next";
 
 
 const TwitterSignIn = () => {
@@ -41,18 +39,35 @@ const TwitterSignIn = () => {
 
     const dispatch = useDispatch()
 
-    // const authHandler = (err, data) => {
-    //     console.log("twitter login", err, data);
-    // };
+    // get profile twitter success 
+    const getProfileSignUpTwitter = (response) => {
+
+        dispatch(socialSignUp({
+            name: response && response.user && response.user.displayName,
+            email: response && response.user && response.user.email,
+            image: response && response.user && response.user.photoURL,
+            socialType: "twitter",
+            socialToken: response && response.user && response.user.uid,
+        }))
+
+        console.log("response :", response && response.user)
+    }
+
+    // login with twitter failed
+    const failedSignUpTwitter = (response) => {
+
+        console.log("failed Twitter login:", response)
+    }
 
     const signInWithTwitter = () => {
         const provider = new TwitterAuthProvider();
+
         signInWithPopup(authentication, provider)
             .then((res) => {
-                console.log("res", res)
+                getProfileSignUpTwitter(res);
             })
             .catch((err) => {
-                console.log("err", err)
+                failedSignUpTwitter(err);
             })
     }
 
@@ -65,8 +80,8 @@ const TwitterSignIn = () => {
         // >
         <button
             className="btn-login__social d-flex justify-content-center align-items-center col-12 mx-auto mb-3"
-            onClick={signInWithTwitter}
-        >
+            onClick={signInWithTwitter}>
+
             <img src={twitterIcon} alt="twitterIcon" />
             <span className='px-3'>{t("Join with Twitter")}</span>
 

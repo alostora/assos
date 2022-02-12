@@ -84,7 +84,7 @@ const Login = () => {
                     <button
                         className="btn-login__social d-flex justify-content-center align-items-center col-12 mx-auto mb-3 ">
                         <img src={appleIcon} alt="googleIcon" />
-                        <span className='px-3'>{t("Login with Apple")}</span>
+                        <span className='px-3'>{t("Join with Apple")}</span>
                     </button>
 
                     <TwitterSignIn />

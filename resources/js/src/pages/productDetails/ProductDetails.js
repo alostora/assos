@@ -285,7 +285,7 @@ const ProductDetails = () => {
 
                                                 className={`btn-size ${sizeId === it.id ? "btn-size-active" : ""} `}>
 
-                                                {it.propertyName.charAt(0).toUpperCase()}</button>
+                                                {it.propertyName}</button>
                                         ))}
 
                                     </div>
