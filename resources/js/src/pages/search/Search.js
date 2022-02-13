@@ -192,7 +192,7 @@ const Search = ({ categories, brands, properties, sortType }) => {
 
                                         className={`btn-size ${propertiesFilterId.includes(it.id) ? "btn-size-active" : ""} `}>
 
-                                        {it.propertyName.charAt(0).toUpperCase()}</button>
+                                        {it.propertyName}</button>
                                 ))}
                             </div>
 

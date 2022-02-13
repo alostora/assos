@@ -95,7 +95,7 @@ const Header = () => {
           <button className="btn-header col-4 col-xl-2" onClick={changeCountry}>
             <span>{t(countryName)}</span>
             <img
-              src={country === "kw" ? Saudi_Arabia_flag : Kuwait_flag}
+              src={country === "sa" ? Kuwait_flag : Saudi_Arabia_flag}
               alt="country Flag"
               width="28px" height="auto"
             />

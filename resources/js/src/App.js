@@ -236,6 +236,10 @@ function App() {
       localStorage.setItem("device-id", uniqueDeviceId)
     }
 
+    if (!localStorage.getItem("country")) {
+      localStorage.setItem("country", "kw")
+    }
+
   }, []);
 
   return (
