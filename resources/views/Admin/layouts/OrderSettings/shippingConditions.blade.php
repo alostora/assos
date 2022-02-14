@@ -33,7 +33,9 @@
 							          	<td>{{$key+1}}</td>
 							          	<td>{{$cond->shippingConditions}}</td>
 							          	<td>{{$cond->shippingConditionsAr}}</td>
-							          	<td>{{$cond->image}}</td>
+							          	<td>
+								          	<img src="{{url('Admin_uploads/conditions/'.$cond->image)}}" class="table-image">
+								          </td>
 							          	<td>
 								          	<div class="btn-group">
 								          		<a class="btn btn-success" href="{{url('admin/viewCreateCondition')}}">
