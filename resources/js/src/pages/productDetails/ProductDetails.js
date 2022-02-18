@@ -126,22 +126,22 @@ const ProductDetails = () => {
     //review item
     const addReviewTOProduct = async () => {
 
-        localStorage.getItem("api-token") ? 
+        localStorage.getItem("api-token") ?
 
-        await axiosInstance({
-            method: "post",
-            url: `/userItemReview`,
-            data: {
-                item_id: productId,
-                rate: productRate,
-                comment: commentReview
+            await axiosInstance({
+                method: "post",
+                url: `/userItemReview`,
+                data: {
+                    item_id: productId,
+                    rate: productRate,
+                    comment: commentReview
 
-            }
-        })
-            .then(res => res.data)
-            .then(data => console.log(data))
+                }
+            })
+                .then(res => res.data)
+                .then(data => console.log(data))
 
-            .catch((err) => console.error(err))
+                .catch((err) => console.error(err))
 
             : history.push("/login")
     }
@@ -380,13 +380,12 @@ const ProductDetails = () => {
                                         );
                                     case "shipping":
                                         return (
-                                            <li>shipping</li>
+                                            <li>{item.s_condition && item.s_condition.shippingConditions}</li>
 
                                         );
                                     case "size":
                                         return (
-                                            <li>size</li>
-
+                                            <img src={item.s_condition && item.s_condition.image} alt="sizeImg" />
                                         );
                                     default:
                                         return (
@@ -481,12 +480,12 @@ const ProductDetails = () => {
                                 {/* <Form.Control placeholder={t("Name")} /> */}
 
                                 <ReactStars
-                                        count={5}
-                                        onChange={ratingChanged}
-                                        size={24}
-                                        activeColor="#ffd700"
-                                        required
-                                    />
+                                    count={5}
+                                    onChange={ratingChanged}
+                                    size={24}
+                                    activeColor="#ffd700"
+                                    required
+                                />
 
                                 <Form.Control as="textarea" rows={4} placeholder={t("Write your Comment Here")}
                                     value={commentReview} className="my-4"
@@ -494,7 +493,7 @@ const ProductDetails = () => {
                                 />
 
                                 <div className="d-flex align-items-center rate-send-review">
-                               
+
                                     <button className="btn-send" type="submit">{t("Send")}</button>
                                 </div>
                             </Form>

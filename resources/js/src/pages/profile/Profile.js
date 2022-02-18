@@ -29,12 +29,13 @@ import OrderDetails from './orders/OrderDetails';
 import ProductBack from './orders/ProductBack';
 import Payment from './payment/Payment';
 import GiftCoupons from './giftCoupons/GiftCoupons';
+import Notifications from './notifications/Notifications';
 
 
 const Profile = () => {
 
-     //translate
-     const { t } = useTranslation();
+    //translate
+    const { t } = useTranslation();
 
     // modal edit profile
     const [showModal, setShowModal] = useState(false);
@@ -117,7 +118,7 @@ const Profile = () => {
 
                                         <Route exact path={"/profile/payment-methods"} render={() => <Payment />} />
 
-                                        <Route exact path={"/profile/notifications"} render={() => <h4>{t("Notifications")}</h4>} />
+                                        <Route exact path={"/profile/notifications"} render={() => <Notifications />} />
 
                                         <Route exact path={"/profile/communication-preferences"} render={() => <h4>{t("Communication Preferences")}</h4>} />
 

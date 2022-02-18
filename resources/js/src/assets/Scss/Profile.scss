@@ -599,4 +599,28 @@
             }
         }
     }
+    .notification-page {
+        .section-header {
+            font-style: normal;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        .notifi-body {
+            width: 100%;
+            border-bottom: 1px solid gray;
+            font-weight: normal;
+
+            .notifi-date {
+                color: #6c757d;
+                font-size: 16px;
+            }
+            .header {
+                font-size: 24px;
+            }
+            .notifi-content {
+                color: #646a6e;
+                font-size: 20px;
+            }
+        }
+    }
 }
