@@ -647,6 +647,11 @@ return [
     
     "Shipping conditions" => "Shipping conditions",
     "shippingConditions" => "Shipping conditions",
-    "shippingConditionsAr" => "Shipping conditions Ar"
+    "shippingConditionsAr" => "Shipping conditions Ar",
+
+    
+    "Item back request" => "Item back request",
+
+
 
 ];

@@ -11,34 +11,37 @@
 	          	<div class="box">
 		            <div class="box-header">
 		              	<div class="col-xs-6">
-			              	<h3 class="box-title">
-				              	@lang('leftsidebar.propertiesInfo')
-			              	</h3>
+			              	<h3 class="box-title">@lang('leftsidebar.Item back request')</h3>
 		              	</div>
-				      	<a href="{{url('admin/sub_viewCreateProperty/'.Request('propId'))}}" class="btn btn-primary col-xs-6">
-				      		<i class="fa fa-plus"></i>
-				      		@lang('leftsidebar.Add')
-				      	</a>
 		            </div>
 		            <div class="box-body table-responsive no-padding">
 		              	<table class="table table-hover">
 			                <tr>
 			                  	<th>#</th>
-			                  	<th>@lang('leftsidebar.propertyName')</th>
+			                  	<th>@lang('leftsidebar.order_id')</th>
+			                  	<th>@lang('leftsidebar.order_item_id')</th>
+			                  	<th>@lang('leftsidebar.user_id')</th>
+			                  	<th>@lang('leftsidebar.status')</th>
+			                  	<th>@lang('leftsidebar.count')</th>
+			                  	<th>@lang('leftsidebar.reason_id')</th>
 			                  	<th>@lang('leftsidebar.Operations')</th>
 			                </tr>
-							@if(!empty($properties))
-								@foreach($properties as $key=>$property)
+							@if(!empty($itemRequests))
+								@foreach($itemRequests as $key=>$r_item)
 									<tr>
 							          	<td>{{$key+1}}</td>
-							          	<td>{{$property->propertyName}}</td>
+							          	<td>{{$r_item->order_id}}</td>
+							          	<td>{{$r_item->order_item_id}}</td>
+							          	<td>{{$r_item->user_id}}</td>
+							          	<td>{{$r_item->status}}</td>
+							          	<td>{{$r_item->item_back_count}}</td>
+							          	<td>{{$r_item->reason_id}}</td>
 							          	<td>
 								          	<div class="btn-group">
-								          		<a class="btn btn-success" href="{{url('admin/sub_viewCreateProperty/'.Request('propId').'/'.$property->id)}}">
+								          		<a class="btn btn-success" href="{{url('admin/viewCreateitemBackReason/'.$r_item->id)}}">
 								          			<i class="fa fa-edit"></i>
 								          		</a>
-								          	
-							          	 		<a class="btn btn-danger" href="{{url('admin/sub_deleteProperty/'.$property->id)}}" onclick="return confirm('Are you sure?');" >
+							          	 		<a class="btn btn-danger" href="{{url('admin/deleteitemBackReason/'.$r_item->id)}}" onclick="return confirm('Are you sure?');" >
 							          	 			<i class="fa fa-trash"></i>
 							          	 		</a>
 						          	 		</div>
@@ -50,6 +53,6 @@
 		            </div>
          	 	</div>
 	        </div>
-      	</div>
+	    </div>
 	</section>	
 </div>

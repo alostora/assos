@@ -639,5 +639,7 @@ return [
     "Shipping conditions" => "شروط الشحن",
     "shippingConditions" => "شروط الشحن",
     "shippingConditionsAr" => "شروط الشحن عربي",
+    
+    "Item back request" => "طلبات إعادة المنتج",
 
 ];

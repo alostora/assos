@@ -27,7 +27,6 @@
 			                  	<th>#</th>
 			                  	<th>@lang('leftsidebar.propertyName')</th>
 			                  	<th>@lang('leftsidebar.propertyNameAr')</th>
-			                  	<th>@lang('leftsidebar.type')</th>
 			                  	<th>@lang('leftsidebar.subProperties')</th>
 			                  	<th>@lang('leftsidebar.Operations')</th>
 			                </tr>
@@ -37,7 +36,6 @@
 							          	<td>{{$key+1}}</td>
 							          	<td>{{$property->propertyName}}</td>
 							          	<td>{{$property->propertyNameAr}}</td>
-							          	<td>{{$property->type}}</td>
 							          	<td>
 								          	<div class="btn-group">
 								          		<a class="btn btn-success btn-sm" href="

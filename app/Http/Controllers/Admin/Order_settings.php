@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Order_setting;
 use App\Models\Item_back_reason;
 use App\Models\S_condition;
+use App\Models\Item_back_request;
 use File;
 use Lang;
 
@@ -119,7 +120,30 @@ class Order_settings extends Controller
         session()->flash('warning',Lang::get('leftsidebar.Deleted'));
         return back();
     }
-    
+    //ItemBackReasons
+
+
+
+
+
+    //item back request
+    public function itemBackRequest(){
+        $data['itemRequests'] = Item_back_request::get();
+        return view('Admin/ItemBackReasons/itemBackRequest',$data);
+    }
+
+
+
+
+
+    public function changeItemRequestStatus($requestId,$status){
+        Item_back_request::where('id',$requestId)->update(['status'=>$status]);
+        session()->flash('warning',Lang::get('leftsidebar.Done'));
+        return back();
+    }
+    //item back request
+
+
 
 
 
@@ -184,7 +208,7 @@ class Order_settings extends Controller
         session()->flash('success',Lang::get('leftsidebar.Deleted'));
         return back();
     }
-
+    //shipping conditions
 
 
 

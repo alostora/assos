@@ -701,7 +701,7 @@ class Orders extends Controller
         $info = $request->all();
         $validator = Validator::make($info,[
             'order_id' => 'required',
-            'item_id' => 'required',
+            'order_item_id' => 'required',
             'item_back_count' => 'required',
             'reason_id' => 'required',
         ]);

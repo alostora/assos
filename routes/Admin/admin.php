@@ -49,6 +49,9 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::get('viewCreateitemBackReason/{id?}','Order_settings@viewCreateitemBackReason');
 			Route::post('createitemBackReason','Order_settings@createitemBackReason');
 			Route::get('deleteitemBackReason/{id}','Order_settings@deleteitemBackReason');
+			//item back request
+			Route::get('itemBackRequest','Order_settings@itemBackRequest');
+			Route::get('changeItemRequestStatus/{requestId}/{status}','Order_settings@changeItemRequestStatus');
 
 
 

@@ -23,6 +23,7 @@ use App\Models\Order;
 use App\Models\Order_item;
 use App\Models\Order_item_prop;
 use App\Models\Privacy;
+use App\Models\S_condition;
 use App\Helpers\Helper;
 use URL;
 use Auth;
@@ -363,7 +364,12 @@ class Users extends Controller
                 }
 
                 $data['item']->color = $color;
-                $data['item']->size = $size;                        
+                $data['item']->size = $size;
+
+                $data['item']->s_condition = S_condition::first();
+                if (!empty($data['item']->s_condition)) {
+                    $data['item']->s_condition->image = URL::to('Admin_uploads/conditions/'.$data['item']->s_condition->image);
+                }
 
                 $data['item']->itemMayLike = Item::where(['department'=>$main_filter,
                     'country'=>$country])->limit(10)->get(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'

@@ -32,8 +32,6 @@
                                     <th>@lang('leftsidebar.shippingValue')</th>
                                     <th>@lang('leftsidebar.shippingAddress_id')</th>
                                     <th>@lang('leftsidebar.clientName')</th>
-                                    <!-- <th>@lang('leftsidebar.items')</th>
-                                    <th>@lang('leftsidebar.status')</th> -->
                                     <th>@lang('leftsidebar.Operations')</th>
                                 </tr>
                             </thead>
@@ -44,39 +42,29 @@
                                         <td>{{$order->orderCode}}</td>
                                         <td>{{$order->shippingType}}</td>
                                         <td>{{$order->paymentMethod}}</td>
-                                        <td>{{$order->total_price}}</td>
-                                        <td>{{$order->discountCopon}}</td>
-                                        <td>{{$order->addedTax}}</td>
-                                        <td>{{$order->sub_total}}</td>
-                                        <td>{{$order->total}}</td>
-                                        <td>{{$order->shippingValue}}</td>
+                                        <td class="text-success" style="font-weight:bold;font-size: 20px;">{{$order->total_price}}</td>
+                                        <td style="font-size: 18px;">{{$order->discountCopon}}</td>
+                                        <td style="font-size: 18px;">{{$order->addedTax}}</td>
+                                        <td style="font-size: 18px;">{{$order->sub_total}}</td>
+                                        <td style="font-size: 18px;">{{$order->total}}</td>
+                                        <td style="font-size: 18px;">{{$order->shippingValue}}</td>
                                         <td>
                                             @if(!empty($order->shippingAddress))
                                                 <ul>
-                                                    <!-- <li>
-                                                        {{$order->shippingAddress->name}}
-                                                    </li>
-                                                    <li>
-                                                        {{$order->shippingAddress->phone}}
-                                                    </li>
-                                                    <li>
-                                                        {{$order->shippingAddress->street}}
-                                                    </li> -->
-                                                    <li>
+                                                    <li style="width:100px">
                                                         {{$order->shippingAddress->address}}
                                                     </li>
-                                                    
                                                 </ul>
                                             @endif
                                         </td>
                                         <td>{{!empty($order->user_info) ? $order->user_info->name : ''}}</td>
-                                        <td data-toggle="collapse" data-target="#items{{$order->id}}" class="accordion-toggle" width="150px">
+                                        <td data-toggle="collapse" data-target="#items{{$order->id}}" class="accordion-toggle" width="200px">
                                             <div class="btn-group">
                                                 <button class="btn btn-warning btn-sm" >
                                                     <span class="glyphicon glyphicon-eye-open"></span>
                                                 </button>
 
-                                                <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="width:100px">
                                                     @lang('leftsidebar.'.$order->status)
                                                   <span class="caret"></span>
                                                 </button>

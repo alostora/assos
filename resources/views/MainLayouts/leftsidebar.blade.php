@@ -139,8 +139,13 @@
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="{{url('admin/itemBackRequest')}}">
+                                        <i class="fa fa-message"></i>@lang('leftsidebar.Item back request')
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="{{url('admin/shippingConditions')}}">
-                                        <i class="fa fa-mail-reply-all"></i>@lang('leftsidebar.Shipping conditions')
+                                        <i class="fa fa-file"></i>@lang('leftsidebar.Shipping conditions')
                                     </a>
                                 </li>
                             </ul>
