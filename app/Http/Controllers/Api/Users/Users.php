@@ -24,6 +24,7 @@ use App\Models\Order_item;
 use App\Models\Order_item_prop;
 use App\Models\Privacy;
 use App\Models\S_condition;
+use App\Models\Notifii;
 use App\Helpers\Helper;
 use URL;
 use Auth;
@@ -368,6 +369,7 @@ class Users extends Controller
 
                 $data['item']->s_condition = S_condition::first();
                 if (!empty($data['item']->s_condition)) {
+                    $data['item']->s_condition->shippingConditions = $lang == 'en' ? $data['item']->s_condition->shippingConditions : $data['item']->s_condition->shippingConditionsAr;
                     $data['item']->s_condition->image = URL::to('Admin_uploads/conditions/'.$data['item']->s_condition->image);
                 }
 
@@ -1426,6 +1428,24 @@ class Users extends Controller
 
 
 
+    public function privacy_policies(){
+        $data['status'] = true;
+
+        $privacy = Privacy::get();
+
+        foreach ($privacy as $key => $priv) {
+            $priv->privacyTitle = app()->getLocale() != 'ar' ? $priv->privacyTitle : $priv->privacyTitleAr;
+            $priv->privacy = app()->getLocale() != 'ar' ? $priv->privacy : $priv->privacyAr;
+            $priv->privacy = strip_tags($priv->privacy);
+        }
+
+        $data['data'] = $privacy;
+
+        return $data;
+    }
+
+
+
 
 
 
@@ -1454,26 +1474,24 @@ class Users extends Controller
 
 
 
+    public function userNotifi(Request $request){
 
-
-
-
-
-    public function privacy_policies(){
-        $data['status'] = true;
-
-        $privacy = Privacy::get();
-
-        foreach ($privacy as $key => $priv) {
-            $priv->privacyTitle = app()->getLocale() != 'ar' ? $priv->privacyTitle : $priv->privacyTitleAr;
-            $priv->privacy = app()->getLocale() != 'ar' ? $priv->privacy : $priv->privacyAr;
-            $priv->privacy = strip_tags($priv->privacy);
+        $device_id = $request->header('device-id');
+        if(Auth::guard('api')->check()) {
+            $user = User::find(Auth::guard('api')->id());
+        }else{
+            $user = User::where('deviceId',$device_id)->first();
         }
 
-        $data['data'] = $privacy;
+        $data['status'] = true;
+        $data['notifiis'] = Notifii::where('user_id',$user->id)->get();
 
         return $data;
     }
+
+
+
+
 
 
 
