@@ -16,4 +16,8 @@ class S_condition extends Model
         'image',
     ];
 
+    protected $hidden = [
+        'shippingConditionsAr',
+    ];
+
 }
