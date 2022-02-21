@@ -35,38 +35,39 @@ const Item = ({ item }) => {
 
             </div>
 
+            <div className="item-details">
 
-            <div className="d-flex justify-content-between">
+                <div className="d-flex justify-content-between align-items-center">
+
+                    <Link
+                        to={`/product-details/${item.id}`}
+                        className="text-decoration-none d-flex">
+
+                        <span className="item-name">{item.itemName}</span>
+                    </Link>
+
+                    <div className="cart-icon-btn d-flex justify-content-center align-items-center">
+
+                        <CartIcon item={item} />
+                    </div>
+                </div>
 
                 <Link
                     to={`/product-details/${item.id}`}
-                    className="text-decoration-none d-flex">
+                    className="text-decoration-none ">
 
-                    <span className="item-name ">{item.itemName}</span>
+                    <div className="d-flex flex-wrap ">
 
+                        <span className="item-price ">{item.itemPriceAfterDis}
+                            &nbsp;{country === "sa" ? t("SAR") : t("KWD")}
+                        </span>
+
+                        <span className="item-price-old  px-3">{item.itemPrice}
+                            &nbsp;{country === "sa" ? t("SAR") : t("KWD")}
+                        </span>
+                    </div>
                 </Link>
-                <div className="cart-icon-btn d-flex justify-content-center align-items-center ">
-
-                    <CartIcon item={item} />
-                </div>
-
             </div>
-
-            <Link
-                to={`/product-details/${item.id}`}
-                className="text-decoration-none ">
-
-                <div className="d-flex flex-wrap  ">
-                    <span className="item-price ">{item.itemPriceAfterDis}
-                        &nbsp;{country === "sa" ? t("SAR") : t("KWD")}
-                    </span>
-
-                    <span className="item-price-old  px-3">{item.itemPrice}
-                        &nbsp;{country === "sa" ? t("SAR") : t("KWD")}
-                    </span>
-
-                </div>
-            </Link>
         </div>
 
     )

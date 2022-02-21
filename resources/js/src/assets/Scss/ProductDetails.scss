@@ -254,8 +254,8 @@
       margin-bottom: 25px;
     }
     .items-section {
-      background-color: #f2f4f7;
-      border-radius: 8px;
+     // background-color: #f2f4f7;
+     // border-radius: 8px;
       .items {
         .item-match {
           background-color: $white;
@@ -291,6 +291,7 @@
         height: 50px;
         border: 1px solid #6c757d;
         background-color: inherit;
+        color: #646668;
         border-radius: 34px;
         font-style: normal;
         font-weight: normal;

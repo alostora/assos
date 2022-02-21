@@ -406,7 +406,7 @@ const ProductDetails = () => {
 
                         <div className="d-flex flex-column justify-content-center align-items-center items-section">
 
-                            <div className="items row mx-0 justify-content-center p-4">
+                            <div className="items row w-100 ">
 
                                 {item.itemFit && item.itemFit.filter((item, index) => index <= 7).map(it =>
 
