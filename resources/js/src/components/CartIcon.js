@@ -62,12 +62,12 @@ const CartIcon = ({ item }) => {
     }
 
     return (
-        <button className='btn-fav-toggle ' onClick={() => toggleCart(item.id)}>
+        <button className="btn-cart-toggle" onClick={() => toggleCart(item.id)}>
 
             {itemCart ?
-                <ShoppingCartIcon style={{ color: green[800] }} />
+                <ShoppingCartIcon sx={{ color: green[800] }} />
 
-                : <ShoppingCartOutlinedIcon />
+                : <ShoppingCartOutlinedIcon sx={{ color: localStorage.getItem("modeColor") === "light" ? "" : "white" }} />
             }
         </button>
     )
