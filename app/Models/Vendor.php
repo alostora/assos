@@ -19,7 +19,7 @@ class Vendor extends Authenticatable
         'password',
         'vendor_image',
         'vendor_logo',
-        'country',
+        'country',//[sa,kw]
         'address',
         'api_token',
         'firebase_token',

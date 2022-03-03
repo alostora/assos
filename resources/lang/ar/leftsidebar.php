@@ -619,6 +619,7 @@ return [
     "settingValue" => "القيمة",
 
     //country
+    "country" => "الدولة",
     "sa" => "السعودية",
     "kw" => "الكويت",
 

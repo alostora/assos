@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\User_address;
 use App\Models\Contact_message;
+use App\Models\Order;
 use Validator;
 use Hash;
 use Str;
@@ -42,6 +43,7 @@ class Users_auth extends Controller
             $user->deviceId = $data['deviceId'];
             $user->firebase_token = !empty($data['firebase_token']) ? $data['firebase_token'] : null;
             $user->save();
+            Order::where('user_id',$user->id)->delete();
         }else{
             User::create($data);
         }
@@ -305,7 +307,7 @@ class Users_auth extends Controller
             'address' => 'required|max:200',
             'addressDESC' => 'max:200',
             'homeNumber' => 'max:100',
-            'postalCode' => 'required|max:100',
+            'postalCode' => 'max:100',
             'lng' => 'max:100',
             'lat' => 'max:100',
             'isMain' => 'required|boolean',

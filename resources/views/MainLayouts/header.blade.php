@@ -97,13 +97,13 @@
       width: 50px;
       border-radius: 50%;
     }
-    .skin-purple .main-header .navbar{
+    /*.skin-purple .main-header .navbar{
       background-color: #5cb85c;
     }
 
     .skin-purple .main-header .logo{
-      background-color: #209a94d1;
-  }
+        background-color: #209a94d1;
+    }*/
   </style>
 
 
@@ -114,4 +114,4 @@
 
 </head>
 
-<body class="hold-transition skin-purple sidebar-mini" dir={{$dir}} >
+<body class="hold-transition skin-blue sidebar-mini" dir={{$dir}} >

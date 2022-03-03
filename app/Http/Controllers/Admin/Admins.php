@@ -6,7 +6,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin;
-use App\Models\User;
+use App\Models\Vendor;
+use App\Models\Category;
+use App\Models\Property;
+use App\Models\Offer;
+use App\Models\Ad;
 use App\Models\Order_setting;
 use App\Models\Item_back_reason;
 use App\Models\Contact_message;
@@ -47,9 +51,12 @@ class Admins extends Controller
 
 
     public function dashboard(){
-        $data['admins']= count(Admin::get(['id']));
-        $data['users']= count(User::where('name','!=','guest')->get(['id']));
-        
+        $data['admins']= Admin::count();
+        $data['vendors']= Vendor::count();
+        $data['categories']= Category::count();
+        $data['properties']= Property::count();
+        $data['offers']= Offer::count();
+        $data['ads']= Ad::count();
         
         return view('MainLayouts/dashboard',$data);
     }

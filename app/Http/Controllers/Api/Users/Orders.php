@@ -60,7 +60,6 @@ class Orders extends Controller
                         "orderCode" => Str::random(8),
                     ]);
 
-
                     $order_item = Order_item::create([
                         "item_id" => $item->id,
                         "item_count" => $count,
@@ -70,7 +69,7 @@ class Orders extends Controller
 
                 }else{
                     
-                    $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$item->id])->first();
+                    /*$order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$item->id])->first();
                     if (!empty($order_item)) {
                         $order->total_price = $order->total_price + $itemPrice - ($order_item->item_count*$order_item->itemPrice);
                         //return $this->deleteOrderItem($orderItem->id);
@@ -78,7 +77,7 @@ class Orders extends Controller
                         $order_item->itemPrice = $item->itemPriceAfterDis;
                         $order_item->save();
                         Order_item_prop::where('order_item_id',$order_item->id)->delete();
-                    }else{
+                    }else{*/
                         $order_item = Order_item::create([
                             "item_id" => $item->id,
                             "item_count" => $count,
@@ -86,12 +85,10 @@ class Orders extends Controller
                             "itemPrice" => $item->itemPriceAfterDis,
                         ]);
                         $order->total_price = $order->total_price + $itemPrice;
-                    }
+                    //}
                     $order->save();
                 }
-              
-                
-
+             
                 if(!empty($request->props) && is_array($request->props)) {
                     foreach($request->props as $requestProp){
                         Order_item_prop::create([

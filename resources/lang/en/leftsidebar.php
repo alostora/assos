@@ -628,6 +628,7 @@ return [
 
 
     //country
+    "country" => "country",
     "sa" => "Saudi Arabia",
     "kw" => "kwiat",
 

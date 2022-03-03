@@ -866,7 +866,7 @@ class Users extends Controller
                 $items->orderBy('rate','ASC');
             }
         
-            $data['items'] = $items->select(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue'])->orderBy('id','DESC')->paginate(25);
+            $data['items'] = $items->select(['id','itemName','itemNameAr','itemImage','itemPrice','itemPriceAfterDis','discountValue','main_prop_type'])->orderBy('id','DESC')->paginate(25);
 
             if(!empty($data['items'])){
                 foreach($data['items'] as $item){
