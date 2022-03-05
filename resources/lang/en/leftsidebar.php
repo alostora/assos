@@ -645,6 +645,10 @@ return [
     "confirmed" => "Confirmed",
     "order_items_props" => "order_items_props",
     "accepted" => "Accepted",
+
+    "accept" => "Accept",
+    "refused" => "Refused",
+    "refuse" => "Refuse",
     
     "Shipping conditions" => "Shipping conditions",
     "shippingConditions" => "Shipping conditions",

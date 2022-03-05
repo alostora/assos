@@ -12,6 +12,7 @@ class Review extends Model
     protected $fillable = [
         "rate",
         "comment",
+        "status",//[waiting,accepted,refused] default waiting
         "user_id",
         "item_id",
     ];

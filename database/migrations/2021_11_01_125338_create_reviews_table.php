@@ -18,6 +18,7 @@ class CreateReviewsTable extends Migration
 
             $table->integer('rate')->default(0);
             $table->text('comment')->nullable();
+            $table->enum('status',['waiting','accepted','refused'])->default('waiting');
 
             $table->bigInteger("user_id")->unsigned()->nullable();
             $table->foreign('user_id')
@@ -26,7 +27,7 @@ class CreateReviewsTable extends Migration
             ->onDelete('cascade')
             ->onUpdate('cascade');
 
-            $table->bigInteger("item_id")->unsigned()->nullable();
+            $table->bigInteger("item_id")->unsigned();
             $table->foreign('item_id')
             ->references('id')
             ->on('items')

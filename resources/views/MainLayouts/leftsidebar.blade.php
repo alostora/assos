@@ -62,6 +62,11 @@
                                         <i class="fa fa-cogs"></i>@lang('leftsidebar.propertiesInfo')
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="{{url('admin/itemReviews')}}">
+                                        <i class="fa fa-pencil"></i>@lang('leftsidebar.Comments')
+                                    </a>
+                                </li>
                             </ul>
                         </li>
 
@@ -140,7 +145,7 @@
                                 </li>
                                 <li>
                                     <a href="{{url('admin/itemBackRequest')}}">
-                                        <i class="fa fa-message"></i>@lang('leftsidebar.Item back request')
+                                        <i class="fa fa-inbox"></i>@lang('leftsidebar.Item back request')
                                     </a>
                                 </li>
                                 <li>

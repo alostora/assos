@@ -18,24 +18,34 @@
 		              	<table class="table table-hover">
 			                <tr>
 			                  	<th>#</th>
-			                  	<th>@lang('leftsidebar.order_id')</th>
-			                  	<th>@lang('leftsidebar.order_item_id')</th>
-			                  	<th>@lang('leftsidebar.user_id')</th>
+			                  	<th>@lang('leftsidebar.orders')</th>
+			                  	<th>@lang('leftsidebar.items')</th>
+			                  	<th>@lang('leftsidebar.user')</th>
 			                  	<th>@lang('leftsidebar.status')</th>
-			                  	<th>@lang('leftsidebar.count')</th>
-			                  	<th>@lang('leftsidebar.reason_id')</th>
+			                  	<th>@lang('leftsidebar.Count')</th>
+			                  	<th>@lang('leftsidebar.Item back reason')</th>
 			                  	<th>@lang('leftsidebar.Operations')</th>
 			                </tr>
 							@if(!empty($itemRequests))
 								@foreach($itemRequests as $key=>$r_item)
 									<tr>
 							          	<td>{{$key+1}}</td>
-							          	<td>{{$r_item->order_id}}</td>
-							          	<td>{{$r_item->order_item_id}}</td>
-							          	<td>{{$r_item->user_id}}</td>
+							          	<td>{{\App\Models\Order::find($r_item->order_id)->orderCode}}</td>
+							          	<td>
+							          		@if(!empty(\App\Models\Order_item::find($r_item->order_item_id)->item_id))
+							          			{{\App\Models\Item::find(\App\Models\Order_item::find($r_item->order_item_id)->item_id)->itemName}}
+							          		@endif
+							          	</td>
+							          	<td>
+							          		name : {{\App\Models\User::find($r_item->user_id)->name}}
+							          		<br>
+							          		phone : {{\App\Models\User::find($r_item->user_id)->phone}}
+							          	</td>
 							          	<td>{{$r_item->status}}</td>
 							          	<td>{{$r_item->item_back_count}}</td>
-							          	<td>{{$r_item->reason_id}}</td>
+							          	<td>
+							          		{{\App\Models\Item_back_reason::find($r_item->reason_id)->backReasonName}}
+							          	</td>
 							          	<td>
 								          	<div class="btn-group">
 								          		<a class="btn btn-success" href="{{url('admin/viewCreateitemBackReason/'.$r_item->id)}}">
