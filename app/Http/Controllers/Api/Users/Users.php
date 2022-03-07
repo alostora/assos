@@ -25,6 +25,7 @@ use App\Models\Order_item_prop;
 use App\Models\Privacy;
 use App\Models\S_condition;
 use App\Models\Notifii;
+use App\Models\Banner;
 use App\Helpers\Helper;
 use URL;
 use Auth;
@@ -937,6 +938,11 @@ class Users extends Controller
 
         $catSliders = Category::where('sliderHomeStatus',true)->get();
         $itemSliders = Item::where('sliderHomeStatus',true)->get();
+        
+        $offers = Offer::get();
+        $ads = Ad::get();
+        $banner = Banner::first();
+
         $main_filter = $request->header('main-filter');
         $country = $request->header('country');
         $lang = $request->header('accept-language');
@@ -1054,19 +1060,15 @@ class Users extends Controller
                 }
             }
 
-            $offers = Offer::get();
 
-            if ($offers) {
+            if (!empty($offers)) {
                 foreach ($offers as $offer) {
                     $offer->offerName = $lang != 'ar' ? $offer->offerName : $offer->offerNameAr;
                    $offer->offerImage = URL::to('Admin_uploads/offers/'.$offer->offerImage);
                 }
             }
 
-
-            $ads = Ad::get();
-
-            if ($ads) {
+            if (!empty($ads)) {
                 foreach ($ads as $ad) {
                     $ad->adImage = URL::to('Admin_uploads/ads/'.$ad->adImage);
                     $vendor = Vendor::find($ad->vendor_id);
@@ -1083,12 +1085,18 @@ class Users extends Controller
             }
 
 
+            if (!empty($banner)) {
+                $banner->image = URL::to('Admin_uploads/banners/'.$banner->image);
+            }
+
+
             $data['data']['sliders'] = $sliders;
             $data['data']['itemMayLike'] = $itemMayLike;
             $data['data']['itemFit'] = $itemFit;
             $data['data']['recentItems'] = $recentItems;
             $data['data']['offers'] = $offers;
             $data['data']['ads'] = $ads;
+            $data['data']['banner'] = $banner;
         }else{
             $data['status'] = false;
             $data['message'] = Lang::get('leftsidebar.Empty');

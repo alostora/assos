@@ -90,6 +90,11 @@
                                         <i class="fa fa-align-justify"></i>@lang('leftsidebar.sliderInfocategory')
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="{{url('admin/bannerInfo')}}">
+                                        <i class="fa fa-image"></i>@lang('leftsidebar.bannerImage')
+                                    </a>
+                                </li>
                             </ul>
                         </li>
 

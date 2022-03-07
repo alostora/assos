@@ -645,5 +645,7 @@ return [
     "shippingConditionsAr" => "شروط الشحن عربي",
     
     "Item back request" => "طلبات إعادة المنتج",
+    "Link" => "رابط",
+    "link" => "رابط",
 
 ];

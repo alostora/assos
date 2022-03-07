@@ -126,6 +126,12 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::post('createPrivacy','Privacies@createPrivacy');
 			Route::get('deletePrivacy/{privacyId}','Privacies@deletePrivacy');
 
+
+			Route::get('bannerInfo','Banners@bannerInfo');
+			Route::get('viewCreateBanner','Banners@viewCreateBanner');
+			Route::post('createBanner','Banners@createBanner');
+			Route::get('deleteBanner','Banners@deleteBanner');
+
 		});
 	});
 });
