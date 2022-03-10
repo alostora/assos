@@ -31,6 +31,7 @@ import Item from '../../components/Item';
 import Loader from "../../components/Loader";
 import { CountryContext } from '../../App';
 import FavoriteIcon from '../../components/FavoriteIcon';
+import GeneralModal from '../../components/GeneralModal';
 
 
 const ProductDetails = () => {
@@ -87,11 +88,15 @@ const ProductDetails = () => {
                 "props": [selcectSizeId, selcectColorId]
             }
         })
-            .then((res) => res.status && dispatch(getOrder()))
+            .then(res => res.status && dispatch(getOrder()))
 
             .catch((err) => console.error(err));
 
     }
+
+    //show add to cart modal
+    const [generalModalShow, setGeneralModalShow] = useState(false);
+
 
     // show video modal
     const [modalShow, setModalShow] = useState(false);
@@ -330,8 +335,20 @@ const ProductDetails = () => {
                                 </div>
 
                                 <button className="btn-cart"
-                                    onClick={() => addItemToCart(item.id)}
-                                >{t("Add to Cart")}</button>
+                                    onClick={() => {
+                                        if (selcectSizeId && selcectColorId) {
+                                            addItemToCart(item.id);
+                                        }
+                                        setGeneralModalShow(true);
+                                    }}>
+                                    {t("Add to Cart")}
+                                </button>
+
+                                <GeneralModal
+                                    show={generalModalShow}
+                                    handleClose={() => setGeneralModalShow(false)}
+                                    text={selcectSizeId && selcectColorId ? t("Product added to cart") : t("color and size must be selected before adding to cart")}
+                                />
 
                                 <div className="btn-fav d-flex justify-content-center align-items-center" >
                                     <FavoriteIcon item={item} />

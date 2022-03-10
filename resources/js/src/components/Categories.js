@@ -27,25 +27,31 @@ const Categories = () => {
 
                 <div className="row py-2 mx-0">
 
+                    <Link to='/'
+                        className="text-decoration-none category-name col-xl-1 col-md-4 col-4 d-flex justify-content-center align-items-center"
+                    >
+                        {t("Home")}
+                    </Link>
+
                     <Link to='/recent-items'
-                        className="text-decoration-none category-name col-xl-2 col-md-3 col-6 d-flex justify-content-center align-items-center"
+                        className="text-decoration-none category-name col-xl-1 col-md-4 col-4 d-flex justify-content-center align-items-center"
                     >
                         {t("recently arrived")}
                     </Link>
 
                     <Link to='/brands'
-                        className="text-decoration-none category-name col-xl-2 col-md-3 col-6 d-flex justify-content-center align-items-center"
+                        className="text-decoration-none category-name col-xl-2 col-md-4 col-4 d-flex justify-content-center align-items-center"
                     >
                         {t("international brands")}
                     </Link>
 
-                    <button className="category-name d-flex justify-content-center align-items-center col-xl-2 col-md-2 col-4"
+                    <button className="category-name d-flex justify-content-center align-items-center col-xl-2 col-md-4 col-4"
                         onClick={() => chooseMainFilter("men")}
                     >{t("Men")}</button>
-                    <button className="category-name d-flex justify-content-center align-items-center col-xl-2 col-md-2 col-4"
+                    <button className="category-name d-flex justify-content-center align-items-center col-xl-2 col-md-4 col-4"
                         onClick={() => chooseMainFilter("women")}
                     >{t("Woman")}</button>
-                    <button className="category-name d-flex justify-content-center align-items-center col-xl-2 col-md-2 col-4"
+                    <button className="category-name d-flex justify-content-center align-items-center col-xl-2 col-md-4 col-4"
                         onClick={() => chooseMainFilter("kids")}
                     >{t("Kids")}</button>
 

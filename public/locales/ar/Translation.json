@@ -47,6 +47,7 @@
     "Kids":"الأطفال",
     "Saudi Arabia":"السعودية",
     "Kuwait":"الكويت",
+    "Country":"الدولة",
     "Select Country":"اختر الدولة",
     "Brands Offers":"عروض الماركات",
     "Recently Seen":"شوهد مؤخرا",
@@ -184,5 +185,7 @@
     "Price":"السعر",
     "Offers":"العروض",
     "Offer Products":"منتجات العرض",
-    "There are no Notifications at the moment":"لا توجد إشعارات فى الوقت الحالى"
+    "There are no Notifications at the moment":"لا توجد إشعارات فى الوقت الحالى",
+    "Product added to cart":"تم إضافة المنتج للسلة",
+    "color and size must be selected before adding to cart":"يجب اختيار اللون والمقاس قبل الإضافة إلى عربة التسوق"
   }

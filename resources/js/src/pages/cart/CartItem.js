@@ -87,10 +87,38 @@ const CartItem = ({ item }) => {
                 <Link to={`/product-details/${item.item_id}`}
                     className="text-decoration-none d-flex flex-column">
 
-                    <span className='brand-name mt-1'>{item.vendor_info && item.vendor_info.vendor_name}</span>
-                    <span className='item-name my-1'>{item.itemName}</span>
+                    {/* <span className='brand-name mt-1'>{item.vendor_info && item.vendor_info.vendor_name}</span> */}
 
-                    <div className='d-flex mt-1'>
+                    <span className='item-name  mb-2'>{item.itemName}</span>
+
+                    <div className='item-props d-flex '>
+
+                        {item.order_items_props && item.order_items_props.map(it => {
+
+                            if (it.type && it.type === "color") {
+
+                                return (
+                                    <span style={{ backgroundColor: `${it.propertyName}` }}
+                                        key={it.id}
+                                        className='mx-1 color-prop'>
+                                    </span>)
+                            }
+
+                            if (it.type && it.type === "clothes_size" || it.type === "shoes_size") {
+                                return (
+                                    <span className='mx-1 size-prop d-flex align-items-center' key={it.id}>{it.propertyName}</span>
+                                )
+                            }
+
+                            else {
+                                return ""
+                            }
+
+                        })}
+
+                    </div>
+
+                    <div className='d-flex mt-2'>
 
                         <span className="item-price ">{item.itemPriceAfterDis}
                             &nbsp;{country === "sa" ? t("SAR") : t("KWD")}

@@ -106,7 +106,7 @@ const Header = () => {
             {mode === "light" ? <DarkModeOutlinedIcon /> : <WbSunnyIcon />}
           </button>
 
-          <button className="btn-header col-4  col-xl-2" onClick={changeLang}>
+          <button className="btn-header col-4 col-xl-8 d-flex justify-content-end" onClick={changeLang}>
             <span>{t(langName)}</span>
             <LanguageRoundedIcon />
           </button>

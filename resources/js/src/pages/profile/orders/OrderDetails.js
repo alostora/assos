@@ -209,14 +209,16 @@ const OrderDetails = () => {
                                         onClick={() => addItemToCart(item.item_id)}>
                                         {t("order again")}
                                     </button>
-                                    <button className='btn-return-order'
+
+                                    {selectedOrder && selectedOrder.canBack && <button className='btn-return-order'
                                         onClick={(e) => {
                                             e.preventDefault();
                                             return history.push(`/profile/order/product-back-${item.order_id}-${item.item_id}`);
-                                        }}
-                                    >
+                                        }}>
+
                                         {t("Product return")}
-                                    </button>
+                                    </button>}
+
                                 </div>
                             </div>
                         )}

@@ -8,7 +8,7 @@ import { t } from "i18next";
 
 //component
 import FavoriteIcon from "./FavoriteIcon";
-import CartIcon from "./CartIcon";
+//import CartIcon from "./CartIcon";
 
 const Item = ({ item }) => {
 
@@ -37,7 +37,7 @@ const Item = ({ item }) => {
 
             <div className="item-details">
 
-                <div className="d-flex justify-content-between align-items-center">
+                {/* <div className="d-flex justify-content-between align-items-center">
 
                     <Link
                         to={`/product-details/${item.id}`}
@@ -50,26 +50,36 @@ const Item = ({ item }) => {
 
                         <CartIcon item={item} />
                     </div>
+                </div> */}
+
+                <div className="d-flex align-items-center">
+
+                    <Link
+                        to={`/product-details/${item.id}`}
+                        className="text-decoration-none d-flex">
+
+                        <span className="item-name">{item.itemName}</span>
+                    </Link>
+
                 </div>
 
                 <Link
                     to={`/product-details/${item.id}`}
                     className="text-decoration-none ">
 
-                    <div className="d-flex flex-wrap ">
+                    <div className="d-flex flex-wrap">
 
-                        <span className="item-price ">{item.itemPriceAfterDis}
+                        <span className="item-price">{item.itemPriceAfterDis}
                             &nbsp;{country === "sa" ? t("SAR") : t("KWD")}
                         </span>
 
-                        <span className="item-price-old  px-3">{item.itemPrice}
+                        <span className="item-price-old px-3">{item.itemPrice}
                             &nbsp;{country === "sa" ? t("SAR") : t("KWD")}
                         </span>
                     </div>
                 </Link>
             </div>
         </div>
-
     )
 }
 

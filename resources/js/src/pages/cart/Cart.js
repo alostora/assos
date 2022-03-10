@@ -65,7 +65,6 @@ const Cart = () => {
 
                         <span className='mb-3 items-num'>{cartItems && cartItems.length} &nbsp; {t("Cart Items")}</span>
 
-
                         <div className='row mx-0'>
 
                             <div className='items col-lg-9 col-12'>
@@ -78,7 +77,7 @@ const Cart = () => {
                                 )}
                             </div>
 
-                            {order && cartItems.length > 0 &&
+                            {order && cartItems && cartItems.length > 0 &&
 
                                 <div className='col-lg-3 col-12 d-flex flex-column confirm-order mt-4 '>
 

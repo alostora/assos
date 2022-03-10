@@ -34,7 +34,7 @@ const Register = () => {
 
     const [password, setPassword] = useState("")
 
-    const [confirmPassword, setConfirmPassword] = useState("")
+   // const [confirmPassword, setConfirmPassword] = useState("")
 
     const [newUserData, setNewUserData] = useState({})
     ////////////////////////////////////////////////////////////
@@ -80,11 +80,11 @@ const Register = () => {
             name: userName,
             phone: userPhone,
             email: email,
-            password: password,
-            confirmPassword: confirmPassword,
+            password: password
+            
         })
 
-    }, [userName, userPhone, email, password, confirmPassword])
+    }, [userName, userPhone, email, password])
 
 
     // register function
@@ -102,7 +102,7 @@ const Register = () => {
         <Fragment>
             {loading ? <Loader /> :
 
-                <div className='container register-page '>
+                <div className='container register-page'>
 
                     <GoogleSignIn />
 
@@ -163,7 +163,7 @@ const Register = () => {
 
                         </Form.Group>
 
-                        <Form.Group className="mb-3" controlId="formPlainConfirmPassword">
+                        {/* <Form.Group className="mb-3" controlId="formPlainConfirmPassword">
 
                             <Form.Label className='paragraph-register'>{t("Confirm Password")}</Form.Label>
 
@@ -172,7 +172,8 @@ const Register = () => {
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)} />
 
-                        </Form.Group>
+                        </Form.Group> */}
+
                         {errorMessage && <span className='error-message mb-2'> {errorMessage}</span>}
 
 

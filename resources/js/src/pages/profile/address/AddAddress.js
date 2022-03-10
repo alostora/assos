@@ -187,7 +187,7 @@ const AddAddress = () => {
 
                                 <Form.Label className='paragraph-form-address'>{t("Postal Code")}</Form.Label>
 
-                                <Form.Control type="text" placeholder={t("Postal Code")} required
+                                <Form.Control type="text" placeholder={t("Postal Code")} 
                                     value={postalCode} className='custom-input'
                                     onChange={(e) => setPostalCode(e.target.value)} />
 

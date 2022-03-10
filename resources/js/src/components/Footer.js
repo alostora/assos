@@ -25,13 +25,32 @@ const Footer = ({ categories, brands }) => {
 
             <div className="social d-flex flex-column justify-content-center align-items-center">
                 <span className="header my-3">{t("Follow us to find out what's new")}</span>
-                <div className="social-icons row justify-content-center mb-2">
-                    <button className='col-2'> <img src={TikTokIcon} alt="TikTok Icon" /></button>
-                    <button className='col-2'> <img src={SnapchatIcon} alt="Snapchat Icon" /></button>
-                    <button className='col-2'> <img src={YouTubeIcon} alt="YouTube Icon" /></button>
-                    <button className='col-2'> <img src={InstagramIcon} alt="Instagram Icon" /></button>
-                    <button className='col-2'> <img src={TwitterIcon} alt="Twitter Icon" /></button>
-                    <button className='col-2'> <img src={FacebookIcon} alt="Facebook Icon" /></button>
+                <div className="social-icons row justify-content-center mb-2 ">
+
+                    <a href="https://www.tiktok.com/" target="_blank" className='col-2 social-icon'>
+                        <img src={TikTokIcon} alt="TikTok Icon" />
+                    </a>
+
+                    <a href="https://www.snapchat.com/" target="_blank" className='col-2 social-icon'>
+                        <img src={SnapchatIcon} alt="Snapchat Icon" />
+                    </a>
+
+                    <a href="https://www.youtube.com/" target="_blank" className='col-2 social-icon'>
+                        <img src={YouTubeIcon} alt="YouTube Icon" />
+                    </a>
+
+                    <a href="https://www.instagram.com/" target="_blank" className='col-2 social-icon'>
+                        <img src={InstagramIcon} alt="Instagram Icon" />
+                    </a>
+
+                    <a href="https://twitter.com/" target="_blank" className='col-2 social-icon'>
+                        <img src={TwitterIcon} alt="Twitter Icon" />
+                    </a>
+
+                    <a href="https://www.facebook.com/" target="_blank" className='col-2 social-icon'>
+                        <img src={FacebookIcon} alt="Facebook Icon" />
+                    </a>
+
                 </div>
             </div>
             {/* /////////////////////////////////////////////////////////////////////// */}

@@ -19,7 +19,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded';
 import CreditCardRoundedIcon from '@mui/icons-material/CreditCardRounded';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import SmsIcon from '@mui/icons-material/Sms';
+//import SmsIcon from '@mui/icons-material/Sms';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 
 //translate
@@ -63,6 +63,10 @@ const NavBar = () => {
     const { order } = useSelector(state => state.order)
 
     const cartItems = order ? order.order_items : [];
+
+    const cartItemsLength = cartItems && cartItems.length > 0 ?
+        cartItems.map(it => it.item_count).reduce((previous, current) => previous + current) : 0 ;
+
     ////////////////////////////////////////////////////
 
     // search products
@@ -175,7 +179,7 @@ const NavBar = () => {
 
                 <Navbar.Collapse id="basic-navbar-nav" className="order-3 order-lg-2 py-2">
                     <ul className="navbar-nav ">
-                        <li className="nav-item py-1 search-section px-1 col-lg-6">
+                        <li className="nav-item py-1 search-section px-1 col-xl-7 col-lg-5 col-md-12 col-12">
 
                             <Paper
                                 component="form"
@@ -267,7 +271,7 @@ const NavBar = () => {
                                 className="text-decoration-none d-flex align-items-center justify-content-center cart-btn"
                                 onClick={() => setExpanded(false)}>
 
-                                <Badge badgeContent={cartItems && cartItems.length} color="error">
+                                <Badge badgeContent={cartItemsLength} color="error">
                                     <LocalGroceryStoreOutlinedIcon />
                                 </Badge>
 
@@ -344,7 +348,7 @@ const NavBar = () => {
                                         </Dropdown.Item>
                                         {/*//////////////////////////////////*/}
 
-                                        <Dropdown.Item className='d-flex align-items-center py-2'
+                                        {/* <Dropdown.Item className='d-flex align-items-center py-2'
                                             onClick={(e) => {
                                                 e.preventDefault();
                                                 history.push("/profile/communication-preferences");
@@ -352,7 +356,7 @@ const NavBar = () => {
                                             }}>
                                             <SmsIcon />
                                             <span className='px-1'>{t("Communication Preferences")}</span>
-                                        </Dropdown.Item>
+                                        </Dropdown.Item> */}
                                         {/*//////////////////////////////////*/}
 
                                         <Dropdown.Item
