@@ -53,6 +53,10 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::get('itemBackRequest','Order_settings@itemBackRequest');
 			Route::get('changeItemRequestStatus/{requestId}/{status}','Order_settings@changeItemRequestStatus');
 
+			//items
+			Route::get('itemReviews','Items@itemReviews');
+			Route::get('changeReviewStatus/{reviewId}/{status}','Items@changeReviewStatus');
+
 
 
 			//categories
@@ -122,8 +126,11 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::post('createPrivacy','Privacies@createPrivacy');
 			Route::get('deletePrivacy/{privacyId}','Privacies@deletePrivacy');
 
-			
 
+			Route::get('bannerInfo','Banners@bannerInfo');
+			Route::get('viewCreateBanner','Banners@viewCreateBanner');
+			Route::post('createBanner','Banners@createBanner');
+			Route::get('deleteBanner','Banners@deleteBanner');
 
 		});
 	});

@@ -16,7 +16,7 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('orderCode')->nullable();
-            $table->string('status');
+            $table->string('status')->default('new');
             $table->string('shippingType');//[freeShipping,normalShipping,fastShipping]
             $table->string('paymentMethod');//[myFatora,cashOnDelivery]
             $table->string('total_price');

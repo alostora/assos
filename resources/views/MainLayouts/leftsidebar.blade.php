@@ -62,6 +62,11 @@
                                         <i class="fa fa-cogs"></i>@lang('leftsidebar.propertiesInfo')
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="{{url('admin/itemReviews')}}">
+                                        <i class="fa fa-pencil"></i>@lang('leftsidebar.Comments')
+                                    </a>
+                                </li>
                             </ul>
                         </li>
 
@@ -83,6 +88,11 @@
                                 <li>
                                     <a href="{{url('admin/sliderInfo/category')}}">
                                         <i class="fa fa-align-justify"></i>@lang('leftsidebar.sliderInfocategory')
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{url('admin/bannerInfo')}}">
+                                        <i class="fa fa-image"></i>@lang('leftsidebar.bannerImage')
                                     </a>
                                 </li>
                             </ul>
@@ -140,7 +150,7 @@
                                 </li>
                                 <li>
                                     <a href="{{url('admin/itemBackRequest')}}">
-                                        <i class="fa fa-message"></i>@lang('leftsidebar.Item back request')
+                                        <i class="fa fa-inbox"></i>@lang('leftsidebar.Item back request')
                                     </a>
                                 </li>
                                 <li>

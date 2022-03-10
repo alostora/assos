@@ -628,6 +628,7 @@ return [
 
 
     //country
+    "country" => "country",
     "sa" => "Saudi Arabia",
     "kw" => "kwiat",
 
@@ -644,6 +645,10 @@ return [
     "confirmed" => "Confirmed",
     "order_items_props" => "order_items_props",
     "accepted" => "Accepted",
+
+    "accept" => "Accept",
+    "refused" => "Refused",
+    "refuse" => "Refuse",
     
     "Shipping conditions" => "Shipping conditions",
     "shippingConditions" => "Shipping conditions",
@@ -651,6 +656,8 @@ return [
 
     
     "Item back request" => "Item back request",
+    "Link" => "Link",
+    "link" => "Link",
 
 
 

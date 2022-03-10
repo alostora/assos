@@ -55,11 +55,9 @@ class Orders extends Controller
                 if(empty($order)) {
                     $order = Order::create([
                         'user_id' => $user->id,
-                        'status' => "new",
                         "total_price" => $itemPrice,
                         "orderCode" => Str::random(8),
                     ]);
-
 
                     $order_item = Order_item::create([
                         "item_id" => $item->id,
@@ -69,29 +67,18 @@ class Orders extends Controller
                     ]);
 
                 }else{
+                   
+                    $order_item = Order_item::create([
+                        "item_id" => $item->id,
+                        "item_count" => $count,
+                        "order_id" => $order->id,
+                        "itemPrice" => $item->itemPriceAfterDis,
+                    ]);
                     
-                    $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$item->id])->first();
-                    if (!empty($order_item)) {
-                        $order->total_price = $order->total_price + $itemPrice - ($order_item->item_count*$order_item->itemPrice);
-                        //return $this->deleteOrderItem($orderItem->id);
-                        $order_item->item_count = $count;
-                        $order_item->itemPrice = $item->itemPriceAfterDis;
-                        $order_item->save();
-                        Order_item_prop::where('order_item_id',$order_item->id)->delete();
-                    }else{
-                        $order_item = Order_item::create([
-                            "item_id" => $item->id,
-                            "item_count" => $count,
-                            "order_id" => $order->id,
-                            "itemPrice" => $item->itemPriceAfterDis,
-                        ]);
-                        $order->total_price = $order->total_price + $itemPrice;
-                    }
+                    $order->total_price = $order->total_price + $itemPrice;
                     $order->save();
                 }
-              
-                
-
+             
                 if(!empty($request->props) && is_array($request->props)) {
                     foreach($request->props as $requestProp){
                         Order_item_prop::create([
@@ -225,6 +212,7 @@ class Orders extends Controller
 
                 foreach($orders as $order){
                     $order->date = date("D d M,Y",strtotime($order->created_at));
+                    $order->canBack = $order->date >= Carbon::now()->subDays(15) ? true : false;
                     $order->shippingAddress = User_address::find($order->shippingAddress_id);
                     $orderSett = Order_setting::where('settingName','normalShipping')->first();
                     $order->expectedDate = "expeted arrival date is after ".$orderSett->settingOptions ." days";

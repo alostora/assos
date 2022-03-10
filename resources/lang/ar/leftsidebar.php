@@ -619,6 +619,7 @@ return [
     "settingValue" => "القيمة",
 
     //country
+    "country" => "الدولة",
     "sa" => "السعودية",
     "kw" => "الكويت",
 
@@ -636,10 +637,15 @@ return [
     "confirmed" => "مؤكد",
     "order_items_props" => "الاضافات والخصائص",
     "accepted" => "مقبول",
+    "accept" => "قبول",
+    "refused" => "مرفوض",
+    "refuse" => "رفض",
     "Shipping conditions" => "شروط الشحن",
     "shippingConditions" => "شروط الشحن",
     "shippingConditionsAr" => "شروط الشحن عربي",
     
     "Item back request" => "طلبات إعادة المنتج",
+    "Link" => "رابط",
+    "link" => "رابط",
 
 ];
