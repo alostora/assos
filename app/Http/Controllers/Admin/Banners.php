@@ -9,7 +9,7 @@ use File;
 
 class Banners extends Controller
 {
-    
+
     public function bannerInfo(){
         $data['banner'] = Banner::first();
         return view('Admin/Banners/bannerInfo',$data);
@@ -43,6 +43,7 @@ class Banners extends Controller
                 $image->move($destinationPath, $validated['image']);
             }
             Banner::where('id',$banner->id)->update($validated);
+            session()->flash('warning',Lang::get('leftsidebar.Updated'));
         }else{
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
@@ -50,9 +51,10 @@ class Banners extends Controller
                 $image->move($destinationPath, $validated['image']);
             }
             Banner::create($validated);
+            session()->flash('success',\Lang::get('leftsidebar.Created'));
         }
 
-        session()->flash('success',\Lang::get('leftsidebar.Created'));
+
         return back();
 
     }

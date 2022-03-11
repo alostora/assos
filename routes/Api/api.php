@@ -14,27 +14,24 @@ Route::group(['namespace'=>'Api\Users'],function(){
     Route::post('login','Users_auth@login');
     Route::post('postForgetPass','Users_auth@postForgetPass');
     Route::post('contactUs','Users_auth@contactUs');
-    
+
     //Auth Routes
     Route::group(['middleware'=>'auth_user_api'],function(){
-        
+
         Route::get('profile','Users_auth@profile');
         Route::post('changePassword','Users_auth@changePassword');
         Route::post('updateProfile','Users_auth@updateProfile');
         Route::post('addNewAddress','Users_auth@addNewAddress');
         Route::get('getAddress','Users_auth@getAddress');
         Route::get('deleteAddress/{id}','Users_auth@deleteAddress');
-        
-        
+
+
         Route::get('logOut','Users_auth@logOut');
 
         //review
         Route::post('userItemReview','Users@userItemReview');
         Route::get('itemMayLike/{item_id}','Users@itemMayLike');
         Route::get('itemFit/{item_id}','Users@itemFit');
-        
-        //Users_auth_actions
-        Route::get('test','Users_auth_actions@test');
 
     });
 
@@ -79,7 +76,7 @@ Route::group(['namespace'=>'Api\Users'],function(){
 
         //privacy&Policies
         Route::get('privacy_policies','Users@privacy_policies');
-    
+
 
 
 });

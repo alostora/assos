@@ -17,10 +17,11 @@ use App\Models\Contact_message;
 use Auth;
 use Hash;
 use \Carbon\Carbon;
+use Lang;
 
 class Admins extends Controller
 {
-    
+
 
     public function login(){
         return view('MainLayouts/login');
@@ -31,7 +32,7 @@ class Admins extends Controller
 
 
     public function doLogin(Request $request){
-        
+
         $validated = $request->validate([
           'email' => 'required|email|max:100',
           'password' => 'required|max:100',
@@ -57,7 +58,7 @@ class Admins extends Controller
         $data['properties']= Property::count();
         $data['offers']= Offer::count();
         $data['ads']= Ad::count();
-        
+
         return view('MainLayouts/dashboard',$data);
     }
 
@@ -94,21 +95,21 @@ class Admins extends Controller
             'confirmPassword' => 'same:password',
         ]);
 
-            
+
         if($request->password != $request->confirmPassword){
             $request->session()->flash('warning','password does not matched');//error message
             return back();
         }
 
         $data = $request->except(['_token','confirmPassword']);
-        
+
         if($request->password != null){
             $data['password'] = Hash::make($request->password);
         }else{
             unset($data['password']);
         }
 
-        
+
         if($request->id != null){
             Admin::where('id',$request->id)->update($data);
             session()->flash('success',Lang::get('leftsidebar.Updated'));
@@ -116,7 +117,7 @@ class Admins extends Controller
             Admin::create($data);
             session()->flash('success',Lang::get('leftsidebar.Created'));
         }
-        
+
         return redirect('admin/adminInfo');
     }
 

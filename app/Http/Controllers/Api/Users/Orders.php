@@ -32,20 +32,20 @@ use Carbon\Carbon;
 
 class Orders extends Controller
 {
-    
+
 
     public function makeOrder(Request $request){
 
-        
+
         if(Auth::guard('api')->check()) {
             $user = Auth::guard('api')->user();
         }else{
             $user = User::where('deviceId',$request->header('device-id'))->first();
         }
-      
+
 
         if (!empty($user)) {
-            
+
             $item = Item::find($request->item_id);
             if (!empty($item)){
                 $count = !empty($request->count) ? $request->count : 1;
@@ -67,18 +67,18 @@ class Orders extends Controller
                     ]);
 
                 }else{
-                   
+
                     $order_item = Order_item::create([
                         "item_id" => $item->id,
                         "item_count" => $count,
                         "order_id" => $order->id,
                         "itemPrice" => $item->itemPriceAfterDis,
                     ]);
-                    
+
                     $order->total_price = $order->total_price + $itemPrice;
                     $order->save();
                 }
-             
+
                 if(!empty($request->props) && is_array($request->props)) {
                     foreach($request->props as $requestProp){
                         Order_item_prop::create([
@@ -89,7 +89,7 @@ class Orders extends Controller
                 }
 
                 $data['status'] = true;
-                $data['message'] = Lang::get('leftsidebar.Done');
+                $data['message'] = Lang::get('leftsidebar.Created');
 
             }else{
                 $data['status'] = false;
@@ -173,7 +173,7 @@ class Orders extends Controller
                         }
                     }
                 }
-        
+
                 $data['status'] = true;
                 $data['order'] = $order;
             }else{
@@ -248,7 +248,7 @@ class Orders extends Controller
                     }
                 }
 
-        
+
                 $data['status'] = true;
                 $data['order'] = $orders;
             }else{
@@ -317,7 +317,7 @@ class Orders extends Controller
         }else{
             $user = User::where('deviceId',$request->header('device-id'))->first();
         }
-        
+
         $orderItem = Order_item::find($itemId);
         if (empty($orderItem)) {
             $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
@@ -359,11 +359,11 @@ class Orders extends Controller
 
 
     public function itemCountPlus($orderItemId){
-        
+
         $orderItem = Order_item::find($orderItemId);
         if(!empty($orderItem)) {
             $mainItem = Item::find($orderItem->item_id);
-            
+
             if (!empty($mainItem)) {
                 $itemPrice = $mainItem->itemPriceAfterDis;
                 $orderItem->item_count = $orderItem->item_count + 1;
@@ -397,15 +397,15 @@ class Orders extends Controller
 
 
     public function itemCountMinus($orderItemId){
-        
+
         $orderItem = Order_item::find($orderItemId);
         if(!empty($orderItem)) {
             $mainItem = Item::find($orderItem->item_id);
-            
+
             if (!empty($mainItem)) {
                 $itemPrice = $mainItem->itemPriceAfterDis;
                 if(($orderItem->item_count - 1) > 0) {
-                    
+
                     $orderItem->item_count = $orderItem->item_count - 1;
                     $order = Order::find($orderItem->order_id);
 
@@ -457,7 +457,7 @@ class Orders extends Controller
                     ->first();
 
             if(!empty($order)){
-                
+
                 $orderSetting = Order_setting::get();
                if (!empty($orderSetting)) {
                     foreach($orderSetting as $setting){
@@ -624,7 +624,7 @@ class Orders extends Controller
             $data['message'] = array_values($err)[0][0];
             return $data;
         }
-        
+
         $requestData = $request->all();
         $requestData['status'] = "confirmed";
         Order::where('id',$requestData['id'])->update($requestData);
@@ -714,15 +714,15 @@ class Orders extends Controller
         }
 
         $lang = $request->header('accept-language');
-        
+
         $orderSett = Order_setting::where('settingName','backDuration')->first();
         $orders = Order::where(['user_id'=>$user->id,'status'=>'completed'])->whereDate('created_at','>=',Carbon::now()->subDays(15))->pluck('id');
         $orders = array_unique($orders->toArray());
 
-        
+
         $orderItems = Order_item::whereIn('order_id',$orders)->whereDate('created_at','>=',Carbon::now()->subDays(15))->get();
         $data['status'] = true;
-        $data['message'] = Lang::get('leftsidebar.Products cannot be returned ') . $orderSett->settingValue;
+        $data['message'] = Lang::get('leftsidebar.Products cannot be returned') ." ". $orderSett->settingValue;
 
 
         if(!empty($orderItems)) {
@@ -737,13 +737,13 @@ class Orders extends Controller
                 $item->itemImage = URL::to('uploads/itemImages/'.$item->itemImage);
                 $favFit = User_fav_item::where('user_id',$user->id)->where('item_id',$item->id)->first();
                 $reviewFit = Review::where('user_id',$user->id)->where('item_id',$item->id)->first();
-                
+
                 $item->review = !empty($reviewFit) ? true : false;
                 $item->fav = !empty($favFit) ? true : false;
                 $item->cart = false;
 
 
-                //item in cart?    
+                //item in cart?
                 $order = Order::where(['user_id'=>$user->id,'status'=>'new'])->first();
                 if(!empty($order)){
                     $order_item = Order_item::where(['order_id'=>$order->id,'item_id'=>$item->id])->first();
@@ -752,7 +752,7 @@ class Orders extends Controller
                     }
                 }
                 $orderItem->item = $item;
-            }    
+            }
 
         }
 

@@ -14,7 +14,7 @@ use Lang;
 
 class Order_settings extends Controller
 {
-    
+
 
 
 
@@ -45,11 +45,12 @@ class Order_settings extends Controller
         if (!empty($data['id'])) {
             $data = $request->except("_token","settingName","settingNameAr");
             Order_setting::where('id',$data['id'])->update($data);
+            session()->flash('success',\Lang::get('leftsidebar.Updated'));
         }else{
             $data = $request->except("_token");
             Order_setting::create($data);
+            session()->flash('success',\Lang::get('leftsidebar.Created'));
         }
-        session()->flash('warning',Lang::get('leftsidebar.Created'));
         return back();
     }
 
@@ -71,7 +72,7 @@ class Order_settings extends Controller
         $reasons= Item_back_reason::get();
         return view('Admin/ItemBackReasons/itemBackReasonsInfo',compact('reasons'));
 
-    }   
+    }
 
 
 
@@ -83,7 +84,7 @@ class Order_settings extends Controller
         }
         return view('Admin/ItemBackReasons/viewCreateitemBackReason',$data);
 
-    } 
+    }
 
 
 
@@ -100,7 +101,7 @@ class Order_settings extends Controller
                 'backReasonName' => $request->backReasonName,
                 'backReasonArName' => $request->backReasonArName,
             ]);
-            session()->flash('warning',Lang::get('leftsidebar.Updated')); 
+            session()->flash('warning',Lang::get('leftsidebar.Updated'));
         }else{
             Item_back_reason::create([
                 'backReasonName' => $request->backReasonName,
@@ -190,7 +191,7 @@ class Order_settings extends Controller
         }else{
             S_condition::create($validated);
         }
-        
+
         session()->flash('success',Lang::get('leftsidebar.Created'));
         return back();
     }
@@ -201,7 +202,7 @@ class Order_settings extends Controller
 
     public function deleteCondition(){
         $condition =S_condition::first();
-        $destinationPath = public_path('Admin_uploads/conditions/');              
+        $destinationPath = public_path('Admin_uploads/conditions/');
         File::delete($destinationPath . $condition->image );
         $condition->delete();
 

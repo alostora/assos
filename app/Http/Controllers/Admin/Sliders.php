@@ -10,7 +10,7 @@ use Lang;
 
 class Sliders extends Controller
 {
-    
+
 
     public function sliderInfo($type){
         $data['categories'] = Category::get();
@@ -35,7 +35,7 @@ class Sliders extends Controller
             }
             $category->save();
         }
-        session()->flash('warning',Lang::get('leftsidebar.Done'));
+        session()->flash('warning',Lang::get('leftsidebar.Updated'));
         return back();
     }
 
@@ -53,7 +53,7 @@ class Sliders extends Controller
             }
         }
 
-        session()->flash('warning',Lang::get('leftsidebar.Done'));
+        session()->flash('warning',Lang::get('leftsidebar.Updated'));
         return back();
     }
 

@@ -29,7 +29,7 @@ class Ads extends Controller
         if($id != null){
             $data['ad'] = Ad::find($id);
         }
-    
+
         return view('Admin/Ads/viewCreateAd',$data);
     }
 
@@ -45,36 +45,38 @@ class Ads extends Controller
         $data = $request->except('_token');
 
          if(!empty($data)){
-            
+
             $destinationPath = public_path('Admin_uploads/ads/');
-            
+
             if ($data['id'] == null) {
                 $data['adImage'] = null;
 
                 if ($request->hasFile('adImage')) {
-                    
+
                     $adImage = $request->file('adImage');
                     $data['adImage'] = rand(11111, 99999).'.'.$adImage->getClientOriginalExtension();
                     $adImage->move($destinationPath, $data['adImage']);
                 }
                 Ad::create($data);
+                session()->flash('warning',Lang::get('leftsidebar.Created'));
             }else{
                 $ad = Ad::find($data['id']);
                 $data['adImage'] = $ad->adImage;
 
                 if ($request->hasFile('adImage')) {
-                    
+
                     File::delete($destinationPath . $data['adImage']);
                     $adImage = $request->file('adImage');
                     $data['adImage'] = rand(11111, 99999).'.'.$adImage->getClientOriginalExtension();
                     $adImage->move($destinationPath, $data['adImage']);
                 }
                 Ad::where('id',$data['id'])->update($data);
+                session()->flash('warning',Lang::get('leftsidebar.Updated'));
             }
         }
 
-        session()->flash('warning',Lang::get('leftsidebar.Created'));
-        return back(); 
+
+        return back();
     }
 
 
