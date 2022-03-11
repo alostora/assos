@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 
-Route::group(['namespace'=>'Api\Users'],function(){
+Route::group(['namespace'=>'Api\Users','middleware'=>'lang'],function(){
     
     //Auth Routes
     

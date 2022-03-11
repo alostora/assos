@@ -18,6 +18,8 @@ class Lang
     {
         if(!empty(session()->get('locale'))) {
             \App::setLocale(session()->get('locale'));
+        }elseif ( !empty($request->header('accept-language'))) {
+            \App::setLocale($request->header('accept-language'));
         }else{
             \App::setLocale('ar');
         }
