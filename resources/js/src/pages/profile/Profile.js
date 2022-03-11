@@ -2,9 +2,6 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-//translate
-import { useTranslation } from "react-i18next"
-
 //images
 import profileCover from './../../assets/icons/Profile/profile_cover.png'
 import backupImg from './../../assets/icons/Profile/onError_img.jpeg'
@@ -33,9 +30,6 @@ import Notifications from './notifications/Notifications';
 
 
 const Profile = () => {
-
-    //translate
-    const { t } = useTranslation();
 
     // modal edit profile
     const [showModal, setShowModal] = useState(false);
@@ -120,7 +114,7 @@ const Profile = () => {
 
                                         <Route exact path={"/profile/notifications"} render={() => <Notifications />} />
 
-                                        <Route exact path={"/profile/communication-preferences"} render={() => <h4>{t("Communication Preferences")}</h4>} />
+                                        {/* <Route exact path={"/profile/communication-preferences"} render={() => <h4>{t("Communication Preferences")}</h4>} /> */}
 
                                         <Route exact path={"/profile/gift-coupons"} render={() => <GiftCoupons />} />
 

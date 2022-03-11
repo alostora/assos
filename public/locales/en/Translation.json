@@ -47,6 +47,7 @@
     "Kids":"Kids",
     "Saudi Arabia":"Saudi Arabia",
     "Kuwait":"Kuwait",
+    "Country":"Country",
     "Select Country":"Select Country",
     "Brands Offers":"Brands Offers",
     "Recently Seen":"Recently Seen",
@@ -184,5 +185,7 @@
     "Price":"Price",
     "Offers":"Offers",
     "Offer Products":"Offer Products",
-    "There are no Notifications at the moment":"There are no Notifications at the moment"
+    "There are no Notifications at the moment":"There are no Notifications at the moment",
+    "Product added to cart":"Product added to cart",
+    "color and size must be selected before adding to cart":"color and size must be selected before adding to cart"
   }

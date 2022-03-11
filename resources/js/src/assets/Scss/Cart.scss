@@ -35,6 +35,23 @@
           font-size: 18px;
           color: rgb(88, 85, 85);
         }
+        .item-props{
+          .color-prop{
+            width: 28px;
+            height: 28px;
+            border-radius: 16px;
+          }
+          .size-prop{
+            padding: 0 6px;
+            height: 28px;
+            border-radius: 5px;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 16px;
+            background-color: #e4e7ec;
+            color: #212529;
+          }
+        }
         .item-price {
           font-style: normal;
           font-weight: 600;

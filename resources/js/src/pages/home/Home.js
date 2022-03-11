@@ -117,7 +117,12 @@ export default function Home({ brands }) {
                     {/* /////////////////////////////////////////////////////////////////////// */}
 
                     <div className="d-flex justify-content-center align-items-center offer-section container">
-                        <img src={offerIcon} alt="offer Icon" />
+
+                        <a href={`${homePage && homePage.banner && homePage.banner.link}`} target="_blank">
+                            <img src={homePage && homePage.banner && homePage.banner.image} alt="offer Icon"
+                                onError={(e) => { e.target.onerror = null; e.target.src = offerIcon }}
+                            />
+                        </a>
                     </div>
                     {/* /////////////////////////////////////////////////////////////////////// */}
 
@@ -162,7 +167,7 @@ export default function Home({ brands }) {
                                     <div className='col-6 my-3' key={ad.id}>
 
                                         <Link to={() => routeUrl(ad.categoryName, ad.cat_id, ad.vendor_name, ad.vendor_id)}
-                                            className="text-decoration-none ">
+                                            className="text-decoration-none">
 
                                             <img src={ad.adImage} alt="adds Icon" className="item-offer-lg" />
                                         </Link>

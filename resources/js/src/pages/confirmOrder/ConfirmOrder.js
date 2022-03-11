@@ -257,7 +257,9 @@ const ConfirmOrder = () => {
                                     <button className='btn-change-address d-flex justify-content-center align-items-center my-2 col-lg-2 col-12 p-1'
                                         onClick={(e) => {
                                             e.preventDefault();
-                                            return history.push('/profile/address')
+                                            return (
+                                                defaultAddress ? console.log("choose from select ") : history.push('/profile/address')
+                                            )
                                         }}
                                     >
                                         {defaultAddress ? t("Change Address") : t("Add Address")}

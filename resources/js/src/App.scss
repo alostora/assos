@@ -88,9 +88,7 @@
         color: #f8f9fa;
       }
       .social-icons {
-        button {
-          border: none;
-          background-color: inherit;
+        .social-icon {
           padding: 10px;
         }
       }
@@ -201,5 +199,24 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+//////////////////////////////////////////////////////////////
+
+/*General modal*/
+.general-modal{
+
+  span{
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .close-icon-modal{
+    cursor: pointer;
+
+    &:hover{
+      opacity: 0.7;
+    }
   }
 }

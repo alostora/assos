@@ -7,7 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { grey } from '@mui/material/colors';
 import CreditCardRoundedIcon from '@mui/icons-material/CreditCardRounded';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import SmsIcon from '@mui/icons-material/Sms';
+//import SmsIcon from '@mui/icons-material/Sms';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import LogoutIcon from '@mui/icons-material/Logout';
 
@@ -160,7 +160,7 @@ const NavProfile = () => {
                         </NavLink>
                     </li>
                     {/*//////////////////////////////////*/}
-
+{/* 
                     <li className="nav-item mb-3" onClick={() => setExpanded(false)}>
                         <NavLink
                             to="/profile/communication-preferences"
@@ -176,7 +176,7 @@ const NavProfile = () => {
                                 <ArrowForwardIosIcon /> : <ArrowBackIosIcon />}
                             </span>
                         </NavLink>
-                    </li>
+                    </li> */}
                     {/*//////////////////////////////////*/}
 
                     <li className="nav-item mb-3" onClick={() => setExpanded(false)}>

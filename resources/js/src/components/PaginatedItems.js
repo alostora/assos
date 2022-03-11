@@ -21,7 +21,6 @@ const Items = ({ currentItems }) => {
                 </div>
             ))}
 
-
         </div>
     );
 }
