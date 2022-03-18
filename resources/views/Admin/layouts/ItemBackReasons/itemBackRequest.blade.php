@@ -48,10 +48,7 @@
 							          	</td>
 							          	<td>
 								          	<div class="btn-group">
-								          		<a class="btn btn-success" href="{{url('admin/viewCreateitemBackReason/'.$r_item->id)}}">
-								          			<i class="fa fa-edit"></i>
-								          		</a>
-							          	 		<a class="btn btn-danger" href="{{url('admin/deleteitemBackReason/'.$r_item->id)}}" onclick="return confirm('Are you sure?');" >
+							          	 		<a class="btn btn-danger" href="{{url('admin/deleteItemBackRequest/'.$r_item->id)}}" onclick="return confirm('Are you sure?');" >
 							          	 			<i class="fa fa-trash"></i>
 							          	 		</a>
 						          	 		</div>

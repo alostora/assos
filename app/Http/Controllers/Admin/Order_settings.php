@@ -142,6 +142,15 @@ class Order_settings extends Controller
         session()->flash('warning',Lang::get('leftsidebar.Done'));
         return back();
     }
+
+
+
+
+    public function deleteItemBackRequest($id){
+        Item_back_request::where('id',$id)->delete();
+        session()->flash('warning',Lang::get('leftsidebar.Deleted'));
+        return back();
+    }
     //item back request
 
 

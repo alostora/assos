@@ -33,6 +33,11 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::get('contactUs','Admins@contactUs');
 			Route::get('logOut','Admins@logOut');
 
+
+            //user
+			Route::get('userInfo','Users@userInfo');
+
+
 			//orderSettings
 			Route::get('orderSettings','Order_settings@orderSettings');
 			Route::get('viewCreateOrderSettings/{settingId?}','Order_settings@viewCreateOrderSettings');
@@ -52,6 +57,8 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			//item back request
 			Route::get('itemBackRequest','Order_settings@itemBackRequest');
 			Route::get('changeItemRequestStatus/{requestId}/{status}','Order_settings@changeItemRequestStatus');
+			Route::get('deleteItemBackRequest/{status}','Order_settings@deleteItemBackRequest');
+
 
 			//items
 			Route::get('itemReviews','Items@itemReviews');
@@ -102,9 +109,9 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			//offerItems
 			Route::get('offerItems/{offer_id}','Offers@offerItems');
 			Route::get('viewCreateOfferItem/{offer_id}','Offers@viewCreateOfferItem');
-			
+
 			Route::post('createOfferItems','Offers@createOfferItems');
-			
+
 			Route::get('deleteItemOffer/{item_id}/{offer_id}','Offers@deleteItemOffer');
 
 			//Ads
