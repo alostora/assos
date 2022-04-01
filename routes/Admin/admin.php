@@ -38,6 +38,13 @@ Route::group(['namespace'=>'Admin','prefix'=>'admin'],function(){
 			Route::get('userInfo','Users@userInfo');
 
 
+			//deliveries
+			Route::get('deliveryInfo','Deliveries@deliveryInfo');
+			Route::get('viewCreateDelivery/{id?}','Deliveries@viewCreateDelivery');
+			Route::post('createDelivery','Deliveries@createDelivery');
+			Route::get('deleteDelivery/{id?}','Deliveries@deleteDelivery');
+
+
 			//orderSettings
 			Route::get('orderSettings','Order_settings@orderSettings');
 			Route::get('viewCreateOrderSettings/{settingId?}','Order_settings@viewCreateOrderSettings');

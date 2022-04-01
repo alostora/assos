@@ -34,6 +34,8 @@ class CreateOrdersTable extends Migration
             ->onDelete('cascade')
             ->onUpdate('cascade');
 
+            $table->bigInteger("delivery_id")->unsigned()->nullable();
+
             $table->timestamps();
 
         });

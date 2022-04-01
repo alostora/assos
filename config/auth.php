@@ -58,6 +58,13 @@ return [
             'hash' => false,
         ],
 
+
+        'delivery' => [
+            'driver' => 'token',
+            'provider' => 'deliveries',
+            'hash' => false,
+        ],
+
     ],
 
     /*
@@ -93,10 +100,10 @@ return [
             'model' => App\Models\Vendor::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'deliveries' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Delivery::class,
+        ],
     ],
 
     /*

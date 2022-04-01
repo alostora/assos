@@ -781,10 +781,8 @@ class Orders extends Controller
             $info['users'] = User::where('id',$user->id)->get();
             $info['title'] = Lang::get('leftsidebar.'.$status);
             $info['body'] = Lang::get('leftsidebar.'.$status);
-            return Helper::senNotifi($info);
+            Helper::senNotifi($info);
             //end_notifi
-
-
 
         }else{
             $data['status'] = false;

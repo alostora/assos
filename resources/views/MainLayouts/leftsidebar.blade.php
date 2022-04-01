@@ -37,6 +37,11 @@
                             </a>
                         </li>
                         <li>
+                            <a href="{{url('admin/deliveryInfo')}}">
+                                <i class="fa fa-car"></i>@lang('leftsidebar.deliveryInfo')
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{url('admin/vendorsInfo')}}">
                                 <i class="fa fa-users"></i>@lang('leftsidebar.vendors')
                             </a>

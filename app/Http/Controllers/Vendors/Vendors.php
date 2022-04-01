@@ -14,7 +14,6 @@ use App\Models\Sub_property;
 use \Carbon\Carbon;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Rule;
-
 use Lang;
 use Auth;
 use Str;

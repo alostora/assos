@@ -30,7 +30,7 @@
                   <div class="col-sm-4">
                       <select name="country" class="form-control" id="country" required>
                         @if(!empty($vendor))
-                          @if($vendor->country = 'kw')
+                          @if($vendor->country == 'kw')
                             <option value="kw" selected>@lang('leftsidebar.kw')</option>
                             <option value="sa">@lang('leftsidebar.sa')</option>
                           @else

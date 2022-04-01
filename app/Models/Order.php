@@ -11,7 +11,7 @@ class Order extends Model
     protected $table = 'orders';
     protected $fillable = [
         'orderCode',
-        'status',//['new','confirmed']
+        'status',//['new','confirmed','delivey_accept']
         'shippingType',//[freeShipping,normalShipping,fastShipping]
         'paymentMethod',//[myFatora,cashOnDelivery]
         'total_price',
@@ -21,7 +21,8 @@ class Order extends Model
         'total',
         'shippingValue',
         'shippingAddress_id',
-        'user_id'
+        'user_id',
+        'delivery_id'
     ];
 
     protected $casts = [

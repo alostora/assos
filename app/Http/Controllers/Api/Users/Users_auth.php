@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Users;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Delivery;
 use App\Models\User_address;
 use App\Models\Contact_message;
 use App\Models\Order;
@@ -20,7 +21,6 @@ use App\Mail\Forget_pass;
 class Users_auth extends Controller
 {
     
-
 
 
     public function userCountery(Request $request){
@@ -163,17 +163,25 @@ class Users_auth extends Controller
 
     public function login(Request $request){
         $user = User::where('email',$request->email)->first();
+        $data['type'] = 'user';
+        if (empty($user)) {
+            $data['type'] = 'delivery';
+            $user = Delivery::where('email',$request->email)->first();
+        }
 
         if(!empty($user)) {
             if(Hash::check($request->password,$user->password)){
                 $data['status'] = true;
                 $data['user'] = $user;
                 $data['user']->api_token = empty($user->api_token) ? Str::random(50) : $user->api_token;
+                $data['user']->firebase_token = !empty($request->firebase_token) ? $request->firebase_token : null;
                 $data['user']->save();
 
                 if(!empty($data['user']->image)){
                     if(substr($data['user']->image, 0, 4) === "user"){
                         $data['user']->image = URL::to('uploads/users/'.$data['user']->image);
+                    }elseif(substr($data['user']->image, 0, 8) === "delivery"){
+                        $data['user']->image = URL::to('uploads/deliveries/'.$data['user']->image);
                     }
                 }else{
                     $data['user']->image = URL::to('uploads/users/defaultLogo.jpeg');

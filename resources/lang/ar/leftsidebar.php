@@ -647,5 +647,7 @@ return [
     "Item back request" => "طلبات إعادة المنتج",
     "Link" => "رابط",
     "link" => "رابط",
+    
+    "deliveryInfo" => "المناديب",
 
 ];
