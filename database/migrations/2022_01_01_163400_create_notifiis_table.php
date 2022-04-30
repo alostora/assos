@@ -29,6 +29,14 @@ class CreateNotifiisTable extends Migration
             ->onDelete('cascade')
             ->onUpdate('cascade');
 
+
+            $table->bigInteger("delivery_id")->unsigned()->nullable();
+            $table->foreign('delivery_id')
+            ->references('id')
+            ->on('deliveries')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
+
             $table->timestamps();
         });
     }

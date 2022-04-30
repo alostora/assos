@@ -18,6 +18,7 @@ class Notifii extends Model
         'type',//[order,product,user]
         'type_id',//[order_id,product_id,user_id]
         'user_id',
+        'delivery_id',
     ];
 
 

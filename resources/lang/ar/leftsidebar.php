@@ -650,4 +650,7 @@ return [
     
     "deliveryInfo" => "المناديب",
 
+    "DeliveryNewOrder" => "طلب جديد",
+    "DeliveryNewOrderTwo" => "لقد وصلك طلب جديد يرجي التسليم بأسرع ما يمكن",
+
 ];

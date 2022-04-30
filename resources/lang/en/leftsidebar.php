@@ -663,5 +663,11 @@ return [
 
 
 
+    "DeliveryNewOrder" => "New Order",
+    "DeliveryNewOrderTwo" => "You have received a new order, please deliver as soon as possible",
+
+
+
+
 
 ];

@@ -31,7 +31,18 @@
 								@foreach($properties as $key=>$property)
 									<tr>
 							          	<td>{{$key+1}}</td>
-							          	<td>{{$property->propertyName}}</td>
+							          	<?php 
+							          		$propertyMain = App\Models\Property::find($property->prop_id)
+							          	?>
+							          	<td>
+							          		@if($propertyMain->type == 'color')
+							          			
+							          		<div style="height: 50px;width:50px;border-radius: 50%;background-color:{{$property->propertyName}}"></div>
+							          		@else
+							          			{{$property->propertyName}}
+							          		@endif
+
+							          	</td>
 							          	<td>
 								          	<div class="btn-group">
 								          		<a class="btn btn-success" href="{{url('admin/sub_viewCreateProperty/'.Request('propId').'/'.$property->id)}}">

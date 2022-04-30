@@ -35,7 +35,13 @@
 									@foreach($deliveries as $key=>$delivery)
 										<tr>
 											<td>{{$key+1}}</td>
-											<td>{{$delivery->image}}</td>
+											<td>
+												@if(!empty($delivery->image))
+													<img src="{{url('uploads/deliveries/'.$delivery->image)}}" class="table-image">
+												@else
+													<img src="{{url('uploads/users/defaultLogo.jpeg')}}" class="table-image">
+												@endif
+											</td>
 											<td>{{$delivery->name}}</td>
 											<td>{{$delivery->email}}</td>
 											<td>{{$delivery->phone}}</td>

@@ -33,23 +33,23 @@
                       <label for="propertyName" class="col-sm-2 control-label">
                       @lang('leftsidebar.propertyName')</label>
                       <div class="col-sm-4">
-                          <input type="color" name="propertyName" class="form-control" id="propertyName" placeholder="@lang('leftsidebar.propertyName')" value="@if(!empty($property)) {{$property->propertyName}} @endif" required>
+                          <input type="color" name="propertyName" class="form-control" id="propertyName" placeholder="@lang('leftsidebar.propertyName')" value="@if(!empty($property)){{$property->propertyName}}@endif" required>
                       </div>
                     
                       <label for="propertyNameAr" class="col-sm-2 control-label">@lang('leftsidebar.propertyNameAr')</label>
                       <div class="col-sm-4">
-                          <input type="color" name="propertyNameAr" class="form-control" placeholder="@lang('leftsidebar.propertyNameAr')" value="@if(!empty($property)) {{$property->propertyNameAr}} @endif" required id="propertyNameAr">
+                          <input type="color" name="propertyNameAr" class="form-control" placeholder="@lang('leftsidebar.propertyNameAr')" value="@if(!empty($property)){{$property->propertyNameAr}}@endif" required id="propertyNameAr">
                       </div>
                     @else
                       <label for="propertyName" class="col-sm-2 control-label">
                       @lang('leftsidebar.propertyName')</label>
                       <div class="col-sm-4">
-                          <input type="text" name="propertyName" class="form-control" id="propertyName" placeholder="@lang('leftsidebar.propertyName')" value="@if(!empty($property)) {{$property->propertyName}} @endif" required>
+                          <input type="text" name="propertyName" class="form-control" id="propertyName" placeholder="@lang('leftsidebar.propertyName')" value="@if(!empty($property)){{$property->propertyName}}@endif" required>
                       </div>
                     
                       <label for="propertyNameAr" class="col-sm-2 control-label">@lang('leftsidebar.propertyNameAr')</label>
                       <div class="col-sm-4">
-                          <input type="text" name="propertyNameAr" class="form-control" placeholder="@lang('leftsidebar.propertyNameAr')" value="@if(!empty($property)) {{$property->propertyNameAr}} @endif" required id="propertyNameAr">
+                          <input type="text" name="propertyNameAr" class="form-control" placeholder="@lang('leftsidebar.propertyNameAr')" value="@if(!empty($property)){{$property->propertyNameAr}}@endif" required id="propertyNameAr">
                       </div>
                     @endif
                   @endif

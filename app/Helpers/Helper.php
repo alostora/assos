@@ -29,21 +29,27 @@ class Helper{
 
             foreach ( $users as $user ){
                    
-                    Notifii::create([
-                        'title'=>$title,
-                        'body'=>$body,
-                        'image'=>\URL::to('uploads/users/defaultLogo.jpeg'),
-                        'type'=>$type,//[order,product,user]
-                        'type_id'=>$type_id,//[order_id,product_id,user_id]
-                        'user_id' => $user->id,
-                    ]);
+                    $noti = new Notifii();
+
+                    $noti->title = $title;
+                    $noti->body = $body;
+                    //$noti->image = \URL::to('uploads/users/defaultLogo.jpeg');
+                    $noti->type = $type;
+                    $noti->type_id = $type_id;
+
+                    if($type == 'delivery') {
+                       $noti->delivery_id = $user->id;
+                    }else{
+                       $noti->user_id = $user->id;
+                    }
+
+                    $noti->save();
 
                     $registrationIds =  $user->firebase_token;
-
                     $msg = [
                         'title'=>$title,
                         'body'=>$body,
-                        'image'=>\URL::to('uploads/users/defaultLogo.jpeg'),
+                        //'image'=>\URL::to('uploads/users/defaultLogo.jpeg'),
                         'type'=>$type,//[primaryUserApprove,acceptShipping,operationDone,inShipping,canceled,delivered]
                         'type_id'=>$type_id,//product or shipping or order or else
 
@@ -55,7 +61,7 @@ class Helper{
                     $fields = [
                         'to'=> $registrationIds,
                         'notification' => $msg,
-                        "data " => [
+                        "data" => [
                             "sound"=> "default",
                             "click_action"=>"FLUTTER_NOTIFICATION_CLICK",
                             "notification_foreground"=>"true",

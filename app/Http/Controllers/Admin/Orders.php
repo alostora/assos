@@ -13,6 +13,7 @@ use App\Models\Sub_property;
 use App\Models\Property;
 use App\Models\User_address;
 use App\Models\Order_setting;
+use App\Models\Delivery;
 use App\Helpers\Helper;
 use Lang;
 use URL;
@@ -34,6 +35,8 @@ class Orders extends Controller
                 ->with(['order_items'=>function($query){
                     $query->with('order_items_props');
                 }])->get();
+
+        $deliveries = Delivery::get();
 
         if(!empty($orders)){
 
@@ -81,6 +84,7 @@ class Orders extends Controller
         }
 
         $data['orders'] = $orders;
+        $data['deliveries'] = $deliveries;
 
         //return $data;
 
@@ -91,9 +95,21 @@ class Orders extends Controller
 
 
     public function changeOrderStatus(Request $request,$orderId,$orderStatus){
+
         $order = Order::find($orderId);
         if (!empty($order)) {
             $order->status = $orderStatus;
+            if ($request->delivery_id != false) {
+                $order->delivery_id = $request->delivery_id;
+                //start_notifi
+                $info['users'] = Delivery::where('id',$order->delivery_id)->get();
+                $info['title'] = Lang::get('leftsidebar.DeliveryNewOrder');
+                $info['body'] = Lang::get('leftsidebar.DeliveryNewOrderTwo');
+                $info['type'] = 'delivery';
+                Helper::senNotifi($info);
+                unset($info['type']);
+                //end_notifi
+            }
             $order->save();
 
             //start_notifi
@@ -101,7 +117,7 @@ class Orders extends Controller
             $info['title'] = Lang::get('leftsidebar.'.$orderStatus);
             $info['body'] = Lang::get('leftsidebar.'.$orderStatus);
             Helper::senNotifi($info);
-            //end_notifi
+
 
             session()->flash('warning',Lang::get('leftsidebar.Done'));
             return back();

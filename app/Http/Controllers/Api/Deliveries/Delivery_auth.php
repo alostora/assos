@@ -148,9 +148,8 @@ class Delivery_auth extends Controller
 
     //orders
     public function deliveryOrders(Request $request){
-        $delivery = Auth::guard('delivery')->user();
-        $clients = User::where('country',$delivery->country)->pluck('id');
-        $orders = Order::where('status','confirmed')->whereIn('user_id',$clients)->get();
+        $delivery_id = Auth::guard('delivery')->id();
+        $orders = Order::where('status','salesMan')->where('delivery_id',$delivery_id)->get();
 
         $lang = $request->header('accept-language');
 
@@ -213,7 +212,7 @@ class Delivery_auth extends Controller
         $data['status'] = false;
         $data['message'] = Lang::get('leftsidebar.Empty');
 
-        $order = Order::where(['status'=>'confirmed','id'=>$request->orderId])->first();
+        $order = Order::where(['status'=>'salesMan','id'=>$request->orderId])->first();
         if (!empty($order)) {
 
             $order->status = $request->orderStatus;
