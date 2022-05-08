@@ -12,5 +12,3 @@ Route::get('molk/{path?}',function(){
     return view('welcome');
 })->where('path','.*');
 
-
-
