@@ -138,7 +138,7 @@
 }
 ////////////////////////////////////////////////////////
 
-//folr light mode
+//for light mode
 .App-light {
   background-color: $white;
   color: $black;
@@ -155,7 +155,7 @@
 
 ////////////////////////////////////////////////////////
 
-//folr dark mode
+//for dark mode
 .App-dark {
   background-color: $black;
   color: $white;
@@ -217,6 +217,28 @@
 
     &:hover{
       opacity: 0.7;
+    }
+  }
+}
+
+/////////////////////////////////////////////////////////
+
+/*address modal*/
+.address-modal{
+  .close-icon-modal{
+    cursor: pointer;
+
+    &:hover{
+      opacity: 0.7;
+    }
+  }
+  .address-details {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+
+    span:last-child {
+        color: #868e96;
     }
   }
 }

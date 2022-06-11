@@ -187,5 +187,7 @@
     "Offer Products":"منتجات العرض",
     "There are no Notifications at the moment":"لا توجد إشعارات فى الوقت الحالى",
     "Product added to cart":"تم إضافة المنتج للسلة",
-    "color and size must be selected before adding to cart":"يجب اختيار اللون والمقاس قبل الإضافة إلى عربة التسوق"
+    "color and size must be selected before adding to cart":"يجب اختيار اللون والمقاس قبل الإضافة إلى عربة التسوق",
+    "New address added successfully":"تم إضافة عنوان جديد بنجاح",
+    "The address has been modified successfully":"تم تعديل العنوان بنجاح"
   }

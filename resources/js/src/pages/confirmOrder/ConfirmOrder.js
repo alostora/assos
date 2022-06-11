@@ -21,7 +21,12 @@ import Loader from '../../components/Loader';
 import { axiosInstance } from '../../axios/config';
 import { CountryContext } from '../../App';
 import { Form } from 'react-bootstrap';
+//import ModalAddress from './ModalAddress';
 
+//credit card
+import hesabeCrypt from "hesabe-crypt";
+import aesjs from "aes-js";
+import axios from "axios";
 
 const ConfirmOrder = () => {
 
@@ -35,8 +40,10 @@ const ConfirmOrder = () => {
     const { country, } = useContext(CountryContext)
 
     //data for confirm
-
     const [shippingTypeSelect, setShippingTypeSelect] = useState(0)
+
+    //show change address modal
+   // const [addressModalShow, setAddressModalShow] = useState(false);
 
     // fetch from api
     const dispatch = useDispatch()
@@ -184,6 +191,73 @@ const ConfirmOrder = () => {
             .catch((err) => console.error(err));
     }
 
+    //credit open
+    const openCredit = async () => {
+
+        const request = {
+          merchantCode: "842217",
+          amount: "20",
+          paymentType: 1,
+          currency: "KWD",
+          responseUrl: "https://sandbox.hesabe.com/customer-response?id=842217",
+          failureUrl: "https://sandbox.hesabe.com/customer-response?id=842217",
+          version: "2.0",
+    
+        };
+    
+        const secret = "PkW64zMe5NVdrlPVNnjo2Jy9nOb7v1Xg";
+        const ivKey = "5NVdrlPVNnjo2Jy9";
+    
+        const accessCode = "c333729b-d060-4b74-a49d-7686a8353481";
+    
+        const key = aesjs.utils.utf8.toBytes(secret);
+        const iv = aesjs.utils.utf8.toBytes(ivKey);
+    
+        const payment = new hesabeCrypt(key, iv);
+    
+        const encrypted = payment.encryptAes(JSON.stringify(request));
+    
+    
+        const pay = (data) => {
+    
+          const decrypted = payment.decryptAes(data);
+    
+          const result = JSON.parse(decrypted);
+    
+    
+          if (result.status === false) {
+            console.log(`Error Code from pay function: ${result.code}`);
+            return false;
+          }
+    
+          const paymentData = result.response.data;
+    
+          //window.location.href = `https://sandbox.hesabe.com/payment?data=${paymentData}`;
+    
+          window.open(`https://sandbox.hesabe.com/payment?data=${paymentData}`, '_blank');
+    
+        }
+    
+        await axios({
+    
+          method: "post",
+    
+          url: "https://sandbox.hesabe.com/checkout",
+    
+          headers: {
+            accessCode: accessCode,
+            "Content-Type": "application/json"
+          },
+    
+          data: { data: encrypted },
+        })
+    
+          .then(response => pay(response.data))
+    
+          .catch((err) => console.error(err));
+    
+      }
+
     return (
         <div className='d-flex flex-column container my-4 confirm-order-page'>
 
@@ -255,15 +329,24 @@ const ConfirmOrder = () => {
                                     </div>
 
                                     <button className='btn-change-address d-flex justify-content-center align-items-center my-2 col-lg-2 col-12 p-1'
-                                        onClick={(e) => {
-                                            e.preventDefault();
+                                        onClick={() => {
+
+                                           // setAddressModalShow(true);
+
                                             return (
-                                                defaultAddress ? console.log("choose from select ") : history.push('/profile/address')
+                                                //!defaultAddress && 
+                                                history.push('/profile/address')
                                             )
                                         }}
                                     >
                                         {defaultAddress ? t("Change Address") : t("Add Address")}
                                     </button>
+
+                                    {/* <ModalAddress
+                                        show={addressModalShow}
+                                        handleClose={() => setAddressModalShow(false)}
+                                        text="change address" /> */}
+
                                 </div>
                             </div>
                             {/*///////////////////////////////////////////*/}
@@ -344,7 +427,9 @@ const ConfirmOrder = () => {
 
                                     <div className='col-lg-8 col-12 d-flex justify-content-end'>
 
-                                        <button className='btn-add-card d-flex justify-content-center align-items-center my-2 p-1'>
+                                        <button className='btn-add-card d-flex justify-content-center align-items-center my-2 p-1'
+                                            onClick={() => openCredit()}
+                                        >
                                             {t("Add a new card")}
                                         </button>
                                     </div>

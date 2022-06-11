@@ -16,11 +16,11 @@ const GeneralModal = ({ show, handleClose, text }) => {
             animation
             className='p-2 general-modal'>
 
-            <Modal.Body >
+            <Modal.Body>
 
                 <div className='d-flex justify-content-between align-items-center'>
 
-                    <span className='d-flex justify-content-center align-items-center '>
+                    <span className='d-flex justify-content-center align-items-center'>
                         {text}
                     </span>
 

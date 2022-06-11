@@ -17,6 +17,7 @@ import { useParams } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import Loader from '../../../components/Loader';
 import { axiosInstance } from '../../../axios/config';
+import GeneralModal from '../../../components/GeneralModal';
 
 //export context marker
 export const LocationMarkerMap = createContext();
@@ -29,6 +30,9 @@ const AddAddress = () => {
 
     //marker value (lat, lng) for data address
     const [marker, setMarker] = useState({ newLat: 29.378586, newLng: 47.990341 })
+
+    //show add or edit address modal
+    const [generalModalShow, setGeneralModalShow] = useState(false);
 
     //data for address
     const [userName, setUserName] = useState("")
@@ -52,7 +56,7 @@ const AddAddress = () => {
     //error message for validate new account
     const [errorMessage, setErrorMessage] = useState(null)
 
-    const { loading, user } = useSelector(state => state.auth)
+    const { loading } = useSelector(state => state.auth)
 
 
     useEffect(() => {
@@ -83,11 +87,14 @@ const AddAddress = () => {
             data: newAddress
         })
             .then((res) => res.data)
-            .then(data => setErrorMessage(data.message))
+            .then(data => {
+                setErrorMessage(data.message)
+                setGeneralModalShow(true)
+            })
 
             .catch((err) => console.error(err));
 
-        console.log({ newAddress })
+        // console.log({ newAddress })
         // const newObj= {...newAddress,id:10}
         // console.log(  newObj)
     }
@@ -104,7 +111,10 @@ const AddAddress = () => {
             data: { ...newAddress, id: addressId }
         })
             .then((res) => res.data)
-            .then(data => setErrorMessage(data.message))
+            .then(data => {
+                setErrorMessage(data.message)
+                setGeneralModalShow(true)
+            })
 
             .catch((err) => console.error(err));
     }
@@ -187,7 +197,7 @@ const AddAddress = () => {
 
                                 <Form.Label className='paragraph-form-address'>{t("Postal Code")}</Form.Label>
 
-                                <Form.Control type="text" placeholder={t("Postal Code")} 
+                                <Form.Control type="text" placeholder={t("Postal Code")}
                                     value={postalCode} className='custom-input'
                                     onChange={(e) => setPostalCode(e.target.value)} />
 
@@ -221,6 +231,13 @@ const AddAddress = () => {
                                     {t("Save Address")}
                                 </button>
                             </div>
+
+
+                            <GeneralModal
+                                show={generalModalShow}
+                                handleClose={() => setGeneralModalShow(false)}
+                                text={!addressId ? t("New address added successfully") : t("The address has been modified successfully")}
+                            />
 
                         </form>
 
